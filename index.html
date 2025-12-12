@@ -51,7 +51,6 @@
         }
 
         body.home-active {
-            /* UPDATED: New Base URL and .webp */
             background-image: url('https://alamin12071985-a11y.github.io/Snowman-Adventure/background.webp');
             background-size: cover;
             background-position: center center;
@@ -67,7 +66,6 @@
             width: 100%;
             height: 100%;
             z-index: 9999;
-            /* UPDATED: New Base URL and .webp */
             background-image: url('https://alamin12071985-a11y.github.io/Snowman-Adventure/loading screen.webp');
             background-size: cover;
             background-position: center bottom;
@@ -82,14 +80,11 @@
 
         .loading-container {
             width: 80vw;
-            /* UPDATED: Height reduced by 0.5 (12vw -> 6vw) to make it thinner */
             height: 6vw; 
             background-color: #050f1a;
             border: 1vw solid var(--accent-cyan);
-            /* UPDATED: Border radius adjusted for thinner bar */
             border-radius: 3vw; 
             position: relative;
-            /* UPDATED: Padding reduced */
             padding: 0.4vw;
             box-shadow: 0 1.5vw 3vw rgba(0,0,0,0.6);
         }
@@ -98,7 +93,6 @@
             width: 0%;
             height: 100%;
             background: linear-gradient(to bottom, #00E5FF 0%, #6A5ACD 100%);
-            /* UPDATED: Radius adjusted */
             border-radius: 2.5vw;
             position: relative;
             display: flex;
@@ -122,7 +116,6 @@
         .percentage {
             color: white;
             font-weight: 900;
-            /* UPDATED: Font size adjusted for thinner bar */
             font-size: 3.5vw;
             margin-right: 4vw;
             text-shadow: 0.5vw 0.5vw 0px #000000;
@@ -154,21 +147,27 @@
             background: linear-gradient(180deg, rgba(5,15,26,0.9) 0%, rgba(5,15,26,0) 100%);
         }
 
-        .stat-card-left {
+        /* UPDATED HEADER BALANCES */
+        .header-balances {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .stat-card-row {
             background: var(--glass-bg);
             backdrop-filter: blur(5px);
             border: 1px solid rgba(0, 229, 255, 0.2);
-            border-radius: 12px 30px 12px 30px; 
-            padding: 8px 12px;
+            border-radius: 20px; 
+            padding: 4px 10px;
             display: flex;
-            flex-direction: column;
             align-items: center;
-            width: 90px;
+            gap: 8px;
+            min-width: 80px;
         }
 
-        .stat-label { font-size: 0.7rem; color: var(--accent-cyan); opacity: 0.8; }
-        .stat-value { font-size: 0.9rem; font-weight: 700; display: flex; align-items: center; gap: 4px; }
-        .stat-value img { width: 18px; }
+        .stat-value { font-size: 0.75rem; font-weight: 700; display: flex; align-items: center; gap: 5px; color: white; }
+        .stat-value img { width: 16px; height: 16px; object-fit: contain; }
 
         .profile-section {
             flex: 1;
@@ -524,7 +523,6 @@
             content: '';
             position: absolute;
             top: 0; left: 0; width: 100%; height: 100%;
-            /* UPDATED: New Base URL and .webp */
             background: url('https://alamin12071985-a11y.github.io/Snowman-Adventure/background.webp');
             background-size: cover;
             opacity: 0.3;
@@ -721,6 +719,28 @@
         .exchange-text h3 { color: white; font-size: 0.95rem; margin-bottom: 2px; }
         .exchange-text p { color: rgba(255,255,255,0.6); font-size: 0.7rem; line-height: 1.2; }
 
+        .wallet-stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 8px;
+            margin-bottom: 20px;
+            width: 100%;
+        }
+        .wallet-stat-box {
+            background: var(--glass-bg);
+            border: 1px solid rgba(0,229,255,0.2);
+            border-radius: 12px;
+            padding: 10px 5px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        .wallet-stat-box img { width: 30px; height: 30px; object-fit: contain; margin-bottom: 5px; }
+        .wallet-stat-val { font-weight: 700; font-size: 0.8rem; color: white; }
+        .wallet-stat-label { font-size: 0.6rem; color: rgba(255,255,255,0.6); }
+
+
         /* --- GLASS POPUP MODAL --- */
         .popup-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
@@ -748,11 +768,24 @@
         }
         .popup-btn:active { transform: scale(0.98); }
 
-        .hourglass-icon {
-            font-size: 3rem; color: #FFD700; margin-bottom: 15px;
-            animation: rotateHourglass 3s infinite ease-in-out;
+        /* Exchange Popup specific */
+        .exchange-container {
+            display: flex; flex-direction: column; gap: 15px; align-items: center; margin-bottom: 20px;
         }
-        @keyframes rotateHourglass { 0% { transform: rotate(0); } 50% { transform: rotate(180deg); } 100% { transform: rotate(360deg); } }
+        .exchange-box {
+            width: 100%;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 12px;
+            padding: 10px;
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        .exchange-box img { width: 30px; margin-right: 10px; }
+        .exchange-input {
+            background: transparent; border: none; color: white; font-size: 1.2rem; font-weight: bold; width: 100px; text-align: right; outline: none;
+        }
+        .exchange-label { display: flex; align-items: center; font-size: 0.9rem; font-weight: 600; }
+        .exchange-plus { font-size: 24px; color: rgba(255,255,255,0.5); }
 
         /* --- LOTTERY MODAL SPECIFIC STYLES --- */
         #lottery-modal {
@@ -842,13 +875,15 @@
             filter: drop-shadow(0 2px 3px rgba(0,0,0,0.2));
         }
 
+        /* Center Jackpot styling */
+        .jackpot-item {
+            background: linear-gradient(135deg, #FFD700, #FFA500) !important;
+            border: 2px solid white !important;
+        }
+
         .center-icon { font-size: 30px; margin-bottom: 0; }
         .item-text {
             font-size: 10px; font-weight: bold; color: #333;
-        }
-
-        .grid-item:nth-child(5) {
-            background: linear-gradient(135deg, #e1f5fe, #b3e5fc);
         }
 
         .start-btn-container {
@@ -910,7 +945,7 @@
         </div>
     </div>
 
-    <!-- LOTTERY MODAL -->
+    <!-- LOTTERY MODAL (UPDATED WITH AURORA) -->
     <div id="lottery-modal">
         <div class="game-box">
             <div class="close-btn" onclick="closeLotteryModal()">✕</div>
@@ -919,49 +954,46 @@
             <!-- Grid Layout -->
             <div class="grid-container" id="grid">
                 <!-- Row 1 -->
-                <div class="grid-item" id="cell-0" data-val="1000">
-                    <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/coin.webp" class="coin-img-lottery" alt="Coin">
-                    <span class="item-text">1000 Coins</span>
+                <div class="grid-item" id="cell-0" data-val="0.1">
+                    <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/aurora.webp" class="coin-img-lottery" alt="Aurora">
+                    <span class="item-text">0.1 Aurora</span>
                 </div>
-                <!-- LOW VALUE -->
-                <div class="grid-item" id="cell-1" data-val="100">
-                    <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/coin.webp" class="coin-img-lottery" alt="Coin">
-                    <span class="item-text">100 Coins</span>
+                <div class="grid-item" id="cell-1" data-val="0.5">
+                    <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/aurora.webp" class="coin-img-lottery" alt="Aurora">
+                    <span class="item-text">0.5 Aurora</span>
                 </div>
-                <div class="grid-item" id="cell-2" data-val="5000">
-                    <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/coin.webp" class="coin-img-lottery" alt="Coin">
-                    <span class="item-text">5000 Coins</span>
+                <div class="grid-item" id="cell-2" data-val="0.4">
+                    <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/aurora.webp" class="coin-img-lottery" alt="Aurora">
+                    <span class="item-text">0.4 Aurora</span>
                 </div>
 
                 <!-- Row 2 -->
-                <div class="grid-item" id="cell-3" data-val="500">
-                    <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/coin.webp" class="coin-img-lottery" alt="Coin">
-                    <span class="item-text">500 Coins</span>
+                <div class="grid-item" id="cell-3" data-val="0.2">
+                    <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/aurora.webp" class="coin-img-lottery" alt="Aurora">
+                    <span class="item-text">0.2 Aurora</span>
                 </div>
-                <!-- Center (Mascot) -->
-                <div class="grid-item" id="cell-4" data-val="0">
-                    <div class="center-icon">👷</div>
-                    <span class="item-text">Jackpot</span>
+                <!-- Center (Jackpot 10 Aurora) -->
+                <div class="grid-item jackpot-item" id="cell-4" data-val="10">
+                    <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/aurora.webp" class="coin-img-lottery" style="transform:scale(1.3);" alt="Aurora">
+                    <span class="item-text" style="color:red; font-weight:900;">10 Aurora</span>
                 </div>
-                <!-- LOW VALUE -->
-                <div class="grid-item" id="cell-5" data-val="250">
-                    <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/coin.webp" class="coin-img-lottery" alt="Coin">
-                    <span class="item-text">250 Coins</span>
+                <div class="grid-item" id="cell-5" data-val="7.0">
+                    <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/aurora.webp" class="coin-img-lottery" alt="Aurora">
+                    <span class="item-text">7.0 Aurora</span>
                 </div>
 
                 <!-- Row 3 -->
-                <div class="grid-item" id="cell-6" data-val="2000">
-                    <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/coin.webp" class="coin-img-lottery" alt="Coin">
-                    <span class="item-text">2000 Coins</span>
+                <div class="grid-item" id="cell-6" data-val="0.1">
+                    <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/aurora.webp" class="coin-img-lottery" alt="Aurora">
+                    <span class="item-text">0.1 Aurora</span>
                 </div>
-                <!-- LOW VALUE -->
-                <div class="grid-item" id="cell-7" data-val="150">
-                    <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/coin.webp" class="coin-img-lottery" alt="Coin">
-                    <span class="item-text">150 Coins</span>
+                <div class="grid-item" id="cell-7" data-val="0.2">
+                    <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/aurora.webp" class="coin-img-lottery" alt="Aurora">
+                    <span class="item-text">0.2 Aurora</span>
                 </div>
-                <div class="grid-item" id="cell-8" data-val="50">
-                    <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/coin.webp" class="coin-img-lottery" alt="Coin">
-                    <span class="item-text">50 Coins</span>
+                <div class="grid-item" id="cell-8" data-val="0.5">
+                    <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/aurora.webp" class="coin-img-lottery" alt="Aurora">
+                    <span class="item-text">0.5 Aurora</span>
                 </div>
             </div>
 
@@ -987,13 +1019,29 @@
         <!-- HEADER DASHBOARD -->
         <div class="header-dashboard" id="mainHeader">
             
-            <!-- Left: Profit -->
-            <div class="stat-card-left">
-                <div class="stat-value">
-                    <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/coin.webp" alt="C">
-                    <span id="miningRateText">+0</span>
+            <!-- Left: Balances (UPDATED) -->
+            <div class="header-balances">
+                <!-- Coins -->
+                <div class="stat-card-row">
+                    <div class="stat-value">
+                        <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/coin.webp" alt="C">
+                        <span id="headerCoinBalance">0</span>
+                    </div>
                 </div>
-                <div class="stat-label">/hour</div>
+                <!-- TON -->
+                <div class="stat-card-row">
+                    <div class="stat-value">
+                        <img src="https://static.vecteezy.com/system/resources/previews/024/093/454/non_2x/toncoin-ton-glass-crypto-coin-3d-illustration-free-png.png" alt="T">
+                        <span id="headerTonBalance">0.0</span>
+                    </div>
+                </div>
+                <!-- Aurora -->
+                <div class="stat-card-row">
+                    <div class="stat-value">
+                        <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/aurora.webp" alt="A">
+                        <span id="headerAuroraBalance">0.0</span>
+                    </div>
+                </div>
             </div>
 
             <!-- Center: User Profile & Level -->
@@ -1186,12 +1234,31 @@
                 </div>
             </div>
 
-            <!-- WALLET TAB -->
+            <!-- WALLET TAB (UPDATED) -->
             <div id="wallet" class="tab-content">
                 <div style="text-align:center; padding-top: 10px;">
                     <h1 class="wallet-title">Get Real<br>Crypto.</h1>
-                    <p style="color:rgba(227, 244, 249, 0.7); font-size: 1rem;">Earn and buy and tokens.</p>
+                    <p style="color:rgba(227, 244, 249, 0.7); font-size: 1rem; margin-bottom: 20px;">Earn and buy tokens.</p>
                     
+                    <!-- NEW STATS DISPLAY -->
+                    <div class="wallet-stats-grid">
+                        <div class="wallet-stat-box">
+                            <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/coin.webp" alt="Coin">
+                            <span class="wallet-stat-val" id="walletCoin">0</span>
+                            <span class="wallet-stat-label">Coins</span>
+                        </div>
+                        <div class="wallet-stat-box">
+                            <img src="https://static.vecteezy.com/system/resources/previews/024/093/454/non_2x/toncoin-ton-glass-crypto-coin-3d-illustration-free-png.png" alt="TON">
+                            <span class="wallet-stat-val" id="walletTon">0.0</span>
+                            <span class="wallet-stat-label">TON</span>
+                        </div>
+                        <div class="wallet-stat-box">
+                            <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/aurora.webp" alt="Aurora">
+                            <span class="wallet-stat-val" id="walletAurora">0.0</span>
+                            <span class="wallet-stat-label">Aurora</span>
+                        </div>
+                    </div>
+
                     <div class="button-group" style="margin-top: 20px;">
                         <button class="btn connect-btn" id="connectWalletBtn" onclick="connectWallet()">
                              <svg class="icon" viewBox="0 0 24 24">
@@ -1280,6 +1347,8 @@
 
         // --- GAME STATE VARIABLES ---
         let balance = 0;
+        let auroraBalance = 0.0;
+        let tonBalance = 0.0;
         let tapCount = 0; 
         let energy = 500;
         let maxEnergy = 500;
@@ -1301,6 +1370,14 @@
         const currentLevelHeader = document.getElementById('currentLevelHeader');
         const levelNameHeader = document.getElementById('levelNameHeader');
         const dailyRewardText = document.getElementById('dailyRewardAmount');
+        
+        // Header & Wallet Displays
+        const headerCoin = document.getElementById('headerCoinBalance');
+        const headerTon = document.getElementById('headerTonBalance');
+        const headerAurora = document.getElementById('headerAuroraBalance');
+        const walletCoin = document.getElementById('walletCoin');
+        const walletTon = document.getElementById('walletTon');
+        const walletAurora = document.getElementById('walletAurora');
 
         // --- TON CONNECT INITIALIZATION ---
         const tonConnectUI = new TON_CONNECT_UI.TonConnectUI({
@@ -1391,6 +1468,8 @@
             if(!userId) return;
             db.ref('users/' + userId).update({
                 balance: balance,
+                auroraBalance: auroraBalance,
+                tonBalance: tonBalance,
                 energy: energy,
                 tapCount: tapCount,
                 level: level,
@@ -1406,6 +1485,8 @@
                 const data = snapshot.val();
                 if (data) {
                     balance = data.balance || 0;
+                    auroraBalance = data.auroraBalance || 0.0;
+                    tonBalance = data.tonBalance || 0.0;
                     energy = data.energy || 500;
                     tapCount = data.tapCount || 0;
                     level = data.level || 1;
@@ -1448,8 +1529,19 @@
         }
 
         function updateUI() {
+            // Main Display
             balanceDisplay.innerText = Math.floor(balance).toLocaleString();
             energyDisplay.innerText = Math.floor(energy);
+
+            // Header Displays
+            headerCoin.innerText = Math.floor(balance).toLocaleString();
+            headerTon.innerText = parseFloat(tonBalance).toFixed(2);
+            headerAurora.innerText = parseFloat(auroraBalance).toFixed(2);
+
+            // Wallet Displays
+            walletCoin.innerText = Math.floor(balance).toLocaleString();
+            walletTon.innerText = parseFloat(tonBalance).toFixed(4);
+            walletAurora.innerText = parseFloat(auroraBalance).toFixed(4);
 
             let nextLevelThreshold = 4000 + ((level - 1) * 8000);
             let prevLevelThreshold = level === 1 ? 0 : (4000 + ((level - 2) * 8000));
@@ -1495,16 +1587,78 @@
             showGlassPopup(html);
         }
 
+        // --- EXCHANGE FUNCTIONALITY (UPDATED PER SKETCH) ---
         function openExchangePopup() {
             const html = `
-                <div style="margin-top:20px;">
-                    <div class="hourglass-icon"><i class="fas fa-hourglass-half"></i></div>
+                <div class="popup-title">Exchange</div>
+                <div class="exchange-container">
+                    <div class="exchange-box">
+                        <div class="exchange-label">
+                            <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/aurora.webp" alt="A">
+                            Aurora
+                        </div>
+                        <input type="number" id="exchangeInput" class="exchange-input" value="0" oninput="calculateExchange(this.value)">
+                    </div>
+                    
+                    <div class="exchange-plus">+</div>
+                    
+                    <div class="exchange-box">
+                        <div class="exchange-label">
+                            <img src="https://static.vecteezy.com/system/resources/previews/024/093/454/non_2x/toncoin-ton-glass-crypto-coin-3d-illustration-free-png.png" alt="T">
+                            TON
+                        </div>
+                        <input type="text" id="exchangeOutput" class="exchange-input" value="0" readonly>
+                    </div>
                 </div>
-                <div class="popup-title">Exchange Tokens</div>
-                <div style="font-weight:700; font-size:1.1rem; color:white; margin-bottom:10px; line-height:1.4;">The Exchange Tokens Market Available Soon!</div>
-                <button class="popup-btn" style="background:transparent; border:1px solid rgba(255,255,255,0.3); color:white;" onclick="closeGlassPopup()">Close</button>
+                <button class="popup-btn" onclick="executeExchange()">Exchange</button>
+                <button class="popup-btn" style="background:transparent; border:1px solid rgba(255,255,255,0.3); color:white; margin-top:10px;" onclick="closeGlassPopup()">Close</button>
             `;
             showGlassPopup(html);
+        }
+
+        function calculateExchange(val) {
+            const amount = parseFloat(val);
+            const output = document.getElementById('exchangeOutput');
+            if (isNaN(amount) || amount < 0) {
+                output.value = "0";
+                return;
+            }
+            // 1 Aurora = 50 TON
+            const result = amount * 50;
+            output.value = result;
+        }
+
+        function executeExchange() {
+            const inputVal = document.getElementById('exchangeInput').value;
+            const amount = parseFloat(inputVal);
+
+            if(isNaN(amount) || amount <= 0) {
+                alert("Please enter a valid amount.");
+                return;
+            }
+
+            if(auroraBalance < amount) {
+                alert("Insufficient Aurora balance.");
+                return;
+            }
+
+            // Perform Exchange
+            auroraBalance -= amount;
+            tonBalance += (amount * 50);
+            
+            saveUserData();
+            updateUI();
+            
+            closeGlassPopup();
+            
+            setTimeout(() => {
+                const html = `
+                    <div class="popup-title">Success!</div>
+                    <div class="popup-msg">Exchanged ${amount} Aurora for ${amount * 50} TON.</div>
+                    <button class="popup-btn" onclick="closeGlassPopup()">OK</button>
+                `;
+                showGlassPopup(html);
+            }, 300);
         }
 
         function checkDailyRewardStatus() {
@@ -1544,7 +1698,7 @@
             showGlassPopup(html);
         }
 
-        /* --- LOTTERY GAME LOGIC --- */
+        /* --- LOTTERY GAME LOGIC (UPDATED FOR AURORA) --- */
         function openLotteryModal() {
             document.getElementById('lottery-modal').style.display = 'flex';
         }
@@ -1570,10 +1724,9 @@
             let rounds = 0;
             const minRounds = 4;
 
-            // Rigged logic: indices of the path array that correspond to low values
-            // Path: [0(1000), 1(100), 2(5000), 5(250), 8(50), 7(150), 6(2000), 3(500)]
-            // Indices: 1 (100 coins), 4 (50 coins), 5 (150 coins)
-            const lowValuePathIndices = [1, 4, 5]; 
+            // Target low values (0.1, 0.2) to avoid frequent jackpots
+            // Indices in path: 0(0.1), 3(0.2), 5(0.2), 6(0.1)
+            const lowValuePathIndices = [0, 3, 5, 6]; 
             const randomTarget = Math.floor(Math.random() * lowValuePathIndices.length);
             const winnerPathIndex = lowValuePathIndices[randomTarget];
 
@@ -1610,16 +1763,17 @@
         function endLotteryGame(finalGridIndex) {
             setTimeout(() => {
                 const item = document.getElementById('cell-' + finalGridIndex);
-                const prizeVal = parseInt(item.getAttribute('data-val'));
+                const prizeVal = parseFloat(item.getAttribute('data-val'));
                 
-                balance += prizeVal;
+                // Add to Aurora Balance instead of coins
+                auroraBalance += prizeVal;
                 saveUserData();
                 updateUI();
 
                 // Show Result
                 const html = `
                     <div class="popup-title">Lottery Win!</div>
-                    <div class="popup-msg" style="font-size:1.5rem; color:#FFD700; font-weight:800;">+${prizeVal} Coins</div>
+                    <div class="popup-msg" style="font-size:1.5rem; color:#FFD700; font-weight:800;">+${prizeVal} Aurora</div>
                     <button class="popup-btn" onclick="closeGlassPopup()">Collect</button>
                 `;
                 showGlassPopup(html);
