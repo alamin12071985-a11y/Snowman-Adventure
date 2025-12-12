@@ -1,0 +1,1869 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Snowman Adventure</title>
+    
+    <!-- Telegram Web App Script -->
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+    
+    <!-- TON Connect UI SDK -->
+    <script src="https://unpkg.com/@tonconnect/ui@latest/dist/tonconnect-ui.min.js"></script>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <style>
+        :root {
+            --bg-dark: #050f1a;
+            --text-light: #E3F4F9;
+            --accent-cyan: #00E5FF;
+            --accent-violet: #6A5ACD;
+            --glass-bg: linear-gradient(145deg, rgba(22, 52, 80, 0.4) 0%, rgba(8, 24, 43, 0.6) 100%);
+            --glass-border: 1px solid rgba(0, 229, 255, 0.15);
+            --level-gold: #FFD700;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            color: var(--text-light);
+            height: 100dvh; 
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            background-color: #050f1a; 
+            transition: background 0.3s ease;
+        }
+
+        body.home-active {
+            /* UPDATED: New Base URL and .webp */
+            background-image: url('https://alamin12071985-a11y.github.io/Snowman-Adventure/background.webp');
+            background-size: cover;
+            background-position: center center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+        }
+
+        /* --- LOADING SCREEN --- */
+        #loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 9999;
+            /* UPDATED: New Base URL and .webp */
+            background-image: url('https://alamin12071985-a11y.github.io/Snowman-Adventure/loading screen.webp');
+            background-size: cover;
+            background-position: center bottom;
+            background-repeat: no-repeat;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-end;
+            padding-bottom: 15vw;
+            transition: opacity 0.5s ease;
+        }
+
+        .loading-container {
+            width: 80vw;
+            /* UPDATED: Height reduced by 0.5 (12vw -> 6vw) to make it thinner */
+            height: 6vw; 
+            background-color: #050f1a;
+            border: 1vw solid var(--accent-cyan);
+            /* UPDATED: Border radius adjusted for thinner bar */
+            border-radius: 3vw; 
+            position: relative;
+            /* UPDATED: Padding reduced */
+            padding: 0.4vw;
+            box-shadow: 0 1.5vw 3vw rgba(0,0,0,0.6);
+        }
+
+        .progress-bar {
+            width: 0%;
+            height: 100%;
+            background: linear-gradient(to bottom, #00E5FF 0%, #6A5ACD 100%);
+            /* UPDATED: Radius adjusted */
+            border-radius: 2.5vw;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            box-shadow: inset 0 0.5vw 0.5vw rgba(255,255,255,0.4);
+            transition: width 0.1s linear;
+        }
+
+        .progress-bar::after {
+            content: '';
+            position: absolute;
+            top: 10%;
+            left: 1.5%;
+            right: 1.5%;
+            height: 40%;
+            background: linear-gradient(to bottom, rgba(255,255,255,0.4), rgba(255,255,255,0));
+            border-radius: 5vw;
+        }
+
+        .percentage {
+            color: white;
+            font-weight: 900;
+            /* UPDATED: Font size adjusted for thinner bar */
+            font-size: 3.5vw;
+            margin-right: 4vw;
+            text-shadow: 0.5vw 0.5vw 0px #000000;
+            font-style: italic;
+            z-index: 2;
+            font-family: sans-serif;
+        }
+
+        /* --- APP CONTAINER --- */
+        .app-container {
+            width: 100%;
+            max-width: 100%; 
+            height: 100%;
+            background: rgba(0, 0, 0, 0.2); 
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            backdrop-filter: blur(2px);
+        }
+
+        /* --- HEADER --- */
+        .header-dashboard {
+            padding: 15px 15px 5px 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            z-index: 20;
+            background: linear-gradient(180deg, rgba(5,15,26,0.9) 0%, rgba(5,15,26,0) 100%);
+        }
+
+        .stat-card-left {
+            background: var(--glass-bg);
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(0, 229, 255, 0.2);
+            border-radius: 12px 30px 12px 30px; 
+            padding: 8px 12px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 90px;
+        }
+
+        .stat-label { font-size: 0.7rem; color: var(--accent-cyan); opacity: 0.8; }
+        .stat-value { font-size: 0.9rem; font-weight: 700; display: flex; align-items: center; gap: 4px; }
+        .stat-value img { width: 18px; }
+
+        .profile-section {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 0 10px;
+        }
+
+        .profile-top {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 4px 15px 4px 4px;
+            border-radius: 30px;
+            border: 1px solid rgba(0, 229, 255, 0.1);
+            margin-bottom: 5px;
+        }
+
+        .user-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            border: 2px solid var(--accent-cyan);
+            object-fit: cover;
+            background: #fff;
+        }
+
+        .user-name {
+            font-weight: 700;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            max-width: 100px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .header-level-box {
+            width: 100%;
+            max-width: 140px;
+            text-align: center;
+        }
+        
+        .lvl-text {
+            font-size: 0.7rem;
+            color: rgba(255,255,255,0.6);
+            margin-bottom: 2px;
+            display: flex;
+            justify-content: space-between;
+            padding: 0 4px;
+        }
+
+        .header-progress-bg {
+            width: 100%;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+            overflow: hidden;
+            border: 1px solid rgba(0, 229, 255, 0.2);
+        }
+
+        .header-progress-fill {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #FF8C00, #FFD700); 
+            box-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+            transition: width 0.3s ease;
+        }
+
+        .settings-btn {
+            background: var(--glass-bg);
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(0, 229, 255, 0.2);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: var(--accent-cyan);
+            font-size: 1.1rem;
+            overflow: hidden;
+        }
+        .settings-btn img { width: 24px; height: 24px; object-fit: contain; }
+
+        /* --- CONTENT AREA --- */
+        .content-area {
+            flex: 1;
+            overflow-y: auto;
+            padding: 0 20px 110px 20px; 
+            position: relative;
+        }
+
+        .tab-content {
+            display: none;
+            flex-direction: column;
+            animation: fadeIn 0.4s ease;
+            height: 100%;
+        }
+
+        .tab-content.active { display: flex; }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* --- MENU --- */
+        .daily-menu-container {
+            display: flex;
+            justify-content: space-between;
+            gap: 12px;
+            margin-bottom: 15px;
+            margin-top: 7px;
+            position: relative;
+            z-index: 5;
+        }
+
+        .daily-item {
+            flex: 1;
+            position: relative;
+            height: auto;
+            aspect-ratio: 1.2/1;
+            min-height: 80px;
+            max-height: 100px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-end;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .daily-item:active { transform: scale(0.96); }
+
+        .daily-item::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 70%;
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.05) 0%, rgba(5, 15, 26, 0.5) 100%);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(0, 229, 255, 0.2);
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 16px;
+            z-index: 1;
+        }
+
+        .daily-item img {
+            width: 60%;
+            height: auto;
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 0;
+            filter: drop-shadow(0 5px 15px rgba(0, 229, 255, 0.3));
+        }
+
+        .daily-item span {
+            position: relative;
+            z-index: 2;
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.9);
+            text-align: center;
+            margin-bottom: 5px;
+            line-height: 1.1;
+        }
+
+        .daily-sub-text {
+            position: relative;
+            z-index: 3;
+            font-size: 0.65rem;
+            color: var(--accent-cyan);
+            margin-bottom: 8px;
+            font-weight: 700;
+        }
+
+        /* --- GAME AREA --- */
+        .game-area-wrapper {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            z-index: 10;
+            padding-bottom: 20px;
+            justify-content: space-evenly; 
+        }
+
+        .main-balance {
+            font-size: clamp(1.8rem, 5vw, 2.5rem);
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            z-index: 5;
+            margin-top: 1vh;
+            margin-bottom: 2vh;
+        }
+
+        .main-balance img {
+            width: clamp(35px, 10vw, 45px); 
+            filter: drop-shadow(0 0 10px var(--accent-cyan));
+        }
+
+        /* --- CHARACTER --- */
+        .character-img {
+            width: 80vw;
+            max-width: 320px;
+            height: auto;
+            cursor: pointer;
+            z-index: 10; 
+            transition: transform 0.1s;
+            filter: drop-shadow(0 0 15px rgba(0, 229, 255, 0.1));
+            margin-top: 40px; 
+            position: relative;
+        }
+
+        .character-img:active { transform: scale(0.96) rotate(-2deg); }
+
+        /* --- BOTTOM CONTROLS --- */
+        .bottom-controls {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            padding: 10px 10px;
+            z-index: 30; 
+            position: relative;
+            margin-top: auto;
+        }
+
+        .control-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: rgba(255,255,255,0.8);
+            background: rgba(0,0,0,0.5); 
+            padding: 5px 15px;
+            border-radius: 20px;
+            border: 1px solid rgba(255,255,255,0.1);
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .control-item:active { transform: scale(0.95); background: rgba(0, 229, 255, 0.1); }
+        .control-item img { width: 22px; }
+
+        .floating-score {
+            position: absolute;
+            color: var(--accent-cyan);
+            font-weight: 800;
+            font-size: 32px;
+            pointer-events: none;
+            animation: floatUp 0.8s ease-out forwards;
+            z-index: 100;
+            text-shadow: 0 0 10px var(--accent-violet);
+        }
+
+        @keyframes floatUp {
+            0% { opacity: 1; transform: translateY(0) scale(1); }
+            100% { opacity: 0; transform: translateY(-80px) scale(1.2); }
+        }
+
+        /* --- BUTTON STYLES --- */
+        .button-group {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            width: 100%;
+            margin-top: 15px;
+        }
+
+        .btn {
+            border: none;
+            height: 55px;
+            border-radius: 16px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(180deg, #60ccfd 0%, #4a92ff 100%);
+            box-shadow: 0 8px 20px rgba(74, 146, 255, 0.4);
+            transition: transform 0.1s ease, box-shadow 0.2s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn:active {
+            transform: scale(0.96);
+            box-shadow: 0 4px 10px rgba(74, 146, 255, 0.4);
+        }
+
+        .invite-btn, .connect-btn {
+            padding: 0 20px;
+            width: 100%;
+            max-width: 250px;
+        }
+
+        .copy-btn {
+            width: 55px;
+            min-width: 55px;
+        }
+
+        .btn-text {
+            color: white;
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-left: 10px;
+            letter-spacing: 0.3px;
+        }
+
+        .icon {
+            width: 24px;
+            height: 24px;
+            fill: none;
+            stroke: white;
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        /* --- SHOP / GRID LAYOUT STYLES --- */
+        .shop-banner {
+            width: 100%;
+            height: 120px;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            border-radius: 16px;
+            margin-top: 20px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .shop-banner h2 {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: #fff;
+            z-index: 2;
+        }
+        
+        .shop-banner::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            /* UPDATED: New Base URL and .webp */
+            background: url('https://alamin12071985-a11y.github.io/Snowman-Adventure/background.webp');
+            background-size: cover;
+            opacity: 0.3;
+            z-index: 1;
+        }
+
+        .shop-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr; 
+            gap: 15px;
+            width: 100%;
+        }
+
+        .shop-card {
+            background: rgba(255, 255, 255, 0.05);
+            aspect-ratio: 1/1; 
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 10px;
+            transition: transform 0.2s;
+            cursor: pointer;
+        }
+
+        .shop-card:active {
+            transform: scale(0.95);
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .shop-card img {
+            width: 50%;
+            margin-bottom: 10px;
+            filter: drop-shadow(0 0 10px rgba(0, 229, 255, 0.3));
+        }
+
+        .shop-card-title {
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-align: center;
+            color: #fff;
+            margin-bottom: 5px;
+        }
+
+        .shop-card-price {
+            font-size: 0.75rem;
+            color: #FFD700;
+            font-weight: 700;
+            background: rgba(0,0,0,0.3);
+            padding: 4px 8px;
+            border-radius: 10px;
+        }
+
+        /* --- NAV BAR --- */
+        .nav-bar {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 85px;
+            background: linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.9) 100%);
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            z-index: 100;
+            padding-bottom: 10px;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+            width: 60px;
+            height: 60px;
+            border-radius: 14px;
+            color: rgba(255, 255, 255, 0.4);
+            transition: all 0.3s ease;
+        }
+
+        .nav-item img {
+            width: 24px;
+            height: 24px;
+            opacity: 0.5;
+            transition: all 0.3s;
+            filter: grayscale(100%);
+        }
+
+        .nav-item span { font-size: 0.65rem; font-weight: 500; }
+
+        .nav-item.active {
+            color: var(--accent-cyan);
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.1) 0%, rgba(0, 229, 255, 0.05) 100%);
+            backdrop-filter: blur(5px);
+            border-top: 1px solid rgba(0, 229, 255, 0.5);
+            box-shadow: 0 -10px 20px rgba(0, 229, 255, 0.15) inset;
+        }
+
+        .nav-item.active img {
+            opacity: 1;
+            filter: grayscale(0%) drop-shadow(0 0 8px var(--accent-cyan));
+            transform: scale(1.1);
+        }
+
+        .glass-panel-full {
+            background: var(--glass-bg);
+            border: var(--glass-border);
+            border-radius: 24px;
+            padding: 20px;
+            margin-bottom: 15px;
+            margin-top: 20px;
+        }
+        
+        .earn-hero-img {
+            width: 160px; 
+            margin-bottom: 10px; 
+            border-radius: 10px;
+            -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 60%, rgba(0,0,0,0) 100%);
+            mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 60%, rgba(0,0,0,0) 100%);
+        }
+
+        .task-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            margin-bottom: 12px;
+        }
+
+        .task-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: rgba(0, 229, 255, 0.1);
+            color: var(--accent-cyan);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.2rem;
+        }
+
+        .boost-header { text-align: center; margin-bottom: 20px; margin-top: 20px; }
+        .back-btn {
+            position: absolute;
+            top: 20px; left: 20px;
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            width: 36px; height: 36px;
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            color: white; z-index: 50;
+        }
+
+        /* --- SPIN WHEEL --- */
+        .spin-wheel-container {
+            width: 80vw; max-width: 300px;
+            height: 80vw; max-height: 300px;
+            background: transparent;
+            position: relative;
+            margin: 5vh auto;
+            transition: transform 4s cubic-bezier(0.1, 0.7, 0.1, 1);
+        }
+        .spin-wheel-img { width: 100%; height: 100%; object-fit: contain; filter: drop-shadow(0 0 15px rgba(0, 229, 255, 0.3)); }
+        .spin-marker-img {
+            position: absolute; top: 4vh; left: 50%;
+            transform: translateX(-50%);
+            width: 50px; height: auto;
+            z-index: 15;
+            filter: drop-shadow(0 5px 5px rgba(0,0,0,0.5));
+        }
+
+        /* --- WALLET PAGE STYLES --- */
+        .wallet-title {
+            font-size: 3rem; line-height: 1.1; margin-bottom:10px; 
+            font-weight: 800; color: var(--accent-cyan);
+        }
+        .exchange-btn {
+            width: 100%; max-width: none; margin-top: 15px;
+            background: #000;
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 40px;
+            padding: 8px 20px 8px 10px;
+            display: flex; align-items: center; gap: 15px;
+            cursor: pointer; text-align: left;
+        }
+        .exchange-icon { width: 45px; height: 45px; }
+        .exchange-text h3 { color: white; font-size: 0.95rem; margin-bottom: 2px; }
+        .exchange-text p { color: rgba(255,255,255,0.6); font-size: 0.7rem; line-height: 1.2; }
+
+        /* --- GLASS POPUP MODAL --- */
+        .popup-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.8); backdrop-filter: blur(10px);
+            z-index: 2000; display: flex; justify-content: center; align-items: center;
+            opacity: 0; pointer-events: none; transition: opacity 0.3s;
+        }
+        .popup-overlay.active { opacity: 1; pointer-events: auto; }
+        .popup-content {
+            background: linear-gradient(145deg, rgba(22, 52, 80, 0.9) 0%, rgba(8, 24, 43, 0.95) 100%);
+            border: 2px solid var(--accent-cyan); border-radius: 20px;
+            padding: 30px 20px; text-align: center; width: 85%; max-width: 350px;
+            transform: scale(0.8); transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 0 30px rgba(0,229,255,0.2);
+        }
+        .popup-overlay.active .popup-content { transform: scale(1); }
+        .popup-badge { width: 70px; margin-bottom: 15px; }
+        .popup-title { font-size: 1.5rem; color: white; font-weight: 800; margin-bottom: 10px; }
+        .popup-msg { color: rgba(255,255,255,0.8); font-size: 0.9rem; margin-bottom: 20px; }
+        .popup-btn {
+            background: linear-gradient(90deg, #00C853, #64DD17); color: #000; border: none;
+            padding: 12px 0; width: 100%; border-radius: 12px;
+            font-weight: 800; font-size: 1rem; cursor: pointer;
+            box-shadow: 0 5px 15px rgba(100, 221, 23, 0.4);
+        }
+        .popup-btn:active { transform: scale(0.98); }
+
+        .hourglass-icon {
+            font-size: 3rem; color: #FFD700; margin-bottom: 15px;
+            animation: rotateHourglass 3s infinite ease-in-out;
+        }
+        @keyframes rotateHourglass { 0% { transform: rotate(0); } 50% { transform: rotate(180deg); } 100% { transform: rotate(360deg); } }
+
+        /* --- LOTTERY MODAL SPECIFIC STYLES --- */
+        #lottery-modal {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(5, 5, 16, 0.9);
+            z-index: 3000;
+            display: none;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .game-box {
+            width: 90%;
+            max-width: 380px;
+            background: linear-gradient(160deg, #6A5ACD 0%, #7B68EE 40%, #00E5FF 100%);
+            border-radius: 20px;
+            padding: 15px;
+            box-shadow: 0 0 25px rgba(106, 90, 205, 0.6), inset 0 2px 5px rgba(255,255,255,0.4);
+            border: 2px solid #00E5FF;
+            position: relative;
+        }
+
+        .game-box::before {
+            content: '';
+            position: absolute;
+            top: 10px; right: 40px; width: 30px; height: 10px;
+            background-image: repeating-linear-gradient(90deg, rgba(255,255,255,0.5), rgba(255,255,255,0.5) 2px, transparent 2px, transparent 6px);
+            opacity: 0.6;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: -15px; right: 10px;
+            width: 35px; height: 35px;
+            background: #483D8B;
+            border: 2px solid #00E5FF;
+            border-radius: 50%;
+            display: flex; justify-content: center; align-items: center;
+            font-weight: bold; color: #fff;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.5);
+            cursor: pointer; z-index: 10;
+        }
+
+        .header-text {
+            text-align: center; color: #fff;
+            font-weight: 700; margin-bottom: 15px;
+            font-size: 15px;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.3);
+        }
+
+        .grid-container {
+            background-color: rgba(0, 0, 0, 0.3);
+            padding: 8px;
+            border-radius: 15px;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .grid-item {
+            background: #F0F4FF;
+            border-radius: 10px;
+            height: 80px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            box-shadow: inset 0 -3px 0 rgba(0,0,0,0.1);
+            position: relative;
+            transition: all 0.1s;
+            border: 2px solid transparent;
+        }
+
+        .grid-item.active {
+            background: #fff;
+            box-shadow: 0 0 15px #00E5FF, inset 0 0 5px #00E5FF;
+            border: 2px solid #6A5ACD;
+            transform: scale(1.05);
+            z-index: 5;
+        }
+
+        .coin-img-lottery {
+            width: 35px; height: 35px; object-fit: contain;
+            margin-bottom: 5px;
+            filter: drop-shadow(0 2px 3px rgba(0,0,0,0.2));
+        }
+
+        .center-icon { font-size: 30px; margin-bottom: 0; }
+        .item-text {
+            font-size: 10px; font-weight: bold; color: #333;
+        }
+
+        .grid-item:nth-child(5) {
+            background: linear-gradient(135deg, #e1f5fe, #b3e5fc);
+        }
+
+        .start-btn-container {
+            margin-top: 20px; position: relative; padding: 5px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 30px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+
+        .start-btn {
+            width: 100%; padding: 12px;
+            background: linear-gradient(180deg, #00E5FF 0%, #0091EA 100%);
+            border: none; border-radius: 25px;
+            color: white; font-size: 16px; font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0, 229, 255, 0.4);
+            position: relative; overflow: hidden;
+            text-transform: uppercase; letter-spacing: 1px;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+        }
+
+        .start-btn:active { transform: translateY(2px); }
+        .start-btn::after {
+            content: ''; position: absolute; top: 0; left: 0;
+            width: 100%; height: 50%;
+            background: linear-gradient(to bottom, rgba(255,255,255,0.4), transparent);
+            border-radius: 25px 25px 0 0;
+        }
+
+        .decor-dot {
+            position: absolute; width: 8px; height: 8px;
+            background: #00E5FF; border-radius: 50%;
+            box-shadow: 0 0 5px #00E5FF; z-index: 2;
+        }
+        .dot-bl { bottom: 8px; left: 8px; }
+        .dot-br { bottom: 8px; right: 8px; }
+
+        /* --- MEDIA QUERY --- */
+        @media (max-height: 700px) {
+            .header-dashboard { padding: 5px 10px; }
+            .daily-menu-container { margin-bottom: 5px; transform: scale(0.95); transform-origin: top center; }
+            .main-balance { margin-top: 0; margin-bottom: 5px; font-size: 1.8rem; }
+            .character-img { width: 60vw; max-width: 240px; margin-top: 20px; }
+            .bottom-controls { padding: 5px; }
+            .nav-bar { height: 75px; }
+        }
+
+    </style>
+</head>
+<body class="home-active">
+
+    <!-- AUDIO FOR SPIN -->
+    <audio id="spinSound" src="https://github.com/alamin12071985-a11y/cine-link/raw/bfe25795844512b96dc53827a257581c5d424bf4/spinning%20wheel.mp3"></audio>
+
+    <!-- GENERIC GLASS POPUP -->
+    <div id="glassPopup" class="popup-overlay">
+        <div class="popup-content" id="popupContent">
+            <!-- Content Injected via JS -->
+        </div>
+    </div>
+
+    <!-- LOTTERY MODAL -->
+    <div id="lottery-modal">
+        <div class="game-box">
+            <div class="close-btn" onclick="closeLotteryModal()">✕</div>
+            <div class="header-text">Try your luck!</div>
+
+            <!-- Grid Layout -->
+            <div class="grid-container" id="grid">
+                <!-- Row 1 -->
+                <div class="grid-item" id="cell-0" data-val="1000">
+                    <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/coin.webp" class="coin-img-lottery" alt="Coin">
+                    <span class="item-text">1000 Coins</span>
+                </div>
+                <!-- LOW VALUE -->
+                <div class="grid-item" id="cell-1" data-val="100">
+                    <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/coin.webp" class="coin-img-lottery" alt="Coin">
+                    <span class="item-text">100 Coins</span>
+                </div>
+                <div class="grid-item" id="cell-2" data-val="5000">
+                    <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/coin.webp" class="coin-img-lottery" alt="Coin">
+                    <span class="item-text">5000 Coins</span>
+                </div>
+
+                <!-- Row 2 -->
+                <div class="grid-item" id="cell-3" data-val="500">
+                    <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/coin.webp" class="coin-img-lottery" alt="Coin">
+                    <span class="item-text">500 Coins</span>
+                </div>
+                <!-- Center (Mascot) -->
+                <div class="grid-item" id="cell-4" data-val="0">
+                    <div class="center-icon">👷🐻</div>
+                    <span class="item-text">Jackpot</span>
+                </div>
+                <!-- LOW VALUE -->
+                <div class="grid-item" id="cell-5" data-val="250">
+                    <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/coin.webp" class="coin-img-lottery" alt="Coin">
+                    <span class="item-text">250 Coins</span>
+                </div>
+
+                <!-- Row 3 -->
+                <div class="grid-item" id="cell-6" data-val="2000">
+                    <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/coin.webp" class="coin-img-lottery" alt="Coin">
+                    <span class="item-text">2000 Coins</span>
+                </div>
+                <!-- LOW VALUE -->
+                <div class="grid-item" id="cell-7" data-val="150">
+                    <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/coin.webp" class="coin-img-lottery" alt="Coin">
+                    <span class="item-text">150 Coins</span>
+                </div>
+                <div class="grid-item" id="cell-8" data-val="50">
+                    <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/coin.webp" class="coin-img-lottery" alt="Coin">
+                    <span class="item-text">50 Coins</span>
+                </div>
+            </div>
+
+            <div class="start-btn-container">
+                <div class="decor-dot dot-bl"></div>
+                <div class="decor-dot dot-br"></div>
+                <button class="start-btn" id="startLotteryBtn" onclick="startLottery()">Start lottery</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- UPDATED LOADING SCREEN -->
+    <div id="loading-screen">
+        <div class="loading-container">
+            <div class="progress-bar" id="loadingFill">
+                <span class="percentage" id="loadingPercent">0%</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="app-container">
+        
+        <!-- HEADER DASHBOARD -->
+        <div class="header-dashboard" id="mainHeader">
+            
+            <!-- Left: Profit -->
+            <div class="stat-card-left">
+                <div class="stat-value">
+                    <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/coin.webp" alt="C">
+                    <span id="miningRateText">+0</span>
+                </div>
+                <div class="stat-label">/hour</div>
+            </div>
+
+            <!-- Center: User Profile & Level -->
+            <div class="profile-section">
+                <div class="profile-top">
+                    <!-- UPDATED: Snowman Webp -->
+                    <img id="headerAvatar" src="https://alamin12071985-a11y.github.io/Snowman-Adventure/snowman.webp" class="user-avatar" alt="User">
+                    <span id="headerName" class="user-name">User</span>
+                </div>
+                
+                <!-- Level Progress -->
+                <div class="header-level-box">
+                    <div class="lvl-text">
+                        <span id="levelNameHeader">Lvl 1</span>
+                        <span><span id="currentLevelHeader">0</span>/10</span>
+                    </div>
+                    <div class="header-progress-bg">
+                        <div class="header-progress-fill" id="headerLevelBar"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right: Options -->
+            <div class="settings-btn">
+                <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/setting.webp" alt="Settings">
+            </div>
+        </div>
+
+        <div class="content-area">
+            
+            <!-- HOME TAB -->
+            <div id="home" class="tab-content active">
+
+                <!-- Top Menu -->
+                <div class="daily-menu-container">
+                    <div class="daily-item" onclick="claimDailyReward()">
+                        <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/reward.webp" alt="Reward">
+                        <span>Daily Reward</span>
+                        <div id="dailyRewardAmount" class="daily-sub-text">+500 Coin</div>
+                    </div>
+                    <div class="daily-item" onclick="goToSpinPage()">
+                        <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/spin.webp" alt="Spin">
+                        <span>Daily Spin</span>
+                        <div class="daily-sub-text">+1 Spin</div>
+                    </div>
+                    <!-- CHANGED: Taps Done to Lottery -->
+                    <div class="daily-item" onclick="openLotteryModal()">
+                        <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/lottary.webp" alt="Lottery">
+                        <span>Lottery</span>
+                        <div class="daily-sub-text">Win Prizes</div>
+                    </div>
+                </div>
+
+                <!-- Game Area -->
+                <div class="game-area-wrapper" id="snowContainer">
+                    
+                    <div class="main-balance">
+                        <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/coin.webp" alt="C">
+                        <span id="displayBalance">0</span>
+                    </div>
+                    
+                    <!-- UPDATED: Main Character (Snowman) -->
+                    <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/snowman.webp" class="character-img" id="clickerBtn" alt="Snowman">
+                    
+                    <!-- Bottom Controls -->
+                    <div class="bottom-controls">
+                        <div class="control-item" onclick="openBoostPage()">
+                            <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/energy.webp" alt="Energy">
+                            <span id="energyDisplay">500</span><span> / 500</span>
+                        </div>
+                        <div class="control-item" onclick="openBoostPage()">
+                            <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/boost.webp" alt="Boost">
+                            <span>Boost</span>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+
+            <!-- NEW SHOP TAB (Based on Sketch) -->
+            <div id="shop" class="tab-content">
+                <!-- Large Rectangular Banner -->
+                <div class="shop-banner">
+                    <h2>Premium Store</h2>
+                </div>
+
+                <!-- Grid of Square Boxes -->
+                <div class="shop-grid">
+                    
+                    <!-- VIP Items -->
+                    <div class="shop-card" onclick="handleStoreClick(document.getElementById('btn_vip_7d'), 'vip_7d', 120)">
+                        <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/star.webp" alt="VIP">
+                        <div class="shop-card-title">7 Days VIP</div>
+                        <div class="shop-card-price">120 Stars</div>
+                        <!-- Hidden Button trigger logic preserved -->
+                        <div id="btn_vip_7d" style="display:none;"></div>
+                    </div>
+
+                    <div class="shop-card" onclick="handleStoreClick(document.getElementById('btn_vip_30d'), 'vip_30d', 350)">
+                        <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/star.webp" alt="VIP">
+                        <div class="shop-card-title">30 Days VIP</div>
+                        <div class="shop-card-price">350 Stars</div>
+                        <div id="btn_vip_30d" style="display:none;"></div>
+                    </div>
+
+                    <!-- Energy Items -->
+                    <div class="shop-card" onclick="handleStoreClick(document.getElementById('btn_energy_full'), 'energy_30d', 300)">
+                        <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/energy-refill.webp" alt="Energy">
+                        <div class="shop-card-title">Max Energy</div>
+                        <div class="shop-card-price">300 Stars</div>
+                        <div id="btn_energy_full" style="display:none;"></div>
+                    </div>
+
+                    <!-- Bot Items -->
+                    <div class="shop-card" onclick="handleStoreClick(document.getElementById('btn_bot_month'), 'bot_30d', 700)">
+                        <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/bot.webp" alt="Bot">
+                        <div class="shop-card-title">Auto Bot</div>
+                        <div class="shop-card-price">700 Stars</div>
+                        <div id="btn_bot_month" style="display:none;"></div>
+                    </div>
+                    
+                    <!-- Loot Boxes -->
+                    <div class="shop-card" onclick="handleStoreClick(document.getElementById('btn_loot_elite_shop'), 'loot_elite', 120)">
+                        <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/reward.webp" alt="Loot">
+                        <div class="shop-card-title">Elite Box</div>
+                        <div class="shop-card-price">120 Stars</div>
+                        <div id="btn_loot_elite_shop" style="display:none;"></div>
+                    </div>
+
+                    <div class="shop-card" onclick="handleStoreClick(document.getElementById('btn_multitap_shop'), 'multitap_30d', 400)">
+                        <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/multitap.webp" alt="Tap">
+                        <div class="shop-card-title">Multi Tap</div>
+                        <div class="shop-card-price">400 Stars</div>
+                        <div id="btn_multitap_shop" style="display:none;"></div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- HIDDEN BOOST PAGE (Kept for logic compatibility, but user uses Shop tab) -->
+            <div id="boostPage" class="tab-content">
+                <div class="back-btn" onclick="switchTab('home')">
+                    <i class="fas fa-arrow-left"></i>
+                </div>
+                <div class="boost-header">
+                    <h2>Boosters</h2>
+                </div>
+                 <!-- Items exist here for JS logic reference if needed -->
+            </div>
+
+            <!-- EARN TAB -->
+            <div id="earn" class="tab-content">
+                <div class="glass-panel-full" style="text-align:center;">
+                    <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/earn%20page.webp" class="earn-hero-img">
+                    <h2 style="color:var(--accent-cyan); margin-bottom:2px; font-size: 2rem;">Earn Coins</h2>
+                    <p style="opacity:0.8; font-size:0.9rem; margin-bottom: 5px;">Claim Coin Everyday or Finish Task</p>
+                </div>
+                <div class="glass-panel-full" id="taskList">
+                    <div style="text-align:center; padding:20px;">Loading tasks...</div>
+                </div>
+            </div>
+
+            <!-- FRIENDS TAB -->
+            <div id="friends" class="tab-content">
+                <div class="glass-panel-full" style="text-align:center; padding-top: 10px;">
+                    <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/friends%20page.webp" width="240" style="margin-bottom:10px; border-radius:10px;">
+                    <h2 style="color:var(--accent-cyan);">Invite Friends</h2>
+                    <p>Invite friends and get bonuses!</p>
+                    
+                    <div class="button-group">
+                        <button class="btn invite-btn" onclick="inviteFriend()">
+                            <svg class="icon" viewBox="0 0 24 24">
+                                <rect x="3" y="3" width="18" height="18" rx="4" ry="4"></rect>
+                                <circle cx="12" cy="10" r="3"></circle>
+                                <path d="M7 21v-2a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v2"></path>
+                                <circle cx="18" cy="18" r="4" fill="#4a92ff" stroke="none"></circle>
+                                <path d="M18 16v4M16 18h4" stroke="white" stroke-width="1.5"></path>
+                            </svg>
+                            <span class="btn-text">Invite Friends</span>
+                        </button>
+                
+                        <button class="btn copy-btn" onclick="inviteFriend()">
+                            <svg class="icon" viewBox="0 0 24 24">
+                                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                            </svg>
+                        </button>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- WALLET TAB -->
+            <div id="wallet" class="tab-content">
+                <div style="text-align:center; padding-top: 10px;">
+                    <h1 class="wallet-title">Get Real<br>Crypto.</h1>
+                    <p style="color:rgba(227, 244, 249, 0.7); font-size: 1rem;">Earn and buy and tokens.</p>
+                    
+                    <div class="button-group" style="margin-top: 20px;">
+                        <button class="btn connect-btn" id="connectWalletBtn" onclick="connectWallet()">
+                             <svg class="icon" viewBox="0 0 24 24">
+                                <rect x="2" y="5" width="20" height="14" rx="2" ry="2"></rect>
+                                <line x1="2" y1="10" x2="22" y2="10"></line>
+                            </svg>
+                            <span class="btn-text">Connect Wallet</span>
+                        </button>
+                    </div>
+                    
+                    <div id="airdropMsg" style="margin-top:10px; opacity:0; transition:opacity 0.5s;"></div>
+
+                    <div class="exchange-btn" onclick="openExchangePopup()">
+                        <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/exchange.webp" class="exchange-icon" alt="Swap">
+                        <div class="exchange-text">
+                            <h3>Exchange Tokens!</h3>
+                            <p>Convert your tokens into cryptocurrency.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SPIN PAGE -->
+            <div id="spinPage" class="tab-content">
+                <div class="glass-panel-full" style="text-align:center; position:relative; height: 80vh;">
+                    <h2>Lucky Spin</h2>
+                    <p>Spin to win coins!</p>
+                    
+                    <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/arrow.webp" class="spin-marker-img" alt="Arrow">
+                    
+                    <div class="spin-wheel-container" id="wheel">
+                        <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/spin wheel.webp" class="spin-wheel-img" alt="Wheel">
+                    </div>
+                    
+                    <button onclick="doSpin()" style="margin-top:20px; padding:15px 40px; background:var(--accent-cyan); border:none; border-radius:25px; font-weight:bold; font-size:1.2rem;">SPIN</button>
+                    
+                    <button onclick="switchTab('home', document.querySelector('.nav-item'))" style="margin-top:20px; display:block; width:100%; background:transparent; border:1px solid white; color:white; padding:10px; border-radius:10px;">Back to Home</button>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- NAVIGATION -->
+        <div class="nav-bar">
+            <div class="nav-item active" onclick="switchTab('home', this)">
+                <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/home.webp" alt="Home">
+                <span>Home</span>
+            </div>
+            <div class="nav-item" onclick="switchTab('shop', this)">
+                <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/shop.webp" alt="Shop">
+                <span>Shop</span>
+            </div>
+            <div class="nav-item" onclick="switchTab('earn', this)">
+                <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/task.webp" alt="Earn">
+                <span>Earn</span>
+            </div>
+            <div class="nav-item" onclick="switchTab('friends', this)">
+                <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/friends.webp" alt="Friends">
+                <span>Friends</span>
+            </div>
+            <div class="nav-item" onclick="switchTab('wallet', this)">
+                <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/wallet.webp" alt="Wallet">
+                <span>Wallet</span>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // --- FIREBASE CONFIGURATION ---
+        const firebaseConfig = {
+            apiKey: "AIzaSyD1PPDhogcw7fBu27PkO1iuMfGFLUwMN70",
+            authDomain: "fir-55206.firebaseapp.com",
+            databaseURL: "https://fir-55206-default-rtdb.firebaseio.com",
+            projectId: "fir-55206",
+            storageBucket: "fir-55206.firebasestorage.app",
+            messagingSenderId: "24586463698",
+            appId: "1:24586463698:web:8b2f21073295ef4382400b",
+            measurementId: "G-K676BWHYR4"
+        };
+        
+        if (!firebase.apps.length) {
+            firebase.initializeApp(firebaseConfig);
+        }
+        const db = firebase.database();
+
+        // --- GAME STATE VARIABLES ---
+        let balance = 0;
+        let tapCount = 0; 
+        let energy = 500;
+        let maxEnergy = 500;
+        let level = 1;
+        let userId = "test_user_001"; 
+        let isBotActive = false;
+        let inventory = {};
+
+        // --- BACKEND URL ---
+        const backendUrl = "https://snowman-adventure.onrender.com";
+
+        // --- DOM ELEMENTS ---
+        const balanceDisplay = document.getElementById('displayBalance');
+        const energyDisplay = document.getElementById('energyDisplay');
+        const clickerBtn = document.getElementById('clickerBtn');
+        const headerName = document.getElementById('headerName');
+        const headerAvatar = document.getElementById('headerAvatar');
+        const headerLevelBar = document.getElementById('headerLevelBar');
+        const currentLevelHeader = document.getElementById('currentLevelHeader');
+        const levelNameHeader = document.getElementById('levelNameHeader');
+        const dailyRewardText = document.getElementById('dailyRewardAmount');
+
+        // --- TON CONNECT INITIALIZATION ---
+        const tonConnectUI = new TON_CONNECT_UI.TonConnectUI({
+            manifestUrl: 'https://alamin12071985-a11y.github.io/cine-link/tonconnect-manifest.json',
+            buttonRootId: null 
+        });
+
+        tonConnectUI.onStatusChange(wallet => {
+            const btn = document.getElementById('connectWalletBtn');
+            const span = btn.querySelector('.btn-text');
+            if(wallet) {
+                span.innerText = "Connected";
+                btn.style.background = "linear-gradient(180deg, #00C853 0%, #64DD17 100%)";
+            } else {
+                span.innerText = "Connect Wallet";
+                btn.style.background = ""; 
+            }
+        });
+
+        async function connectWallet() {
+            try {
+                if(!tonConnectUI.connected) {
+                    await tonConnectUI.openModal();
+                }
+            } catch(e) {
+                console.error(e);
+            }
+        }
+
+        // --- LOADING & INIT ---
+        window.addEventListener('load', () => {
+            let loadPercent = 0;
+            const bar = document.getElementById('loadingFill');
+            const percentText = document.getElementById('loadingPercent');
+            const screen = document.getElementById('loading-screen');
+            
+            const interval = setInterval(() => {
+                loadPercent += Math.floor(Math.random() * 5) + 1;
+                if(loadPercent > 100) loadPercent = 100;
+                
+                bar.style.width = loadPercent + '%';
+                percentText.innerText = loadPercent + '%';
+
+                if(loadPercent >= 100) {
+                    clearInterval(interval);
+                    setTimeout(() => {
+                        screen.style.opacity = '0';
+                        setTimeout(() => {
+                            screen.style.display = 'none';
+                        }, 500);
+                    }, 500);
+                }
+            }, 50);
+        });
+
+        function init() {
+            initTelegramUser(); 
+            startSnowfall();
+            loadUserData();
+            
+            setInterval(() => {
+                if (energy < maxEnergy) {
+                    energy++;
+                    updateUI();
+                }
+            }, 1500);
+
+            setInterval(saveUserData, 5000);
+        }
+
+        function initTelegramUser() {
+            try {
+                const tg = window.Telegram.WebApp;
+                tg.expand(); 
+                const user = tg.initDataUnsafe.user;
+                if (user) {
+                    userId = user.id.toString(); 
+                    if (user.username) headerName.innerText = user.username;
+                    else if (user.first_name) headerName.innerText = user.first_name;
+                    if (user.photo_url) headerAvatar.src = user.photo_url;
+                }
+            } catch (e) {
+                console.log("Not running in Telegram");
+            }
+        }
+
+        function saveUserData() {
+            if(!userId) return;
+            db.ref('users/' + userId).update({
+                balance: balance,
+                energy: energy,
+                tapCount: tapCount,
+                level: level,
+                isBotActive: isBotActive,
+                inventory: inventory,
+                lastActive: Date.now()
+            });
+        }
+
+        function loadUserData() {
+            if(!userId) return;
+            db.ref('users/' + userId).once('value').then((snapshot) => {
+                const data = snapshot.val();
+                if (data) {
+                    balance = data.balance || 0;
+                    energy = data.energy || 500;
+                    tapCount = data.tapCount || 0;
+                    level = data.level || 1;
+                    isBotActive = data.isBotActive || false;
+                    inventory = data.inventory || {}; 
+                    updateUI();
+                    updateStoreUI();
+                    checkDailyRewardStatus();
+                    fetchTasksFromFirebase();
+                } else {
+                    updateUI();
+                    checkDailyRewardStatus();
+                    fetchTasksFromFirebase();
+                }
+            });
+        }
+
+        function startSnowfall() {
+            const container = document.getElementById('snowContainer');
+            const styleSheet = document.createElement("style");
+            styleSheet.innerText = `@keyframes fall { 0% { transform: translateY(-10px); opacity: 0.8; } 100% { transform: translateY(300px); opacity: 0; } }`;
+            document.head.appendChild(styleSheet);
+
+            setInterval(() => {
+                const flake = document.createElement('div');
+                flake.style.position = 'absolute';
+                flake.style.background = 'white';
+                flake.style.borderRadius = '50%';
+                flake.style.opacity = '0.8';
+                flake.style.pointerEvents = 'none';
+                flake.style.animation = 'fall linear infinite';
+                const size = Math.random() * 4 + 2 + 'px';
+                flake.style.width = size;
+                flake.style.height = size;
+                flake.style.left = Math.random() * 90 + 5 + '%';
+                flake.style.animationDuration = Math.random() * 3 + 3 + 's';
+                container.appendChild(flake);
+                setTimeout(() => { flake.remove(); }, 5000);
+            }, 600); 
+        }
+
+        function updateUI() {
+            balanceDisplay.innerText = Math.floor(balance).toLocaleString();
+            energyDisplay.innerText = Math.floor(energy);
+
+            let nextLevelThreshold = 4000 + ((level - 1) * 8000);
+            let prevLevelThreshold = level === 1 ? 0 : (4000 + ((level - 2) * 8000));
+            
+            let progress = balance - prevLevelThreshold;
+            let range = nextLevelThreshold - prevLevelThreshold;
+            let percentage = (progress / range) * 100;
+
+            if (percentage >= 100) {
+                level++;
+                percentage = 0;
+                showLevelUpPopup(level);
+            }
+
+            levelNameHeader.innerText = "LVL " + level;
+            currentLevelHeader.innerText = level;
+            headerLevelBar.style.width = `${Math.min(percentage, 100)}%`;
+        }
+
+        function updateStoreUI() {
+            // Placeholder logic for button states
+        }
+
+        function showGlassPopup(contentHTML) {
+            const popup = document.getElementById('glassPopup');
+            const content = document.getElementById('popupContent');
+            content.innerHTML = contentHTML;
+            popup.classList.add('active');
+        }
+
+        function closeGlassPopup() {
+            document.getElementById('glassPopup').classList.remove('active');
+        }
+
+        function showLevelUpPopup(newLevel) {
+            const html = `
+                <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/reward.webp" class="popup-badge" alt="Badge">
+                <div style="font-size: 3rem; font-weight: 900; color: #FFD700; margin-bottom: 5px;">${newLevel}</div>
+                <div class="popup-title">Congratulations!</div>
+                <div style="color: white; font-weight: 700; margin-bottom: 5px;">You have leveled up</div>
+                <button class="popup-btn" onclick="closeGlassPopup()">Great!</button>
+            `;
+            showGlassPopup(html);
+        }
+
+        function openExchangePopup() {
+            const html = `
+                <div style="margin-top:20px;">
+                    <div class="hourglass-icon"><i class="fas fa-hourglass-half"></i></div>
+                </div>
+                <div class="popup-title">Exchange Tokens</div>
+                <div style="font-weight:700; font-size:1.1rem; color:white; margin-bottom:10px; line-height:1.4;">The Exchange Tokens Market Available Soon!</div>
+                <button class="popup-btn" style="background:transparent; border:1px solid rgba(255,255,255,0.3); color:white;" onclick="closeGlassPopup()">Close</button>
+            `;
+            showGlassPopup(html);
+        }
+
+        function checkDailyRewardStatus() {
+            const lastReward = localStorage.getItem('lastRewardDate');
+            const today = new Date().toDateString();
+            if (lastReward === today) {
+                dailyRewardText.innerText = "Claimed";
+            }
+        }
+
+        function claimDailyReward() {
+            const lastReward = localStorage.getItem('lastRewardDate');
+            const today = new Date().toDateString();
+
+            if (lastReward === today) {
+                const html = `
+                    <div class="popup-title">Already Claimed</div>
+                    <div class="popup-msg">Come back tomorrow!</div>
+                    <button class="popup-btn" onclick="closeGlassPopup()">OK</button>
+                `;
+                showGlassPopup(html);
+                return;
+            }
+
+            balance += 500;
+            localStorage.setItem('lastRewardDate', today);
+            dailyRewardText.innerText = "Claimed";
+            saveUserData(); 
+            updateUI();
+            
+            const html = `
+                <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/reward.webp" width="60" style="margin-bottom:10px;">
+                <div class="popup-title">Daily Reward</div>
+                <div class="popup-msg">You received +500 Coins!</div>
+                <button class="popup-btn" onclick="closeGlassPopup()">Awesome</button>
+            `;
+            showGlassPopup(html);
+        }
+
+        /* --- LOTTERY GAME LOGIC --- */
+        function openLotteryModal() {
+            document.getElementById('lottery-modal').style.display = 'flex';
+        }
+        
+        function closeLotteryModal() {
+            document.getElementById('lottery-modal').style.display = 'none';
+        }
+
+        let isLotterySpinning = false;
+        // The path array follows the grid items in clockwise order: 0,1,2,5,8,7,6,3
+        const lotteryPath = [0, 1, 2, 5, 8, 7, 6, 3];
+        const gridItems = document.querySelectorAll('.grid-item');
+        const startLotteryBtn = document.getElementById('startLotteryBtn');
+
+        function startLottery() {
+            if (isLotterySpinning) return;
+            isLotterySpinning = true;
+            startLotteryBtn.style.filter = "grayscale(0.5)";
+            startLotteryBtn.innerText = "Spinning...";
+
+            let currentIndex = 0; 
+            let speed = 50; 
+            let rounds = 0;
+            const minRounds = 4;
+
+            // Rigged logic: indices of the path array that correspond to low values
+            // Path: [0(1000), 1(100), 2(5000), 5(250), 8(50), 7(150), 6(2000), 3(500)]
+            // Indices: 1 (100 coins), 4 (50 coins), 5 (150 coins)
+            const lowValuePathIndices = [1, 4, 5]; 
+            const randomTarget = Math.floor(Math.random() * lowValuePathIndices.length);
+            const winnerPathIndex = lowValuePathIndices[randomTarget];
+
+            const totalSteps = (lotteryPath.length * minRounds) + winnerPathIndex;
+            let currentStep = 0;
+
+            function step() {
+                // Remove active class from all
+                document.querySelectorAll('.grid-item').forEach(item => item.classList.remove('active'));
+                
+                // Get current grid index from path
+                const gridIndex = lotteryPath[currentIndex];
+                const activeItem = document.getElementById('cell-' + gridIndex);
+                if(activeItem) activeItem.classList.add('active');
+
+                currentIndex++;
+                if (currentIndex >= lotteryPath.length) {
+                    currentIndex = 0;
+                    rounds++;
+                }
+                currentStep++;
+
+                if (currentStep < totalSteps) {
+                    if (currentStep > totalSteps - 10) speed += 30;
+                    else if (currentStep > totalSteps - 20) speed += 10;
+                    setTimeout(step, speed);
+                } else {
+                    endLotteryGame(gridIndex);
+                }
+            }
+            step();
+        }
+
+        function endLotteryGame(finalGridIndex) {
+            setTimeout(() => {
+                const item = document.getElementById('cell-' + finalGridIndex);
+                const prizeVal = parseInt(item.getAttribute('data-val'));
+                
+                balance += prizeVal;
+                saveUserData();
+                updateUI();
+
+                // Show Result
+                const html = `
+                    <div class="popup-title">Lottery Win!</div>
+                    <div class="popup-msg" style="font-size:1.5rem; color:#FFD700; font-weight:800;">+${prizeVal} Coins</div>
+                    <button class="popup-btn" onclick="closeGlassPopup()">Collect</button>
+                `;
+                showGlassPopup(html);
+
+                // Reset
+                isLotterySpinning = false;
+                startLotteryBtn.style.filter = "none";
+                startLotteryBtn.innerText = "Start lottery";
+                
+                setTimeout(() => {
+                    item.classList.remove('active');
+                }, 2000);
+            }, 300);
+        }
+
+        /* --- SPIN WHEEL LOGIC (Legacy) --- */
+        function goToSpinPage() {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+            document.getElementById('spinPage').classList.add('active');
+            document.getElementById('mainHeader').style.display = 'none';
+        }
+
+        function doSpin() {
+            const wheel = document.getElementById('wheel');
+            const audio = document.getElementById('spinSound');
+
+            audio.currentTime = 0; 
+            audio.play().catch(e => console.log(e));
+
+            const deg = Math.floor(5000 + Math.random() * 5000); 
+            wheel.style.transition = 'transform 10s cubic-bezier(0.1, 0.7, 0.1, 1)';
+            wheel.style.transform = `rotate(${deg}deg)`;
+            
+            setTimeout(() => {
+                audio.pause();
+                const won = Math.floor(Math.random() * 500) + 100;
+                balance += won;
+                saveUserData(); 
+                updateUI();
+                
+                const html = `
+                    <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/coin.webp" width="60" style="margin-bottom:10px;">
+                    <div class="popup-title">You Won!</div>
+                    <div class="popup-msg" style="font-size:1.5rem; color:#FFD700; font-weight:800;">+${won} Coins</div>
+                    <button class="popup-btn" onclick="closeGlassPopup()">Collect</button>
+                `;
+                showGlassPopup(html);
+
+                wheel.style.transition = 'none';
+                const actualDeg = deg % 360;
+                wheel.style.transform = `rotate(${actualDeg}deg)`;
+            }, 10000); 
+        }
+
+        clickerBtn.addEventListener('touchstart', handleTap, {passive: false});
+        clickerBtn.addEventListener('click', handleTap);
+
+        function handleTap(e) {
+            e.preventDefault(); 
+            if (energy > 0) {
+                balance++;
+                tapCount++; 
+                energy--;
+                updateUI(); 
+                
+                let clientX = e.clientX;
+                let clientY = e.clientY;
+                if(e.touches && e.touches.length > 0) {
+                    clientX = e.touches[0].clientX;
+                    clientY = e.touches[0].clientY;
+                }
+                if (!clientX) {
+                    const rect = e.target.getBoundingClientRect();
+                    clientX = rect.left + rect.width / 2;
+                    clientY = rect.top + rect.height / 2;
+                }
+                showFloatingText(clientX, clientY);
+                if (navigator.vibrate) navigator.vibrate(10);
+            }
+        }
+
+        function showFloatingText(x, y) {
+            const floatEl = document.createElement('div');
+            floatEl.className = 'floating-score';
+            floatEl.innerText = '+1';
+            floatEl.style.left = `${x}px`;
+            floatEl.style.top = `${y}px`;
+            document.body.appendChild(floatEl);
+            setTimeout(() => floatEl.remove(), 800);
+        }
+
+        function switchTab(tabId, navElement) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+            document.getElementById(tabId).classList.add('active');
+            
+            if(navElement) {
+                document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+                navElement.classList.add('active');
+            }
+
+            if(tabId === 'home') {
+                document.body.classList.add('home-active');
+                document.getElementById('mainHeader').style.display = 'flex';
+            } else {
+                document.body.classList.remove('home-active');
+                document.getElementById('mainHeader').style.display = 'none';
+            }
+        }
+        
+        function openBoostPage() {
+            switchTab('boostPage');
+        }
+
+        function handleStoreClick(btnElement, itemId, price) {
+            if(inventory[itemId]) {
+                activateItem(itemId);
+            } else {
+                buyItem(btnElement, itemId, price);
+            }
+        }
+
+        function activateItem(itemId) {
+            delete inventory[itemId];
+            if(itemId.includes('bot')) isBotActive = true;
+            if(itemId.includes('energy')) energy = maxEnergy;
+            
+            saveUserData();
+            updateUI();
+            
+            const html = `
+                <div class="popup-title">Activated!</div>
+                <div class="popup-msg">Item successfully activated.</div>
+                <button class="popup-btn" onclick="closeGlassPopup()">Awesome</button>
+            `;
+            showGlassPopup(html);
+        }
+
+        async function buyItem(btnElement, itemId, price) {
+            if (!window.Telegram.WebApp.initData) {
+                const html = `<div class="popup-title">Error</div><div class="popup-msg">Please open in Telegram</div><button class="popup-btn" onclick="closeGlassPopup()">OK</button>`;
+                showGlassPopup(html);
+                return;
+            }
+
+            const htmlLoading = `<div class="popup-title">Processing...</div>`;
+            showGlassPopup(htmlLoading);
+
+            let itemName = "Premium Item";
+            let itemDesc = "Purchase from Store";
+            
+            if(itemId.includes('vip')) itemName = "VIP Membership";
+            else if(itemId.includes('energy')) itemName = "Energy Refill";
+            else if(itemId.includes('multitap')) itemName = "Multitap Boost";
+            else if(itemId.includes('bot')) itemName = "Auto Bot";
+            else if(itemId.includes('loot')) itemName = "Loot Box";
+
+            try {
+                const response = await fetch(`${backendUrl}/generate-invoice`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ 
+                        user_id: userId, 
+                        item_id: itemId, 
+                        amount: price,
+                        title: itemName,
+                        description: itemDesc
+                    })
+                });
+
+                if (!response.ok) throw new Error("Invoice generation failed");
+                const data = await response.json();
+                const invoiceLink = data.invoice_link;
+                closeGlassPopup();
+
+                Telegram.WebApp.openInvoice(invoiceLink, function(status) {
+                    if (status === 'paid') {
+                        inventory[itemId] = true;
+                        saveUserData();
+                        updateUI();
+                        updateStoreUI();
+                        const html = `
+                            <div class="popup-title">Purchase Successful!</div>
+                            <div class="popup-msg">You have purchased ${itemName}.</div>
+                            <button class="popup-btn" onclick="closeGlassPopup()">Awesome</button>
+                        `;
+                        showGlassPopup(html);
+                    } else {
+                        const html = `<div class="popup-title">Cancelled</div><div class="popup-msg">Transaction failed.</div><button class="popup-btn" onclick="closeGlassPopup()">Close</button>`;
+                        showGlassPopup(html);
+                    }
+                });
+
+            } catch (error) {
+                console.error(error);
+                const html = `<div class="popup-title">Connection Error</div><div class="popup-msg">Could not contact server.</div><button class="popup-btn" onclick="closeGlassPopup()">Close</button>`;
+                showGlassPopup(html);
+            }
+        }
+
+        function fetchTasksFromFirebase() {
+            const list = document.getElementById('taskList');
+            db.ref('tasks').on('value', (snapshot) => {
+                list.innerHTML = ''; 
+                const data = snapshot.val();
+                if (!data) return;
+                Object.keys(data).forEach(key => {
+                    const task = data[key];
+                    const item = document.createElement('div');
+                    item.className = 'task-card';
+                    item.onclick = () => {
+                         balance += parseInt(task.reward || 0);
+                         saveUserData();
+                         updateUI();
+                         const html = `<div class="popup-title">Task Done</div><div class="popup-msg">Reward Added!</div><button class="popup-btn" onclick="closeGlassPopup()">OK</button>`;
+                         showGlassPopup(html);
+                    };
+                    const iconClass = task.icon || 'fas fa-star'; 
+                    item.innerHTML = `
+                        <div style="display:flex; align-items:center; gap:15px;">
+                            <div class="task-icon"><i class="${iconClass}"></i></div>
+                            <div class="task-info">
+                                <h4 style="margin:0; font-size:0.9rem; color:var(--text-light)">${task.title}</h4>
+                                <span style="font-size:0.8rem; color:var(--accent-cyan)">+${parseInt(task.reward).toLocaleString()}</span>
+                            </div>
+                        </div>
+                        <div style="color:var(--text-light); opacity:0.5;"><i class="fas fa-chevron-right"></i></div>
+                    `;
+                    list.appendChild(item);
+                });
+            });
+        }
+
+        function inviteFriend() {
+            const url = "https://t.me/thesnowmanbot?start=" + userId;
+            navigator.clipboard.writeText(url);
+            const html = `
+                <div class="popup-title">Link Copied</div>
+                <div class="popup-msg">${url}</div>
+                <button class="popup-btn" onclick="closeGlassPopup()">OK</button>
+            `;
+            showGlassPopup(html);
+        }
+
+        init();
+    </script>
+</body>
+</html>
