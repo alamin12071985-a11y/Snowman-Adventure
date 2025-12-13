@@ -57,7 +57,16 @@
             background-position: center center;
             background-repeat: no-repeat;
             background-attachment: fixed;
-            backdrop-filter: blur(2px); /* Reduced blur */
+            backdrop-filter: blur(2px);
+        }
+
+        body:not(.home-active) {
+            background-image: url('https://alamin12071985-a11y.github.io/Snowman-Adventure/all%20background.webp');
+            background-size: cover;
+            background-position: center center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            backdrop-filter: blur(4px);
         }
 
         /* --- LOADING SCREEN --- */
@@ -68,7 +77,7 @@
             width: 100%;
             height: 100%;
             z-index: 9999;
-            background-image: url('https://alamin12071985-a11y.github.io/Snowman-Adventure/loading screen.webp');
+            background-image: url('https://alamin12071985-a11y.github.io/Snowman-Adventure/loading%20screen.webp');
             background-size: cover;
             background-position: center bottom;
             background-repeat: no-repeat;
@@ -130,7 +139,7 @@
         .app-container {
             width: 100%;
             max-width: 100%; 
-            height: 100dvh; /* Dynamic Viewport Height */
+            height: 100dvh;
             background: rgba(0, 0, 0, 0.2); 
             position: relative;
             display: flex;
@@ -141,70 +150,70 @@
 
         /* --- HEADER --- */
         .header-dashboard {
-            padding: 15px 15px 5px 15px;
+            padding: 3vw 3vw 1vw 3vw;
             display: flex;
             justify-content: space-between;
             align-items: flex-start;
             z-index: 20;
             background: linear-gradient(180deg, rgba(5,15,26,0.9) 0%, rgba(5,15,26,0) 100%);
-            flex-shrink: 0; /* Prevent shrinking */
+            flex-shrink: 0;
         }
 
         .header-balances {
             display: flex;
             flex-direction: column;
-            gap: 5px;
+            gap: 1vw;
         }
 
         .stat-card-row {
             background: var(--glass-bg);
             backdrop-filter: blur(5px);
             border: 1px solid rgba(0, 229, 255, 0.2);
-            border-radius: 20px; 
-            padding: 4px 10px;
+            border-radius: 3vw; 
+            padding: 1vw 2vw;
             display: flex;
             align-items: center;
-            gap: 8px;
-            min-width: 80px;
+            gap: 1.5vw;
+            min-width: 20vw;
         }
 
-        .stat-value { font-size: 0.75rem; font-weight: 700; display: flex; align-items: center; gap: 5px; color: white; }
-        .stat-value img { width: 16px; height: 16px; object-fit: contain; }
+        .stat-value { font-size: 3.5vw; font-weight: 700; display: flex; align-items: center; gap: 1.5vw; color: white; }
+        .stat-value img { width: 5vw; height: 5vw; object-fit: contain; }
 
         .profile-section {
             flex: 1;
             display: flex;
             flex-direction: column;
             align-items: center;
-            margin: 0 10px;
+            margin: 0 2vw;
         }
 
         .profile-top {
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 2vw;
             background: rgba(0, 0, 0, 0.3);
-            padding: 4px 15px 4px 4px;
-            border-radius: 30px;
+            padding: 1vw 3vw 1vw 1vw;
+            border-radius: 7vw;
             border: 1px solid rgba(0, 229, 255, 0.1);
-            margin-bottom: 5px;
+            margin-bottom: 1vw;
         }
 
         .user-avatar {
-            width: 32px;
-            height: 32px;
+            width: 8vw;
+            height: 8vw;
             border-radius: 50%;
-            border: 2px solid var(--accent-cyan);
+            border: 0.5vw solid var(--accent-cyan);
             object-fit: cover;
             background: #fff;
         }
 
         .user-name {
             font-weight: 700;
-            font-size: 0.9rem;
+            font-size: 3.5vw;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
-            max-width: 100px;
+            letter-spacing: 0.2vw;
+            max-width: 25vw;
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
@@ -212,24 +221,24 @@
 
         .header-level-box {
             width: 100%;
-            max-width: 140px;
+            max-width: 35vw;
             text-align: center;
         }
         
         .lvl-text {
-            font-size: 0.7rem;
+            font-size: 2.8vw;
             color: rgba(255,255,255,0.6);
-            margin-bottom: 2px;
+            margin-bottom: 0.5vw;
             display: flex;
             justify-content: space-between;
-            padding: 0 4px;
+            padding: 0 1vw;
         }
 
         .header-progress-bg {
             width: 100%;
-            height: 8px;
+            height: 2vw;
             background: rgba(255, 255, 255, 0.1);
-            border-radius: 4px;
+            border-radius: 1vw;
             overflow: hidden;
             border: 1px solid rgba(0, 229, 255, 0.2);
         }
@@ -238,7 +247,7 @@
             height: 100%;
             width: 0%;
             background: linear-gradient(90deg, #FF8C00, #FFD700); 
-            box-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+            box-shadow: 0 0 2vw rgba(255, 215, 0, 0.5);
             transition: width 0.3s ease;
         }
 
@@ -247,22 +256,22 @@
             backdrop-filter: blur(5px);
             border: 1px solid rgba(0, 229, 255, 0.2);
             border-radius: 50%;
-            width: 40px;
-            height: 40px;
+            width: 10vw;
+            height: 10vw;
             display: flex;
             justify-content: center;
             align-items: center;
             color: var(--accent-cyan);
-            font-size: 1.1rem;
+            font-size: 4vw;
             overflow: hidden;
         }
-        .settings-btn img { width: 24px; height: 24px; object-fit: contain; }
+        .settings-btn img { width: 6vw; height: 6vw; object-fit: contain; }
 
         /* --- CONTENT AREA --- */
         .content-area {
             flex: 1;
             overflow-y: auto;
-            padding: 0 20px 100px 20px; /* Padding for nav bar */
+            padding: 0 5vw 25vw 5vw;
             position: relative;
             display: flex;
             flex-direction: column;
@@ -284,9 +293,9 @@
         .daily-menu-container {
             display: flex;
             justify-content: space-between;
-            gap: 12px;
-            margin-bottom: 1vh;
-            margin-top: 1vh;
+            gap: 3vw;
+            margin-bottom: 2vh;
+            margin-top: 2vh;
             position: relative;
             z-index: 5;
             flex-shrink: 0;
@@ -297,9 +306,8 @@
             position: relative;
             height: auto;
             aspect-ratio: 1.2/1;
-            /* Adaptive heights */
-            min-height: 70px;
-            max-height: 100px;
+            min-height: 18vw;
+            max-height: 25vw;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -321,7 +329,7 @@
             backdrop-filter: blur(8px);
             border: 1px solid rgba(0, 229, 255, 0.2);
             border-top: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 16px;
+            border-radius: 4vw;
             z-index: 1;
         }
 
@@ -333,40 +341,40 @@
             left: 50%;
             transform: translateX(-50%);
             z-index: 0;
-            filter: drop-shadow(0 5px 15px rgba(0, 229, 255, 0.3));
+            filter: drop-shadow(0 1vw 4vw rgba(0, 229, 255, 0.3));
         }
 
         .daily-item span {
             position: relative;
             z-index: 2;
-            font-size: 0.7rem;
+            font-size: 2.8vw;
             font-weight: 600;
             color: rgba(255, 255, 255, 0.9);
             text-align: center;
-            margin-bottom: 5px;
+            margin-bottom: 1vw;
             line-height: 1.1;
         }
 
         .daily-sub-text {
             position: relative;
             z-index: 3;
-            font-size: 0.65rem;
+            font-size: 2.5vw;
             color: var(--accent-cyan);
-            margin-bottom: 8px;
+            margin-bottom: 2vw;
             font-weight: 700;
         }
 
         /* --- GAME AREA (VIEWPORT FIX) --- */
         .game-area-wrapper {
             width: 100%;
-            flex: 1; /* Take remaining space */
+            flex: 1;
             display: flex;
             flex-direction: column;
             align-items: center;
             position: relative;
             z-index: 10;
-            padding-bottom: 10px;
-            justify-content: space-between; /* Distribute items vertically */
+            padding-bottom: 3vw;
+            justify-content: space-between;
         }
 
         .main-balance {
@@ -374,15 +382,15 @@
             font-weight: 800;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 2.5vw;
             z-index: 5;
             flex-shrink: 0;
-            margin-top: 1vh;
+            margin-top: 2vh;
         }
 
         .main-balance img {
             width: clamp(35px, 10vw, 45px); 
-            filter: drop-shadow(0 0 10px var(--accent-cyan));
+            filter: drop-shadow(0 0 2.5vw var(--accent-cyan));
         }
 
         /* --- CHARACTER (Responsive Sizing) --- */
@@ -390,13 +398,13 @@
             width: auto;
             max-width: 80vw;
             height: auto;
-            max-height: 45vh; /* Limit height to fit screen */
+            max-height: 45vh;
             cursor: pointer;
             z-index: 10; 
             transition: transform 0.1s;
-            filter: drop-shadow(0 0 15px rgba(0, 229, 255, 0.1));
+            filter: drop-shadow(0 0 4vw rgba(0, 229, 255, 0.1));
             object-fit: contain;
-            margin: 10px 0;
+            margin: 3vw 0;
         }
 
         .character-img:active { transform: scale(0.96) rotate(-2deg); }
@@ -406,65 +414,65 @@
             display: flex;
             justify-content: space-between;
             width: 100%;
-            padding: 5px 10px;
+            padding: 1vw 2.5vw;
             z-index: 30; 
             position: relative;
-            margin-bottom: 10px;
+            margin-bottom: 3vw;
             flex-shrink: 0;
         }
 
         .control-item {
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 2vw;
             font-weight: 600;
-            font-size: 0.9rem;
+            font-size: 3.5vw;
             color: rgba(255,255,255,0.8);
             background: rgba(0,0,0,0.5); 
-            padding: 5px 15px;
-            border-radius: 20px;
+            padding: 1vw 4vw;
+            border-radius: 5vw;
             border: 1px solid rgba(255,255,255,0.1);
             cursor: pointer;
             transition: 0.2s;
         }
         .control-item:active { transform: scale(0.95); background: rgba(0, 229, 255, 0.1); }
-        .control-item img { width: 22px; }
+        .control-item img { width: 6vw; }
 
         .floating-score {
             position: absolute;
             color: var(--accent-cyan);
             font-weight: 800;
-            font-size: 32px;
+            font-size: 8vw;
             pointer-events: none;
             animation: floatUp 0.8s ease-out forwards;
             z-index: 100;
-            text-shadow: 0 0 10px var(--accent-violet);
+            text-shadow: 0 0 2.5vw var(--accent-violet);
         }
 
         @keyframes floatUp {
             0% { opacity: 1; transform: translateY(0) scale(1); }
-            100% { opacity: 0; transform: translateY(-80px) scale(1.2); }
+            100% { opacity: 0; transform: translateY(-20vw) scale(1.2); }
         }
 
         /* --- BUTTON STYLES --- */
         .button-group {
             display: flex;
-            gap: 10px;
+            gap: 2.5vw;
             justify-content: center;
             width: 100%;
-            margin-top: 15px;
+            margin-top: 4vw;
         }
 
         .btn {
             border: none;
-            height: 55px;
-            border-radius: 16px;
+            height: 14vw;
+            border-radius: 4vw;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            background: var(--btn-blue-grad); /* Unified Blue */
-            box-shadow: 0 8px 20px rgba(74, 146, 255, 0.4);
+            background: var(--btn-blue-grad);
+            box-shadow: 0 2vw 5vw rgba(74, 146, 255, 0.4);
             transition: transform 0.1s ease, box-shadow 0.2s ease;
             position: relative;
             overflow: hidden;
@@ -472,31 +480,31 @@
 
         .btn:active {
             transform: scale(0.96);
-            box-shadow: 0 4px 10px rgba(74, 146, 255, 0.4);
+            box-shadow: 0 1vw 2.5vw rgba(74, 146, 255, 0.4);
         }
 
         .invite-btn, .connect-btn {
-            padding: 0 20px;
+            padding: 0 5vw;
             width: 100%;
-            max-width: 250px;
+            max-width: 62.5vw;
         }
 
         .copy-btn {
-            width: 55px;
-            min-width: 55px;
+            width: 14vw;
+            min-width: 14vw;
         }
 
         .btn-text {
             color: white;
-            font-size: 1.1rem;
+            font-size: 3.5vw;
             font-weight: 700;
-            margin-left: 10px;
-            letter-spacing: 0.3px;
+            margin-left: 2.5vw;
+            letter-spacing: 0.1vw;
         }
 
         .icon {
-            width: 24px;
-            height: 24px;
+            width: 6vw;
+            height: 6vw;
             fill: none;
             stroke: white;
             stroke-width: 2;
@@ -507,22 +515,22 @@
         /* --- TOAST NOTIFICATION --- */
         .toast-notification {
             position: fixed;
-            top: 20px;
+            top: 5vw;
             left: 50%;
-            transform: translateX(-50%) translateY(-100px);
+            transform: translateX(-50%) translateY(-25vw);
             background: white;
             color: #000;
-            padding: 12px 20px;
-            border-radius: 30px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+            padding: 3vw 5vw;
+            border-radius: 7.5vw;
+            box-shadow: 0 1vw 5vw rgba(0,0,0,0.3);
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 2.5vw;
             z-index: 5000;
             opacity: 0;
             transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             width: 90%;
-            max-width: 320px;
+            max-width: 80vw;
         }
 
         .toast-notification.show {
@@ -531,37 +539,37 @@
         }
 
         .toast-icon {
-            width: 24px;
-            height: 24px;
+            width: 6vw;
+            height: 6vw;
             background: #4CAF50;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             color: white;
-            font-size: 14px;
+            font-size: 3.5vw;
         }
 
         /* --- SHOP STYLES --- */
         .shop-banner {
             width: 100%;
-            height: 120px;
+            height: 30vw;
             background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
-            border-radius: 16px;
-            margin-top: 20px;
-            margin-bottom: 20px;
+            border-radius: 4vw;
+            margin-top: 5vw;
+            margin-bottom: 5vw;
             border: 1px solid rgba(255, 255, 255, 0.1);
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            box-shadow: 0 1vw 4vw rgba(0,0,0,0.3);
             position: relative;
             overflow: hidden;
             flex-shrink: 0;
         }
         
         .shop-banner h2 {
-            font-size: 1.8rem;
+            font-size: 4.5vw;
             font-weight: 800;
             color: #fff;
             z-index: 2;
@@ -570,23 +578,25 @@
         .shop-grid {
             display: grid;
             grid-template-columns: 1fr 1fr; 
-            gap: 15px;
+            gap: 4vw;
             width: 100%;
-            padding-bottom: 20px;
+            padding-bottom: 5vw;
         }
 
         .shop-card {
             background: rgba(255, 255, 255, 0.05);
             aspect-ratio: 1/1; 
-            border-radius: 16px;
+            border-radius: 4vw;
             border: 1px solid rgba(255, 255, 255, 0.1);
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            padding: 10px;
+            padding: 2.5vw;
             transition: transform 0.2s;
             cursor: pointer;
+            position: relative;
+            overflow: hidden;
         }
 
         .shop-card:active {
@@ -596,26 +606,55 @@
 
         .shop-card img {
             width: 50%;
-            margin-bottom: 10px;
-            filter: drop-shadow(0 0 10px rgba(0, 229, 255, 0.3));
+            margin-bottom: 2.5vw;
+            filter: drop-shadow(0 0 2.5vw rgba(0, 229, 255, 0.3));
+        }
+
+        .shop-card-title {
+            font-size: 3.2vw;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 1.5vw;
+            text-align: center;
+        }
+
+        .shop-card-desc {
+            font-size: 2.5vw;
+            color: rgba(255,255,255,0.7);
+            text-align: center;
+            margin-bottom: 2vw;
+            line-height: 1.3;
         }
 
         .shop-card-price {
-            font-size: 0.75rem;
+            font-size: 3vw;
             color: #FFD700;
             font-weight: 700;
             background: rgba(0,0,0,0.3);
-            padding: 4px 8px;
-            border-radius: 10px;
+            padding: 1vw 2vw;
+            border-radius: 2.5vw;
         }
 
         .active-shop-btn {
             background: #00C853;
             color: white;
-            font-size: 0.7rem;
-            padding: 4px 8px;
-            border-radius: 5px;
-            margin-top: 5px;
+            font-size: 2.8vw;
+            padding: 1vw 2vw;
+            border-radius: 1.5vw;
+            margin-top: 1vw;
+        }
+
+        .sale-badge {
+            position: absolute;
+            top: 1.5vw;
+            right: 1.5vw;
+            background: #FF4757;
+            color: white;
+            font-size: 2.5vw;
+            font-weight: bold;
+            padding: 0.5vw 1.5vw;
+            border-radius: 1.5vw;
+            z-index: 2;
         }
 
         /* --- NAV BAR --- */
@@ -624,14 +663,14 @@
             bottom: 0;
             left: 0;
             right: 0;
-            height: 85px;
+            height: 21vw;
             background: linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.9) 100%);
             border-top: 1px solid rgba(255, 255, 255, 0.05);
             display: flex;
             justify-content: space-around;
             align-items: center;
             z-index: 100;
-            padding-bottom: 10px;
+            padding-bottom: 2.5vw;
         }
 
         .nav-item {
@@ -639,85 +678,85 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            gap: 5px;
-            width: 60px;
-            height: 60px;
-            border-radius: 14px;
+            gap: 1vw;
+            width: 15vw;
+            height: 15vw;
+            border-radius: 3.5vw;
             color: rgba(255, 255, 255, 0.4);
             transition: all 0.3s ease;
         }
 
         .nav-item img {
-            width: 24px;
-            height: 24px;
+            width: 6vw;
+            height: 6vw;
             opacity: 0.5;
             transition: all 0.3s;
             filter: grayscale(100%);
         }
 
-        .nav-item span { font-size: 0.65rem; font-weight: 500; }
+        .nav-item span { font-size: 2.8vw; font-weight: 500; }
 
         .nav-item.active {
             color: var(--accent-cyan);
             background: linear-gradient(180deg, rgba(255, 255, 255, 0.1) 0%, rgba(0, 229, 255, 0.05) 100%);
             backdrop-filter: blur(5px);
             border-top: 1px solid rgba(0, 229, 255, 0.5);
-            box-shadow: 0 -10px 20px rgba(0, 229, 255, 0.15) inset;
+            box-shadow: 0 -2.5vw 5vw rgba(0, 229, 255, 0.15) inset;
         }
 
         .nav-item.active img {
             opacity: 1;
-            filter: grayscale(0%) drop-shadow(0 0 8px var(--accent-cyan));
+            filter: grayscale(0%) drop-shadow(0 0 2vw var(--accent-cyan));
             transform: scale(1.1);
         }
 
         .glass-panel-full {
             background: var(--glass-bg);
             border: var(--glass-border);
-            border-radius: 24px;
-            padding: 20px;
-            margin-bottom: 15px;
-            margin-top: 20px;
+            border-radius: 6vw;
+            padding: 5vw;
+            margin-bottom: 4vw;
+            margin-top: 5vw;
         }
         
         .earn-hero-img {
-            width: 160px; 
-            margin-bottom: 10px; 
-            border-radius: 10px;
+            width: 40vw; 
+            margin-bottom: 2.5vw; 
+            border-radius: 2.5vw;
             -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 60%, rgba(0,0,0,0) 100%);
             mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 60%, rgba(0,0,0,0) 100%);
         }
 
         .task-card {
             background: rgba(255, 255, 255, 0.05);
-            border-radius: 16px;
-            padding: 16px;
+            border-radius: 4vw;
+            padding: 4vw;
             display: flex;
             align-items: center;
             justify-content: space-between;
             border: 1px solid rgba(255, 255, 255, 0.05);
-            margin-bottom: 12px;
+            margin-bottom: 3vw;
         }
 
         .task-icon {
-            width: 44px;
-            height: 44px;
+            width: 11vw;
+            height: 11vw;
             border-radius: 50%;
             background: rgba(0, 229, 255, 0.1);
             color: var(--accent-cyan);
             display: flex;
             justify-content: center;
             align-items: center;
-            font-size: 1.2rem;
+            font-size: 4vw;
         }
 
-        .boost-header { text-align: center; margin-bottom: 20px; margin-top: 20px; }
+        .boost-header { text-align: center; margin-bottom: 5vw; margin-top: 5vw; }
         .back-btn {
             position: absolute;
-            top: 20px; left: 20px;
+            top: 5vw; left: 5vw;
             background: rgba(255,255,255,0.1);
             border: 1px solid rgba(255,255,255,0.2);
-            width: 36px; height: 36px;
+            width: 9vw; height: 9vw;
             border-radius: 50%;
             display: flex; align-items: center; justify-content: center;
             color: white; z-index: 50;
@@ -732,53 +771,53 @@
             margin: 5vh auto;
             transition: transform 4s cubic-bezier(0.1, 0.7, 0.1, 1);
         }
-        .spin-wheel-img { width: 100%; height: 100%; object-fit: contain; filter: drop-shadow(0 0 15px rgba(0, 229, 255, 0.3)); }
+        .spin-wheel-img { width: 100%; height: 100%; object-fit: contain; filter: drop-shadow(0 0 4vw rgba(0, 229, 255, 0.3)); }
         .spin-marker-img {
             position: absolute; top: 4vh; left: 50%;
             transform: translateX(-50%);
-            width: 50px; height: auto;
+            width: 12.5vw; height: auto;
             z-index: 15;
-            filter: drop-shadow(0 5px 5px rgba(0,0,0,0.5));
+            filter: drop-shadow(0 1vw 1vw rgba(0,0,0,0.5));
         }
 
         /* --- WALLET PAGE STYLES --- */
         .wallet-title {
-            font-size: 3rem; line-height: 1.1; margin-bottom:10px; 
+            font-size: 7.5vw; line-height: 1.1; margin-bottom:2.5vw; 
             font-weight: 800; color: var(--accent-cyan);
         }
         .exchange-btn {
-            width: 100%; max-width: none; margin-top: 15px;
+            width: 100%; max-width: none; margin-top: 4vw;
             background: #000;
             border: 1px solid rgba(255,255,255,0.2);
-            border-radius: 40px;
-            padding: 8px 20px 8px 10px;
-            display: flex; align-items: center; gap: 15px;
+            border-radius: 10vw;
+            padding: 2vw 5vw 2vw 2.5vw;
+            display: flex; align-items: center; gap: 4vw;
             cursor: pointer; text-align: left;
         }
-        .exchange-icon { width: 45px; height: 45px; }
-        .exchange-text h3 { color: white; font-size: 0.95rem; margin-bottom: 2px; }
-        .exchange-text p { color: rgba(255,255,255,0.6); font-size: 0.7rem; line-height: 1.2; }
+        .exchange-icon { width: 11vw; height: 11vw; }
+        .exchange-text h3 { color: white; font-size: 3.5vw; margin-bottom: 0.5vw; }
+        .exchange-text p { color: rgba(255,255,255,0.6); font-size: 2.8vw; line-height: 1.2; }
 
         .wallet-stats-grid {
             display: grid;
             grid-template-columns: 1fr 1fr 1fr;
-            gap: 8px;
-            margin-bottom: 20px;
+            gap: 2vw;
+            margin-bottom: 5vw;
             width: 100%;
         }
         .wallet-stat-box {
             background: var(--glass-bg);
             border: 1px solid rgba(0,229,255,0.2);
-            border-radius: 12px;
-            padding: 10px 5px;
+            border-radius: 3vw;
+            padding: 2.5vw 1.5vw;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
         }
-        .wallet-stat-box img { width: 30px; height: 30px; object-fit: contain; margin-bottom: 5px; }
-        .wallet-stat-val { font-weight: 700; font-size: 0.8rem; color: white; }
-        .wallet-stat-label { font-size: 0.6rem; color: rgba(255,255,255,0.6); }
+        .wallet-stat-box img { width: 7.5vw; height: 7.5vw; object-fit: contain; margin-bottom: 1.5vw; }
+        .wallet-stat-val { font-weight: 700; font-size: 3.2vw; color: white; }
+        .wallet-stat-label { font-size: 2.8vw; color: rgba(255,255,255,0.6); }
 
 
         /* --- GLASS POPUP MODAL --- */
@@ -791,52 +830,53 @@
         .popup-overlay.active { opacity: 1; pointer-events: auto; }
         .popup-content {
             background: linear-gradient(145deg, rgba(22, 52, 80, 0.9) 0%, rgba(8, 24, 43, 0.95) 100%);
-            border: 2px solid var(--accent-cyan); border-radius: 20px;
-            padding: 30px 20px; text-align: center; width: 85%; max-width: 350px;
+            border: 2px solid var(--accent-cyan); border-radius: 5vw;
+            padding: 7.5vw 5vw; text-align: center; width: 85%; max-width: 87.5vw;
             transform: scale(0.8); transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            box-shadow: 0 0 30px rgba(0,229,255,0.2);
+            box-shadow: 0 0 7.5vw rgba(0,229,255,0.2);
+            backdrop-filter: blur(10px);
         }
         .popup-overlay.active .popup-content { transform: scale(1); }
-        .popup-badge { width: 70px; margin-bottom: 15px; }
-        .popup-title { font-size: 1.5rem; color: white; font-weight: 800; margin-bottom: 10px; }
-        .popup-msg { color: rgba(255,255,255,0.8); font-size: 0.9rem; margin-bottom: 20px; }
+        .popup-badge { width: 17.5vw; margin-bottom: 4vw; }
+        .popup-title { font-size: 4.5vw; color: white; font-weight: 800; margin-bottom: 2.5vw; }
+        .popup-msg { color: rgba(255,255,255,0.8); font-size: 3.5vw; margin-bottom: 5vw; }
         .popup-btn {
             background: linear-gradient(90deg, #00C853, #64DD17); color: #000; border: none;
-            padding: 12px 0; width: 100%; border-radius: 12px;
-            font-weight: 800; font-size: 1rem; cursor: pointer;
-            box-shadow: 0 5px 15px rgba(100, 221, 23, 0.4);
+            padding: 3vw 0; width: 100%; border-radius: 3vw;
+            font-weight: 800; font-size: 3.5vw; cursor: pointer;
+            box-shadow: 0 1vw 4vw rgba(100, 221, 23, 0.4);
         }
         .popup-btn:active { transform: scale(0.98); }
 
         /* --- SWAP / EXCHANGE UI STYLES --- */
         .swap-card {
             background: #f7f9fc;
-            border-radius: 20px;
-            padding: 15px;
-            margin-bottom: 10px;
+            border-radius: 5vw;
+            padding: 4vw;
+            margin-bottom: 2.5vw;
             color: #000;
             display: flex;
             flex-direction: column;
-            gap: 10px;
+            gap: 2.5vw;
         }
-        .swap-header { display: flex; justify-content: space-between; font-size: 0.8rem; color: #666; font-weight: 600; }
+        .swap-header { display: flex; justify-content: space-between; font-size: 3.2vw; color: #666; font-weight: 600; }
         .swap-body { display: flex; justify-content: space-between; align-items: center; }
-        .token-info { display: flex; align-items: center; gap: 8px; font-weight: 700; font-size: 1.1rem; }
-        .token-info img { width: 30px; height: 30px; }
+        .token-info { display: flex; align-items: center; gap: 2vw; font-weight: 700; font-size: 4vw; }
+        .token-info img { width: 7.5vw; height: 7.5vw; }
         .swap-input {
-            width: 100px; text-align: right; border: none; background: transparent;
-            font-size: 1.5rem; font-weight: 800; outline: none; color: #000;
+            width: 25vw; text-align: right; border: none; background: transparent;
+            font-size: 5vw; font-weight: 800; outline: none; color: #000;
         }
-        .swap-balance { text-align: right; font-size: 0.7rem; color: #888; }
+        .swap-balance { text-align: right; font-size: 2.8vw; color: #888; }
         .swap-divider {
-            display: flex; justify-content: center; margin: -20px 0; z-index: 10; position: relative;
+            display: flex; justify-content: center; margin: -5vw 0; z-index: 10; position: relative;
         }
         .swap-icon-circle {
-            background: white; border-radius: 50%; padding: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            background: white; border-radius: 50%; padding: 2vw; box-shadow: 0 0.5vw 2.5vw rgba(0,0,0,0.1);
         }
         .slide-swap-btn {
-            background: black; color: white; border-radius: 30px; padding: 15px;
-            width: 100%; font-weight: 700; margin-top: 10px; display: flex; justify-content: space-between; align-items: center;
+            background: black; color: white; border-radius: 7.5vw; padding: 4vw;
+            width: 100%; font-weight: 700; margin-top: 2.5vw; display: flex; justify-content: space-between; align-items: center;
         }
 
         /* --- LOTTERY MODAL SPECIFIC STYLES --- */
@@ -852,62 +892,63 @@
 
         .game-box {
             width: 90%;
-            max-width: 380px;
+            max-width: 95vw;
             background: linear-gradient(160deg, #6A5ACD 0%, #7B68EE 40%, #00E5FF 100%);
-            border-radius: 20px;
-            padding: 15px;
-            box-shadow: 0 0 25px rgba(106, 90, 205, 0.6), inset 0 2px 5px rgba(255,255,255,0.4);
+            border-radius: 5vw;
+            padding: 4vw;
+            box-shadow: 0 0 6vw rgba(106, 90, 205, 0.6), inset 0 0.5vw 1.5vw rgba(255,255,255,0.4);
             border: 2px solid #00E5FF;
             position: relative;
+            backdrop-filter: blur(10px);
         }
 
         .game-box::before {
             content: '';
             position: absolute;
-            top: 10px; right: 40px; width: 30px; height: 10px;
-            background-image: repeating-linear-gradient(90deg, rgba(255,255,255,0.5), rgba(255,255,255,0.5) 2px, transparent 2px, transparent 6px);
+            top: 2.5vw; right: 10vw; width: 7.5vw; height: 2.5vw;
+            background-image: repeating-linear-gradient(90deg, rgba(255,255,255,0.5), rgba(255,255,255,0.5) 0.5vw, transparent 0.5vw, transparent 1.5vw);
             opacity: 0.6;
         }
 
         .close-btn {
             position: absolute;
-            top: -15px; right: 10px;
-            width: 35px; height: 35px;
+            top: -4vw; right: 2.5vw;
+            width: 9vw; height: 9vw;
             background: #483D8B;
             border: 2px solid #00E5FF;
             border-radius: 50%;
             display: flex; justify-content: center; align-items: center;
             font-weight: bold; color: #fff;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.5);
+            box-shadow: 0 0.5vw 1.5vw rgba(0,0,0,0.5);
             cursor: pointer; z-index: 10;
         }
 
         .header-text {
             text-align: center; color: #fff;
-            font-weight: 700; margin-bottom: 15px;
-            font-size: 15px;
-            text-shadow: 0 1px 3px rgba(0,0,0,0.3);
+            font-weight: 700; margin-bottom: 4vw;
+            font-size: 4vw;
+            text-shadow: 0 0.5vw 1vw rgba(0,0,0,0.3);
         }
 
         .grid-container {
             background-color: rgba(0, 0, 0, 0.3);
-            padding: 8px;
-            border-radius: 15px;
+            padding: 2vw;
+            border-radius: 4vw;
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 8px;
+            gap: 2vw;
             border: 1px solid rgba(255,255,255,0.1);
         }
 
         .grid-item {
             background: #F0F4FF;
-            border-radius: 10px;
-            height: 80px;
+            border-radius: 2.5vw;
+            height: 20vw;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            box-shadow: inset 0 -3px 0 rgba(0,0,0,0.1);
+            box-shadow: inset 0 -1vw 0 rgba(0,0,0,0.1);
             position: relative;
             transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             border: 2px solid transparent;
@@ -915,7 +956,7 @@
 
         .grid-item.active {
             background: #fff;
-            box-shadow: 0 0 15px #00E5FF, inset 0 0 5px #00E5FF;
+            box-shadow: 0 0 4vw #00E5FF, inset 0 0 1.5vw #00E5FF;
             border: 2px solid #6A5ACD;
             transform: scale(1.05);
             z-index: 5;
@@ -924,14 +965,14 @@
         .grid-item.win-animate {
             transform: scale(1.2);
             z-index: 20;
-            box-shadow: 0 0 30px #FFD700;
+            box-shadow: 0 0 7.5vw #FFD700;
             border-color: #FFD700;
         }
 
         .coin-img-lottery {
-            width: 35px; height: 35px; object-fit: contain;
-            margin-bottom: 5px;
-            filter: drop-shadow(0 2px 3px rgba(0,0,0,0.2));
+            width: 8.5vw; height: 8.5vw; object-fit: contain;
+            margin-bottom: 1vw;
+            filter: drop-shadow(0 0.5vw 1vw rgba(0,0,0,0.2));
         }
 
         /* Center Jackpot styling */
@@ -940,94 +981,96 @@
             border: 2px solid white !important;
         }
 
-        .center-icon { font-size: 30px; margin-bottom: 0; }
+        .center-icon { font-size: 7.5vw; margin-bottom: 0; }
         .item-text {
-            font-size: 10px; font-weight: bold; color: #333;
+            font-size: 2.5vw; font-weight: bold; color: #333;
         }
 
         .start-btn-container {
-            margin-top: 20px; position: relative; padding: 5px;
+            margin-top: 5vw; position: relative; padding: 1vw;
             background: rgba(255, 255, 255, 0.2);
-            border-radius: 30px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            border-radius: 7.5vw;
+            box-shadow: 0 1vw 2.5vw rgba(0,0,0,0.2);
         }
 
         .start-btn {
-            width: 100%; padding: 12px;
+            width: 100%; padding: 3vw;
             background: linear-gradient(180deg, #00E5FF 0%, #0091EA 100%);
-            border: none; border-radius: 25px;
-            color: white; font-size: 16px; font-weight: bold;
+            border: none; border-radius: 6vw;
+            color: white; font-size: 4vw; font-weight: bold;
             cursor: pointer;
-            box-shadow: 0 2px 5px rgba(0, 229, 255, 0.4);
+            box-shadow: 0 0.5vw 1.5vw rgba(0, 229, 255, 0.4);
             position: relative; overflow: hidden;
-            text-transform: uppercase; letter-spacing: 1px;
-            text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+            text-transform: uppercase; letter-spacing: 0.2vw;
+            text-shadow: 0 0.5vw 0.5vw rgba(0,0,0,0.2);
         }
 
-        .start-btn:active { transform: translateY(2px); }
+        .start-btn:active { transform: translateY(0.5vw); }
         .start-btn::after {
             content: ''; position: absolute; top: 0; left: 0;
             width: 100%; height: 50%;
             background: linear-gradient(to bottom, rgba(255,255,255,0.4), transparent);
-            border-radius: 25px 25px 0 0;
+            border-radius: 6vw 6vw 0 0;
         }
 
         .decor-dot {
-            position: absolute; width: 8px; height: 8px;
+            position: absolute; width: 2vw; height: 2vw;
             background: #00E5FF; border-radius: 50%;
-            box-shadow: 0 0 5px #00E5FF; z-index: 2;
+            box-shadow: 0 0 1.5vw #00E5FF; z-index: 2;
         }
-        .dot-bl { bottom: 8px; left: 8px; }
-        .dot-br { bottom: 8px; right: 8px; }
+        .dot-bl { bottom: 2vw; left: 2vw; }
+        .dot-br { bottom: 2vw; right: 2vw; }
 
         /* --- LEADERBOARD STYLES --- */
         .leaderboard-container {
-            padding: 20px;
+            padding: 5vw;
             width: 100%;
             overflow-y: auto;
         }
 
         .congratulations-section {
             background: linear-gradient(135deg, #00E5FF 0%, #6A5ACD 100%);
-            border-radius: 20px;
-            padding: 25px;
+            border-radius: 5vw;
+            padding: 6vw;
             text-align: center;
-            margin-bottom: 20px;
-            box-shadow: 0 10px 30px rgba(0, 229, 255, 0.3);
+            margin-bottom: 5vw;
+            box-shadow: 0 2.5vw 7.5vw rgba(0, 229, 255, 0.3);
             border: 2px solid rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
         }
 
         .congratulations-title {
-            font-size: 2.5rem;
+            font-size: 6vw;
             font-weight: 900;
             color: white;
-            margin-bottom: 15px;
-            text-shadow: 2px 2px 0px rgba(0,0,0,0.3);
+            margin-bottom: 4vw;
+            text-shadow: 0.5vw 0.5vw 0px rgba(0,0,0,0.3);
         }
 
         .user-position {
-            font-size: 1.2rem;
+            font-size: 3.5vw;
             color: #FFD700;
             font-weight: 700;
             background: rgba(0,0,0,0.3);
-            padding: 8px 20px;
-            border-radius: 30px;
+            padding: 2vw 5vw;
+            border-radius: 7.5vw;
             display: inline-block;
-            margin-bottom: 20px;
+            margin-bottom: 5vw;
         }
 
         .leaderboard-list {
             background: var(--glass-bg);
-            border-radius: 20px;
-            padding: 15px;
-            margin-top: 20px;
+            border-radius: 5vw;
+            padding: 4vw;
+            margin-top: 5vw;
             border: var(--glass-border);
+            backdrop-filter: blur(10px);
         }
 
         .leaderboard-item {
             display: flex;
             align-items: center;
-            padding: 12px 15px;
+            padding: 3vw 4vw;
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
 
@@ -1036,16 +1079,16 @@
         }
 
         .rank-number {
-            width: 40px;
-            height: 40px;
+            width: 10vw;
+            height: 10vw;
             border-radius: 50%;
             background: rgba(0, 229, 255, 0.2);
             display: flex;
             align-items: center;
             justify-content: center;
             font-weight: 900;
-            font-size: 1.2rem;
-            margin-right: 15px;
+            font-size: 4vw;
+            margin-right: 4vw;
             color: var(--accent-cyan);
         }
 
@@ -1068,12 +1111,12 @@
             flex: 1;
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 3vw;
         }
 
         .player-avatar {
-            width: 45px;
-            height: 45px;
+            width: 11vw;
+            height: 11vw;
             border-radius: 50%;
             border: 2px solid var(--accent-cyan);
             object-fit: cover;
@@ -1082,29 +1125,29 @@
 
         .player-name {
             font-weight: 600;
-            font-size: 0.95rem;
+            font-size: 3.5vw;
             color: white;
         }
 
         .player-score {
             font-weight: 800;
-            font-size: 1.1rem;
+            font-size: 4vw;
             color: #FFD700;
         }
 
         .leaderboard-tabs {
             display: flex;
             background: rgba(0,0,0,0.3);
-            border-radius: 12px;
-            padding: 4px;
-            margin-bottom: 20px;
+            border-radius: 3vw;
+            padding: 1vw;
+            margin-bottom: 5vw;
         }
 
         .leaderboard-tab {
             flex: 1;
             text-align: center;
-            padding: 10px;
-            border-radius: 10px;
+            padding: 2.5vw;
+            border-radius: 2.5vw;
             cursor: pointer;
             font-weight: 600;
             transition: all 0.3s;
@@ -1114,21 +1157,21 @@
         .leaderboard-tab.active {
             background: var(--accent-cyan);
             color: #000;
-            box-shadow: 0 4px 10px rgba(0, 229, 255, 0.3);
+            box-shadow: 0 1vw 2.5vw rgba(0, 229, 255, 0.3);
         }
 
         .next-button {
             background: linear-gradient(90deg, #00C853, #64DD17);
             color: #000;
             border: none;
-            padding: 15px 40px;
-            border-radius: 30px;
+            padding: 4vw 10vw;
+            border-radius: 7.5vw;
             font-weight: 800;
-            font-size: 1.1rem;
+            font-size: 4vw;
             cursor: pointer;
-            margin-top: 20px;
+            margin-top: 5vw;
             width: 100%;
-            box-shadow: 0 5px 20px rgba(100, 221, 23, 0.4);
+            box-shadow: 0 1vw 5vw rgba(100, 221, 23, 0.4);
         }
 
         .next-button:active {
@@ -1138,8 +1181,8 @@
         /* --- SPIN WHEEL UPDATED STYLES --- */
         .spin-wheel-game-container {
             position: relative;
-            width: 320px;
-            height: 450px;
+            width: 80vw;
+            height: 110vw;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -1148,21 +1191,21 @@
         }
 
         .wheel-border {
-            width: 320px;
-            height: 320px;
+            width: 80vw;
+            height: 80vw;
             background: linear-gradient(180deg, #00E5FF, #4a92ff, #00E5FF);
             border-radius: 50%;
             display: flex;
             justify-content: center;
             align-items: center;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            box-shadow: 0 2.5vw 7.5vw rgba(0,0,0,0.5);
             position: relative;
             z-index: 1;
         }
 
         .wheel-inner-border {
-            width: 300px;
-            height: 300px;
+            width: 75vw;
+            height: 75vw;
             background: linear-gradient(145deg, rgba(22, 52, 80, 0.9) 0%, rgba(8, 24, 43, 0.95) 100%);
             border-radius: 50%;
             display: flex;
@@ -1171,22 +1214,22 @@
         }
 
         .spin-wheel {
-            width: 280px;
-            height: 280px;
+            width: 70vw;
+            height: 70vw;
             border-radius: 50%;
             transition: transform 4s cubic-bezier(0.17, 0.67, 0.12, 0.99);
             background: conic-gradient(
-                #00d600 0% 12.5%,   /* Light Green */
-                #007a00 12.5% 25%,  /* Dark Green */
-                #00d600 25% 37.5%, 
-                #007a00 37.5% 50%, 
-                #00d600 50% 62.5%, 
-                #007a00 62.5% 75%, 
-                #00d600 75% 87.5%, 
+                #00d600 0% 12.5%,
+                #007a00 12.5% 25%,
+                #00d600 25% 37.5%,
+                #007a00 37.5% 50%,
+                #00d600 50% 62.5%,
+                #007a00 62.5% 75%,
+                #00d600 75% 87.5%,
                 #007a00 87.5% 100%
             );
             position: relative;
-            box-shadow: inset 0 0 20px rgba(0,0,0,0.3);
+            box-shadow: inset 0 0 5vw rgba(0,0,0,0.3);
         }
 
         .spin-wheel::after {
@@ -1195,7 +1238,7 @@
             top: 0; left: 0; right: 0; bottom: 0;
             border-radius: 50%;
             background: radial-gradient(circle at 50% 50%, transparent 40%, rgba(0,0,0,0.05) 41%, transparent 42%);
-            background-size: 50px 50px;
+            background-size: 12.5vw 12.5vw;
         }
 
         .spin-btn-container {
@@ -1204,8 +1247,8 @@
             left: 50%;
             transform: translate(-50%, -50%);
             z-index: 10;
-            width: 80px;
-            height: 80px;
+            width: 20vw;
+            height: 20vw;
             cursor: pointer;
         }
 
@@ -1218,113 +1261,114 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            box-shadow: 0 4px 15px rgba(0, 229, 255, 0.4);
+            box-shadow: 0 1vw 4vw rgba(0, 229, 255, 0.4);
         }
 
         .spin-text {
             color: white;
             font-weight: 900;
-            font-size: 20px;
+            font-size: 5vw;
             text-transform: uppercase;
-            text-shadow: 1px 1px 0px #000;
+            text-shadow: 0.5vw 0.5vw 0px #000;
             font-family: 'Arial Black', sans-serif;
             user-select: none;
         }
 
         .pointer {
             position: absolute;
-            top: -15px;
+            top: -4vw;
             left: 50%;
             transform: translateX(-50%);
             width: 0; 
             height: 0; 
-            border-left: 12px solid transparent;
-            border-right: 12px solid transparent;
-            border-bottom: 20px solid #00E5FF;
+            border-left: 3vw solid transparent;
+            border-right: 3vw solid transparent;
+            border-bottom: 5vw solid #00E5FF;
         }
         
         .pointer::after {
             content: '';
             position: absolute;
-            top: 4px; 
-            left: -8px;
-            border-left: 8px solid transparent;
-            border-right: 8px solid transparent;
-            border-bottom: 14px solid #4a92ff;
+            top: 1vw; 
+            left: -2vw;
+            border-left: 2vw solid transparent;
+            border-right: 2vw solid transparent;
+            border-bottom: 3.5vw solid #4a92ff;
         }
 
         .ribbon-container {
             position: absolute;
-            bottom: -30px;
+            bottom: -7.5vw;
             z-index: 5;
             width: 100%;
             display: flex;
             justify-content: center;
-            filter: drop-shadow(0 5px 5px rgba(0,0,0,0.5));
+            filter: drop-shadow(0 1vw 1vw rgba(0,0,0,0.5));
         }
 
         .ribbon {
             background: linear-gradient(135deg, #00E5FF 0%, #4a92ff 100%);
             color: white;
-            padding: 10px 40px;
-            font-size: 28px;
+            padding: 2.5vw 10vw;
+            font-size: 7vw;
             font-family: serif;
             font-weight: bold;
             position: relative;
-            border-radius: 50px;
-            border-bottom: 4px solid rgba(255,255,255,0.2);
+            border-radius: 12.5vw;
+            border-bottom: 1vw solid rgba(255,255,255,0.2);
         }
 
         .ribbon::before {
             content: '';
             position: absolute;
-            left: -20px;
-            top: 10px;
+            left: -5vw;
+            top: 2.5vw;
             z-index: -1;
-            border-top: 20px solid #4a92ff;
-            border-left: 20px solid transparent;
-            border-bottom: 20px solid #4a92ff;
-            border-right: 20px solid #006400;
+            border-top: 5vw solid #4a92ff;
+            border-left: 5vw solid transparent;
+            border-bottom: 5vw solid #4a92ff;
+            border-right: 5vw solid #006400;
             transform: rotate(-15deg);
         }
 
         .ribbon::after {
             content: '';
             position: absolute;
-            right: -25px;
-            top: 15px;
+            right: -6vw;
+            top: 4vw;
             z-index: -1;
             width: 0;
             height: 0;
-            border-top: 25px solid transparent;
-            border-bottom: 25px solid #00E5FF; 
-            border-left: 50px solid #00E5FF;
+            border-top: 6vw solid transparent;
+            border-bottom: 6vw solid #00E5FF; 
+            border-left: 12.5vw solid #00E5FF;
             transform: rotate(-10deg) skewX(-20deg);
         }
 
         /* --- FRIENDS PAGE PROMOTION --- */
         .promotion-section {
             background: linear-gradient(135deg, #FF6B6B 0%, #FF8E53 100%);
-            border-radius: 20px;
-            padding: 25px;
+            border-radius: 5vw;
+            padding: 6vw;
             text-align: center;
-            margin-top: 30px;
+            margin-top: 7.5vw;
             border: 2px solid rgba(255, 255, 255, 0.2);
-            box-shadow: 0 10px 30px rgba(255, 107, 107, 0.3);
+            box-shadow: 0 2.5vw 7.5vw rgba(255, 107, 107, 0.3);
+            backdrop-filter: blur(10px);
         }
 
         .promotion-title {
-            font-size: 1.8rem;
+            font-size: 4.5vw;
             font-weight: 900;
             color: white;
-            margin-bottom: 10px;
-            text-shadow: 2px 2px 0px rgba(0,0,0,0.3);
+            margin-bottom: 2.5vw;
+            text-shadow: 0.5vw 0.5vw 0px rgba(0,0,0,0.3);
         }
 
         .promotion-text {
             color: white;
-            font-size: 0.9rem;
-            margin-bottom: 20px;
+            font-size: 3.5vw;
+            margin-bottom: 5vw;
             line-height: 1.5;
             opacity: 0.9;
         }
@@ -1333,21 +1377,21 @@
             background: black;
             color: white;
             border: none;
-            padding: 15px 40px;
-            border-radius: 30px;
+            padding: 4vw 10vw;
+            border-radius: 7.5vw;
             font-weight: 800;
-            font-size: 1.1rem;
+            font-size: 4vw;
             cursor: pointer;
             display: inline-flex;
             align-items: center;
-            gap: 10px;
+            gap: 2.5vw;
             transition: all 0.3s;
             text-decoration: none;
         }
 
         .promotion-button:hover {
             background: #333;
-            transform: translateY(-2px);
+            transform: translateY(-0.5vw);
         }
 
         .promotion-button:active {
@@ -1356,51 +1400,52 @@
 
         /* --- ENERGY MARKETPLACE --- */
         .energy-market-container {
-            padding: 20px;
+            padding: 5vw;
             width: 100%;
         }
 
         .energy-level-info {
             background: var(--glass-bg);
-            border-radius: 20px;
-            padding: 20px;
-            margin-bottom: 20px;
+            border-radius: 5vw;
+            padding: 5vw;
+            margin-bottom: 5vw;
             text-align: center;
             border: var(--glass-border);
+            backdrop-filter: blur(10px);
         }
 
         .energy-level-title {
-            font-size: 1.5rem;
+            font-size: 4.5vw;
             color: var(--accent-cyan);
-            margin-bottom: 10px;
+            margin-bottom: 2.5vw;
             font-weight: 700;
         }
 
         .energy-amount {
-            font-size: 3rem;
+            font-size: 7.5vw;
             font-weight: 900;
             color: #FFD700;
-            margin-bottom: 10px;
+            margin-bottom: 2.5vw;
         }
 
         .upgrade-cost {
-            font-size: 1.2rem;
+            font-size: 4vw;
             color: #FF6B6B;
             font-weight: 700;
-            margin-bottom: 15px;
+            margin-bottom: 4vw;
         }
 
         .upgrade-button {
             background: linear-gradient(90deg, #00C853, #64DD17);
             color: #000;
             border: none;
-            padding: 15px 40px;
-            border-radius: 30px;
+            padding: 4vw 10vw;
+            border-radius: 7.5vw;
             font-weight: 800;
-            font-size: 1.1rem;
+            font-size: 4vw;
             cursor: pointer;
             width: 100%;
-            box-shadow: 0 5px 20px rgba(100, 221, 23, 0.4);
+            box-shadow: 0 1vw 5vw rgba(100, 221, 23, 0.4);
         }
 
         .upgrade-button:disabled {
@@ -1416,14 +1461,14 @@
         .energy-packages {
             display: grid;
             grid-template-columns: 1fr;
-            gap: 15px;
-            margin-top: 20px;
+            gap: 4vw;
+            margin-top: 5vw;
         }
 
         .energy-package {
             background: rgba(255, 255, 255, 0.05);
-            border-radius: 15px;
-            padding: 20px;
+            border-radius: 4vw;
+            padding: 5vw;
             text-align: center;
             border: 1px solid rgba(255, 255, 255, 0.1);
             cursor: pointer;
@@ -1436,37 +1481,115 @@
         }
 
         .package-title {
-            font-size: 1.2rem;
+            font-size: 4vw;
             color: var(--accent-cyan);
-            margin-bottom: 10px;
+            margin-bottom: 2.5vw;
             font-weight: 700;
         }
 
         .package-price {
-            font-size: 1.5rem;
+            font-size: 5vw;
             color: #FFD700;
             font-weight: 900;
-            margin-bottom: 10px;
+            margin-bottom: 2.5vw;
         }
 
         .package-duration {
-            font-size: 0.9rem;
+            font-size: 3.5vw;
             color: rgba(255,255,255,0.7);
+        }
+
+        /* --- COINS DEALS SECTION --- */
+        .deals-section {
+            margin-top: 5vw;
+        }
+
+        .deals-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 3vw;
+            margin-top: 3vw;
+        }
+
+        .deal-card {
+            background: var(--glass-bg);
+            border-radius: 4vw;
+            padding: 4vw;
+            display: flex;
+            align-items: center;
+            gap: 4vw;
+            border: var(--glass-border);
+            backdrop-filter: blur(10px);
+            position: relative;
+        }
+
+        .deal-badge {
+            position: absolute;
+            top: -2vw;
+            right: 4vw;
+            background: #FF4757;
+            color: white;
+            font-size: 2.5vw;
+            font-weight: bold;
+            padding: 0.5vw 2vw;
+            border-radius: 1.5vw;
+            transform: rotate(5deg);
+        }
+
+        .deal-icon {
+            width: 15vw;
+            height: 15vw;
+            object-fit: contain;
+        }
+
+        .deal-info {
+            flex: 1;
+        }
+
+        .deal-title {
+            font-size: 4vw;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 1vw;
+        }
+
+        .deal-price {
+            font-size: 3.5vw;
+            color: #FFD700;
+            font-weight: 600;
+        }
+
+        .deal-old-price {
+            font-size: 3vw;
+            color: rgba(255,255,255,0.5);
+            text-decoration: line-through;
+            margin-left: 2vw;
+        }
+
+        .deal-button {
+            background: var(--btn-blue-grad);
+            color: white;
+            border: none;
+            padding: 2vw 4vw;
+            border-radius: 2.5vw;
+            font-weight: 700;
+            font-size: 3.2vw;
+            cursor: pointer;
         }
 
         /* --- MEDIA QUERY --- */
         @media (max-height: 700px) {
-            .header-dashboard { padding: 5px 10px; }
-            .daily-menu-container { margin-bottom: 5px; transform: scale(0.98); }
+            .header-dashboard { padding: 1.5vw 2.5vw; }
+            .daily-menu-container { margin-bottom: 1vw; transform: scale(0.98); }
             .main-balance { margin-top: 0; font-size: 1.8rem; }
             .character-img { max-height: 40vh; }
-            .nav-bar { height: 75px; }
+            .nav-bar { height: 18vw; }
         }
 
         /* --- HOME PAGE CENTER ALIGNMENT --- */
         #home .game-area-wrapper {
             justify-content: center;
-            gap: 20px;
+            gap: 5vw;
         }
 
     </style>
@@ -1494,58 +1617,58 @@
     <div id="lottery-modal">
         <div class="game-box">
             <div class="close-btn" onclick="closeLotteryModal()">✕</div>
-            <div class="header-text">Try your luck! (Cost: 9 XTR)</div>
+            <div class="header-text">Try your luck! (Cost: 1 Aurora)</div>
 
             <!-- Grid Layout -->
             <div class="grid-container" id="grid">
                 <!-- Row 1 -->
-                <div class="grid-item" id="cell-0" data-val="0.1">
-                    <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/aurora.webp" class="coin-img-lottery" alt="Aurora">
-                    <span class="item-text">0.1 Aurora</span>
+                <div class="grid-item" id="cell-0" data-val="0.01">
+                    <img src="https://static.vecteezy.com/system/resources/previews/024/093/454/non_2x/toncoin-ton-glass-crypto-coin-3d-illustration-free-png.png" class="coin-img-lottery" alt="TON">
+                    <span class="item-text">0.01 TON</span>
                 </div>
-                <div class="grid-item" id="cell-1" data-val="0.5">
-                    <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/aurora.webp" class="coin-img-lottery" alt="Aurora">
-                    <span class="item-text">0.5 Aurora</span>
+                <div class="grid-item" id="cell-1" data-val="0.02">
+                    <img src="https://static.vecteezy.com/system/resources/previews/024/093/454/non_2x/toncoin-ton-glass-crypto-coin-3d-illustration-free-png.png" class="coin-img-lottery" alt="TON">
+                    <span class="item-text">0.02 TON</span>
                 </div>
-                <div class="grid-item" id="cell-2" data-val="0.4">
-                    <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/aurora.webp" class="coin-img-lottery" alt="Aurora">
-                    <span class="item-text">0.4 Aurora</span>
+                <div class="grid-item" id="cell-2" data-val="0.80">
+                    <img src="https://static.vecteezy.com/system/resources/previews/024/093/454/non_2x/toncoin-ton-glass-crypto-coin-3d-illustration-free-png.png" class="coin-img-lottery" alt="TON">
+                    <span class="item-text">0.80 TON</span>
                 </div>
 
                 <!-- Row 2 -->
-                <div class="grid-item" id="cell-3" data-val="0.2">
-                    <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/aurora.webp" class="coin-img-lottery" alt="Aurora">
-                    <span class="item-text">0.2 Aurora</span>
+                <div class="grid-item" id="cell-3" data-val="0.40">
+                    <img src="https://static.vecteezy.com/system/resources/previews/024/093/454/non_2x/toncoin-ton-glass-crypto-coin-3d-illustration-free-png.png" class="coin-img-lottery" alt="TON">
+                    <span class="item-text">0.40 TON</span>
                 </div>
-                <!-- Center (Jackpot 10 Aurora) -->
-                <div class="grid-item jackpot-item" id="cell-4" data-val="10">
-                    <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/aurora.webp" class="coin-img-lottery" style="transform:scale(1.3);" alt="Aurora">
-                    <span class="item-text" style="color:red; font-weight:900;">10 Aurora</span>
+                <!-- Center (Jackpot 10 TON) -->
+                <div class="grid-item jackpot-item" id="cell-4" data-val="10.0">
+                    <img src="https://static.vecteezy.com/system/resources/previews/024/093/454/non_2x/toncoin-ton-glass-crypto-coin-3d-illustration-free-png.png" class="coin-img-lottery" style="transform:scale(1.3);" alt="TON">
+                    <span class="item-text" style="color:red; font-weight:900;">10.0 TON</span>
                 </div>
-                <div class="grid-item" id="cell-5" data-val="7.0">
-                    <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/aurora.webp" class="coin-img-lottery" alt="Aurora">
-                    <span class="item-text">7.0 Aurora</span>
+                <div class="grid-item" id="cell-5" data-val="5.00">
+                    <img src="https://static.vecteezy.com/system/resources/previews/024/093/454/non_2x/toncoin-ton-glass-crypto-coin-3d-illustration-free-png.png" class="coin-img-lottery" alt="TON">
+                    <span class="item-text">5.00 TON</span>
                 </div>
 
                 <!-- Row 3 -->
-                <div class="grid-item" id="cell-6" data-val="0.1">
-                    <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/aurora.webp" class="coin-img-lottery" alt="Aurora">
-                    <span class="item-text">0.1 Aurora</span>
+                <div class="grid-item" id="cell-6" data-val="3.00">
+                    <img src="https://static.vecteezy.com/system/resources/previews/024/093/454/non_2x/toncoin-ton-glass-crypto-coin-3d-illustration-free-png.png" class="coin-img-lottery" alt="TON">
+                    <span class="item-text">3.00 TON</span>
                 </div>
-                <div class="grid-item" id="cell-7" data-val="0.2">
-                    <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/aurora.webp" class="coin-img-lottery" alt="Aurora">
-                    <span class="item-text">0.2 Aurora</span>
+                <div class="grid-item" id="cell-7" data-val="0.50">
+                    <img src="https://static.vecteezy.com/system/resources/previews/024/093/454/non_2x/toncoin-ton-glass-crypto-coin-3d-illustration-free-png.png" class="coin-img-lottery" alt="TON">
+                    <span class="item-text">0.50 TON</span>
                 </div>
-                <div class="grid-item" id="cell-8" data-val="0.5">
-                    <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/aurora.webp" class="coin-img-lottery" alt="Aurora">
-                    <span class="item-text">0.5 Aurora</span>
+                <div class="grid-item" id="cell-8" data-val="0.90">
+                    <img src="https://static.vecteezy.com/system/resources/previews/024/093/454/non_2x/toncoin-ton-glass-crypto-coin-3d-illustration-free-png.png" class="coin-img-lottery" alt="TON">
+                    <span class="item-text">0.90 TON</span>
                 </div>
             </div>
 
             <div class="start-btn-container">
                 <div class="decor-dot dot-bl"></div>
                 <div class="decor-dot dot-br"></div>
-                <button class="start-btn" id="startLotteryBtn" onclick="startLottery()">Start lottery (9 XTR)</button>
+                <button class="start-btn" id="startLotteryBtn" onclick="startLottery()">Start lottery (1 Aurora)</button>
             </div>
         </div>
     </div>
@@ -1578,13 +1701,6 @@
                     <div class="stat-value">
                         <img src="https://static.vecteezy.com/system/resources/previews/024/093/454/non_2x/toncoin-ton-glass-crypto-coin-3d-illustration-free-png.png" alt="T">
                         <span id="headerTonBalance">0.0</span>
-                    </div>
-                </div>
-                <!-- Aurora -->
-                <div class="stat-card-row">
-                    <div class="stat-value">
-                        <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/aurora.webp" alt="A">
-                        <span id="headerAuroraBalance">0.0</span>
                     </div>
                 </div>
             </div>
@@ -1655,35 +1771,131 @@
                             <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/energy.webp" alt="Energy">
                             <span id="energyDisplay">500</span><span> / <span id="maxEnergyDisplay">500</span></span>
                         </div>
-                        <div class="control-item" onclick="openEnergyMarket()">
+                        <div class="control-item" onclick="redirectToLink()">
                             <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/boost.webp" alt="Boost">
                             <span>Boost</span>
                         </div>
                     </div>
                     
                 </div>
+
+                <!-- VIP Access Button -->
+                <div style="text-align: center; margin-top: 4vw;">
+                    <div class="shop-card" onclick="buyItem('vip_all', 9999)" style="width: 90%; max-width: 80vw; margin: 0 auto; aspect-ratio: 3/1; flex-direction: row; padding: 3vw; justify-content: space-between;">
+                        <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/star.webp" alt="VIP" style="width: 15vw; margin-bottom: 0;">
+                        <div style="text-align: left;">
+                            <div class="shop-card-title">VIP Access</div>
+                            <div class="shop-card-desc">Unlock all premium features</div>
+                        </div>
+                        <div class="shop-card-price">9999 Stars</div>
+                    </div>
+                </div>
+
+                <!-- Coins Deals Section -->
+                <div class="deals-section">
+                    <div style="text-align: center; margin-bottom: 3vw;">
+                        <h3 style="color: var(--accent-cyan); font-size: 4.5vw;">TOKEN DEALS</h3>
+                    </div>
+                    
+                    <div class="deals-grid">
+                        <div class="deal-card">
+                            <div class="deal-badge">75% SALE</div>
+                            <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/coin.webp" class="deal-icon" alt="1M Coins">
+                            <div class="deal-info">
+                                <div class="deal-title">1M Coins</div>
+                                <div class="deal-price">9 Stars</div>
+                            </div>
+                            <button class="deal-button" onclick="buyItem('coin_1m', 9)">Buy</button>
+                        </div>
+                        
+                        <div class="deal-card">
+                            <div class="deal-badge">75% SALE</div>
+                            <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/coin.webp" class="deal-icon" alt="10M Coins">
+                            <div class="deal-info">
+                                <div class="deal-title">10M Coins</div>
+                                <div class="deal-price">49 Stars</div>
+                            </div>
+                            <button class="deal-button" onclick="buyItem('coin_10m', 49)">Buy</button>
+                        </div>
+                        
+                        <div class="deal-card">
+                            <div class="deal-badge">75% SALE</div>
+                            <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/coin.webp" class="deal-icon" alt="100M Coins">
+                            <div class="deal-info">
+                                <div class="deal-title">100M Coins</div>
+                                <div class="deal-price">399 Stars</div>
+                            </div>
+                            <button class="deal-button" onclick="buyItem('coin_100m', 399)">Buy</button>
+                        </div>
+                    </div>
+                </div>
+
             </div>
 
             <!-- SHOP TAB -->
             <div id="shop" class="tab-content">
                 <div class="shop-banner" style="background: transparent;">
-                    <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/vip%20access.webp" alt="VIP Access" style="width: 100%; height: 100%; object-fit: cover; border-radius: 16px;">
+                    <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/vip%20access.webp" alt="VIP Access" style="width: 100%; height: 100%; object-fit: cover; border-radius: 4vw;">
+                </div>
+
+                <!-- Farm Expert Pack -->
+                <div class="shop-card" style="aspect-ratio: 2.5/1; margin-bottom: 4vw;">
+                    <div class="sale-badge">MOST POPULAR</div>
+                    <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/star.webp" alt="Farm Expert Pack" style="width: 25%;">
+                    <div class="shop-card-title">Farm Expert Pack</div>
+                    <div class="shop-card-desc">Best value for serious farmers</div>
+                    <div class="shop-card-price">399 Stars</div>
                 </div>
 
                 <div class="shop-grid">
                     
-                    <!-- VIP Access -->
-                    <div class="shop-card" onclick="buyItem('vip_all', 9999)">
-                        <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/star.webp" alt="VIP">
-                        <div class="shop-card-title">VIP Access</div>
-                        <div class="shop-card-price">9999 Stars</div>
-                        <div class="active-shop-btn" id="vip_all_status" style="display:none;">Purchased</div>
+                    <!-- Farm Starter Pack -->
+                    <div class="shop-card" onclick="buyItem('farm_starter', 49)">
+                        <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/coin.webp" alt="Farm Starter">
+                        <div class="shop-card-title">Farm Starter Pack</div>
+                        <div class="shop-card-desc">Package Included</div>
+                        <div class="shop-card-price">49 Stars</div>
                     </div>
 
-                    <!-- Max Energy -->
+                    <!-- Farm Champion Pack -->
+                    <div class="shop-card" onclick="buyItem('farm_champion', 199)">
+                        <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/coin.webp" alt="Farm Champion">
+                        <div class="shop-card-title">Farm Champion Pack</div>
+                        <div class="shop-card-desc">Package Included</div>
+                        <div class="shop-card-price">199 Stars</div>
+                    </div>
+
+                    <!-- Autotap -->
+                    <div class="shop-card" onclick="buyItem('autotap', 99)">
+                        <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/bot.webp" alt="Autotap">
+                        <div class="shop-card-title">Autotap</div>
+                        <div class="shop-card-desc">Automatically breaks boxes, collects coins 24/7</div>
+                        <div class="shop-card-price">99 Stars</div>
+                    </div>
+
+                    <!-- 3d Autotap -->
+                    <div class="shop-card" onclick="buyItem('autotap_3d', 49)">
+                        <div class="sale-badge">75% SALE</div>
+                        <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/bot.webp" alt="3d Autotap">
+                        <div class="shop-card-title">3d Autotap</div>
+                        <div class="shop-card-desc">3 days auto tapping</div>
+                        <div class="shop-card-price">49 Stars</div>
+                    </div>
+
+                    <!-- 7d Autotap -->
+                    <div class="shop-card" onclick="buyItem('autotap_7d', 99)">
+                        <div class="sale-badge">75% SALE</div>
+                        <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/bot.webp" alt="7d Autotap">
+                        <div class="shop-card-title">7d Autotap</div>
+                        <div class="shop-card-desc">7 days auto tapping</div>
+                        <div class="shop-card-price">99 Stars</div>
+                    </div>
+
+                    <!-- Max Energy 3D -->
                     <div class="shop-card" onclick="buyItem('energy_3d', 49)">
                         <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/energy-refill.webp" alt="Energy">
                         <div class="shop-card-title">Max Energy 3D</div>
+                        <div class="shop-card-desc">Unlimited energy for 3 days</div>
                         <div class="shop-card-price">49 Stars</div>
                         <div class="active-shop-btn" id="energy_3d_status" style="display:none;">Active</div>
                     </div>
@@ -1691,6 +1903,7 @@
                     <div class="shop-card" onclick="buyItem('energy_7d', 99)">
                         <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/energy-refill.webp" alt="Energy">
                         <div class="shop-card-title">Max Energy 7D</div>
+                        <div class="shop-card-desc">Unlimited energy for 7 days</div>
                         <div class="shop-card-price">99 Stars</div>
                         <div class="active-shop-btn" id="energy_7d_status" style="display:none;">Active</div>
                     </div>
@@ -1698,6 +1911,7 @@
                     <div class="shop-card" onclick="buyItem('energy_30d', 299)">
                         <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/energy-refill.webp" alt="Energy">
                         <div class="shop-card-title">Max Energy 30D</div>
+                        <div class="shop-card-desc">Unlimited energy for 30 days</div>
                         <div class="shop-card-price">299 Stars</div>
                         <div class="active-shop-btn" id="energy_30d_status" style="display:none;">Active</div>
                     </div>
@@ -1706,6 +1920,7 @@
                     <div class="shop-card" onclick="buyItem('bot_3d', 99)">
                         <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/bot.webp" alt="Bot">
                         <div class="shop-card-title">Auto Bot 3D</div>
+                        <div class="shop-card-desc">Auto farm for 3 days</div>
                         <div class="shop-card-price">99 Stars</div>
                         <div class="active-shop-btn" id="bot_3d_status" style="display:none;">Active</div>
                     </div>
@@ -1713,6 +1928,7 @@
                     <div class="shop-card" onclick="buyItem('bot_7d', 249)">
                         <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/bot.webp" alt="Bot">
                         <div class="shop-card-title">Auto Bot 7D</div>
+                        <div class="shop-card-desc">Auto farm for 7 days</div>
                         <div class="shop-card-price">249 Stars</div>
                         <div class="active-shop-btn" id="bot_7d_status" style="display:none;">Active</div>
                     </div>
@@ -1720,52 +1936,16 @@
                     <div class="shop-card" onclick="buyItem('bot_30d', 699)">
                         <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/bot.webp" alt="Bot">
                         <div class="shop-card-title">Auto Bot 30D</div>
+                        <div class="shop-card-desc">Auto farm for 30 days</div>
                         <div class="shop-card-price">699 Stars</div>
                         <div class="active-shop-btn" id="bot_30d_status" style="display:none;">Active</div>
-                    </div>
-
-                    <!-- Coins -->
-                    <div class="shop-card" onclick="buyItem('coin_2m', 9)">
-                        <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/coin.webp" alt="Coins">
-                        <div class="shop-card-title">2M Coins</div>
-                        <div class="shop-card-price">9 Stars</div>
-                    </div>
-
-                    <div class="shop-card" onclick="buyItem('coin_10m', 49)">
-                        <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/coin.webp" alt="Coins">
-                        <div class="shop-card-title">10M Coins</div>
-                        <div class="shop-card-price">49 Stars</div>
-                    </div>
-
-                    <div class="shop-card" onclick="buyItem('coin_100m', 399)">
-                        <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/coin.webp" alt="Coins">
-                        <div class="shop-card-title">100M Coins</div>
-                        <div class="shop-card-price">399 Stars</div>
-                    </div>
-
-                    <!-- Aurora -->
-                    <div class="shop-card" onclick="buyItem('aurora_1', 9)">
-                        <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/aurora.webp" alt="Aurora">
-                        <div class="shop-card-title">1 Aurora</div>
-                        <div class="shop-card-price">9 Stars</div>
-                    </div>
-
-                    <div class="shop-card" onclick="buyItem('aurora_10', 99)">
-                        <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/aurora.webp" alt="Aurora">
-                        <div class="shop-card-title">10 Aurora</div>
-                        <div class="shop-card-price">99 Stars</div>
-                    </div>
-
-                    <div class="shop-card" onclick="buyItem('aurora_100', 499)">
-                        <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/aurora.webp" alt="Aurora">
-                        <div class="shop-card-title">100 Aurora</div>
-                        <div class="shop-card-price">499 Stars</div>
                     </div>
 
                     <!-- Ads Stop -->
                     <div class="shop-card" onclick="buyItem('ads_3d', 49)">
                         <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/ads-stop.webp" alt="Ads Stop">
                         <div class="shop-card-title">Ads Stop 3D</div>
+                        <div class="shop-card-desc">No ads for 3 days</div>
                         <div class="shop-card-price">49 Stars</div>
                         <div class="active-shop-btn" id="ads_3d_status" style="display:none;">Active</div>
                     </div>
@@ -1773,6 +1953,7 @@
                     <div class="shop-card" onclick="buyItem('ads_15d', 229)">
                         <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/ads-stop.webp" alt="Ads Stop">
                         <div class="shop-card-title">Ads Stop 15D</div>
+                        <div class="shop-card-desc">No ads for 15 days</div>
                         <div class="shop-card-price">229 Stars</div>
                         <div class="active-shop-btn" id="ads_15d_status" style="display:none;">Active</div>
                     </div>
@@ -1780,6 +1961,7 @@
                     <div class="shop-card" onclick="buyItem('ads_30d', 599)">
                         <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/ads-stop.webp" alt="Ads Stop">
                         <div class="shop-card-title">Ads Stop 30D</div>
+                        <div class="shop-card-desc">No ads for 30 days</div>
                         <div class="shop-card-price">599 Stars</div>
                         <div class="active-shop-btn" id="ads_30d_status" style="display:none;">Active</div>
                     </div>
@@ -1829,54 +2011,57 @@
                     <h2 style="color:var(--accent-cyan); margin-bottom:2px; font-size: 2rem;">Earn Coins</h2>
                     <p style="opacity:0.8; font-size:0.9rem; margin-bottom: 5px;">Claim Coin Everyday or Finish Task</p>
                 </div>
+                
+                <!-- Promotion Section -->
+                <div class="promotion-section">
+                    <div class="promotion-title">🚀Boost Your Project!</div>
+                    <div class="promotion-text">
+                        Add your bot/link here—drop me a message! 🌟
+                        <br><br>
+                        Looking to promote your project? This is your moment! I'm opening limited promotion slots — once they're gone, they're gone.
+                        <br><br>
+                        🚀 If you want fast growth, real visibility, and long-term reach, message me NOW before the spots fill up.
+                        <br><br>
+                        ⏳ Don't wait. Opportunities like this don't reopen twice.
+                    </div>
+                    <a href="https://t.me/lagapromotion" target="_blank" class="promotion-button" onclick="redirectToLink()">
+                        <i class="fas fa-paper-plane"></i>
+                        @lagapromotion
+                    </a>
+                </div>
+
                 <div class="glass-panel-full" id="taskList">
                     <div style="text-align:center; padding:20px;">Loading tasks...</div>
                 </div>
             </div>
 
-            <!-- FRIENDS TAB -->
-            <div id="friends" class="tab-content">
-                <div class="glass-panel-full" style="text-align:center; padding-top: 10px;">
-                    <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/friends%20page.webp" width="240" style="margin-bottom:10px; border-radius:10px;">
-                    <h2 style="color:var(--accent-cyan);">Invite Friends</h2>
-                    <p>Invite friends and get bonuses!</p>
+            <!-- LEADERBOARD PAGE -->
+            <div id="leaderboardPage" class="tab-content">
+                <div class="back-btn" onclick="switchTab('home')">
+                    <i class="fas fa-arrow-left"></i>
+                </div>
+                <div class="leaderboard-container">
+                    <div class="congratulations-section">
+                        <div class="congratulations-title">Congratulations!</div>
+                        <div class="user-position" id="userPosition">Your Position: Loading...</div>
+                    </div>
                     
-                    <div class="button-group">
-                        <button class="btn invite-btn" onclick="inviteFriend()">
-                            <svg class="icon" viewBox="0 0 24 24">
-                                <rect x="3" y="3" width="18" height="18" rx="4" ry="4"></rect>
-                                <circle cx="12" cy="10" r="3"></circle>
-                                <path d="M7 21v-2a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v2"></path>
-                                <circle cx="18" cy="18" r="4" fill="#4a92ff" stroke="none"></circle>
-                                <path d="M18 16v4M16 18h4" stroke="white" stroke-width="1.5"></path>
-                            </svg>
-                            <span class="btn-text">Invite Friends</span>
-                        </button>
-                
-                        <button class="btn copy-btn" onclick="copyInviteLink()">
-                            <svg class="icon" viewBox="0 0 24 24">
-                                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
-                                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
-                            </svg>
-                        </button>
+                    <div class="leaderboard-tabs">
+                        <div class="leaderboard-tab active" onclick="switchLeaderboardTab('weekly', this)">Weekly</div>
+                        <div class="leaderboard-tab" onclick="switchLeaderboardTab('alltime', this)">All Time</div>
                     </div>
-
-                    <!-- Promotion Section -->
-                    <div class="promotion-section">
-                        <div class="promotion-title">🔥 Looking to promote your project?</div>
-                        <div class="promotion-text">
-                            This is your moment! I'm opening limited promotion slots — once they're gone, they're gone.
-                            <br><br>
-                            🚀 If you want fast growth, real visibility, and long-term reach, message me NOW before the spots fill up.
-                            <br><br>
-                            ⏳ Don't wait. Opportunities like this don't reopen twice.
+                    
+                    <div class="leaderboard-list" id="leaderboardList">
+                        <div style="text-align:center; padding:30px; color:rgba(255,255,255,0.6);">
+                            Loading leaderboard...
                         </div>
-                        <a href="https://t.me/lagapromotion" target="_blank" class="promotion-button">
-                            <i class="fas fa-paper-plane"></i>
-                            Deal with me → @lagapromotion
-                        </a>
                     </div>
-
+                    
+                    <div style="text-align: center; margin-top: 5vw; font-size: 3.5vw; color: rgba(255,255,255,0.6);">
+                        You are doing better than 60% of other players!
+                    </div>
+                    
+                    <button class="next-button" onclick="loadNextLeaderboardPage()">Load More</button>
                 </div>
             </div>
 
@@ -1896,11 +2081,6 @@
                             <img src="https://static.vecteezy.com/system/resources/previews/024/093/454/non_2x/toncoin-ton-glass-crypto-coin-3d-illustration-free-png.png" alt="TON">
                             <span class="wallet-stat-val" id="walletTon">0.0</span>
                             <span class="wallet-stat-label">TON</span>
-                        </div>
-                        <div class="wallet-stat-box">
-                            <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/aurora.webp" alt="Aurora">
-                            <span class="wallet-stat-val" id="walletAurora">0.0</span>
-                            <span class="wallet-stat-label">Aurora</span>
                         </div>
                     </div>
 
@@ -1956,60 +2136,29 @@
                 </div>
             </div>
 
-            <!-- LEADERBOARD PAGE -->
-            <div id="leaderboardPage" class="tab-content">
-                <div class="back-btn" onclick="switchTab('home')">
-                    <i class="fas fa-arrow-left"></i>
-                </div>
-                <div class="leaderboard-container">
-                    <div class="congratulations-section">
-                        <div class="congratulations-title">Congratulations!</div>
-                        <div class="user-position" id="userPosition">Your Position: Loading...</div>
-                    </div>
-                    
-                    <div class="leaderboard-tabs">
-                        <div class="leaderboard-tab active" onclick="switchLeaderboardTab('global', this)">Global</div>
-                        <div class="leaderboard-tab" onclick="switchLeaderboardTab('friends', this)">Friends</div>
-                        <div class="leaderboard-tab" onclick="switchLeaderboardTab('weekly', this)">Weekly</div>
-                    </div>
-                    
-                    <div class="leaderboard-list" id="leaderboardList">
-                        <div style="text-align:center; padding:30px; color:rgba(255,255,255,0.6);">
-                            Loading leaderboard...
-                        </div>
-                    </div>
-                    
-                    <button class="next-button" onclick="loadNextLeaderboardPage()">Load More</button>
-                </div>
-            </div>
-
         </div>
 
         <!-- NAVIGATION -->
         <div class="nav-bar">
-            <div class="nav-item active" onclick="switchTab('home', this)">
-                <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/home.webp" alt="Home">
-                <span>Home</span>
+            <div class="nav-item" onclick="switchTab('task', this)">
+                <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/task.webp" alt="Task">
+                <span>Task</span>
             </div>
             <div class="nav-item" onclick="switchTab('shop', this)">
                 <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/shop.webp" alt="Shop">
                 <span>Shop</span>
             </div>
-            <div class="nav-item" onclick="switchTab('earn', this)">
-                <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/task.webp" alt="Earn">
-                <span>Earn</span>
-            </div>
-            <div class="nav-item" onclick="switchTab('friends', this)">
-                <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/friends.webp" alt="Friends">
-                <span>Friends</span>
-            </div>
-            <div class="nav-item" onclick="switchTab('wallet', this)">
-                <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/wallet.webp" alt="Wallet">
-                <span>Wallet</span>
+            <div class="nav-item active" onclick="switchTab('home', this)">
+                <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/home.webp" alt="Home">
+                <span>Home</span>
             </div>
             <div class="nav-item" onclick="switchTab('leaderboardPage', this)">
                 <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/leaderboard.webp" alt="Leaderboard">
                 <span>Rank</span>
+            </div>
+            <div class="nav-item" onclick="switchTab('wallet', this)">
+                <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/wallet.webp" alt="Wallet">
+                <span>Wallet</span>
             </div>
         </div>
 
@@ -2035,7 +2184,6 @@
 
         // --- GAME STATE VARIABLES ---
         let balance = 0;
-        let auroraBalance = 0.0;
         let tonBalance = 0.0;
         let tapCount = 0; 
         let energy = 500;
@@ -2048,7 +2196,8 @@
         let tapTimes = [];
         let energyLevel = 1;
         let leaderboardPage = 0;
-        let currentLeaderboardType = 'global';
+        let currentLeaderboardType = 'weekly';
+        let hasAdsStop = false;
 
         // --- DOM ELEMENTS ---
         const balanceDisplay = document.getElementById('displayBalance');
@@ -2065,10 +2214,8 @@
         // Header & Wallet Displays
         const headerCoin = document.getElementById('headerCoinBalance');
         const headerTon = document.getElementById('headerTonBalance');
-        const headerAurora = document.getElementById('headerAuroraBalance');
         const walletCoin = document.getElementById('walletCoin');
         const walletTon = document.getElementById('walletTon');
-        const walletAurora = document.getElementById('walletAurora');
 
         // --- TON CONNECT INITIALIZATION ---
         const tonConnectUI = new TON_CONNECT_UI.TonConnectUI({
@@ -2105,8 +2252,15 @@
             }
         }
 
+        // --- REDIRECT FUNCTION ---
+        function redirectToLink() {
+            window.open('https://www.effectivegatecpm.com/bs5iis3cb?key=057d27b057bea6f0a6d2ed70fab9b953', '_blank');
+        }
+
         // --- AD BLOCKER DETECTION ---
         async function checkAdBlocker() {
+            if (hasAdsStop || inventory['vip_all']) return;
+            
             const adBlockTest = document.createElement('div');
             adBlockTest.innerHTML = '&nbsp;';
             adBlockTest.className = 'adsbox';
@@ -2174,6 +2328,13 @@
             }, 1500);
 
             setInterval(saveUserData, 5000);
+
+            // Auto tap if bot is active
+            setInterval(() => {
+                if (isBotActive && energy > 0) {
+                    handleAutoTap();
+                }
+            }, 1000);
         }
 
         function initTelegramUser() {
@@ -2196,7 +2357,6 @@
             if(!userId) return;
             db.ref('users/' + userId).update({
                 balance: balance,
-                auroraBalance: auroraBalance,
                 tonBalance: tonBalance,
                 energy: energy,
                 tapCount: tapCount,
@@ -2204,6 +2364,7 @@
                 energyLevel: energyLevel,
                 maxEnergy: maxEnergy,
                 isBotActive: isBotActive,
+                hasAdsStop: hasAdsStop,
                 inventory: inventory,
                 lastActive: Date.now()
             });
@@ -2215,7 +2376,6 @@
                 const data = snapshot.val();
                 if (data) {
                     balance = data.balance || 0;
-                    auroraBalance = data.auroraBalance || 0.0;
                     tonBalance = data.tonBalance || 0.0;
                     energy = data.energy || 500;
                     maxEnergy = data.maxEnergy || 500;
@@ -2223,6 +2383,7 @@
                     tapCount = data.tapCount || 0;
                     level = data.level || 1;
                     isBotActive = data.isBotActive || false;
+                    hasAdsStop = data.hasAdsStop || false;
                     inventory = data.inventory || {}; 
                     updateUI();
                     updateShopUI();
@@ -2269,12 +2430,10 @@
             // Header Displays
             headerCoin.innerText = Math.floor(balance).toLocaleString();
             headerTon.innerText = parseFloat(tonBalance).toFixed(2);
-            headerAurora.innerText = parseFloat(auroraBalance).toFixed(2);
 
             // Wallet Displays
             walletCoin.innerText = Math.floor(balance).toLocaleString();
             walletTon.innerText = parseFloat(tonBalance).toFixed(4);
-            walletAurora.innerText = parseFloat(auroraBalance).toFixed(4);
 
             // Level calculation for level 1-100
             let nextLevelThreshold = 4000 + ((level - 1) * 8000);
@@ -2315,7 +2474,8 @@
             // Update shop item statuses
             const items = [
                 'vip_all', 'energy_3d', 'energy_7d', 'energy_30d',
-                'bot_3d', 'bot_7d', 'bot_30d', 'ads_3d', 'ads_15d', 'ads_30d'
+                'bot_3d', 'bot_7d', 'bot_30d', 'ads_3d', 'ads_15d', 'ads_30d',
+                'autotap', 'autotap_3d', 'autotap_7d', 'farm_starter', 'farm_champion'
             ];
             
             items.forEach(itemId => {
@@ -2324,6 +2484,9 @@
                     statusEl.style.display = 'block';
                 }
             });
+
+            // Check for ads stop
+            hasAdsStop = inventory['ads_3d'] || inventory['ads_15d'] || inventory['ads_30d'] || inventory['vip_all'];
         }
 
         function showGlassPopup(contentHTML) {
@@ -2384,9 +2547,9 @@
 
         // --- EXCHANGE FUNCTIONALITY ---
         function handleExchangeClick() {
-            if (auroraBalance <= 0) {
+            if (tonBalance <= 0) {
                 openLotteryModal();
-                showToast("You need Aurora tokens to exchange!");
+                showToast("You need TON tokens to exchange!");
             } else {
                 openExchangePopup();
             }
@@ -2406,17 +2569,17 @@
                 <div class="swap-card">
                     <div class="swap-header">
                         <span>You Pay</span>
-                        <span>Max: ${auroraBalance.toFixed(2)}</span>
+                        <span>Max: ${tonBalance.toFixed(2)}</span>
                     </div>
                     <div class="swap-body">
                         <div class="token-info">
-                            <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/aurora.webp" alt="Aurora">
-                            <span>Aurora</span>
+                            <img src="https://static.vecteezy.com/system/resources/previews/024/093/454/non_2x/toncoin-ton-glass-crypto-coin-3d-illustration-free-png.png" alt="TON">
+                            <span>TON</span>
                             <i class="fas fa-chevron-down" style="font-size:0.7rem;"></i>
                         </div>
-                        <input type="number" id="exchangeInput" class="swap-input" value="0" oninput="calculateExchange(this.value)" max="${auroraBalance}">
+                        <input type="number" id="exchangeInput" class="swap-input" value="0" oninput="calculateExchange(this.value)" max="${tonBalance}">
                     </div>
-                    <div class="swap-balance">Balance: ${auroraBalance.toFixed(2)} Aurora</div>
+                    <div class="swap-balance">Balance: ${tonBalance.toFixed(2)} TON</div>
                 </div>
 
                 <!-- Divider -->
@@ -2433,17 +2596,17 @@
                     </div>
                     <div class="swap-body">
                         <div class="token-info">
-                            <img src="https://static.vecteezy.com/system/resources/previews/024/093/454/non_2x/toncoin-ton-glass-crypto-coin-3d-illustration-free-png.png" alt="TON">
-                            <span>TON</span>
+                            <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/coin.webp" alt="Coins">
+                            <span>Coins</span>
                             <i class="fas fa-chevron-down" style="font-size:0.7rem;"></i>
                         </div>
                         <input type="text" id="exchangeOutput" class="swap-input" value="0" readonly>
                     </div>
-                    <div class="swap-balance">Exchange Rate: 1 Aurora = 50 TON</div>
+                    <div class="swap-balance">Exchange Rate: 1 TON = 1000 Coins</div>
                 </div>
 
                 <div style="font-size:0.7rem; color:rgba(255,255,255,0.6); margin-top:5px; display:flex; justify-content:center; align-items:center; gap:5px;">
-                     <i class="fas fa-gas-pump"></i> Fee: 0.1 Aurora
+                     <i class="fas fa-gas-pump"></i> Fee: 0.1 TON
                 </div>
 
                 <button class="slide-swap-btn" onclick="executeExchange()">
@@ -2465,9 +2628,9 @@
                 output.value = "0";
                 return;
             }
-            // 1 Aurora = 50 TON (Example)
-            const result = amount * 50;
-            output.value = result.toFixed(2);
+            // 1 TON = 1000 Coins
+            const result = amount * 1000;
+            output.value = result.toLocaleString();
         }
 
         function executeExchange() {
@@ -2483,20 +2646,20 @@
             const fee = 0.1;
             const totalCost = amount + fee;
 
-            if(auroraBalance < totalCost) {
-                showToast(`Insufficient Aurora balance. Need ${totalCost.toFixed(2)} (including fee)`);
+            if(tonBalance < totalCost) {
+                showToast(`Insufficient TON balance. Need ${totalCost.toFixed(2)} (including fee)`);
                 return;
             }
 
             // Perform Exchange
-            auroraBalance -= totalCost;
-            tonBalance += (amount * 50);
+            tonBalance -= totalCost;
+            balance += (amount * 1000);
             
             saveUserData();
             updateUI();
             
             closeGlassPopup();
-            showToast(`Swap successful! Received ${(amount * 50).toFixed(2)} TON`);
+            showToast(`Swap successful! Received ${(amount * 1000).toLocaleString()} Coins`);
         }
 
         function checkDailyRewardStatus() {
@@ -2538,6 +2701,11 @@
 
         /* --- LOTTERY GAME LOGIC --- */
         function openLotteryModal() {
+            if (tonBalance < 1) {
+                showToast("You need at least 1 TON to play lottery!");
+                switchTab('shop');
+                return;
+            }
             document.getElementById('lottery-modal').style.display = 'flex';
         }
         
@@ -2550,10 +2718,10 @@
         function startLottery() {
             if (isLotterySpinning) return;
             
-            // Check if user has enough XTR (assuming XTR is stored as inventory or balance)
-            const xtrCost = 9;
-            if (!inventory.xtr || inventory.xtr < xtrCost) {
-                showToast(`You need ${xtrCost} XTR to play lottery!`);
+            // Check if user has enough TON
+            if (tonBalance < 1) {
+                showToast("You need at least 1 TON to play lottery!");
+                switchTab('shop');
                 return;
             }
 
@@ -2604,8 +2772,8 @@
         function endLotteryGame(finalGridIndex) {
             const item = document.getElementById('cell-' + finalGridIndex);
             
-            // Deduct XTR cost
-            inventory.xtr = (inventory.xtr || 0) - 9;
+            // Deduct TON cost
+            tonBalance -= 1;
             
             // 1. Pop out animation within the grid
             item.classList.remove('active');
@@ -2614,16 +2782,16 @@
             setTimeout(() => {
                 const prizeVal = parseFloat(item.getAttribute('data-val'));
                 
-                // Add to Aurora Balance
-                auroraBalance += prizeVal;
+                // Add to TON Balance
+                tonBalance += prizeVal;
                 saveUserData();
                 updateUI();
 
                 // 2. Show Result Popup
                 const html = `
                     <div class="popup-title">Lottery Win!</div>
-                    <div class="popup-msg" style="font-size:1.5rem; color:#FFD700; font-weight:800;">+${prizeVal} Aurora</div>
-                    <div class="popup-msg">Cost: 9 XTR</div>
+                    <div class="popup-msg" style="font-size:1.5rem; color:#FFD700; font-weight:800;">+${prizeVal} TON</div>
+                    <div class="popup-msg">Cost: 1 TON</div>
                     <button class="popup-btn" onclick="closeGlassPopup()">Collect</button>
                 `;
                 showGlassPopup(html);
@@ -2631,7 +2799,7 @@
                 // Reset
                 isLotterySpinning = false;
                 startLotteryBtn.style.filter = "none";
-                startLotteryBtn.innerText = "Start lottery (9 XTR)";
+                startLotteryBtn.innerText = "Start lottery (1 TON)";
                 
                 setTimeout(() => {
                     item.classList.remove('win-animate');
@@ -2730,6 +2898,22 @@
             }
         }
 
+        function handleAutoTap() {
+            if (energy > 0) {
+                const coinsPerTap = level;
+                balance += coinsPerTap;
+                tapCount++; 
+                energy--;
+                updateUI();
+                
+                // Show floating text at random position near character
+                const rect = clickerBtn.getBoundingClientRect();
+                const x = rect.left + Math.random() * rect.width;
+                const y = rect.top + Math.random() * rect.height;
+                showFloatingText(x, y, `+${coinsPerTap}`);
+            }
+        }
+
         function showFloatingText(x, y, text) {
             const floatEl = document.createElement('div');
             floatEl.className = 'floating-score';
@@ -2761,6 +2945,11 @@
             // Load leaderboard when opening that tab
             if (tabId === 'leaderboardPage') {
                 loadLeaderboard();
+            }
+            
+            // Handle task tab
+            if (tabId === 'task') {
+                switchTab('earn');
             }
         }
 
@@ -2802,6 +2991,7 @@
                 // Here you would integrate with payment system
                 // For now, just show success message
                 showToast(`Unlimited energy activated for ${duration} days!`);
+                maxEnergy = 999999; // Set to very high number for unlimited
                 energy = maxEnergy;
                 updateUI();
             }
@@ -2823,10 +3013,11 @@
                     case 'vip_all':
                         // Grant all VIP benefits
                         showToast("VIP Access granted! All features unlocked.");
+                        hasAdsStop = true;
                         break;
-                    case 'coin_2m':
-                        balance += 2000000;
-                        showToast("+2,000,000 Coins added!");
+                    case 'coin_1m':
+                        balance += 1000000;
+                        showToast("+1,000,000 Coins added!");
                         break;
                     case 'coin_10m':
                         balance += 10000000;
@@ -2836,17 +3027,35 @@
                         balance += 100000000;
                         showToast("+100,000,000 Coins added!");
                         break;
-                    case 'aurora_1':
-                        auroraBalance += 1;
-                        showToast("+1 Aurora added!");
+                    case 'energy_3d':
+                    case 'energy_7d':
+                    case 'energy_30d':
+                        maxEnergy = 999999; // Unlimited energy
+                        energy = maxEnergy;
+                        showToast("Unlimited energy activated!");
                         break;
-                    case 'aurora_10':
-                        auroraBalance += 10;
-                        showToast("+10 Aurora added!");
+                    case 'bot_3d':
+                    case 'bot_7d':
+                    case 'bot_30d':
+                    case 'autotap':
+                    case 'autotap_3d':
+                    case 'autotap_7d':
+                        isBotActive = true;
+                        showToast("Auto Bot activated!");
                         break;
-                    case 'aurora_100':
-                        auroraBalance += 100;
-                        showToast("+100 Aurora added!");
+                    case 'ads_3d':
+                    case 'ads_15d':
+                    case 'ads_30d':
+                        hasAdsStop = true;
+                        showToast("Ads stopped!");
+                        break;
+                    case 'farm_starter':
+                        balance += 500000;
+                        showToast("Farm Starter Pack activated!");
+                        break;
+                    case 'farm_champion':
+                        balance += 2000000;
+                        showToast("Farm Champion Pack activated!");
                         break;
                     default:
                         showToast("Purchase successful!");
@@ -2879,8 +3088,8 @@
                 .then(snapshot => {
                     const data = snapshot.val();
                     if (!data) {
-                        list.innerHTML = '<div style="text-align:center; padding:30px; color:rgba(255,255,255,0.6);">No data available yet.</div>';
-                        position.innerText = "Your Position: Not ranked";
+                        // Create mock data for demonstration
+                        createMockLeaderboard();
                         return;
                     }
                     
@@ -2908,8 +3117,35 @@
                 })
                 .catch(error => {
                     console.error("Error loading leaderboard:", error);
-                    list.innerHTML = '<div style="text-align:center; padding:30px; color:rgba(255,255,255,0.6);">Error loading leaderboard.</div>';
+                    createMockLeaderboard();
                 });
+        }
+
+        function createMockLeaderboard() {
+            const list = document.getElementById('leaderboardList');
+            const position = document.getElementById('userPosition');
+            
+            // Mock leaderboard data
+            const mockPlayers = [
+                { id: '1', name: 'Davis Curtis', score: 2569, avatar: 'https://randomuser.me/api/portraits/men/32.jpg' },
+                { id: '2', name: 'Alena Donin', score: 1469, avatar: 'https://randomuser.me/api/portraits/women/44.jpg' },
+                { id: '3', name: 'Craig Gouse', score: 1053, avatar: 'https://randomuser.me/api/portraits/men/22.jpg' },
+                { id: '4', name: 'Madelyn Dias', score: 590, avatar: 'https://randomuser.me/api/portraits/women/33.jpg' },
+                { id: '5', name: 'Zain Vaccaro', score: 448, avatar: 'https://randomuser.me/api/portraits/men/55.jpg' },
+                { id: '6', name: 'Skylar Geidt', score: 448, avatar: 'https://randomuser.me/api/portraits/women/66.jpg' },
+                { id: userId, name: headerName.innerText, score: balance, avatar: headerAvatar.src }
+            ];
+            
+            mockPlayers.sort((a, b) => b.score - a.score);
+            
+            const userIndex = mockPlayers.findIndex(item => item.id === userId);
+            if (userIndex !== -1) {
+                position.innerText = `Your Position: #${userIndex + 1}`;
+            } else {
+                position.innerText = "Your Position: Not ranked";
+            }
+            
+            displayLeaderboardPage(mockPlayers.slice(0, 6));
         }
 
         function displayLeaderboardPage(players) {
@@ -2931,7 +3167,7 @@
                         <img src="${player.avatar || 'https://alamin12071985-a11y.github.io/Snowman-Adventure/snowman.webp'}" class="player-avatar" alt="${player.name}">
                         <div>
                             <div class="player-name">${player.name || 'Anonymous'}</div>
-                            <div style="font-size:0.7rem; color:rgba(255,255,255,0.6);">Level ${player.level || 1}</div>
+                            <div style="font-size:2.8vw; color:rgba(255,255,255,0.6);">Level ${player.level || 1}</div>
                         </div>
                     </div>
                     <div class="player-score">${(player.score || 0).toLocaleString()}</div>
@@ -2943,61 +3179,42 @@
 
         function loadNextLeaderboardPage() {
             leaderboardPage++;
-            // Load next 50 players
-            // Implementation would depend on your Firebase structure
             showToast("Loading more players...");
         }
 
         /* --- TASKS SYSTEM --- */
         function fetchTasksFromFirebase() {
             const list = document.getElementById('taskList');
-            db.ref('tasks').on('value', (snapshot) => {
-                list.innerHTML = ''; 
-                const data = snapshot.val();
-                if (!data) return;
-                Object.keys(data).forEach(key => {
-                    const task = data[key];
-                    const item = document.createElement('div');
-                    item.className = 'task-card';
-                    item.onclick = () => {
-                         balance += parseInt(task.reward || 0);
-                         saveUserData();
-                         updateUI();
-                         showToast("Reward Added!");
-                    };
-                    const iconClass = task.icon || 'fas fa-star'; 
-                    item.innerHTML = `
-                        <div style="display:flex; align-items:center; gap:15px;">
-                            <div class="task-icon"><i class="${iconClass}"></i></div>
-                            <div class="task-info">
-                                <h4 style="margin:0; font-size:0.9rem; color:var(--text-light)">${task.title}</h4>
-                                <span style="font-size:0.8rem; color:var(--accent-cyan)">+${parseInt(task.reward).toLocaleString()}</span>
-                            </div>
-                        </div>
-                        <div style="color:var(--text-light); opacity:0.5;"><i class="fas fa-chevron-right"></i></div>
-                    `;
-                    list.appendChild(item);
-                });
-            });
-        }
-
-        /* --- FRIENDS SYSTEM --- */
-        function inviteFriend() {
-            const link = "https://t.me/thesnowmanbot?start=" + userId;
-            const text = "Join me on Snowman Adventure and earn coins!";
-            const url = `https://t.me/share/url?url=${encodeURIComponent(link)}&text=${encodeURIComponent(text)}`;
+            // Mock tasks for now
+            const mockTasks = [
+                { title: "Tap 100 times", reward: "1000", icon: "fas fa-hand-point-up" },
+                { title: "Reach Level 5", reward: "5000", icon: "fas fa-chart-line" },
+                { title: "Invite 3 friends", reward: "10000", icon: "fas fa-user-friends" },
+                { title: "Play Lottery", reward: "2000", icon: "fas fa-dice" },
+                { title: "Spin Wheel", reward: "1500", icon: "fas fa-redo" }
+            ];
             
-            try {
-                window.Telegram.WebApp.openTelegramLink(url);
-            } catch (e) {
-                window.open(url, '_blank');
-            }
-        }
-
-        function copyInviteLink() {
-            const link = "https://t.me/thesnowmanbot?start=" + userId;
-            navigator.clipboard.writeText(link).then(() => {
-                showToast("Link Copied!");
+            list.innerHTML = '';
+            mockTasks.forEach(task => {
+                const item = document.createElement('div');
+                item.className = 'task-card';
+                item.onclick = () => {
+                     balance += parseInt(task.reward || 0);
+                     saveUserData();
+                     updateUI();
+                     showToast(`+${task.reward} Coins Added!`);
+                };
+                item.innerHTML = `
+                    <div style="display:flex; align-items:center; gap:15px;">
+                        <div class="task-icon"><i class="${task.icon}"></i></div>
+                        <div class="task-info">
+                            <h4 style="margin:0; font-size:3.5vw; color:var(--text-light)">${task.title}</h4>
+                            <span style="font-size:3.2vw; color:var(--accent-cyan)">+${parseInt(task.reward).toLocaleString()} Coins</span>
+                        </div>
+                    </div>
+                    <div style="color:var(--text-light); opacity:0.5;"><i class="fas fa-chevron-right"></i></div>
+                `;
+                list.appendChild(item);
             });
         }
 
