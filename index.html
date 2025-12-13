@@ -57,6 +57,7 @@
             background-position: center center;
             background-repeat: no-repeat;
             background-attachment: fixed;
+            backdrop-filter: blur(2px); /* Reduced blur */
         }
 
         /* --- LOADING SCREEN --- */
@@ -979,6 +980,480 @@
         .dot-bl { bottom: 8px; left: 8px; }
         .dot-br { bottom: 8px; right: 8px; }
 
+        /* --- LEADERBOARD STYLES --- */
+        .leaderboard-container {
+            padding: 20px;
+            width: 100%;
+            overflow-y: auto;
+        }
+
+        .congratulations-section {
+            background: linear-gradient(135deg, #00E5FF 0%, #6A5ACD 100%);
+            border-radius: 20px;
+            padding: 25px;
+            text-align: center;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 30px rgba(0, 229, 255, 0.3);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .congratulations-title {
+            font-size: 2.5rem;
+            font-weight: 900;
+            color: white;
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 0px rgba(0,0,0,0.3);
+        }
+
+        .user-position {
+            font-size: 1.2rem;
+            color: #FFD700;
+            font-weight: 700;
+            background: rgba(0,0,0,0.3);
+            padding: 8px 20px;
+            border-radius: 30px;
+            display: inline-block;
+            margin-bottom: 20px;
+        }
+
+        .leaderboard-list {
+            background: var(--glass-bg);
+            border-radius: 20px;
+            padding: 15px;
+            margin-top: 20px;
+            border: var(--glass-border);
+        }
+
+        .leaderboard-item {
+            display: flex;
+            align-items: center;
+            padding: 12px 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .leaderboard-item:last-child {
+            border-bottom: none;
+        }
+
+        .rank-number {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(0, 229, 255, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 900;
+            font-size: 1.2rem;
+            margin-right: 15px;
+            color: var(--accent-cyan);
+        }
+
+        .rank-1 .rank-number {
+            background: linear-gradient(135deg, #FFD700, #FFA500);
+            color: #000;
+        }
+
+        .rank-2 .rank-number {
+            background: linear-gradient(135deg, #C0C0C0, #A0A0A0);
+            color: #000;
+        }
+
+        .rank-3 .rank-number {
+            background: linear-gradient(135deg, #CD7F32, #A0522D);
+            color: #000;
+        }
+
+        .player-info {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .player-avatar {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            border: 2px solid var(--accent-cyan);
+            object-fit: cover;
+            background: #fff;
+        }
+
+        .player-name {
+            font-weight: 600;
+            font-size: 0.95rem;
+            color: white;
+        }
+
+        .player-score {
+            font-weight: 800;
+            font-size: 1.1rem;
+            color: #FFD700;
+        }
+
+        .leaderboard-tabs {
+            display: flex;
+            background: rgba(0,0,0,0.3);
+            border-radius: 12px;
+            padding: 4px;
+            margin-bottom: 20px;
+        }
+
+        .leaderboard-tab {
+            flex: 1;
+            text-align: center;
+            padding: 10px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+            color: rgba(255,255,255,0.6);
+        }
+
+        .leaderboard-tab.active {
+            background: var(--accent-cyan);
+            color: #000;
+            box-shadow: 0 4px 10px rgba(0, 229, 255, 0.3);
+        }
+
+        .next-button {
+            background: linear-gradient(90deg, #00C853, #64DD17);
+            color: #000;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 30px;
+            font-weight: 800;
+            font-size: 1.1rem;
+            cursor: pointer;
+            margin-top: 20px;
+            width: 100%;
+            box-shadow: 0 5px 20px rgba(100, 221, 23, 0.4);
+        }
+
+        .next-button:active {
+            transform: scale(0.98);
+        }
+
+        /* --- SPIN WHEEL UPDATED STYLES --- */
+        .spin-wheel-game-container {
+            position: relative;
+            width: 320px;
+            height: 450px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto;
+        }
+
+        .wheel-border {
+            width: 320px;
+            height: 320px;
+            background: linear-gradient(180deg, #00E5FF, #4a92ff, #00E5FF);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            position: relative;
+            z-index: 1;
+        }
+
+        .wheel-inner-border {
+            width: 300px;
+            height: 300px;
+            background: linear-gradient(145deg, rgba(22, 52, 80, 0.9) 0%, rgba(8, 24, 43, 0.95) 100%);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .spin-wheel {
+            width: 280px;
+            height: 280px;
+            border-radius: 50%;
+            transition: transform 4s cubic-bezier(0.17, 0.67, 0.12, 0.99);
+            background: conic-gradient(
+                #00d600 0% 12.5%,   /* Light Green */
+                #007a00 12.5% 25%,  /* Dark Green */
+                #00d600 25% 37.5%, 
+                #007a00 37.5% 50%, 
+                #00d600 50% 62.5%, 
+                #007a00 62.5% 75%, 
+                #00d600 75% 87.5%, 
+                #007a00 87.5% 100%
+            );
+            position: relative;
+            box-shadow: inset 0 0 20px rgba(0,0,0,0.3);
+        }
+
+        .spin-wheel::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            border-radius: 50%;
+            background: radial-gradient(circle at 50% 50%, transparent 40%, rgba(0,0,0,0.05) 41%, transparent 42%);
+            background-size: 50px 50px;
+        }
+
+        .spin-btn-container {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 10;
+            width: 80px;
+            height: 80px;
+            cursor: pointer;
+        }
+
+        .spin-btn {
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, #00E5FF 40%, #4a92ff 100%);
+            border: 3px solid #00E5FF;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 4px 15px rgba(0, 229, 255, 0.4);
+        }
+
+        .spin-text {
+            color: white;
+            font-weight: 900;
+            font-size: 20px;
+            text-transform: uppercase;
+            text-shadow: 1px 1px 0px #000;
+            font-family: 'Arial Black', sans-serif;
+            user-select: none;
+        }
+
+        .pointer {
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0; 
+            height: 0; 
+            border-left: 12px solid transparent;
+            border-right: 12px solid transparent;
+            border-bottom: 20px solid #00E5FF;
+        }
+        
+        .pointer::after {
+            content: '';
+            position: absolute;
+            top: 4px; 
+            left: -8px;
+            border-left: 8px solid transparent;
+            border-right: 8px solid transparent;
+            border-bottom: 14px solid #4a92ff;
+        }
+
+        .ribbon-container {
+            position: absolute;
+            bottom: -30px;
+            z-index: 5;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            filter: drop-shadow(0 5px 5px rgba(0,0,0,0.5));
+        }
+
+        .ribbon {
+            background: linear-gradient(135deg, #00E5FF 0%, #4a92ff 100%);
+            color: white;
+            padding: 10px 40px;
+            font-size: 28px;
+            font-family: serif;
+            font-weight: bold;
+            position: relative;
+            border-radius: 50px;
+            border-bottom: 4px solid rgba(255,255,255,0.2);
+        }
+
+        .ribbon::before {
+            content: '';
+            position: absolute;
+            left: -20px;
+            top: 10px;
+            z-index: -1;
+            border-top: 20px solid #4a92ff;
+            border-left: 20px solid transparent;
+            border-bottom: 20px solid #4a92ff;
+            border-right: 20px solid #006400;
+            transform: rotate(-15deg);
+        }
+
+        .ribbon::after {
+            content: '';
+            position: absolute;
+            right: -25px;
+            top: 15px;
+            z-index: -1;
+            width: 0;
+            height: 0;
+            border-top: 25px solid transparent;
+            border-bottom: 25px solid #00E5FF; 
+            border-left: 50px solid #00E5FF;
+            transform: rotate(-10deg) skewX(-20deg);
+        }
+
+        /* --- FRIENDS PAGE PROMOTION --- */
+        .promotion-section {
+            background: linear-gradient(135deg, #FF6B6B 0%, #FF8E53 100%);
+            border-radius: 20px;
+            padding: 25px;
+            text-align: center;
+            margin-top: 30px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 10px 30px rgba(255, 107, 107, 0.3);
+        }
+
+        .promotion-title {
+            font-size: 1.8rem;
+            font-weight: 900;
+            color: white;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 0px rgba(0,0,0,0.3);
+        }
+
+        .promotion-text {
+            color: white;
+            font-size: 0.9rem;
+            margin-bottom: 20px;
+            line-height: 1.5;
+            opacity: 0.9;
+        }
+
+        .promotion-button {
+            background: black;
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 30px;
+            font-weight: 800;
+            font-size: 1.1rem;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s;
+            text-decoration: none;
+        }
+
+        .promotion-button:hover {
+            background: #333;
+            transform: translateY(-2px);
+        }
+
+        .promotion-button:active {
+            transform: translateY(0);
+        }
+
+        /* --- ENERGY MARKETPLACE --- */
+        .energy-market-container {
+            padding: 20px;
+            width: 100%;
+        }
+
+        .energy-level-info {
+            background: var(--glass-bg);
+            border-radius: 20px;
+            padding: 20px;
+            margin-bottom: 20px;
+            text-align: center;
+            border: var(--glass-border);
+        }
+
+        .energy-level-title {
+            font-size: 1.5rem;
+            color: var(--accent-cyan);
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .energy-amount {
+            font-size: 3rem;
+            font-weight: 900;
+            color: #FFD700;
+            margin-bottom: 10px;
+        }
+
+        .upgrade-cost {
+            font-size: 1.2rem;
+            color: #FF6B6B;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+
+        .upgrade-button {
+            background: linear-gradient(90deg, #00C853, #64DD17);
+            color: #000;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 30px;
+            font-weight: 800;
+            font-size: 1.1rem;
+            cursor: pointer;
+            width: 100%;
+            box-shadow: 0 5px 20px rgba(100, 221, 23, 0.4);
+        }
+
+        .upgrade-button:disabled {
+            background: #666;
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
+
+        .upgrade-button:active:not(:disabled) {
+            transform: scale(0.98);
+        }
+
+        .energy-packages {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .energy-package {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .energy-package:active {
+            transform: scale(0.98);
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .package-title {
+            font-size: 1.2rem;
+            color: var(--accent-cyan);
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .package-price {
+            font-size: 1.5rem;
+            color: #FFD700;
+            font-weight: 900;
+            margin-bottom: 10px;
+        }
+
+        .package-duration {
+            font-size: 0.9rem;
+            color: rgba(255,255,255,0.7);
+        }
+
         /* --- MEDIA QUERY --- */
         @media (max-height: 700px) {
             .header-dashboard { padding: 5px 10px; }
@@ -986,6 +1461,12 @@
             .main-balance { margin-top: 0; font-size: 1.8rem; }
             .character-img { max-height: 40vh; }
             .nav-bar { height: 75px; }
+        }
+
+        /* --- HOME PAGE CENTER ALIGNMENT --- */
+        #home .game-area-wrapper {
+            justify-content: center;
+            gap: 20px;
         }
 
     </style>
@@ -1013,7 +1494,7 @@
     <div id="lottery-modal">
         <div class="game-box">
             <div class="close-btn" onclick="closeLotteryModal()">✕</div>
-            <div class="header-text">Try your luck!</div>
+            <div class="header-text">Try your luck! (Cost: 9 XTR)</div>
 
             <!-- Grid Layout -->
             <div class="grid-container" id="grid">
@@ -1064,7 +1545,7 @@
             <div class="start-btn-container">
                 <div class="decor-dot dot-bl"></div>
                 <div class="decor-dot dot-br"></div>
-                <button class="start-btn" id="startLotteryBtn" onclick="startLottery()">Start lottery</button>
+                <button class="start-btn" id="startLotteryBtn" onclick="startLottery()">Start lottery (9 XTR)</button>
             </div>
         </div>
     </div>
@@ -1119,7 +1600,7 @@
                 <div class="header-level-box">
                     <div class="lvl-text">
                         <span id="levelNameHeader">Lvl 1</span>
-                        <span><span id="currentLevelHeader">0</span>/10</span>
+                        <span><span id="currentLevelHeader">0</span>/100</span>
                     </div>
                     <div class="header-progress-bg">
                         <div class="header-progress-fill" id="headerLevelBar"></div>
@@ -1145,7 +1626,7 @@
                         <span>Daily Reward</span>
                         <div id="dailyRewardAmount" class="daily-sub-text">+500 Coin</div>
                     </div>
-                    <div class="daily-item" onclick="goToSpinPage()">
+                    <div class="daily-item" onclick="openSpinWheel()">
                         <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/spin.webp" alt="Spin">
                         <span>Daily Spin</span>
                         <div class="daily-sub-text">+1 Spin</div>
@@ -1170,11 +1651,11 @@
                     
                     <!-- Bottom Controls -->
                     <div class="bottom-controls">
-                        <div class="control-item" onclick="openBoostPage()">
+                        <div class="control-item" onclick="openEnergyMarket()">
                             <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/energy.webp" alt="Energy">
-                            <span id="energyDisplay">500</span><span> / 500</span>
+                            <span id="energyDisplay">500</span><span> / <span id="maxEnergyDisplay">500</span></span>
                         </div>
-                        <div class="control-item" onclick="openBoostPage()">
+                        <div class="control-item" onclick="openEnergyMarket()">
                             <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/boost.webp" alt="Boost">
                             <span>Boost</span>
                         </div>
@@ -1185,62 +1666,159 @@
 
             <!-- SHOP TAB -->
             <div id="shop" class="tab-content">
-                <div class="shop-banner">
-                    <h2>Premium Store</h2>
+                <div class="shop-banner" style="background: transparent;">
+                    <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/vip%20access.webp" alt="VIP Access" style="width: 100%; height: 100%; object-fit: cover; border-radius: 16px;">
                 </div>
 
                 <div class="shop-grid">
                     
-                    <!-- VIP Items -->
-                    <div class="shop-card" onclick="handleStoreClick(this, 'vip_7d', 120)">
+                    <!-- VIP Access -->
+                    <div class="shop-card" onclick="buyItem('vip_all', 9999)">
                         <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/star.webp" alt="VIP">
-                        <div class="shop-card-title">7 Days VIP</div>
-                        <div class="shop-card-price" id="price_vip_7d">120 Stars</div>
+                        <div class="shop-card-title">VIP Access</div>
+                        <div class="shop-card-price">9999 Stars</div>
+                        <div class="active-shop-btn" id="vip_all_status" style="display:none;">Purchased</div>
                     </div>
 
-                    <div class="shop-card" onclick="handleStoreClick(this, 'vip_30d', 350)">
-                        <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/star.webp" alt="VIP">
-                        <div class="shop-card-title">30 Days VIP</div>
-                        <div class="shop-card-price" id="price_vip_30d">350 Stars</div>
-                    </div>
-
-                    <!-- Energy Items -->
-                    <div class="shop-card" onclick="handleStoreClick(this, 'energy_30d', 300)">
+                    <!-- Max Energy -->
+                    <div class="shop-card" onclick="buyItem('energy_3d', 49)">
                         <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/energy-refill.webp" alt="Energy">
-                        <div class="shop-card-title">Max Energy</div>
-                        <div class="shop-card-price" id="price_energy_30d">300 Stars</div>
+                        <div class="shop-card-title">Max Energy 3D</div>
+                        <div class="shop-card-price">49 Stars</div>
+                        <div class="active-shop-btn" id="energy_3d_status" style="display:none;">Active</div>
                     </div>
 
-                    <!-- Bot Items -->
-                    <div class="shop-card" onclick="handleStoreClick(this, 'bot_30d', 700)">
+                    <div class="shop-card" onclick="buyItem('energy_7d', 99)">
+                        <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/energy-refill.webp" alt="Energy">
+                        <div class="shop-card-title">Max Energy 7D</div>
+                        <div class="shop-card-price">99 Stars</div>
+                        <div class="active-shop-btn" id="energy_7d_status" style="display:none;">Active</div>
+                    </div>
+
+                    <div class="shop-card" onclick="buyItem('energy_30d', 299)">
+                        <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/energy-refill.webp" alt="Energy">
+                        <div class="shop-card-title">Max Energy 30D</div>
+                        <div class="shop-card-price">299 Stars</div>
+                        <div class="active-shop-btn" id="energy_30d_status" style="display:none;">Active</div>
+                    </div>
+
+                    <!-- Auto Bot -->
+                    <div class="shop-card" onclick="buyItem('bot_3d', 99)">
                         <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/bot.webp" alt="Bot">
-                        <div class="shop-card-title">Auto Bot</div>
-                        <div class="shop-card-price" id="price_bot_30d">700 Stars</div>
-                    </div>
-                    
-                    <!-- Loot Boxes -->
-                    <div class="shop-card" onclick="handleStoreClick(this, 'loot_elite', 120)">
-                        <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/reward.webp" alt="Loot">
-                        <div class="shop-card-title">Elite Box</div>
-                        <div class="shop-card-price" id="price_loot_elite">120 Stars</div>
+                        <div class="shop-card-title">Auto Bot 3D</div>
+                        <div class="shop-card-price">99 Stars</div>
+                        <div class="active-shop-btn" id="bot_3d_status" style="display:none;">Active</div>
                     </div>
 
-                    <div class="shop-card" onclick="handleStoreClick(this, 'multitap_30d', 400)">
-                        <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/multitap.webp" alt="Tap">
-                        <div class="shop-card-title">Multi Tap</div>
-                        <div class="shop-card-price" id="price_multitap_30d">400 Stars</div>
+                    <div class="shop-card" onclick="buyItem('bot_7d', 249)">
+                        <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/bot.webp" alt="Bot">
+                        <div class="shop-card-title">Auto Bot 7D</div>
+                        <div class="shop-card-price">249 Stars</div>
+                        <div class="active-shop-btn" id="bot_7d_status" style="display:none;">Active</div>
+                    </div>
+
+                    <div class="shop-card" onclick="buyItem('bot_30d', 699)">
+                        <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/bot.webp" alt="Bot">
+                        <div class="shop-card-title">Auto Bot 30D</div>
+                        <div class="shop-card-price">699 Stars</div>
+                        <div class="active-shop-btn" id="bot_30d_status" style="display:none;">Active</div>
+                    </div>
+
+                    <!-- Coins -->
+                    <div class="shop-card" onclick="buyItem('coin_2m', 9)">
+                        <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/coin.webp" alt="Coins">
+                        <div class="shop-card-title">2M Coins</div>
+                        <div class="shop-card-price">9 Stars</div>
+                    </div>
+
+                    <div class="shop-card" onclick="buyItem('coin_10m', 49)">
+                        <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/coin.webp" alt="Coins">
+                        <div class="shop-card-title">10M Coins</div>
+                        <div class="shop-card-price">49 Stars</div>
+                    </div>
+
+                    <div class="shop-card" onclick="buyItem('coin_100m', 399)">
+                        <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/coin.webp" alt="Coins">
+                        <div class="shop-card-title">100M Coins</div>
+                        <div class="shop-card-price">399 Stars</div>
+                    </div>
+
+                    <!-- Aurora -->
+                    <div class="shop-card" onclick="buyItem('aurora_1', 9)">
+                        <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/aurora.webp" alt="Aurora">
+                        <div class="shop-card-title">1 Aurora</div>
+                        <div class="shop-card-price">9 Stars</div>
+                    </div>
+
+                    <div class="shop-card" onclick="buyItem('aurora_10', 99)">
+                        <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/aurora.webp" alt="Aurora">
+                        <div class="shop-card-title">10 Aurora</div>
+                        <div class="shop-card-price">99 Stars</div>
+                    </div>
+
+                    <div class="shop-card" onclick="buyItem('aurora_100', 499)">
+                        <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/aurora.webp" alt="Aurora">
+                        <div class="shop-card-title">100 Aurora</div>
+                        <div class="shop-card-price">499 Stars</div>
+                    </div>
+
+                    <!-- Ads Stop -->
+                    <div class="shop-card" onclick="buyItem('ads_3d', 49)">
+                        <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/ads-stop.webp" alt="Ads Stop">
+                        <div class="shop-card-title">Ads Stop 3D</div>
+                        <div class="shop-card-price">49 Stars</div>
+                        <div class="active-shop-btn" id="ads_3d_status" style="display:none;">Active</div>
+                    </div>
+
+                    <div class="shop-card" onclick="buyItem('ads_15d', 229)">
+                        <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/ads-stop.webp" alt="Ads Stop">
+                        <div class="shop-card-title">Ads Stop 15D</div>
+                        <div class="shop-card-price">229 Stars</div>
+                        <div class="active-shop-btn" id="ads_15d_status" style="display:none;">Active</div>
+                    </div>
+
+                    <div class="shop-card" onclick="buyItem('ads_30d', 599)">
+                        <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/ads-stop.webp" alt="Ads Stop">
+                        <div class="shop-card-title">Ads Stop 30D</div>
+                        <div class="shop-card-price">599 Stars</div>
+                        <div class="active-shop-btn" id="ads_30d_status" style="display:none;">Active</div>
                     </div>
 
                 </div>
             </div>
 
-            <!-- HIDDEN BOOST PAGE -->
-            <div id="boostPage" class="tab-content">
+            <!-- ENERGY MARKETPLACE -->
+            <div id="energyMarket" class="tab-content">
                 <div class="back-btn" onclick="switchTab('home')">
                     <i class="fas fa-arrow-left"></i>
                 </div>
-                <div class="boost-header">
-                    <h2>Boosters</h2>
+                <div class="energy-market-container">
+                    <div class="energy-level-info">
+                        <div class="energy-level-title">Current Energy Level</div>
+                        <div class="energy-amount" id="currentEnergyLevel">500</div>
+                        <div class="upgrade-cost">Upgrade Cost: <span id="upgradeCost">1,000,000</span> Coins</div>
+                        <button class="upgrade-button" id="upgradeEnergyBtn" onclick="upgradeEnergy()">Upgrade to Next Level</button>
+                    </div>
+                    
+                    <div class="energy-packages">
+                        <div class="energy-package" onclick="buyEnergyPackage('3d')">
+                            <div class="package-title">3 Days Max Energy</div>
+                            <div class="package-price">49 Stars</div>
+                            <div class="package-duration">No energy limit for 3 days</div>
+                        </div>
+                        
+                        <div class="energy-package" onclick="buyEnergyPackage('7d')">
+                            <div class="package-title">7 Days Max Energy</div>
+                            <div class="package-price">99 Stars</div>
+                            <div class="package-duration">No energy limit for 7 days</div>
+                        </div>
+                        
+                        <div class="energy-package" onclick="buyEnergyPackage('30d')">
+                            <div class="package-title">30 Days Max Energy</div>
+                            <div class="package-price">299 Stars</div>
+                            <div class="package-duration">No energy limit for 30 days</div>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -1281,6 +1859,22 @@
                                 <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
                             </svg>
                         </button>
+                    </div>
+
+                    <!-- Promotion Section -->
+                    <div class="promotion-section">
+                        <div class="promotion-title">🔥 Looking to promote your project?</div>
+                        <div class="promotion-text">
+                            This is your moment! I'm opening limited promotion slots — once they're gone, they're gone.
+                            <br><br>
+                            🚀 If you want fast growth, real visibility, and long-term reach, message me NOW before the spots fill up.
+                            <br><br>
+                            ⏳ Don't wait. Opportunities like this don't reopen twice.
+                        </div>
+                        <a href="https://t.me/lagapromotion" target="_blank" class="promotion-button">
+                            <i class="fas fa-paper-plane"></i>
+                            Deal with me → @lagapromotion
+                        </a>
                     </div>
 
                 </div>
@@ -1327,7 +1921,7 @@
                         <span id="walletAddressDisplay"></span>
                     </div>
 
-                    <div class="exchange-btn" onclick="openExchangePopup()">
+                    <div class="exchange-btn" onclick="handleExchangeClick()">
                         <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/exchange.webp" class="exchange-icon" alt="Swap">
                         <div class="exchange-text">
                             <h3>Exchange Tokens!</h3>
@@ -1337,21 +1931,55 @@
                 </div>
             </div>
 
-            <!-- SPIN PAGE -->
-            <div id="spinPage" class="tab-content">
-                <div class="glass-panel-full" style="text-align:center; position:relative; height: 80vh;">
-                    <h2>Lucky Spin</h2>
-                    <p>Spin to win coins!</p>
-                    
-                    <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/arrow.webp" class="spin-marker-img" alt="Arrow">
-                    
-                    <div class="spin-wheel-container" id="wheel">
-                        <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/spin wheel.webp" class="spin-wheel-img" alt="Wheel">
+            <!-- SPIN WHEEL PAGE -->
+            <div id="spinWheelPage" class="tab-content">
+                <div class="back-btn" onclick="switchTab('home')">
+                    <i class="fas fa-arrow-left"></i>
+                </div>
+                <div class="spin-wheel-game-container">
+                    <div class="wheel-border">
+                        <div class="wheel-inner-border">
+                            <div class="spin-wheel" id="spinWheel"></div>
+                        </div>
+                        
+                        <div class="spin-btn-container" onclick="spinWheelGame()">
+                            <div class="pointer"></div>
+                            <div class="spin-btn">
+                                <span class="spin-text">SPIN</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="ribbon-container">
+                        <div class="ribbon">Good Luck !</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- LEADERBOARD PAGE -->
+            <div id="leaderboardPage" class="tab-content">
+                <div class="back-btn" onclick="switchTab('home')">
+                    <i class="fas fa-arrow-left"></i>
+                </div>
+                <div class="leaderboard-container">
+                    <div class="congratulations-section">
+                        <div class="congratulations-title">Congratulations!</div>
+                        <div class="user-position" id="userPosition">Your Position: Loading...</div>
                     </div>
                     
-                    <button onclick="doSpin()" style="margin-top:20px; padding:15px 40px; background:var(--accent-cyan); border:none; border-radius:25px; font-weight:bold; font-size:1.2rem;">SPIN</button>
+                    <div class="leaderboard-tabs">
+                        <div class="leaderboard-tab active" onclick="switchLeaderboardTab('global', this)">Global</div>
+                        <div class="leaderboard-tab" onclick="switchLeaderboardTab('friends', this)">Friends</div>
+                        <div class="leaderboard-tab" onclick="switchLeaderboardTab('weekly', this)">Weekly</div>
+                    </div>
                     
-                    <button onclick="switchTab('home', document.querySelector('.nav-item'))" style="margin-top:20px; display:block; width:100%; background:transparent; border:1px solid white; color:white; padding:10px; border-radius:10px;">Back to Home</button>
+                    <div class="leaderboard-list" id="leaderboardList">
+                        <div style="text-align:center; padding:30px; color:rgba(255,255,255,0.6);">
+                            Loading leaderboard...
+                        </div>
+                    </div>
+                    
+                    <button class="next-button" onclick="loadNextLeaderboardPage()">Load More</button>
                 </div>
             </div>
 
@@ -1378,6 +2006,10 @@
             <div class="nav-item" onclick="switchTab('wallet', this)">
                 <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/wallet.webp" alt="Wallet">
                 <span>Wallet</span>
+            </div>
+            <div class="nav-item" onclick="switchTab('leaderboardPage', this)">
+                <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/leaderboard.webp" alt="Leaderboard">
+                <span>Rank</span>
             </div>
         </div>
 
@@ -1412,13 +2044,16 @@
         let userId = "test_user_001"; 
         let isBotActive = false;
         let inventory = {};
-
-        // --- BACKEND URL ---
-        const backendUrl = "https://snowman-adventure.onrender.com";
+        let lastTapTime = 0;
+        let tapTimes = [];
+        let energyLevel = 1;
+        let leaderboardPage = 0;
+        let currentLeaderboardType = 'global';
 
         // --- DOM ELEMENTS ---
         const balanceDisplay = document.getElementById('displayBalance');
         const energyDisplay = document.getElementById('energyDisplay');
+        const maxEnergyDisplay = document.getElementById('maxEnergyDisplay');
         const clickerBtn = document.getElementById('clickerBtn');
         const headerName = document.getElementById('headerName');
         const headerAvatar = document.getElementById('headerAvatar');
@@ -1470,6 +2105,35 @@
             }
         }
 
+        // --- AD BLOCKER DETECTION ---
+        async function checkAdBlocker() {
+            const adBlockTest = document.createElement('div');
+            adBlockTest.innerHTML = '&nbsp;';
+            adBlockTest.className = 'adsbox';
+            adBlockTest.style.cssText = 'position: absolute; left: -9999px; top: -9999px; width: 1px; height: 1px;';
+            document.body.appendChild(adBlockTest);
+            
+            setTimeout(function() {
+                const isBlocked = adBlockTest.offsetHeight === 0 || 
+                                 adBlockTest.offsetWidth === 0 ||
+                                 adBlockTest.style.display === 'none';
+                
+                if (isBlocked) {
+                    showAdBlockWarning();
+                }
+                adBlockTest.remove();
+            }, 100);
+        }
+
+        function showAdBlockWarning() {
+            const html = `
+                <div class="popup-title" style="color:red;">AdBlocker Detected!</div>
+                <div class="popup-msg">আমাদের গেমটি ফ্রি রাখার জন্য অ্যাড জরুরি। দয়া করে অ্যাড ব্লকার বন্ধ করুন।</div>
+                <button class="popup-btn" onclick="location.reload()">Refresh Page</button>
+            `;
+            showGlassPopup(html);
+        }
+
         // --- LOADING & INIT ---
         window.addEventListener('load', () => {
             let loadPercent = 0;
@@ -1490,6 +2154,7 @@
                         screen.style.opacity = '0';
                         setTimeout(() => {
                             screen.style.display = 'none';
+                            checkAdBlocker(); // Check for ad blocker after loading
                         }, 500);
                     }, 500);
                 }
@@ -1536,6 +2201,8 @@
                 energy: energy,
                 tapCount: tapCount,
                 level: level,
+                energyLevel: energyLevel,
+                maxEnergy: maxEnergy,
                 isBotActive: isBotActive,
                 inventory: inventory,
                 lastActive: Date.now()
@@ -1551,12 +2218,14 @@
                     auroraBalance = data.auroraBalance || 0.0;
                     tonBalance = data.tonBalance || 0.0;
                     energy = data.energy || 500;
+                    maxEnergy = data.maxEnergy || 500;
+                    energyLevel = data.energyLevel || 1;
                     tapCount = data.tapCount || 0;
                     level = data.level || 1;
                     isBotActive = data.isBotActive || false;
                     inventory = data.inventory || {}; 
                     updateUI();
-                    updateStoreUI();
+                    updateShopUI();
                     checkDailyRewardStatus();
                     fetchTasksFromFirebase();
                 } else {
@@ -1595,6 +2264,7 @@
             // Main Display
             balanceDisplay.innerText = Math.floor(balance).toLocaleString();
             energyDisplay.innerText = Math.floor(energy);
+            maxEnergyDisplay.innerText = maxEnergy;
 
             // Header Displays
             headerCoin.innerText = Math.floor(balance).toLocaleString();
@@ -1606,6 +2276,7 @@
             walletTon.innerText = parseFloat(tonBalance).toFixed(4);
             walletAurora.innerText = parseFloat(auroraBalance).toFixed(4);
 
+            // Level calculation for level 1-100
             let nextLevelThreshold = 4000 + ((level - 1) * 8000);
             let prevLevelThreshold = level === 1 ? 0 : (4000 + ((level - 2) * 8000));
             
@@ -1613,7 +2284,7 @@
             let range = nextLevelThreshold - prevLevelThreshold;
             let percentage = (progress / range) * 100;
 
-            if (percentage >= 100) {
+            if (percentage >= 100 && level < 100) {
                 level++;
                 percentage = 0;
                 showLevelUpPopup(level);
@@ -1622,19 +2293,35 @@
             levelNameHeader.innerText = "LVL " + level;
             currentLevelHeader.innerText = level;
             headerLevelBar.style.width = `${Math.min(percentage, 100)}%`;
+
+            // Update energy marketplace
+            document.getElementById('currentEnergyLevel').innerText = maxEnergy;
+            document.getElementById('upgradeCost').innerText = (1000000 * energyLevel).toLocaleString();
+            
+            const upgradeBtn = document.getElementById('upgradeEnergyBtn');
+            if (energyLevel >= 10) {
+                upgradeBtn.disabled = true;
+                upgradeBtn.innerText = "Max Level Reached";
+            } else if (balance >= (1000000 * energyLevel)) {
+                upgradeBtn.disabled = false;
+                upgradeBtn.innerText = `Upgrade to Level ${energyLevel + 1}`;
+            } else {
+                upgradeBtn.disabled = true;
+                upgradeBtn.innerText = `Need ${(1000000 * energyLevel).toLocaleString()} Coins`;
+            }
         }
 
-        function updateStoreUI() {
-            // Loop through inventory items and update UI buttons
-            const itemIds = ['vip_7d', 'vip_30d', 'energy_30d', 'bot_30d', 'loot_elite', 'multitap_30d'];
-            itemIds.forEach(id => {
-                const priceDiv = document.getElementById('price_' + id);
-                if(inventory[id]) {
-                    if(priceDiv) {
-                        priceDiv.innerText = "Activate";
-                        priceDiv.style.background = "#00C853";
-                        priceDiv.style.color = "white";
-                    }
+        function updateShopUI() {
+            // Update shop item statuses
+            const items = [
+                'vip_all', 'energy_3d', 'energy_7d', 'energy_30d',
+                'bot_3d', 'bot_7d', 'bot_30d', 'ads_3d', 'ads_15d', 'ads_30d'
+            ];
+            
+            items.forEach(itemId => {
+                const statusEl = document.getElementById(itemId + '_status');
+                if (statusEl && inventory[itemId]) {
+                    statusEl.style.display = 'block';
                 }
             });
         }
@@ -1677,7 +2364,34 @@
             showGlassPopup(html);
         }
 
-        // --- EXCHANGE FUNCTIONALITY (NEW SWAP UI) ---
+        // --- ANTI-CHEAT SYSTEM ---
+        function checkTapSpeed() {
+            const now = Date.now();
+            tapTimes.push(now);
+            
+            // Keep only taps from last 1 second
+            tapTimes = tapTimes.filter(time => now - time <= 1000);
+            
+            // If more than 10 taps per second, penalize
+            if (tapTimes.length > 10) {
+                balance = Math.max(0, balance - 1000);
+                showToast("Cheating detected! -1000 Coins");
+                tapTimes = []; // Reset tap counter
+                return true;
+            }
+            return false;
+        }
+
+        // --- EXCHANGE FUNCTIONALITY ---
+        function handleExchangeClick() {
+            if (auroraBalance <= 0) {
+                openLotteryModal();
+                showToast("You need Aurora tokens to exchange!");
+            } else {
+                openExchangePopup();
+            }
+        }
+
         function openExchangePopup() {
             const html = `
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
@@ -1692,7 +2406,7 @@
                 <div class="swap-card">
                     <div class="swap-header">
                         <span>You Pay</span>
-                        <span>Max</span>
+                        <span>Max: ${auroraBalance.toFixed(2)}</span>
                     </div>
                     <div class="swap-body">
                         <div class="token-info">
@@ -1700,9 +2414,9 @@
                             <span>Aurora</span>
                             <i class="fas fa-chevron-down" style="font-size:0.7rem;"></i>
                         </div>
-                        <input type="number" id="exchangeInput" class="swap-input" value="0" oninput="calculateExchange(this.value)">
+                        <input type="number" id="exchangeInput" class="swap-input" value="0" oninput="calculateExchange(this.value)" max="${auroraBalance}">
                     </div>
-                    <div class="swap-balance">≈ $0.00 USD</div>
+                    <div class="swap-balance">Balance: ${auroraBalance.toFixed(2)} Aurora</div>
                 </div>
 
                 <!-- Divider -->
@@ -1725,7 +2439,7 @@
                         </div>
                         <input type="text" id="exchangeOutput" class="swap-input" value="0" readonly>
                     </div>
-                    <div class="swap-balance">≈ $0.00 USD</div>
+                    <div class="swap-balance">Exchange Rate: 1 Aurora = 50 TON</div>
                 </div>
 
                 <div style="font-size:0.7rem; color:rgba(255,255,255,0.6); margin-top:5px; display:flex; justify-content:center; align-items:center; gap:5px;">
@@ -1758,27 +2472,31 @@
 
         function executeExchange() {
             const inputVal = document.getElementById('exchangeInput').value;
-            const amount = parseFloat(inputVal);
+            let amount = parseFloat(inputVal);
 
             if(isNaN(amount) || amount <= 0) {
                 showToast("Please enter a valid amount");
                 return;
             }
 
-            if(auroraBalance < amount) {
-                showToast("Insufficient Aurora balance");
+            // Add fee
+            const fee = 0.1;
+            const totalCost = amount + fee;
+
+            if(auroraBalance < totalCost) {
+                showToast(`Insufficient Aurora balance. Need ${totalCost.toFixed(2)} (including fee)`);
                 return;
             }
 
             // Perform Exchange
-            auroraBalance -= amount;
+            auroraBalance -= totalCost;
             tonBalance += (amount * 50);
             
             saveUserData();
             updateUI();
             
             closeGlassPopup();
-            showToast("Swap successful!");
+            showToast(`Swap successful! Received ${(amount * 50).toFixed(2)} TON`);
         }
 
         function checkDailyRewardStatus() {
@@ -1818,7 +2536,7 @@
             showGlassPopup(html);
         }
 
-        /* --- LOTTERY GAME LOGIC (UPDATED WITH POP-OUT ANIMATION) --- */
+        /* --- LOTTERY GAME LOGIC --- */
         function openLotteryModal() {
             document.getElementById('lottery-modal').style.display = 'flex';
         }
@@ -1828,18 +2546,24 @@
         }
 
         let isLotterySpinning = false;
-        const lotteryPath = [0, 1, 2, 5, 8, 7, 6, 3];
-        const startLotteryBtn = document.getElementById('startLotteryBtn');
 
         function startLottery() {
             if (isLotterySpinning) return;
+            
+            // Check if user has enough XTR (assuming XTR is stored as inventory or balance)
+            const xtrCost = 9;
+            if (!inventory.xtr || inventory.xtr < xtrCost) {
+                showToast(`You need ${xtrCost} XTR to play lottery!`);
+                return;
+            }
+
             isLotterySpinning = true;
             startLotteryBtn.style.filter = "grayscale(0.5)";
             startLotteryBtn.innerText = "Spinning...";
 
+            const lotteryPath = [0, 1, 2, 5, 8, 7, 6, 3];
             let currentIndex = 0; 
             let speed = 50; 
-            let rounds = 0;
             const minRounds = 4;
 
             // Target low values
@@ -1853,7 +2577,7 @@
             function step() {
                 document.querySelectorAll('.grid-item').forEach(item => {
                     item.classList.remove('active');
-                    item.classList.remove('win-animate'); // Reset animation
+                    item.classList.remove('win-animate');
                 });
                 
                 const gridIndex = lotteryPath[currentIndex];
@@ -1863,7 +2587,6 @@
                 currentIndex++;
                 if (currentIndex >= lotteryPath.length) {
                     currentIndex = 0;
-                    rounds++;
                 }
                 currentStep++;
 
@@ -1881,6 +2604,9 @@
         function endLotteryGame(finalGridIndex) {
             const item = document.getElementById('cell-' + finalGridIndex);
             
+            // Deduct XTR cost
+            inventory.xtr = (inventory.xtr || 0) - 9;
+            
             // 1. Pop out animation within the grid
             item.classList.remove('active');
             item.classList.add('win-animate');
@@ -1897,48 +2623,63 @@
                 const html = `
                     <div class="popup-title">Lottery Win!</div>
                     <div class="popup-msg" style="font-size:1.5rem; color:#FFD700; font-weight:800;">+${prizeVal} Aurora</div>
+                    <div class="popup-msg">Cost: 9 XTR</div>
                     <button class="popup-btn" onclick="closeGlassPopup()">Collect</button>
                 `;
-                // Use a higher z-index for glass popup to overlay lottery if needed, 
-                // but usually better to close lottery then show popup, or overlay on top.
-                // Here we overlay on top.
                 showGlassPopup(html);
 
                 // Reset
                 isLotterySpinning = false;
                 startLotteryBtn.style.filter = "none";
-                startLotteryBtn.innerText = "Start lottery";
+                startLotteryBtn.innerText = "Start lottery (9 XTR)";
                 
                 setTimeout(() => {
                     item.classList.remove('win-animate');
                 }, 2000);
-            }, 800); // Wait for the pop animation
+            }, 800);
         }
 
-        /* --- SPIN WHEEL LOGIC --- */
-        function goToSpinPage() {
-            switchTab('spinPage');
+        /* --- SPIN WHEEL GAME --- */
+        function openSpinWheel() {
+            switchTab('spinWheelPage');
         }
 
-        function doSpin() {
-            const wheel = document.getElementById('wheel');
+        let spinWheelDeg = 0;
+        let isWheelSpinning = false;
+
+        function spinWheelGame() {
+            if (isWheelSpinning) return;
+            isWheelSpinning = true;
+            
+            const wheel = document.getElementById('spinWheel');
             const audio = document.getElementById('spinSound');
 
             audio.currentTime = 0; 
             audio.play().catch(e => console.log(e));
 
-            const deg = Math.floor(5000 + Math.random() * 5000); 
-            wheel.style.transition = 'transform 10s cubic-bezier(0.1, 0.7, 0.1, 1)';
-            wheel.style.transform = `rotate(${deg}deg)`;
-            
+            const randomDeg = Math.floor(Math.random() * 360);
+            const totalSpin = 1800 + randomDeg; // 5 spins minimum
+            spinWheelDeg += totalSpin;
+
+            wheel.style.transform = `rotate(${spinWheelDeg}deg)`;
+
             setTimeout(() => {
                 audio.pause();
-                const won = Math.floor(Math.random() * 500) + 100;
+                isWheelSpinning = false;
+                
+                // Calculate prize based on final position (8 segments)
+                const segmentAngle = 360 / 8;
+                const normalizedDeg = spinWheelDeg % 360;
+                const segment = Math.floor(normalizedDeg / segmentAngle);
+                
+                const prizes = [100, 200, 500, 1000, 200, 500, 100, 2000]; // 8 segments
+                const won = prizes[segment] || 100;
+                
                 balance += won;
                 saveUserData(); 
                 updateUI();
                 
-                // Show popup on top of the spin page (don't switch tabs)
+                // Show popup
                 const html = `
                     <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/coin.webp" width="60" style="margin-bottom:10px;">
                     <div class="popup-title">You Won!</div>
@@ -1946,23 +2687,33 @@
                     <button class="popup-btn" onclick="closeGlassPopup()">Collect</button>
                 `;
                 showGlassPopup(html);
-
-                wheel.style.transition = 'none';
-                const actualDeg = deg % 360;
-                wheel.style.transform = `rotate(${actualDeg}deg)`;
-            }, 10000); 
+            }, 4000);
         }
 
+        /* --- TAP HANDLING WITH VIBRATION --- */
         clickerBtn.addEventListener('touchstart', handleTap, {passive: false});
         clickerBtn.addEventListener('click', handleTap);
 
         function handleTap(e) {
-            e.preventDefault(); 
+            e.preventDefault();
+            
+            // Check for cheating
+            if (checkTapSpeed()) {
+                return;
+            }
+            
             if (energy > 0) {
-                balance++;
+                // Calculate coins based on level (lv1=+1, lv2=+2, etc.)
+                const coinsPerTap = level;
+                balance += coinsPerTap;
                 tapCount++; 
                 energy--;
                 updateUI(); 
+                
+                // Vibration
+                if (navigator.vibrate) {
+                    navigator.vibrate(50); // 50ms vibration
+                }
                 
                 let clientX = e.clientX;
                 let clientY = e.clientY;
@@ -1975,21 +2726,21 @@
                     clientX = rect.left + rect.width / 2;
                     clientY = rect.top + rect.height / 2;
                 }
-                showFloatingText(clientX, clientY);
-                if (navigator.vibrate) navigator.vibrate(10);
+                showFloatingText(clientX, clientY, `+${coinsPerTap}`);
             }
         }
 
-        function showFloatingText(x, y) {
+        function showFloatingText(x, y, text) {
             const floatEl = document.createElement('div');
             floatEl.className = 'floating-score';
-            floatEl.innerText = '+1';
+            floatEl.innerText = text;
             floatEl.style.left = `${x}px`;
             floatEl.style.top = `${y}px`;
             document.body.appendChild(floatEl);
             setTimeout(() => floatEl.remove(), 800);
         }
 
+        /* --- TAB SWITCHING --- */
         function switchTab(tabId, navElement) {
             document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
             document.getElementById(tabId).classList.add('active');
@@ -2006,59 +2757,198 @@
                 document.body.classList.remove('home-active');
                 document.getElementById('mainHeader').style.display = 'none';
             }
-        }
-        
-        function openBoostPage() {
-            switchTab('boostPage');
-        }
 
-        function handleStoreClick(btnElement, itemId, price) {
-            if(inventory[itemId]) {
-                activateItem(itemId);
-            } else {
-                buyItem(btnElement, itemId, price);
+            // Load leaderboard when opening that tab
+            if (tabId === 'leaderboardPage') {
+                loadLeaderboard();
             }
         }
 
-        function activateItem(itemId) {
-            // Logic to activate effect
-            if(itemId.includes('bot')) isBotActive = true;
-            if(itemId.includes('energy')) energy = maxEnergy;
-            
-            // For consumable items, you might delete from inventory
-            // delete inventory[itemId]; 
-
-            saveUserData();
-            updateUI();
-            
-            showToast("Item Activated!");
+        /* --- ENERGY MARKETPLACE --- */
+        function openEnergyMarket() {
+            switchTab('energyMarket');
         }
 
-        async function buyItem(btnElement, itemId, price) {
-            // Simulate purchase flow
-            if (!window.Telegram.WebApp.initData && userId === "test_user_001") {
-                // Testing Mode
-                const confirmBuy = confirm(`Buy ${itemId} for ${price} Stars? (Test Mode)`);
-                if(confirmBuy) {
-                    inventory[itemId] = true;
-                    saveUserData();
-                    updateUI();
-                    updateStoreUI();
-                    showToast("Changes saved"); // Toast notification as requested
-                }
+        function upgradeEnergy() {
+            const cost = 1000000 * energyLevel;
+            
+            if (balance >= cost && energyLevel < 10) {
+                balance -= cost;
+                energyLevel++;
+                maxEnergy = 500 * energyLevel; // lv1=500, lv2=1000, etc.
+                energy = maxEnergy; // Refill energy
+                
+                saveUserData();
+                updateUI();
+                showToast(`Energy upgraded to Level ${energyLevel}!`);
+            } else if (energyLevel >= 10) {
+                showToast("Maximum energy level reached!");
+            } else {
+                showToast(`Need ${cost.toLocaleString()} coins to upgrade!`);
+            }
+        }
+
+        function buyEnergyPackage(duration) {
+            const prices = {
+                '3d': 49,
+                '7d': 99,
+                '30d': 299
+            };
+            
+            const price = prices[duration];
+            const confirmBuy = confirm(`Buy ${duration} days of unlimited energy for ${price} Stars?`);
+            
+            if (confirmBuy) {
+                // Here you would integrate with payment system
+                // For now, just show success message
+                showToast(`Unlimited energy activated for ${duration} days!`);
+                energy = maxEnergy;
+                updateUI();
+            }
+        }
+
+        /* --- SHOP FUNCTIONS --- */
+        function buyItem(itemId, price) {
+            if (inventory[itemId]) {
+                showToast("Item already purchased!");
                 return;
             }
 
-            // Real Purchase Logic via Invoice...
-            // (Keeping the logic simple for this request context)
-            // Assuming successful purchase:
-            inventory[itemId] = true;
-            saveUserData();
-            updateUI();
-            updateStoreUI();
-            showToast("Purchase successful");
+            const confirmBuy = confirm(`Buy this item for ${price} Stars?`);
+            if (confirmBuy) {
+                inventory[itemId] = true;
+                
+                // Apply item effects
+                switch(itemId) {
+                    case 'vip_all':
+                        // Grant all VIP benefits
+                        showToast("VIP Access granted! All features unlocked.");
+                        break;
+                    case 'coin_2m':
+                        balance += 2000000;
+                        showToast("+2,000,000 Coins added!");
+                        break;
+                    case 'coin_10m':
+                        balance += 10000000;
+                        showToast("+10,000,000 Coins added!");
+                        break;
+                    case 'coin_100m':
+                        balance += 100000000;
+                        showToast("+100,000,000 Coins added!");
+                        break;
+                    case 'aurora_1':
+                        auroraBalance += 1;
+                        showToast("+1 Aurora added!");
+                        break;
+                    case 'aurora_10':
+                        auroraBalance += 10;
+                        showToast("+10 Aurora added!");
+                        break;
+                    case 'aurora_100':
+                        auroraBalance += 100;
+                        showToast("+100 Aurora added!");
+                        break;
+                    default:
+                        showToast("Purchase successful!");
+                }
+                
+                saveUserData();
+                updateUI();
+                updateShopUI();
+            }
         }
 
+        /* --- LEADERBOARD FUNCTIONS --- */
+        function switchLeaderboardTab(type, element) {
+            document.querySelectorAll('.leaderboard-tab').forEach(tab => tab.classList.remove('active'));
+            element.classList.add('active');
+            currentLeaderboardType = type;
+            leaderboardPage = 0;
+            loadLeaderboard();
+        }
+
+        function loadLeaderboard() {
+            const list = document.getElementById('leaderboardList');
+            const position = document.getElementById('userPosition');
+            
+            list.innerHTML = '<div style="text-align:center; padding:30px; color:rgba(255,255,255,0.6);">Loading leaderboard...</div>';
+            position.innerText = "Your Position: Loading...";
+            
+            // Load from Firebase
+            db.ref('leaderboard/' + currentLeaderboardType).orderByChild('score').limitToLast(50).once('value')
+                .then(snapshot => {
+                    const data = snapshot.val();
+                    if (!data) {
+                        list.innerHTML = '<div style="text-align:center; padding:30px; color:rgba(255,255,255,0.6);">No data available yet.</div>';
+                        position.innerText = "Your Position: Not ranked";
+                        return;
+                    }
+                    
+                    // Convert to array and sort
+                    const leaderboardArray = [];
+                    Object.keys(data).forEach(key => {
+                        leaderboardArray.push({
+                            id: key,
+                            ...data[key]
+                        });
+                    });
+                    
+                    leaderboardArray.sort((a, b) => b.score - a.score);
+                    
+                    // Find user position
+                    const userIndex = leaderboardArray.findIndex(item => item.id === userId);
+                    if (userIndex !== -1) {
+                        position.innerText = `Your Position: #${userIndex + 1}`;
+                    } else {
+                        position.innerText = "Your Position: Not ranked";
+                    }
+                    
+                    // Display first page (top 50)
+                    displayLeaderboardPage(leaderboardArray.slice(0, 50));
+                })
+                .catch(error => {
+                    console.error("Error loading leaderboard:", error);
+                    list.innerHTML = '<div style="text-align:center; padding:30px; color:rgba(255,255,255,0.6);">Error loading leaderboard.</div>';
+                });
+        }
+
+        function displayLeaderboardPage(players) {
+            const list = document.getElementById('leaderboardList');
+            list.innerHTML = '';
+            
+            if (players.length === 0) {
+                list.innerHTML = '<div style="text-align:center; padding:30px; color:rgba(255,255,255,0.6);">No players found.</div>';
+                return;
+            }
+            
+            players.forEach((player, index) => {
+                const item = document.createElement('div');
+                item.className = `leaderboard-item ${index === 0 ? 'rank-1' : index === 1 ? 'rank-2' : index === 2 ? 'rank-3' : ''}`;
+                
+                item.innerHTML = `
+                    <div class="rank-number">${index + 1}</div>
+                    <div class="player-info">
+                        <img src="${player.avatar || 'https://alamin12071985-a11y.github.io/Snowman-Adventure/snowman.webp'}" class="player-avatar" alt="${player.name}">
+                        <div>
+                            <div class="player-name">${player.name || 'Anonymous'}</div>
+                            <div style="font-size:0.7rem; color:rgba(255,255,255,0.6);">Level ${player.level || 1}</div>
+                        </div>
+                    </div>
+                    <div class="player-score">${(player.score || 0).toLocaleString()}</div>
+                `;
+                
+                list.appendChild(item);
+            });
+        }
+
+        function loadNextLeaderboardPage() {
+            leaderboardPage++;
+            // Load next 50 players
+            // Implementation would depend on your Firebase structure
+            showToast("Loading more players...");
+        }
+
+        /* --- TASKS SYSTEM --- */
         function fetchTasksFromFirebase() {
             const list = document.getElementById('taskList');
             db.ref('tasks').on('value', (snapshot) => {
@@ -2091,13 +2981,12 @@
             });
         }
 
-        // --- UPDATED INVITE FRIENDS LOGIC ---
+        /* --- FRIENDS SYSTEM --- */
         function inviteFriend() {
             const link = "https://t.me/thesnowmanbot?start=" + userId;
             const text = "Join me on Snowman Adventure and earn coins!";
             const url = `https://t.me/share/url?url=${encodeURIComponent(link)}&text=${encodeURIComponent(text)}`;
             
-            // Open Telegram Share
             try {
                 window.Telegram.WebApp.openTelegramLink(url);
             } catch (e) {
@@ -2112,6 +3001,7 @@
             });
         }
 
+        // Initialize the game
         init();
     </script>
 </body>
