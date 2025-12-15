@@ -5,21 +5,606 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Snowman Adventure</title>
     
-    <!-- Telegram Web App -->
+    <!-- Telegram Web App Script -->
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
-    <!-- Firebase -->
+    
+    <!-- Firebase SDK -->
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
-    <!-- TON Connect -->
-    <script src="https://unpkg.com/@tonconnect/ui@latest/dist/tonconnect-ui.min.js"></script>
-    <!-- Fonts & Icons -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     
-    <!-- External CSS -->
-    <link rel="stylesheet" href="style.css">
+    <!-- TON Connect UI SDK -->
+    <script src="https://unpkg.com/@tonconnect/ui@latest/dist/tonconnect-ui.min.js"></script>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <style>
+        :root {
+            --bg-dark: #050f1a;
+            --text-light: #E3F4F9;
+            --accent-cyan: #00E5FF;
+            --accent-violet: #6A5ACD;
+            --glass-bg: linear-gradient(145deg, rgba(22, 52, 80, 0.4) 0%, rgba(8, 24, 43, 0.6) 100%);
+            --glass-border: 1px solid rgba(0, 229, 255, 0.15);
+            --level-gold: #FFD700;
+            --btn-blue-grad: linear-gradient(180deg, #60ccfd 0%, #4a92ff 100%);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            color: var(--text-light);
+            height: 100dvh; 
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            background-color: #050f1a; 
+            transition: background 0.3s ease;
+        }
+
+        body.home-active {
+            background-image: url('https://alamin12071985-a11y.github.io/Snowman-Adventure/background.webp');
+            background-size: cover;
+            background-position: center center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            backdrop-filter: blur(2px);
+        }
+
+        body:not(.home-active) {
+            background-image: url('https://alamin12071985-a11y.github.io/Snowman-Adventure/all%20background.webp');
+            background-size: cover;
+            background-position: center center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            backdrop-filter: blur(4px);
+        }
+
+        /* --- LOADING SCREEN --- */
+        #loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 9999;
+            background-image: url('https://alamin12071985-a11y.github.io/Snowman-Adventure/loading%20screen.webp');
+            background-size: cover;
+            background-position: center bottom;
+            background-repeat: no-repeat;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-end;
+            padding-bottom: 15vw;
+            transition: opacity 0.5s ease;
+        }
+
+        .loading-container {
+            width: 80vw;
+            height: 6vw; 
+            background-color: #050f1a;
+            border: 1vw solid var(--accent-cyan);
+            border-radius: 3vw; 
+            position: relative;
+            padding: 0.4vw;
+            box-shadow: 0 1.5vw 3vw rgba(0,0,0,0.6);
+        }
+
+        .progress-bar {
+            width: 0%;
+            height: 100%;
+            background: linear-gradient(to bottom, #00E5FF 0%, #6A5ACD 100%);
+            border-radius: 2.5vw;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            box-shadow: inset 0 0.5vw 0.5vw rgba(255,255,255,0.4);
+            transition: width 0.1s linear;
+        }
+
+        .percentage {
+            color: white;
+            font-weight: 900;
+            font-size: 3.5vw;
+            margin-right: 4vw;
+            text-shadow: 0.5vw 0.5vw 0px #000000;
+            font-style: italic;
+            z-index: 2;
+            font-family: sans-serif;
+        }
+
+        /* --- APP CONTAINER --- */
+        .app-container {
+            width: 100%;
+            max-width: 100%; 
+            height: 100dvh;
+            background: rgba(0, 0, 0, 0.2); 
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            backdrop-filter: blur(2px);
+        }
+
+        /* --- HEADER --- */
+        .header-dashboard {
+            padding: 3vw 3vw 1vw 3vw;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            z-index: 20;
+            background: linear-gradient(180deg, rgba(5,15,26,0.9) 0%, rgba(5,15,26,0) 100%);
+            flex-shrink: 0;
+        }
+
+        .header-balances {
+            display: flex;
+            flex-direction: column;
+            gap: 1vw;
+        }
+
+        .stat-card-row {
+            background: var(--glass-bg);
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(0, 229, 255, 0.2);
+            border-radius: 3vw; 
+            padding: 1vw 2vw;
+            display: flex;
+            align-items: center;
+            gap: 1.5vw;
+            min-width: 20vw;
+        }
+
+        .stat-value { font-size: 3.5vw; font-weight: 700; display: flex; align-items: center; gap: 1.5vw; color: white; }
+        .stat-value img { width: 5vw; height: 5vw; object-fit: contain; }
+
+        .profile-section {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 0 2vw;
+        }
+
+        .profile-top {
+            display: flex;
+            align-items: center;
+            gap: 2vw;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 1vw 3vw 1vw 1vw;
+            border-radius: 7vw;
+            border: 1px solid rgba(0, 229, 255, 0.1);
+            margin-bottom: 1vw;
+        }
+
+        .user-avatar {
+            width: 8vw;
+            height: 8vw;
+            border-radius: 50%;
+            border: 0.5vw solid var(--accent-cyan);
+            object-fit: cover;
+            background: #fff;
+        }
+
+        .user-name {
+            font-weight: 700;
+            font-size: 3.5vw;
+            text-transform: uppercase;
+            letter-spacing: 0.2vw;
+            max-width: 25vw;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .header-level-box {
+            width: 100%;
+            max-width: 35vw;
+            text-align: center;
+        }
+        
+        .lvl-text {
+            font-size: 2.8vw;
+            color: rgba(255,255,255,0.6);
+            margin-bottom: 0.5vw;
+            display: flex;
+            justify-content: space-between;
+            padding: 0 1vw;
+        }
+
+        .header-progress-bg {
+            width: 100%;
+            height: 2vw;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 1vw;
+            overflow: hidden;
+            border: 1px solid rgba(0, 229, 255, 0.2);
+        }
+
+        .header-progress-fill {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #FF8C00, #FFD700); 
+            box-shadow: 0 0 2vw rgba(255, 215, 0, 0.5);
+            transition: width 0.3s ease;
+        }
+
+        .settings-btn {
+            background: var(--glass-bg);
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(0, 229, 255, 0.2);
+            border-radius: 50%;
+            width: 10vw;
+            height: 10vw;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: var(--accent-cyan);
+            font-size: 4vw;
+            overflow: hidden;
+        }
+        .settings-btn img { width: 6vw; height: 6vw; object-fit: contain; }
+
+        /* --- CONTENT AREA --- */
+        .content-area {
+            flex: 1;
+            overflow-y: auto;
+            padding: 0 5vw 25vw 5vw;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .tab-content {
+            display: none;
+            flex-direction: column;
+            animation: fadeIn 0.4s ease;
+            height: 100%;
+            width: 100%;
+        }
+
+        .tab-content.active { display: flex; }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* --- GAME AREA --- */
+        .game-area-wrapper {
+            width: 100%;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            z-index: 10;
+            padding-bottom: 3vw;
+            justify-content: center;
+            gap: 5vw;
+        }
+
+        .main-balance {
+            font-size: clamp(1.8rem, 5vw, 2.5rem);
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            gap: 2.5vw;
+            z-index: 5;
+            flex-shrink: 0;
+            margin-top: 2vh;
+        }
+
+        .main-balance img {
+            width: clamp(35px, 10vw, 45px); 
+            filter: drop-shadow(0 0 2.5vw var(--accent-cyan));
+        }
+
+        .character-img {
+            width: auto;
+            max-width: 80vw;
+            height: auto;
+            max-height: 45vh;
+            cursor: pointer;
+            z-index: 10; 
+            transition: transform 0.1s;
+            filter: drop-shadow(0 0 4vw rgba(0, 229, 255, 0.1));
+            object-fit: contain;
+            margin: 3vw 0;
+        }
+
+        .character-img:active { transform: scale(0.96) rotate(-2deg); }
+
+        /* --- FLOATING SCORE --- */
+        .floating-score {
+            position: absolute;
+            color: var(--accent-cyan);
+            font-weight: 800;
+            font-size: 8vw;
+            pointer-events: none;
+            animation: floatUp 0.8s ease-out forwards;
+            z-index: 100;
+            text-shadow: 0 0 2.5vw var(--accent-violet);
+        }
+
+        @keyframes floatUp {
+            0% { opacity: 1; transform: translateY(0) scale(1); }
+            100% { opacity: 0; transform: translateY(-20vw) scale(1.2); }
+        }
+
+        /* --- TOAST NOTIFICATION --- */
+        .toast-notification {
+            position: fixed;
+            top: 5vw;
+            left: 50%;
+            transform: translateX(-50%) translateY(-25vw);
+            background: white;
+            color: #000;
+            padding: 3vw 5vw;
+            border-radius: 7.5vw;
+            box-shadow: 0 1vw 5vw rgba(0,0,0,0.3);
+            display: flex;
+            align-items: center;
+            gap: 2.5vw;
+            z-index: 5000;
+            opacity: 0;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            width: 90%;
+            max-width: 80vw;
+        }
+
+        .toast-notification.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+        }
+
+        .toast-icon {
+            width: 6vw;
+            height: 6vw;
+            background: #4CAF50;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 3.5vw;
+        }
+
+        /* --- NAV BAR --- */
+        .nav-bar {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 21vw;
+            background: linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.9) 100%);
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            display: flex;
+            justify-content: space-evenly;
+            align-items: center;
+            z-index: 100;
+            padding-bottom: 2.5vw;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 1vw;
+            width: 20vw; /* Adjusted for 3 items */
+            height: 15vw;
+            border-radius: 3.5vw;
+            color: rgba(255, 255, 255, 0.4);
+            transition: all 0.3s ease;
+        }
+
+        .nav-item img {
+            width: 6vw;
+            height: 6vw;
+            opacity: 0.5;
+            transition: all 0.3s;
+            filter: grayscale(100%);
+        }
+
+        .nav-item span { font-size: 2.8vw; font-weight: 500; }
+
+        .nav-item.active {
+            color: var(--accent-cyan);
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.1) 0%, rgba(0, 229, 255, 0.05) 100%);
+            backdrop-filter: blur(5px);
+            border-top: 1px solid rgba(0, 229, 255, 0.5);
+            box-shadow: 0 -2.5vw 5vw rgba(0, 229, 255, 0.15) inset;
+        }
+
+        .nav-item.active img {
+            opacity: 1;
+            filter: grayscale(0%) drop-shadow(0 0 2vw var(--accent-cyan));
+            transform: scale(1.1);
+        }
+        
+        /* --- WALLET PAGE STYLES --- */
+        .wallet-title {
+            font-size: 7.5vw; line-height: 1.1; margin-bottom:2.5vw; 
+            font-weight: 800; color: var(--accent-cyan);
+        }
+
+        .wallet-stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr; 
+            gap: 2vw;
+            margin-bottom: 5vw;
+            width: 100%;
+        }
+        .wallet-stat-box {
+            background: var(--glass-bg);
+            border: 1px solid rgba(0,229,255,0.2);
+            border-radius: 3vw;
+            padding: 2.5vw 1.5vw;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        .wallet-stat-box img { width: 7.5vw; height: 7.5vw; object-fit: contain; margin-bottom: 1.5vw; }
+        .wallet-stat-val { font-weight: 700; font-size: 3.2vw; color: white; }
+        .wallet-stat-label { font-size: 2.8vw; color: rgba(255,255,255,0.6); }
+
+        .exchange-btn {
+            width: 100%; max-width: none; margin-top: 4vw;
+            background: #000;
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 10vw;
+            padding: 2vw 5vw 2vw 2.5vw;
+            display: flex; align-items: center; gap: 4vw;
+            cursor: pointer; text-align: left;
+        }
+        .exchange-icon { width: 11vw; height: 11vw; }
+        .exchange-text h3 { color: white; font-size: 3.5vw; margin-bottom: 0.5vw; }
+        .exchange-text p { color: rgba(255,255,255,0.6); font-size: 2.8vw; line-height: 1.2; }
+
+        /* --- TASK PAGE STYLES --- */
+        .task-list {
+            display: flex;
+            flex-direction: column;
+            gap: 3vw;
+            width: 100%;
+            padding-bottom: 5vw;
+        }
+
+        .task-card {
+            background: var(--glass-bg);
+            border: 1px solid rgba(0, 229, 255, 0.2);
+            border-radius: 4vw;
+            padding: 3vw;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 3vw;
+            transition: transform 0.2s;
+        }
+
+        .task-card:active { transform: scale(0.98); }
+
+        .task-icon {
+            width: 12vw;
+            height: 12vw;
+            border-radius: 3vw;
+            object-fit: cover;
+            background: rgba(255,255,255,0.1);
+        }
+
+        .task-info {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 1vw;
+        }
+
+        .task-title {
+            color: white;
+            font-size: 3.5vw;
+            font-weight: 600;
+            line-height: 1.2;
+        }
+
+        .task-reward {
+            display: flex;
+            align-items: center;
+            gap: 1.5vw;
+            font-size: 3vw;
+            color: var(--level-gold);
+            font-weight: 700;
+        }
+        .task-reward img { width: 4vw; height: 4vw; }
+
+        .task-btn {
+            background: var(--btn-blue-grad);
+            border: none;
+            color: white;
+            padding: 2vw 5vw;
+            border-radius: 5vw;
+            font-weight: 700;
+            font-size: 3vw;
+            min-width: 20vw;
+            text-align: center;
+        }
+
+        .task-btn.claimed {
+            background: rgba(255,255,255,0.2);
+            color: rgba(255,255,255,0.5);
+            pointer-events: none;
+        }
+
+        /* --- BUTTON STYLES --- */
+        .button-group {
+            display: flex;
+            gap: 2.5vw;
+            justify-content: center;
+            width: 100%;
+            margin-top: 4vw;
+        }
+        .btn {
+            border: none;
+            height: 14vw;
+            border-radius: 4vw;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--btn-blue-grad);
+            box-shadow: 0 2vw 5vw rgba(74, 146, 255, 0.4);
+            transition: transform 0.1s ease, box-shadow 0.2s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .connect-btn {
+            padding: 0 5vw;
+            width: 100%;
+            max-width: 62.5vw;
+        }
+        .btn-text {
+            color: white;
+            font-size: 3.5vw;
+            font-weight: 700;
+            margin-left: 2.5vw;
+            letter-spacing: 0.1vw;
+        }
+        .icon {
+            width: 6vw;
+            height: 6vw;
+            fill: none;
+            stroke: white;
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+    </style>
 </head>
 <body class="home-active">
+
+    <!-- TOAST NOTIFICATION -->
+    <div id="toastNotification" class="toast-notification">
+        <div class="toast-icon"><i class="fas fa-check"></i></div>
+        <div id="toastMessage">Changes saved</div>
+        <i class="fas fa-times" style="margin-left:auto; color:#999; cursor:pointer;" onclick="hideToast()"></i>
+    </div>
+
+    <!-- GENERIC GLASS POPUP -->
+    <div id="glassPopup" class="popup-overlay">
+        <div class="popup-content" id="popupContent">
+            <!-- Content Injected via JS -->
+        </div>
+    </div>
 
     <!-- LOADING SCREEN -->
     <div id="loading-screen">
@@ -30,78 +615,51 @@
         </div>
     </div>
 
-    <!-- ADMIN POPUP (Global) -->
-    <div id="adminPopup" class="popup-overlay">
-        <div class="popup-content admin-popup-content">
-            <img id="popupImg" src="" alt="News" class="popup-banner-img">
-            <h3 id="popupTitle">Notification</h3>
-            <p id="popupText">Message from admin...</p>
-            <button class="btn-main" onclick="closeAdminPopup()">OK</button>
-        </div>
-    </div>
-
-    <!-- DAILY SPIN MODAL -->
-    <div id="spinModal" class="popup-overlay">
-        <div class="popup-content spin-content">
-            <h3>Daily Spin</h3>
-            <div class="wheel-container">
-                <div id="wheel" class="wheel">🎁</div>
-            </div>
-            <p id="spinResult">Spin to win Stars!</p>
-            <button id="spinBtn" class="btn-main" onclick="runDailySpin()">SPIN NOW</button>
-            <button class="close-btn-x" onclick="closeSpinModal()">×</button>
-        </div>
-    </div>
-
-    <!-- CRASH GAME OVERLAY -->
-    <div id="crashGameOverlay" class="game-overlay">
-        <div class="crash-header">
-            <button onclick="closeCrashGame()" class="back-btn">← Exit</button>
-            <div class="crash-balance">⭐️ <span id="crashBalanceDisplay">0</span></div>
-        </div>
-        <div id="crash-wrapper">
-            <div id="multiplier-display">1.00x</div>
-            <div id="crash-msg">Place your bet</div>
-            <img id="crash-gif" src="https://i.ibb.co.com/v01HX5m/collision-1f4a5.gif" alt="Crash">
-            <canvas id="gameCanvas"></canvas>
-        </div>
-        <div class="crash-controls">
-            <div class="bet-input-area">
-                <button onclick="adjustCrashBet(-10)">-</button>
-                <span id="crashBetAmount">50</span> ⭐️
-                <button onclick="adjustCrashBet(10)">+</button>
-            </div>
-            <button id="crashActionBtn" class="crash-main-btn" onclick="handleCrashAction()">PLACE BET (Stars)</button>
-        </div>
-    </div>
-
-    <!-- MAIN APP CONTAINER -->
     <div class="app-container">
         
-        <!-- HEADER -->
+        <!-- HEADER DASHBOARD -->
         <div class="header-dashboard" id="mainHeader">
+            
+            <!-- Left: Balances -->
             <div class="header-balances">
+                <!-- Coins -->
                 <div class="stat-card-row">
                     <div class="stat-value">
-                        <!-- Coin Icon -->
                         <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/coin.webp" alt="C">
                         <span id="headerCoinBalance">0</span>
                     </div>
                 </div>
+                <!-- TON -->
                 <div class="stat-card-row">
                     <div class="stat-value">
-                        <!-- Star Icon (Using TON placeholder or Star emoji) -->
-                        <span style="font-size: 24px;">⭐️</span>
-                        <span id="headerStarBalance">0</span>
+                        <img src="https://static.vecteezy.com/system/resources/previews/024/093/454/non_2x/toncoin-ton-glass-crypto-coin-3d-illustration-free-png.png" alt="T">
+                        <span id="headerTonBalance">0.0</span>
                     </div>
                 </div>
             </div>
 
+            <!-- Center: User Profile & Level -->
             <div class="profile-section">
                 <div class="profile-top">
                     <img id="headerAvatar" src="https://alamin12071985-a11y.github.io/Snowman-Adventure/snowman.webp" class="user-avatar" alt="User">
                     <span id="headerName" class="user-name">User</span>
                 </div>
+                
+                <!-- Level Progress -->
+                <div class="header-level-box">
+                    <div class="lvl-text">
+                        <span id="levelNameHeader">Lvl 1</span>
+                        <span><span id="currentLevelHeader">0</span>/100</span>
+                    </div>
+                    <div class="header-progress-bg">
+                        <div class="header-progress-fill" id="headerLevelBar"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right: Options -->
+            <div class="settings-btn">
+                <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/setting.webp" alt="Settings">
             </div>
         </div>
 
@@ -109,120 +667,487 @@
             
             <!-- HOME TAB -->
             <div id="home" class="tab-content active">
-                
-                <!-- Daily Spin Button (Side) -->
-                <div class="daily-spin-trigger" onclick="openSpinModal()">
-                    <span>🎡</span>
-                    <small>Spin</small>
-                </div>
 
-                <!-- Rocket Game Banner -->
-                <div class="rocket-banner" onclick="openCrashGame()">
-                    <div class="banner-badge">NEW!</div>
-                    <div class="banner-title">ROCKET</div>
-                    <img src="https://i.ibb.co.com/j9Sj7YDx/vecteezy-ai-generated-rocket-ship-on-transparent-background-37796390.png" class="banner-img" alt="Rocket">
-                    <div class="banner-multis">
-                        <span>x5.43</span>
-                        <span>x2.95</span>
-                    </div>
-                </div>
-
+                <!-- Game Area -->
                 <div class="game-area-wrapper" id="snowContainer">
+                    
                     <div class="main-balance">
                         <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/coin.webp" alt="C">
                         <span id="displayBalance">0</span>
                     </div>
+                    
+                    <!-- Main Character -->
                     <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/snowman.webp" class="character-img" id="clickerBtn" alt="Snowman">
+                    
                 </div>
             </div>
 
-            <!-- SHOP TAB -->
-            <div id="shop" class="tab-content">
-                <h2 class="section-title">Shop</h2>
-                <p class="section-subtitle">Buy boosters with Telegram Stars</p>
-                <div class="shop-grid" id="shopContainer">
-                    <!-- Items injected via JS -->
-                </div>
-            </div>
-
-            <!-- FRIENDS TAB -->
-            <div id="friends" class="tab-content">
-                <h2 class="section-title">Friends</h2>
-                <!-- Admin Configurable Text -->
-                <p class="friends-desc" id="friendsAdminText">Invite your friends to play together and earn rewards!</p>
-                
-                <div class="invite-container">
-                    <!-- Main Invite Button -->
-                    <button class="btn-invite" onclick="shareInviteLink()">
-                        Invite a Friend
-                    </button>
-            
-                    <!-- Copy Button -->
-                    <button class="btn-copy" onclick="copyInviteLink(this)">
-                        <svg viewBox="0 0 24 24">
-                            <path d="M16 1H4C2.9 1 2 1.9 2 3V17H4V3H16V1ZM19 5H8C6.9 5 6 5.9 6 7V21C6 22.1 6.9 23 8 23H19C20.1 23 21 22.1 21 21V7C21 5.9 20.1 5 19 5ZM19 21H8V7H19V21Z"/>
-                        </svg>
-                    </button>
+            <!-- TASK TAB (New) -->
+            <div id="task" class="tab-content">
+                <div style="text-align:center; padding-top: 10px; padding-bottom: 20px;">
+                    <h1 class="wallet-title">Daily<br>Tasks</h1>
+                    <p style="color:rgba(227, 244, 249, 0.7); font-size: 1rem;">Complete tasks to earn coins.</p>
                 </div>
 
-                <div class="friend-list">
-                    <h3>Your Friends</h3>
-                    <div id="friendListContainer">
-                        <p style="opacity:0.5; text-align:center;">No friends yet.</p>
-                    </div>
+                <!-- Task List -->
+                <div id="taskList" class="task-list">
+                    <div style="text-align:center; color:rgba(255,255,255,0.5); margin-top:20px;">Loading tasks...</div>
                 </div>
             </div>
 
             <!-- WALLET TAB -->
             <div id="wallet" class="tab-content">
-                <h1 class="wallet-title">Wallet</h1>
-                <div class="wallet-stats-grid">
-                    <div class="wallet-stat-box">
-                        <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/coin.webp" alt="Coin">
-                        <span class="wallet-stat-val" id="walletCoin">0</span>
-                        <span class="wallet-stat-label">Coins</span>
+                <div style="text-align:center; padding-top: 10px;">
+                    <h1 class="wallet-title">Get Real<br>Crypto.</h1>
+                    <p style="color:rgba(227, 244, 249, 0.7); font-size: 1rem; margin-bottom: 20px;">Earn and buy tokens.</p>
+                    
+                    <div class="wallet-stats-grid">
+                        <div class="wallet-stat-box">
+                            <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/coin.webp" alt="Coin">
+                            <span class="wallet-stat-val" id="walletCoin">0</span>
+                            <span class="wallet-stat-label">Coins</span>
+                        </div>
+                        <div class="wallet-stat-box">
+                            <img src="https://static.vecteezy.com/system/resources/previews/024/093/454/non_2x/toncoin-ton-glass-crypto-coin-3d-illustration-free-png.png" alt="TON">
+                            <span class="wallet-stat-val" id="walletTon">0.0</span>
+                            <span class="wallet-stat-label">TON</span>
+                        </div>
                     </div>
-                    <div class="wallet-stat-box">
-                        <span style="font-size: 8vw;">⭐️</span>
-                        <span class="wallet-stat-val" id="walletStars">0</span>
-                        <span class="wallet-stat-label">Stars</span>
+
+                    <!-- Connect Button -->
+                    <div class="button-group" style="margin-top: 20px;" id="connectBtnContainer">
+                        <button class="btn connect-btn" id="connectWalletBtn" onclick="connectWallet()">
+                             <svg class="icon" viewBox="0 0 24 24">
+                                <rect x="2" y="5" width="20" height="14" rx="2" ry="2"></rect>
+                                <line x1="2" y1="10" x2="22" y2="10"></line>
+                            </svg>
+                            <span class="btn-text">Connect Wallet</span>
+                        </button>
                     </div>
-                </div>
-                <div class="button-group" id="connectBtnContainer">
-                    <button class="btn connect-btn" id="connectWalletBtn" onclick="connectWallet()">
-                        <span class="btn-text">Connect TON Wallet</span>
-                    </button>
-                </div>
-                <div id="walletStatusBadge" style="display:none; text-align:center; margin-top:10px;">
-                    <span id="walletAddressDisplay"></span>
+
+                    <!-- Address Status -->
+                    <div id="walletStatusBadge" style="display:none; margin-top:10px; background:rgba(255,255,255,0.1); padding:8px 15px; border-radius:20px; font-size:0.8rem; border:1px solid rgba(0,229,255,0.3);">
+                        <span style="width:10px; height:10px; background:#00C853; border-radius:50%; display:inline-block; margin-right:5px;"></span>
+                        <span id="walletAddressDisplay"></span>
+                    </div>
+
+                    <div class="exchange-btn" onclick="handleExchangeClick()">
+                        <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/exchange.webp" class="exchange-icon" alt="Swap">
+                        <div class="exchange-text">
+                            <h3>Exchange Tokens!</h3>
+                            <p>Convert your tokens into cryptocurrency.</p>
+                        </div>
+                    </div>
                 </div>
             </div>
-
         </div>
 
-        <!-- NAVIGATION BAR -->
+        <!-- NAVIGATION -->
         <div class="nav-bar">
             <div class="nav-item active" onclick="switchTab('home', this)">
-                <i class="fas fa-home"></i>
+                <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/home.webp" alt="Home">
                 <span>Home</span>
             </div>
-            <div class="nav-item" onclick="switchTab('shop', this)">
-                <i class="fas fa-store"></i>
-                <span>Shop</span>
+            
+            <!-- Task Button -->
+            <div class="nav-item" onclick="switchTab('task', this)">
+                <img src="https://img.icons8.com/3d-fluency/94/clipboard.png" alt="Task">
+                <span>Task</span>
             </div>
-            <div class="nav-item" onclick="switchTab('friends', this)">
-                <i class="fas fa-user-friends"></i>
-                <span>Friends</span>
-            </div>
+
             <div class="nav-item" onclick="switchTab('wallet', this)">
-                <i class="fas fa-wallet"></i>
+                <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/wallet.webp" alt="Wallet">
                 <span>Wallet</span>
             </div>
         </div>
 
     </div>
 
-    <!-- External JS -->
-    <script src="script.js"></script>
+    <script>
+        // --- FIREBASE CONFIGURATION ---
+        const firebaseConfig = {
+            apiKey: "AIzaSyD1PPDhogcw7fBu27PkO1iuMfGFLUwMN70",
+            authDomain: "fir-55206.firebaseapp.com",
+            databaseURL: "https://fir-55206-default-rtdb.firebaseio.com",
+            projectId: "fir-55206",
+            storageBucket: "fir-55206.firebasestorage.app",
+            messagingSenderId: "24586463698",
+            appId: "1:24586463698:web:8b2f21073295ef4382400b",
+            measurementId: "G-K676BWHYR4"
+        };
+        
+        if (!firebase.apps.length) {
+            firebase.initializeApp(firebaseConfig);
+        }
+        const db = firebase.database();
+
+        // --- GAME STATE VARIABLES ---
+        let balance = 0;
+        let tonBalance = 0.0;
+        let tapCount = 0; 
+        let level = 1;
+        let userId = "test_user_001"; 
+        let tapTimes = [];
+        let completedTasks = {}; // Store user's completed tasks
+
+        // --- DOM ELEMENTS ---
+        const balanceDisplay = document.getElementById('displayBalance');
+        const clickerBtn = document.getElementById('clickerBtn');
+        const headerName = document.getElementById('headerName');
+        const headerAvatar = document.getElementById('headerAvatar');
+        const headerLevelBar = document.getElementById('headerLevelBar');
+        const currentLevelHeader = document.getElementById('currentLevelHeader');
+        const levelNameHeader = document.getElementById('levelNameHeader');
+        
+        // Header & Wallet Displays
+        const headerCoin = document.getElementById('headerCoinBalance');
+        const headerTon = document.getElementById('headerTonBalance');
+        const walletCoin = document.getElementById('walletCoin');
+        const walletTon = document.getElementById('walletTon');
+
+        // --- TON CONNECT INITIALIZATION ---
+        const tonConnectUI = new TON_CONNECT_UI.TonConnectUI({
+            manifestUrl: 'https://alamin12071985-a11y.github.io/cine-link/tonconnect-manifest.json',
+            buttonRootId: null 
+        });
+
+        tonConnectUI.onStatusChange(wallet => {
+            const btnContainer = document.getElementById('connectBtnContainer');
+            const statusBadge = document.getElementById('walletStatusBadge');
+            const addressDisplay = document.getElementById('walletAddressDisplay');
+
+            if(wallet) {
+                // Hide Button, Show Address
+                btnContainer.style.display = "none";
+                statusBadge.style.display = "block";
+                const rawAddress = wallet.account.address;
+                const shortAddress = rawAddress.slice(0,4) + "..." + rawAddress.slice(-4);
+                addressDisplay.innerText = shortAddress;
+            } else {
+                btnContainer.style.display = "flex";
+                statusBadge.style.display = "none";
+            }
+        });
+
+        async function connectWallet() {
+            try {
+                if(!tonConnectUI.connected) {
+                    await tonConnectUI.openModal();
+                }
+            } catch(e) {
+                console.error(e);
+            }
+        }
+
+        async function checkAdBlocker() {
+            // Placeholder for adsbox detection
+        }
+
+        // --- LOADING & INIT ---
+        window.addEventListener('load', () => {
+            let loadPercent = 0;
+            const bar = document.getElementById('loadingFill');
+            const percentText = document.getElementById('loadingPercent');
+            const screen = document.getElementById('loading-screen');
+            
+            const interval = setInterval(() => {
+                loadPercent += Math.floor(Math.random() * 5) + 1;
+                if(loadPercent > 100) loadPercent = 100;
+                
+                bar.style.width = loadPercent + '%';
+                percentText.innerText = loadPercent + '%';
+
+                if(loadPercent >= 100) {
+                    clearInterval(interval);
+                    setTimeout(() => {
+                        screen.style.opacity = '0';
+                        setTimeout(() => {
+                            screen.style.display = 'none';
+                            checkAdBlocker();
+                        }, 500);
+                    }, 500);
+                }
+            }, 50);
+        });
+
+        function init() {
+            initTelegramUser(); 
+            startSnowfall();
+            loadUserData();
+            setInterval(saveUserData, 5000);
+        }
+
+        function initTelegramUser() {
+            try {
+                const tg = window.Telegram.WebApp;
+                tg.expand(); 
+                const user = tg.initDataUnsafe.user;
+                if (user) {
+                    userId = user.id.toString(); 
+                    if (user.username) headerName.innerText = user.username;
+                    else if (user.first_name) headerName.innerText = user.first_name;
+                    if (user.photo_url) headerAvatar.src = user.photo_url;
+                }
+            } catch (e) {
+                console.log("Not running in Telegram");
+            }
+        }
+
+        function saveUserData() {
+            if(!userId) return;
+            db.ref('users/' + userId).update({
+                balance: balance,
+                tonBalance: tonBalance,
+                tapCount: tapCount,
+                level: level,
+                lastActive: Date.now()
+            });
+        }
+
+        function loadUserData() {
+            if(!userId) return;
+            db.ref('users/' + userId).once('value').then((snapshot) => {
+                const data = snapshot.val();
+                if (data) {
+                    balance = data.balance || 0;
+                    tonBalance = data.tonBalance || 0.0;
+                    tapCount = data.tapCount || 0;
+                    level = data.level || 1;
+                    completedTasks = data.completedTasks || {}; // Load completed tasks
+                    updateUI();
+                    loadTasksFromDB(); // Fetch tasks
+                } else {
+                    updateUI();
+                    loadTasksFromDB();
+                }
+            });
+        }
+
+        function startSnowfall() {
+            const container = document.getElementById('snowContainer');
+            const styleSheet = document.createElement("style");
+            styleSheet.innerText += `@keyframes fall { 0% { transform: translateY(-10px); opacity: 0.8; } 100% { transform: translateY(300px); opacity: 0; } }`;
+            document.head.appendChild(styleSheet);
+
+            setInterval(() => {
+                const flake = document.createElement('div');
+                flake.style.position = 'absolute';
+                flake.style.background = 'white';
+                flake.style.borderRadius = '50%';
+                flake.style.opacity = '0.8';
+                flake.style.pointerEvents = 'none';
+                flake.style.animation = 'fall linear infinite';
+                const size = Math.random() * 4 + 2 + 'px';
+                flake.style.width = size;
+                flake.style.height = size;
+                flake.style.left = Math.random() * 90 + 5 + '%';
+                flake.style.animationDuration = Math.random() * 3 + 3 + 's';
+                container.appendChild(flake);
+                setTimeout(() => { flake.remove(); }, 5000);
+            }, 600); 
+        }
+
+        function updateUI() {
+            balanceDisplay.innerText = Math.floor(balance).toLocaleString();
+            headerCoin.innerText = Math.floor(balance).toLocaleString();
+            headerTon.innerText = parseFloat(tonBalance).toFixed(2);
+            walletCoin.innerText = Math.floor(balance).toLocaleString();
+            walletTon.innerText = parseFloat(tonBalance).toFixed(4);
+
+            let nextLevelThreshold = 4000 + ((level - 1) * 8000);
+            let prevLevelThreshold = level === 1 ? 0 : (4000 + ((level - 2) * 8000));
+            
+            let progress = balance - prevLevelThreshold;
+            let range = nextLevelThreshold - prevLevelThreshold;
+            let percentage = (progress / range) * 100;
+
+            if (percentage >= 100 && level < 100) {
+                level++;
+                percentage = 0;
+                showLevelUpPopup(level);
+            }
+
+            levelNameHeader.innerText = "LVL " + level;
+            currentLevelHeader.innerText = level;
+            headerLevelBar.style.width = `${Math.min(percentage, 100)}%`;
+        }
+
+        function showGlassPopup(contentHTML) {
+            const popup = document.getElementById('glassPopup');
+            const content = document.getElementById('popupContent');
+            content.innerHTML = contentHTML;
+            popup.classList.add('active');
+        }
+
+        function closeGlassPopup() {
+            document.getElementById('glassPopup').classList.remove('active');
+        }
+
+        function showToast(message) {
+            const toast = document.getElementById('toastNotification');
+            const msgEl = document.getElementById('toastMessage');
+            msgEl.innerText = message;
+            toast.classList.add('show');
+            setTimeout(() => { toast.classList.remove('show'); }, 3000);
+        }
+
+        function hideToast() {
+            document.getElementById('toastNotification').classList.remove('show');
+        }
+
+        function showLevelUpPopup(newLevel) {
+            const html = `
+                <div class="popup-title">Congratulations!</div>
+                <div style="color: white; font-weight: 700; margin-bottom: 5px;">You have leveled up to LVL ${newLevel}</div>
+                <button class="popup-btn" onclick="closeGlassPopup()" style="background: linear-gradient(90deg, #00E5FF, #4a92ff); color: white;">Awesome!</button>
+            `;
+            showGlassPopup(html);
+        }
+
+        function checkTapSpeed() {
+            const now = Date.now();
+            tapTimes.push(now);
+            tapTimes = tapTimes.filter(time => now - time <= 1000);
+            if (tapTimes.length > 10) {
+                balance = Math.max(0, balance - 1000);
+                showToast("Cheating detected! -1000 Coins");
+                tapTimes = []; 
+                return true;
+            }
+            return false;
+        }
+
+        function handleExchangeClick() {
+            showToast("Exchange Tokens feature is coming soon!");
+        }
+
+        clickerBtn.addEventListener('touchstart', handleTap, {passive: false});
+        clickerBtn.addEventListener('click', handleTap);
+
+        function handleTap(e) {
+            e.preventDefault();
+            if (checkTapSpeed()) return;
+            
+            const coinsPerTap = level;
+            balance += coinsPerTap;
+            tapCount++; 
+            updateUI(); 
+            
+            if (navigator.vibrate) navigator.vibrate(50);
+            
+            let clientX = e.clientX;
+            let clientY = e.clientY;
+            if(e.touches && e.touches.length > 0) {
+                clientX = e.touches[0].clientX;
+                clientY = e.touches[0].clientY;
+            }
+            if (!clientX) {
+                const rect = e.target.getBoundingClientRect();
+                clientX = rect.left + rect.width / 2;
+                clientY = rect.top + rect.height / 2;
+            }
+            showFloatingText(clientX, clientY, `+${coinsPerTap}`);
+        }
+
+        function showFloatingText(x, y, text) {
+            const floatEl = document.createElement('div');
+            floatEl.className = 'floating-score';
+            floatEl.innerText = text;
+            floatEl.style.left = `${x}px`;
+            floatEl.style.top = `${y}px`;
+            document.body.appendChild(floatEl);
+            setTimeout(() => floatEl.remove(), 800);
+        }
+
+        function switchTab(tabId, navElement) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+            document.getElementById(tabId).classList.add('active');
+            
+            if(navElement) {
+                document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+                navElement.classList.add('active');
+            }
+
+            if(tabId === 'home') {
+                document.body.classList.add('home-active');
+                document.getElementById('mainHeader').style.display = 'flex';
+            } else {
+                document.body.classList.remove('home-active');
+                document.getElementById('mainHeader').style.display = 'none';
+            }
+        }
+
+        // --- TASK SYSTEM FUNCTIONS ---
+
+        function loadTasksFromDB() {
+            const list = document.getElementById('taskList');
+            // Fetch tasks from 'tasks' node
+            db.ref('tasks').once('value').then(snapshot => {
+                const tasks = snapshot.val();
+                list.innerHTML = ''; 
+
+                if (!tasks) {
+                    list.innerHTML = '<div style="text-align:center; opacity:0.6;">No tasks available today.</div>';
+                    return;
+                }
+
+                Object.keys(tasks).forEach(taskId => {
+                    const task = tasks[taskId];
+                    const isCompleted = completedTasks[taskId] ? true : false;
+                    
+                    const card = document.createElement('div');
+                    card.className = 'task-card';
+                    card.innerHTML = `
+                        <img src="${task.image || 'https://img.icons8.com/3d-fluency/94/checked-checkbox.png'}" class="task-icon" alt="Icon">
+                        <div class="task-info">
+                            <div class="task-title">${task.title}</div>
+                            <div class="task-reward">
+                                <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/coin.webp">
+                                +${task.reward}
+                            </div>
+                        </div>
+                        <button class="task-btn ${isCompleted ? 'claimed' : ''}" 
+                                onclick="handleTask('${taskId}', '${task.link}', ${task.reward}, this)">
+                            ${isCompleted ? 'Done' : 'Start'}
+                        </button>
+                    `;
+                    list.appendChild(card);
+                });
+            });
+        }
+
+        function handleTask(taskId, link, reward, btnElement) {
+            if (completedTasks[taskId]) return;
+
+            // 1. Open Link
+            if(link && link.startsWith('http')) {
+                window.open(link, '_blank');
+            }
+
+            // 2. Set Button to Checking
+            btnElement.innerText = 'Checking...';
+            btnElement.style.opacity = '0.7';
+
+            // 3. Reward after delay
+            setTimeout(() => {
+                balance += parseInt(reward);
+                completedTasks[taskId] = true;
+
+                // Update DB
+                db.ref('users/' + userId + '/balance').set(balance);
+                db.ref('users/' + userId + '/completedTasks/' + taskId).set(true);
+
+                updateUI();
+                showToast(`Task Completed! +${reward} Coins`);
+                
+                btnElement.innerText = 'Done';
+                btnElement.classList.add('claimed');
+                btnElement.style.opacity = '1';
+            }, 5000); 
+        }
+
+        // Initialize game
+        init();
+    </script>
 </body>
 </html>
