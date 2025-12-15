@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Snowman Adventure & Spin</title>
+    <title>Snowman Adventure</title>
     
     <!-- Telegram Web App Script -->
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
@@ -30,107 +30,7 @@
             --glass-border: 1px solid rgba(0, 229, 255, 0.15);
             --level-gold: #FFD700;
             --btn-blue-grad: linear-gradient(180deg, #60ccfd 0%, #4a92ff 100%);
-            /* Spin Wheel Colors */
-            --spin-bg: #2C1802;
-            --spin-gold: #FFB800;
-            --spin-dark-gold: #D68C00;
-            --spin-brown: #5C3A12;
         }
-/* --- FRIENDS TAB STYLES --- */
-.friend-banner-img {
-    width: 100%;
-    aspect-ratio: 16/9;
-    border-radius: 4vw;
-    object-fit: cover;
-    margin-bottom: 4vw;
-    box-shadow: 0 2vw 5vw rgba(0,0,0,0.3);
-    border: 1px solid rgba(0, 229, 255, 0.2);
-}
-
-.friend-rules-box {
-    background: linear-gradient(180deg, rgba(22, 52, 80, 0.6) 0%, rgba(8, 24, 43, 0.8) 100%);
-    border-radius: 4vw;
-    padding: 4vw;
-    margin-bottom: 5vw;
-    border: 1px solid rgba(255, 255, 255, 0.05);
-}
-
-.friend-rules-title {
-    font-size: 5vw;
-    font-weight: 700;
-    color: var(--level-gold);
-    margin-bottom: 2vw;
-    text-align: center;
-}
-
-.friend-rules-list {
-    list-style: none;
-    padding: 0;
-}
-
-.friend-rules-list li {
-    font-size: 3.2vw;
-    color: rgba(255, 255, 255, 0.8);
-    margin-bottom: 1.5vw;
-    display: flex;
-    align-items: center;
-    gap: 2vw;
-}
-
-.invite-actions {
-    display: flex;
-    gap: 2vw;
-    margin-bottom: 6vw;
-}
-
-.btn-invite-main {
-    flex: 1;
-    background: linear-gradient(180deg, #FFE585 0%, #FFC044 40%, #FFA000 100%);
-    border: none;
-    border-radius: 10vw;
-    color: #3E2723;
-    font-size: 4vw;
-    font-weight: 800;
-    text-transform: uppercase;
-    padding: 3vw 0;
-    box-shadow: 0 1vw 2vw rgba(255, 160, 0, 0.3);
-    position: relative;
-    overflow: hidden;
-}
-
-.btn-invite-main::after {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; width: 100%; height: 50%;
-    background: linear-gradient(to bottom, rgba(255,255,255,0.4), transparent);
-}
-
-.btn-copy-link {
-    width: 14vw;
-    background-color: #163450;
-    border: 1px solid rgba(255,255,255,0.1);
-    border-radius: 4vw;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    transition: all 0.2s;
-}
-
-.btn-copy-link svg {
-    width: 6vw;
-    height: 6vw;
-    fill: white;
-}
-
-.btn-copy-link.copied {
-    background-color: var(--accent-cyan);
-}
-.btn-copy-link.copied svg { fill: #08182B; }
-
-/* Friend List Placeholder */
-.friend-list-header { font-size: 4vw; font-weight: 700; margin-bottom: 3vw; }
-.empty-friends { text-align: center; color: rgba(255,255,255,0.4); padding: 5vw; font-size: 3vw; }
-
 
         * {
             margin: 0;
@@ -423,198 +323,6 @@
 
         .character-img:active { transform: scale(0.96) rotate(-2deg); }
 
-        /* --- SPIN TRIGGER BUTTON --- */
-        .spin-trigger-btn {
-            position: absolute;
-            top: 20%;
-            right: 0;
-            width: 14vw;
-            height: 14vw;
-            background: radial-gradient(circle, #FFD700, #FF8C00);
-            border-radius: 50% 0 0 50%;
-            border: 2px solid #fff;
-            border-right: none;
-            box-shadow: -2px 5px 15px rgba(0,0,0,0.5);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            cursor: pointer;
-            z-index: 50;
-            transition: transform 0.2s;
-        }
-        .spin-trigger-btn img {
-            width: 8vw;
-            height: 8vw;
-            animation: spinIcon 5s linear infinite;
-        }
-        @keyframes spinIcon { 100% { transform: rotate(360deg); } }
-
-        /* --- SPIN WHEEL MODAL --- */
-        .spin-modal {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(180deg, #3E2723 0%, #1a1a1a 100%);
-            z-index: 2000;
-            display: none;
-            flex-direction: column;
-            align-items: center;
-            padding: 5vw;
-            overflow-y: auto;
-        }
-        .spin-modal.active { display: flex; animation: fadeIn 0.3s; }
-
-        .spin-header {
-            width: 100%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 2vh;
-        }
-        .spin-title {
-            text-align: center;
-            width: 100%;
-        }
-        .spin-title h2 { font-size: 6vw; color: white; margin-bottom: 1vw; }
-        .spin-title p { color: rgba(255,255,255,0.7); font-size: 3vw; line-height: 1.4; max-width: 80%; margin: 0 auto; }
-
-        .wheel-container {
-            position: relative;
-            width: 80vw;
-            height: 80vw;
-            margin: 2vh 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-        
-        /* The Wheel Circle */
-        .wheel {
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
-            border: 4px solid #F5DEB3;
-            position: relative;
-            overflow: hidden;
-            transition: transform 4s cubic-bezier(0.17, 0.67, 0.12, 0.99);
-            box-shadow: 0 0 20px rgba(255, 184, 0, 0.3);
-            background: conic-gradient(
-                #FFB800 0deg 60deg,
-                #D68C00 60deg 120deg,
-                #FFB800 120deg 180deg,
-                #D68C00 180deg 240deg,
-                #FFB800 240deg 300deg,
-                #D68C00 300deg 360deg
-            );
-        }
-
-        .wheel-center {
-            position: absolute;
-            top: 50%; left: 50%;
-            transform: translate(-50%, -50%);
-            width: 18%; height: 18%;
-            background: radial-gradient(circle, #FFD700, #B8860B);
-            border-radius: 50%;
-            z-index: 5;
-            box-shadow: 0 0 10px rgba(0,0,0,0.5);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 5vw;
-            color: #5C3A12;
-        }
-
-        .wheel-pointer {
-            position: absolute;
-            top: -2%;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 0; 
-            height: 0; 
-            border-left: 4vw solid transparent;
-            border-right: 4vw solid transparent;
-            border-top: 6vw solid white;
-            z-index: 10;
-            filter: drop-shadow(0 2px 2px rgba(0,0,0,0.5));
-        }
-
-        /* Wheel Text Segments */
-        .segment-text {
-            position: absolute;
-            top: 50%; left: 50%;
-            transform-origin: 0 0;
-            color: #5C3A12;
-            font-weight: 800;
-            font-size: 4.5vw;
-            text-shadow: 0 1px 0 rgba(255,255,255,0.4);
-            z-index: 2;
-        }
-
-        /* Spin Controls */
-        .spin-btn-main {
-            background: linear-gradient(to bottom, #E0E0E0, #BDBDBD);
-            width: 70%;
-            padding: 3vw;
-            border-radius: 10vw;
-            font-weight: 700;
-            font-size: 4vw;
-            color: #5C3A12;
-            border: none;
-            box-shadow: 0 4px 0 #9E9E9E;
-            margin-bottom: 5vw;
-        }
-        .spin-btn-main:active { transform: translateY(4px); box-shadow: none; }
-
-        /* Task Bars (Image Style) */
-        .spin-task-card {
-            background: linear-gradient(90deg, #3E2723, #4E342E);
-            width: 100%;
-            border-radius: 3vw;
-            padding: 3vw;
-            margin-bottom: 3vw;
-            border: 1px solid #8D6E63;
-        }
-        .task-progress-track {
-            background: rgba(255,255,255,0.2);
-            height: 1.5vw;
-            border-radius: 1vw;
-            width: 100%;
-            margin-bottom: 2vw;
-            position: relative;
-        }
-        .task-progress-fill {
-            background: white;
-            height: 100%;
-            border-radius: 1vw;
-            width: 0%;
-        }
-        .task-progress-text {
-            position: absolute;
-            right: 0; top: -4vw;
-            font-size: 3vw; color: white;
-        }
-        .stc-bottom {
-            display: flex; justify-content: space-between; align-items: center;
-        }
-        .stc-text { font-size: 3.2vw; color: white; font-weight: 600; }
-        .stc-btn {
-            background: transparent;
-            border: 1px solid #FFB74D;
-            color: #FFB74D;
-            padding: 1vw 3vw;
-            border-radius: 5vw;
-            font-size: 3vw;
-        }
-
-        .close-spin {
-            position: absolute;
-            top: 4vw; left: 4vw;
-            color: white; font-size: 5vw;
-            background: rgba(0,0,0,0.3);
-            width: 10vw; height: 10vw;
-            border-radius: 50%;
-            display: flex; justify-content: center; align-items: center;
-        }
-
         /* --- FLOATING SCORE --- */
         .floating-score {
             position: absolute;
@@ -898,62 +606,6 @@
         </div>
     </div>
 
-    <!-- SPIN WHEEL MODAL -->
-    <div id="spinModal" class="spin-modal">
-        <div class="close-spin" onclick="closeSpinModal()">
-            <i class="fas fa-arrow-left"></i>
-        </div>
-
-        <div class="spin-title">
-            <h2>Wheel of Fortune</h2>
-            <p>Complete tasks and spin the wheel. Rewards are credited immediately.</p>
-        </div>
-
-        <!-- The Wheel -->
-        <div class="wheel-container">
-            <div class="wheel-pointer"></div>
-            <div class="wheel" id="wheelObj">
-                <!-- Segments -->
-                <!-- 6 Segments. Each 60 deg -->
-                <!-- Text must be positioned and rotated -->
-                <div class="segment-text" style="transform: rotate(30deg) translate(25vw) rotate(90deg);">10.0 <i class="fas fa-star" style="font-size:2vw;"></i></div>
-                <div class="segment-text" style="transform: rotate(90deg) translate(25vw) rotate(90deg);">0.3 <i class="fas fa-star" style="font-size:2vw;"></i></div>
-                <div class="segment-text" style="transform: rotate(150deg) translate(25vw) rotate(90deg);">0.5 <i class="fas fa-star" style="font-size:2vw;"></i></div>
-                <div class="segment-text" style="transform: rotate(210deg) translate(25vw) rotate(90deg);">1.0 <i class="fas fa-star" style="font-size:2vw;"></i></div>
-                <div class="segment-text" style="transform: rotate(270deg) translate(25vw) rotate(90deg);">2.0 <i class="fas fa-star" style="font-size:2vw;"></i></div>
-                <div class="segment-text" style="transform: rotate(330deg) translate(25vw) rotate(90deg);">5.0 <i class="fas fa-star" style="font-size:2vw;"></i></div>
-            </div>
-            <div class="wheel-center">
-                <i class="fas fa-star"></i>
-            </div>
-        </div>
-
-        <button class="spin-btn-main" onclick="spinTheWheel()" id="spinBtnMain">Spin Wheel!</button>
-
-        <!-- Tasks under Wheel -->
-        <div class="spin-task-card">
-            <div class="task-progress-track">
-                <span class="task-progress-text">0/5</span>
-                <div class="task-progress-fill" style="width: 0%;"></div>
-            </div>
-            <div class="stc-bottom">
-                <div class="stc-text">Complete 5 tasks</div>
-                <button class="stc-btn" onclick="switchTab('task'); closeSpinModal();">Go</button>
-            </div>
-        </div>
-
-        <div class="spin-task-card">
-            <div class="task-progress-track">
-                <span class="task-progress-text">0/1</span>
-                <div class="task-progress-fill" style="width: 0%;"></div>
-            </div>
-            <div class="stc-bottom">
-                <div class="stc-text">Invite a friend</div>
-                <button class="stc-btn">Copy</button>
-            </div>
-        </div>
-    </div>
-
     <!-- LOADING SCREEN -->
     <div id="loading-screen">
         <div class="loading-container">
@@ -1016,11 +668,6 @@
             <!-- HOME TAB -->
             <div id="home" class="tab-content active">
 
-                <!-- SPIN WHEEL TRIGGER (New) -->
-                <div class="spin-trigger-btn" onclick="openSpinModal()">
-                    <img src="https://img.icons8.com/3d-fluency/94/roulette.png" alt="Spin">
-                </div>
-
                 <!-- Game Area -->
                 <div class="game-area-wrapper" id="snowContainer">
                     
@@ -1047,46 +694,7 @@
                     <div style="text-align:center; color:rgba(255,255,255,0.5); margin-top:20px;">Loading tasks...</div>
                 </div>
             </div>
-<!-- FRIENDS TAB -->
-<div id="friends" class="tab-content">
-    <div style="padding-top: 2vw;">
-        <!-- 16:9 Image -->
-        <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/referral_banner.webp" 
-             class="friend-banner-img" 
-             alt="Invite Friends"
-             onerror="this.src='https://via.placeholder.com/640x360/0a1f30/00E5FF?text=Invite+Friends'">
-        
-        <!-- Rules Section -->
-        <div class="friend-rules-box">
-            <div class="friend-rules-title">🎁 Invite Friends & Earn Forever!</div>
-            <ul class="friend-rules-list">
-                <li><i class="fas fa-coins" style="color:#FFD700"></i> Get 999 coins when friend joins</li>
-                <li><i class="fas fa-percent" style="color:#00E5FF"></i> Inviter gets 5% of friend's earnings</li>
-                <li><i class="fas fa-users" style="color:#FFA000"></i> Unlimited referrals</li>
-                <li><i class="fas fa-gem" style="color:#6A5ACD"></i> Passive income 🧊</li>
-            </ul>
-        </div>
 
-        <!-- Action Buttons -->
-        <div class="invite-actions">
-            <button class="btn-invite-main" onclick="inviteFriend()">
-                Invite a Friend
-            </button>
-
-            <button class="btn-copy-link" onclick="copyReferralLink(this)">
-                <svg viewBox="0 0 24 24">
-                    <path d="M16 1H4C2.9 1 2 1.9 2 3V17H4V3H16V1ZM19 5H8C6.9 5 6 5.9 6 7V21C6 22.1 6.9 23 8 23H19C20.1 23 21 22.1 21 21V7C21 5.9 20.1 5 19 5ZM19 21H8V7H19V21Z"/>
-                </svg>
-            </button>
-        </div>
-
-        <!-- Friend List (Optional/Future) -->
-        <div class="friend-list-header">Your Friends (0)</div>
-        <div class="empty-friends">
-            You haven't invited anyone yet.
-        </div>
-    </div>
-</div>
             <!-- WALLET TAB -->
             <div id="wallet" class="tab-content">
                 <div style="text-align:center; padding-top: 10px;">
@@ -1133,22 +741,18 @@
                 </div>
             </div>
         </div>
-<!-- NAVIGATION -->
+
+        <!-- NAVIGATION -->
         <div class="nav-bar">
             <div class="nav-item active" onclick="switchTab('home', this)">
                 <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/home.webp" alt="Home">
                 <span>Home</span>
             </div>
             
+            <!-- Task Button -->
             <div class="nav-item" onclick="switchTab('task', this)">
                 <img src="https://img.icons8.com/3d-fluency/94/clipboard.png" alt="Task">
                 <span>Task</span>
-            </div>
-
-            <!-- NEW FRIENDS NAV ITEM -->
-            <div class="nav-item" onclick="switchTab('friends', this)">
-                <img src="https://img.icons8.com/3d-fluency/94/conference-call.png" alt="Friends">
-                <span>Friends</span>
             </div>
 
             <div class="nav-item" onclick="switchTab('wallet', this)">
@@ -1157,19 +761,20 @@
             </div>
         </div>
 
-    </div> <!-- End of app-container -->
+    </div>
 
     <script>
         // --- FIREBASE CONFIGURATION ---
-        const firebaseConfig = {
-          apiKey: "AIzaSyC3Lef_4TPia7sJA0nEFC7Byc1xSyUxyA0",
-          authDomain: "snowman-adventure-4fa71.firebaseapp.com",
-          databaseURL: "https://snowman-adventure-4fa71-default-rtdb.firebaseio.com",
-          projectId: "snowman-adventure-4fa71",
-          storageBucket: "snowman-adventure-4fa71.firebasestorage.app",
-          messagingSenderId: "507867054186",
-          appId: "1:507867054186:web:12d024de606d00091b4a13",
-          measurementId: "G-J550E6L22Z"
+        
+const firebaseConfig = {
+  apiKey: "AIzaSyC3Lef_4TPia7sJA0nEFC7Byc1xSyUxyA0",
+  authDomain: "snowman-adventure-4fa71.firebaseapp.com",
+  databaseURL: "https://snowman-adventure-4fa71-default-rtdb.firebaseio.com",
+  projectId: "snowman-adventure-4fa71",
+  storageBucket: "snowman-adventure-4fa71.firebasestorage.app",
+  messagingSenderId: "507867054186",
+  appId: "1:507867054186:web:12d024de606d00091b4a13",
+  measurementId: "G-J550E6L22Z"
         };
         
         if (!firebase.apps.length) {
@@ -1185,7 +790,6 @@
         let userId = "test_user_001"; 
         let tapTimes = [];
         let completedTasks = {}; // Store user's completed tasks
-        let isSpinning = false;
 
         // --- DOM ELEMENTS ---
         const balanceDisplay = document.getElementById('displayBalance');
@@ -1541,90 +1145,6 @@
                 btnElement.classList.add('claimed');
                 btnElement.style.opacity = '1';
             }, 5000); 
-        }
-
-        // --- SPIN WHEEL LOGIC ---
-        
-        function openSpinModal() {
-            document.getElementById('spinModal').classList.add('active');
-        }
-
-        function closeSpinModal() {
-            if(isSpinning) return;
-            document.getElementById('spinModal').classList.remove('active');
-        }
-
-        function spinTheWheel() {
-            if(isSpinning) return;
-            isSpinning = true;
-
-            const wheel = document.getElementById('wheelObj');
-            const btn = document.getElementById('spinBtnMain');
-            btn.style.opacity = '0.5';
-            btn.innerText = 'Spinning...';
-
-            // Random Spin Logic
-            const minSpin = 1800; // 5 full spins
-            const deg = Math.floor(minSpin + Math.random() * 360);
-            
-            wheel.style.transform = `rotate(${deg}deg)`;
-
-            setTimeout(() => {
-                isSpinning = false;
-                btn.style.opacity = '1';
-                btn.innerText = 'Spin Wheel!';
-                
-                // Calculate Prize
-                const actualDeg = deg % 360;
-                const landingPos = (360 - actualDeg) % 360;
-
-                let prize = 0;
-                if(landingPos >= 0 && landingPos < 60) prize = 10.0;
-                else if(landingPos >= 60 && landingPos < 120) prize = 0.3;
-                else if(landingPos >= 120 && landingPos < 180) prize = 0.5;
-                else if(landingPos >= 180 && landingPos < 240) prize = 1.0;
-                else if(landingPos >= 240 && landingPos < 300) prize = 2.0;
-                else if(landingPos >= 300 && landingPos < 360) prize = 5.0;
-
-                tonBalance += prize;
-                
-                showToast(`You won ${prize} Stars!`);
-                updateUI();
-                saveUserData();
-
-            }, 4000); // 4 seconds animation
-        }
-
-        // --- FRIEND SYSTEM JS (NEW) ---
-        function inviteFriend() {
-            const botUsername = "thesnowmanbot"; 
-            const inviteLink = `https://t.me/${botUsername}?start=${userId}`;
-            const shareText = `Join me in Snowman Adventure! ⛄ Get rewards and earn crypto.`;
-            
-            const url = `https://t.me/share/url?url=${encodeURIComponent(inviteLink)}&text=${encodeURIComponent(shareText)}`;
-            
-            if (window.Telegram && window.Telegram.WebApp) {
-                window.Telegram.WebApp.openTelegramLink(url);
-            } else {
-                window.open(url, '_blank');
-            }
-        }
-
-        function copyReferralLink(btn) {
-            // Corrected bot username from 'থ' to 'thesnowmanbot'
-            const botUsername = "thesnowmanbot"; 
-            const inviteLink = `https://t.me/${botUsername}?start=${userId}`;
-            
-            navigator.clipboard.writeText(inviteLink).then(() => {
-                btn.classList.add('copied');
-                showToast("Referral link copied!"); 
-                setTimeout(() => {
-                    btn.classList.remove('copied');
-                }, 1500);
-            }).catch(err => {
-                console.error('Failed to copy', err);
-                showToast("Failed to copy link");
-            });
         }
 
         // Initialize game
