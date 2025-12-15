@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Snowman Adventure</title>
+    
+    <!-- Telegram Web App -->
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <!-- Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+    <!-- TON Connect -->
+    <script src="https://unpkg.com/@tonconnect/ui@latest/dist/tonconnect-ui.min.js"></script>
+    <!-- Fonts & Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <!-- External CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="home-active">
+
+    <!-- LOADING SCREEN -->
+    <div id="loading-screen">
+        <div class="loading-container">
+            <div class="progress-bar" id="loadingFill">
+                <span class="percentage" id="loadingPercent">0%</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- ADMIN POPUP (Global) -->
+    <div id="adminPopup" class="popup-overlay">
+        <div class="popup-content admin-popup-content">
+            <img id="popupImg" src="" alt="News" class="popup-banner-img">
+            <h3 id="popupTitle">Notification</h3>
+            <p id="popupText">Message from admin...</p>
+            <button class="btn-main" onclick="closeAdminPopup()">OK</button>
+        </div>
+    </div>
+
+    <!-- DAILY SPIN MODAL -->
+    <div id="spinModal" class="popup-overlay">
+        <div class="popup-content spin-content">
+            <h3>Daily Spin</h3>
+            <div class="wheel-container">
+                <div id="wheel" class="wheel">🎁</div>
+            </div>
+            <p id="spinResult">Spin to win Stars!</p>
+            <button id="spinBtn" class="btn-main" onclick="runDailySpin()">SPIN NOW</button>
+            <button class="close-btn-x" onclick="closeSpinModal()">×</button>
+        </div>
+    </div>
+
+    <!-- CRASH GAME OVERLAY -->
+    <div id="crashGameOverlay" class="game-overlay">
+        <div class="crash-header">
+            <button onclick="closeCrashGame()" class="back-btn">← Exit</button>
+            <div class="crash-balance">⭐️ <span id="crashBalanceDisplay">0</span></div>
+        </div>
+        <div id="crash-wrapper">
+            <div id="multiplier-display">1.00x</div>
+            <div id="crash-msg">Place your bet</div>
+            <img id="crash-gif" src="https://i.ibb.co.com/v01HX5m/collision-1f4a5.gif" alt="Crash">
+            <canvas id="gameCanvas"></canvas>
+        </div>
+        <div class="crash-controls">
+            <div class="bet-input-area">
+                <button onclick="adjustCrashBet(-10)">-</button>
+                <span id="crashBetAmount">50</span> ⭐️
+                <button onclick="adjustCrashBet(10)">+</button>
+            </div>
+            <button id="crashActionBtn" class="crash-main-btn" onclick="handleCrashAction()">PLACE BET (Stars)</button>
+        </div>
+    </div>
+
+    <!-- MAIN APP CONTAINER -->
+    <div class="app-container">
+        
+        <!-- HEADER -->
+        <div class="header-dashboard" id="mainHeader">
+            <div class="header-balances">
+                <div class="stat-card-row">
+                    <div class="stat-value">
+                        <!-- Coin Icon -->
+                        <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/coin.webp" alt="C">
+                        <span id="headerCoinBalance">0</span>
+                    </div>
+                </div>
+                <div class="stat-card-row">
+                    <div class="stat-value">
+                        <!-- Star Icon (Using TON placeholder or Star emoji) -->
+                        <span style="font-size: 24px;">⭐️</span>
+                        <span id="headerStarBalance">0</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="profile-section">
+                <div class="profile-top">
+                    <img id="headerAvatar" src="https://alamin12071985-a11y.github.io/Snowman-Adventure/snowman.webp" class="user-avatar" alt="User">
+                    <span id="headerName" class="user-name">User</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="content-area">
+            
+            <!-- HOME TAB -->
+            <div id="home" class="tab-content active">
+                
+                <!-- Daily Spin Button (Side) -->
+                <div class="daily-spin-trigger" onclick="openSpinModal()">
+                    <span>🎡</span>
+                    <small>Spin</small>
+                </div>
+
+                <!-- Rocket Game Banner -->
+                <div class="rocket-banner" onclick="openCrashGame()">
+                    <div class="banner-badge">NEW!</div>
+                    <div class="banner-title">ROCKET</div>
+                    <img src="https://i.ibb.co.com/j9Sj7YDx/vecteezy-ai-generated-rocket-ship-on-transparent-background-37796390.png" class="banner-img" alt="Rocket">
+                    <div class="banner-multis">
+                        <span>x5.43</span>
+                        <span>x2.95</span>
+                    </div>
+                </div>
+
+                <div class="game-area-wrapper" id="snowContainer">
+                    <div class="main-balance">
+                        <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/coin.webp" alt="C">
+                        <span id="displayBalance">0</span>
+                    </div>
+                    <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/snowman.webp" class="character-img" id="clickerBtn" alt="Snowman">
+                </div>
+            </div>
+
+            <!-- SHOP TAB -->
+            <div id="shop" class="tab-content">
+                <h2 class="section-title">Shop</h2>
+                <p class="section-subtitle">Buy boosters with Telegram Stars</p>
+                <div class="shop-grid" id="shopContainer">
+                    <!-- Items injected via JS -->
+                </div>
+            </div>
+
+            <!-- FRIENDS TAB -->
+            <div id="friends" class="tab-content">
+                <h2 class="section-title">Friends</h2>
+                <!-- Admin Configurable Text -->
+                <p class="friends-desc" id="friendsAdminText">Invite your friends to play together and earn rewards!</p>
+                
+                <div class="invite-container">
+                    <!-- Main Invite Button -->
+                    <button class="btn-invite" onclick="shareInviteLink()">
+                        Invite a Friend
+                    </button>
+            
+                    <!-- Copy Button -->
+                    <button class="btn-copy" onclick="copyInviteLink(this)">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M16 1H4C2.9 1 2 1.9 2 3V17H4V3H16V1ZM19 5H8C6.9 5 6 5.9 6 7V21C6 22.1 6.9 23 8 23H19C20.1 23 21 22.1 21 21V7C21 5.9 20.1 5 19 5ZM19 21H8V7H19V21Z"/>
+                        </svg>
+                    </button>
+                </div>
+
+                <div class="friend-list">
+                    <h3>Your Friends</h3>
+                    <div id="friendListContainer">
+                        <p style="opacity:0.5; text-align:center;">No friends yet.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- WALLET TAB -->
+            <div id="wallet" class="tab-content">
+                <h1 class="wallet-title">Wallet</h1>
+                <div class="wallet-stats-grid">
+                    <div class="wallet-stat-box">
+                        <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/coin.webp" alt="Coin">
+                        <span class="wallet-stat-val" id="walletCoin">0</span>
+                        <span class="wallet-stat-label">Coins</span>
+                    </div>
+                    <div class="wallet-stat-box">
+                        <span style="font-size: 8vw;">⭐️</span>
+                        <span class="wallet-stat-val" id="walletStars">0</span>
+                        <span class="wallet-stat-label">Stars</span>
+                    </div>
+                </div>
+                <div class="button-group" id="connectBtnContainer">
+                    <button class="btn connect-btn" id="connectWalletBtn" onclick="connectWallet()">
+                        <span class="btn-text">Connect TON Wallet</span>
+                    </button>
+                </div>
+                <div id="walletStatusBadge" style="display:none; text-align:center; margin-top:10px;">
+                    <span id="walletAddressDisplay"></span>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- NAVIGATION BAR -->
+        <div class="nav-bar">
+            <div class="nav-item active" onclick="switchTab('home', this)">
+                <i class="fas fa-home"></i>
+                <span>Home</span>
+            </div>
+            <div class="nav-item" onclick="switchTab('shop', this)">
+                <i class="fas fa-store"></i>
+                <span>Shop</span>
+            </div>
+            <div class="nav-item" onclick="switchTab('friends', this)">
+                <i class="fas fa-user-friends"></i>
+                <span>Friends</span>
+            </div>
+            <div class="nav-item" onclick="switchTab('wallet', this)">
+                <i class="fas fa-wallet"></i>
+                <span>Wallet</span>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- External JS -->
+    <script src="script.js"></script>
+</body>
+</html>
