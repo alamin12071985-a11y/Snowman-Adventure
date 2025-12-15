@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Snowman Adventure</title>
+    <title>Snowman Adventure & Spin</title>
     
     <!-- Telegram Web App Script -->
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
@@ -30,6 +30,11 @@
             --glass-border: 1px solid rgba(0, 229, 255, 0.15);
             --level-gold: #FFD700;
             --btn-blue-grad: linear-gradient(180deg, #60ccfd 0%, #4a92ff 100%);
+            /* Spin Wheel Colors */
+            --spin-bg: #2C1802;
+            --spin-gold: #FFB800;
+            --spin-dark-gold: #D68C00;
+            --spin-brown: #5C3A12;
         }
 
         * {
@@ -323,6 +328,198 @@
 
         .character-img:active { transform: scale(0.96) rotate(-2deg); }
 
+        /* --- SPIN TRIGGER BUTTON --- */
+        .spin-trigger-btn {
+            position: absolute;
+            top: 20%;
+            right: 0;
+            width: 14vw;
+            height: 14vw;
+            background: radial-gradient(circle, #FFD700, #FF8C00);
+            border-radius: 50% 0 0 50%;
+            border: 2px solid #fff;
+            border-right: none;
+            box-shadow: -2px 5px 15px rgba(0,0,0,0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            z-index: 50;
+            transition: transform 0.2s;
+        }
+        .spin-trigger-btn img {
+            width: 8vw;
+            height: 8vw;
+            animation: spinIcon 5s linear infinite;
+        }
+        @keyframes spinIcon { 100% { transform: rotate(360deg); } }
+
+        /* --- SPIN WHEEL MODAL --- */
+        .spin-modal {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(180deg, #3E2723 0%, #1a1a1a 100%);
+            z-index: 2000;
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            padding: 5vw;
+            overflow-y: auto;
+        }
+        .spin-modal.active { display: flex; animation: fadeIn 0.3s; }
+
+        .spin-header {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2vh;
+        }
+        .spin-title {
+            text-align: center;
+            width: 100%;
+        }
+        .spin-title h2 { font-size: 6vw; color: white; margin-bottom: 1vw; }
+        .spin-title p { color: rgba(255,255,255,0.7); font-size: 3vw; line-height: 1.4; max-width: 80%; margin: 0 auto; }
+
+        .wheel-container {
+            position: relative;
+            width: 80vw;
+            height: 80vw;
+            margin: 2vh 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        /* The Wheel Circle */
+        .wheel {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            border: 4px solid #F5DEB3;
+            position: relative;
+            overflow: hidden;
+            transition: transform 4s cubic-bezier(0.17, 0.67, 0.12, 0.99);
+            box-shadow: 0 0 20px rgba(255, 184, 0, 0.3);
+            background: conic-gradient(
+                #FFB800 0deg 60deg,
+                #D68C00 60deg 120deg,
+                #FFB800 120deg 180deg,
+                #D68C00 180deg 240deg,
+                #FFB800 240deg 300deg,
+                #D68C00 300deg 360deg
+            );
+        }
+
+        .wheel-center {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            width: 18%; height: 18%;
+            background: radial-gradient(circle, #FFD700, #B8860B);
+            border-radius: 50%;
+            z-index: 5;
+            box-shadow: 0 0 10px rgba(0,0,0,0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 5vw;
+            color: #5C3A12;
+        }
+
+        .wheel-pointer {
+            position: absolute;
+            top: -2%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0; 
+            height: 0; 
+            border-left: 4vw solid transparent;
+            border-right: 4vw solid transparent;
+            border-top: 6vw solid white;
+            z-index: 10;
+            filter: drop-shadow(0 2px 2px rgba(0,0,0,0.5));
+        }
+
+        /* Wheel Text Segments */
+        .segment-text {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform-origin: 0 0;
+            color: #5C3A12;
+            font-weight: 800;
+            font-size: 4.5vw;
+            text-shadow: 0 1px 0 rgba(255,255,255,0.4);
+            z-index: 2;
+        }
+
+        /* Spin Controls */
+        .spin-btn-main {
+            background: linear-gradient(to bottom, #E0E0E0, #BDBDBD);
+            width: 70%;
+            padding: 3vw;
+            border-radius: 10vw;
+            font-weight: 700;
+            font-size: 4vw;
+            color: #5C3A12;
+            border: none;
+            box-shadow: 0 4px 0 #9E9E9E;
+            margin-bottom: 5vw;
+        }
+        .spin-btn-main:active { transform: translateY(4px); box-shadow: none; }
+
+        /* Task Bars (Image Style) */
+        .spin-task-card {
+            background: linear-gradient(90deg, #3E2723, #4E342E);
+            width: 100%;
+            border-radius: 3vw;
+            padding: 3vw;
+            margin-bottom: 3vw;
+            border: 1px solid #8D6E63;
+        }
+        .task-progress-track {
+            background: rgba(255,255,255,0.2);
+            height: 1.5vw;
+            border-radius: 1vw;
+            width: 100%;
+            margin-bottom: 2vw;
+            position: relative;
+        }
+        .task-progress-fill {
+            background: white;
+            height: 100%;
+            border-radius: 1vw;
+            width: 0%;
+        }
+        .task-progress-text {
+            position: absolute;
+            right: 0; top: -4vw;
+            font-size: 3vw; color: white;
+        }
+        .stc-bottom {
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        .stc-text { font-size: 3.2vw; color: white; font-weight: 600; }
+        .stc-btn {
+            background: transparent;
+            border: 1px solid #FFB74D;
+            color: #FFB74D;
+            padding: 1vw 3vw;
+            border-radius: 5vw;
+            font-size: 3vw;
+        }
+
+        .close-spin {
+            position: absolute;
+            top: 4vw; left: 4vw;
+            color: white; font-size: 5vw;
+            background: rgba(0,0,0,0.3);
+            width: 10vw; height: 10vw;
+            border-radius: 50%;
+            display: flex; justify-content: center; align-items: center;
+        }
+
         /* --- FLOATING SCORE --- */
         .floating-score {
             position: absolute;
@@ -606,6 +803,62 @@
         </div>
     </div>
 
+    <!-- SPIN WHEEL MODAL -->
+    <div id="spinModal" class="spin-modal">
+        <div class="close-spin" onclick="closeSpinModal()">
+            <i class="fas fa-arrow-left"></i>
+        </div>
+
+        <div class="spin-title">
+            <h2>Wheel of Fortune</h2>
+            <p>Complete tasks and spin the wheel. Rewards are credited immediately.</p>
+        </div>
+
+        <!-- The Wheel -->
+        <div class="wheel-container">
+            <div class="wheel-pointer"></div>
+            <div class="wheel" id="wheelObj">
+                <!-- Segments -->
+                <!-- 6 Segments. Each 60 deg -->
+                <!-- Text must be positioned and rotated -->
+                <div class="segment-text" style="transform: rotate(30deg) translate(25vw) rotate(90deg);">10.0 <i class="fas fa-star" style="font-size:2vw;"></i></div>
+                <div class="segment-text" style="transform: rotate(90deg) translate(25vw) rotate(90deg);">0.3 <i class="fas fa-star" style="font-size:2vw;"></i></div>
+                <div class="segment-text" style="transform: rotate(150deg) translate(25vw) rotate(90deg);">0.5 <i class="fas fa-star" style="font-size:2vw;"></i></div>
+                <div class="segment-text" style="transform: rotate(210deg) translate(25vw) rotate(90deg);">1.0 <i class="fas fa-star" style="font-size:2vw;"></i></div>
+                <div class="segment-text" style="transform: rotate(270deg) translate(25vw) rotate(90deg);">2.0 <i class="fas fa-star" style="font-size:2vw;"></i></div>
+                <div class="segment-text" style="transform: rotate(330deg) translate(25vw) rotate(90deg);">5.0 <i class="fas fa-star" style="font-size:2vw;"></i></div>
+            </div>
+            <div class="wheel-center">
+                <i class="fas fa-star"></i>
+            </div>
+        </div>
+
+        <button class="spin-btn-main" onclick="spinTheWheel()" id="spinBtnMain">Spin Wheel!</button>
+
+        <!-- Tasks under Wheel -->
+        <div class="spin-task-card">
+            <div class="task-progress-track">
+                <span class="task-progress-text">0/5</span>
+                <div class="task-progress-fill" style="width: 0%;"></div>
+            </div>
+            <div class="stc-bottom">
+                <div class="stc-text">Complete 5 tasks</div>
+                <button class="stc-btn" onclick="switchTab('task'); closeSpinModal();">Go</button>
+            </div>
+        </div>
+
+        <div class="spin-task-card">
+            <div class="task-progress-track">
+                <span class="task-progress-text">0/1</span>
+                <div class="task-progress-fill" style="width: 0%;"></div>
+            </div>
+            <div class="stc-bottom">
+                <div class="stc-text">Invite a friend</div>
+                <button class="stc-btn">Copy</button>
+            </div>
+        </div>
+    </div>
+
     <!-- LOADING SCREEN -->
     <div id="loading-screen">
         <div class="loading-container">
@@ -667,6 +920,11 @@
             
             <!-- HOME TAB -->
             <div id="home" class="tab-content active">
+
+                <!-- SPIN WHEEL TRIGGER (New) -->
+                <div class="spin-trigger-btn" onclick="openSpinModal()">
+                    <img src="https://img.icons8.com/3d-fluency/94/roulette.png" alt="Spin">
+                </div>
 
                 <!-- Game Area -->
                 <div class="game-area-wrapper" id="snowContainer">
@@ -790,6 +1048,7 @@ const firebaseConfig = {
         let userId = "test_user_001"; 
         let tapTimes = [];
         let completedTasks = {}; // Store user's completed tasks
+        let isSpinning = false;
 
         // --- DOM ELEMENTS ---
         const balanceDisplay = document.getElementById('displayBalance');
@@ -1145,6 +1404,72 @@ const firebaseConfig = {
                 btnElement.classList.add('claimed');
                 btnElement.style.opacity = '1';
             }, 5000); 
+        }
+
+        // --- SPIN WHEEL LOGIC ---
+        
+        function openSpinModal() {
+            document.getElementById('spinModal').classList.add('active');
+        }
+
+        function closeSpinModal() {
+            if(isSpinning) return;
+            document.getElementById('spinModal').classList.remove('active');
+        }
+
+        function spinTheWheel() {
+            if(isSpinning) return;
+            isSpinning = true;
+
+            const wheel = document.getElementById('wheelObj');
+            const btn = document.getElementById('spinBtnMain');
+            btn.style.opacity = '0.5';
+            btn.innerText = 'Spinning...';
+
+            // Prizes mapping (Based on segments)
+            // Seg 1 (0-60): 10.0, Seg 2 (60-120): 0.3, Seg 3 (120-180): 0.5, 
+            // Seg 4 (180-240): 1.0, Seg 5 (240-300): 2.0, Seg 6 (300-360): 5.0
+            // Since the wheel rotates clockwise, the pointer (top) will land on specific degrees.
+            // 360 - rotation % 360 determines the landing spot relative to top.
+            
+            // For random luck:
+            const minSpin = 1800; // 5 full spins
+            const maxSpin = 2160; 
+            const deg = Math.floor(minSpin + Math.random() * 360);
+            
+            wheel.style.transform = `rotate(${deg}deg)`;
+
+            setTimeout(() => {
+                isSpinning = false;
+                btn.style.opacity = '1';
+                btn.innerText = 'Spin Wheel!';
+                
+                // Calculate Prize
+                // Normalize rotation
+                const actualDeg = deg % 360;
+                // Pointer is at Top (0 deg). 
+                // If wheel rotates 30 deg clockwise, 330 deg segment is at top.
+                // Formula: (360 - actualDeg) % 360
+                const landingPos = (360 - actualDeg) % 360;
+
+                let prize = 0;
+                // Segments are 60 deg each starting from 0.
+                if(landingPos >= 0 && landingPos < 60) prize = 10.0;
+                else if(landingPos >= 60 && landingPos < 120) prize = 0.3;
+                else if(landingPos >= 120 && landingPos < 180) prize = 0.5;
+                else if(landingPos >= 180 && landingPos < 240) prize = 1.0;
+                else if(landingPos >= 240 && landingPos < 300) prize = 2.0;
+                else if(landingPos >= 300 && landingPos < 360) prize = 5.0;
+
+                tonBalance += prize;
+                // Add to balance logic here (Assuming Star/TON is represented by tonBalance)
+                // If you want Coin, use balance. For now using tonBalance based on stars in image
+                
+                showToast(`You won ${prize} Stars!`);
+                updateUI();
+                saveUserData();
+
+            }, 4000); // 4 seconds animation
         }
 
         // Initialize game
