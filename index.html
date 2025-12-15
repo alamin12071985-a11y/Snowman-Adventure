@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Snowman Adventure & Spin</title>
+    <title>Snowman Adventure</title>
     
     <!-- Telegram Web App Script -->
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
@@ -30,107 +30,15 @@
             --glass-border: 1px solid rgba(0, 229, 255, 0.15);
             --level-gold: #FFD700;
             --btn-blue-grad: linear-gradient(180deg, #60ccfd 0%, #4a92ff 100%);
-            /* Spin Wheel Colors */
-            --spin-bg: #2C1802;
-            --spin-gold: #FFB800;
-            --spin-dark-gold: #D68C00;
-            --spin-brown: #5C3A12;
+
+            /* NEW: Friends Button Colors */
+            --bg-deep: #08182B;      /* Main Background */
+            --bg-card: #163450;      /* Copy Button Background */
+            --btn-gold-top: #FFE585;
+            --btn-gold-mid: #FFC044;
+            --btn-gold-bot: #FFA000;
+            --btn-text-brown: #3E2723;
         }
-/* --- FRIENDS TAB STYLES --- */
-.friend-banner-img {
-    width: 100%;
-    aspect-ratio: 16/9;
-    border-radius: 4vw;
-    object-fit: cover;
-    margin-bottom: 4vw;
-    box-shadow: 0 2vw 5vw rgba(0,0,0,0.3);
-    border: 1px solid rgba(0, 229, 255, 0.2);
-}
-
-.friend-rules-box {
-    background: linear-gradient(180deg, rgba(22, 52, 80, 0.6) 0%, rgba(8, 24, 43, 0.8) 100%);
-    border-radius: 4vw;
-    padding: 4vw;
-    margin-bottom: 5vw;
-    border: 1px solid rgba(255, 255, 255, 0.05);
-}
-
-.friend-rules-title {
-    font-size: 5vw;
-    font-weight: 700;
-    color: var(--level-gold);
-    margin-bottom: 2vw;
-    text-align: center;
-}
-
-.friend-rules-list {
-    list-style: none;
-    padding: 0;
-}
-
-.friend-rules-list li {
-    font-size: 3.2vw;
-    color: rgba(255, 255, 255, 0.8);
-    margin-bottom: 1.5vw;
-    display: flex;
-    align-items: center;
-    gap: 2vw;
-}
-
-.invite-actions {
-    display: flex;
-    gap: 2vw;
-    margin-bottom: 6vw;
-}
-
-.btn-invite-main {
-    flex: 1;
-    background: linear-gradient(180deg, #FFE585 0%, #FFC044 40%, #FFA000 100%);
-    border: none;
-    border-radius: 10vw;
-    color: #3E2723;
-    font-size: 4vw;
-    font-weight: 800;
-    text-transform: uppercase;
-    padding: 3vw 0;
-    box-shadow: 0 1vw 2vw rgba(255, 160, 0, 0.3);
-    position: relative;
-    overflow: hidden;
-}
-
-.btn-invite-main::after {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; width: 100%; height: 50%;
-    background: linear-gradient(to bottom, rgba(255,255,255,0.4), transparent);
-}
-
-.btn-copy-link {
-    width: 14vw;
-    background-color: #163450;
-    border: 1px solid rgba(255,255,255,0.1);
-    border-radius: 4vw;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    transition: all 0.2s;
-}
-
-.btn-copy-link svg {
-    width: 6vw;
-    height: 6vw;
-    fill: white;
-}
-
-.btn-copy-link.copied {
-    background-color: var(--accent-cyan);
-}
-.btn-copy-link.copied svg { fill: #08182B; }
-
-/* Friend List Placeholder */
-.friend-list-header { font-size: 4vw; font-weight: 700; margin-bottom: 3vw; }
-.empty-friends { text-align: center; color: rgba(255,255,255,0.4); padding: 5vw; font-size: 3vw; }
-
 
         * {
             margin: 0;
@@ -423,198 +331,6 @@
 
         .character-img:active { transform: scale(0.96) rotate(-2deg); }
 
-        /* --- SPIN TRIGGER BUTTON --- */
-        .spin-trigger-btn {
-            position: absolute;
-            top: 20%;
-            right: 0;
-            width: 14vw;
-            height: 14vw;
-            background: radial-gradient(circle, #FFD700, #FF8C00);
-            border-radius: 50% 0 0 50%;
-            border: 2px solid #fff;
-            border-right: none;
-            box-shadow: -2px 5px 15px rgba(0,0,0,0.5);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            cursor: pointer;
-            z-index: 50;
-            transition: transform 0.2s;
-        }
-        .spin-trigger-btn img {
-            width: 8vw;
-            height: 8vw;
-            animation: spinIcon 5s linear infinite;
-        }
-        @keyframes spinIcon { 100% { transform: rotate(360deg); } }
-
-        /* --- SPIN WHEEL MODAL --- */
-        .spin-modal {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(180deg, #3E2723 0%, #1a1a1a 100%);
-            z-index: 2000;
-            display: none;
-            flex-direction: column;
-            align-items: center;
-            padding: 5vw;
-            overflow-y: auto;
-        }
-        .spin-modal.active { display: flex; animation: fadeIn 0.3s; }
-
-        .spin-header {
-            width: 100%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 2vh;
-        }
-        .spin-title {
-            text-align: center;
-            width: 100%;
-        }
-        .spin-title h2 { font-size: 6vw; color: white; margin-bottom: 1vw; }
-        .spin-title p { color: rgba(255,255,255,0.7); font-size: 3vw; line-height: 1.4; max-width: 80%; margin: 0 auto; }
-
-        .wheel-container {
-            position: relative;
-            width: 80vw;
-            height: 80vw;
-            margin: 2vh 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-        
-        /* The Wheel Circle */
-        .wheel {
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
-            border: 4px solid #F5DEB3;
-            position: relative;
-            overflow: hidden;
-            transition: transform 4s cubic-bezier(0.17, 0.67, 0.12, 0.99);
-            box-shadow: 0 0 20px rgba(255, 184, 0, 0.3);
-            background: conic-gradient(
-                #FFB800 0deg 60deg,
-                #D68C00 60deg 120deg,
-                #FFB800 120deg 180deg,
-                #D68C00 180deg 240deg,
-                #FFB800 240deg 300deg,
-                #D68C00 300deg 360deg
-            );
-        }
-
-        .wheel-center {
-            position: absolute;
-            top: 50%; left: 50%;
-            transform: translate(-50%, -50%);
-            width: 18%; height: 18%;
-            background: radial-gradient(circle, #FFD700, #B8860B);
-            border-radius: 50%;
-            z-index: 5;
-            box-shadow: 0 0 10px rgba(0,0,0,0.5);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 5vw;
-            color: #5C3A12;
-        }
-
-        .wheel-pointer {
-            position: absolute;
-            top: -2%;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 0; 
-            height: 0; 
-            border-left: 4vw solid transparent;
-            border-right: 4vw solid transparent;
-            border-top: 6vw solid white;
-            z-index: 10;
-            filter: drop-shadow(0 2px 2px rgba(0,0,0,0.5));
-        }
-
-        /* Wheel Text Segments */
-        .segment-text {
-            position: absolute;
-            top: 50%; left: 50%;
-            transform-origin: 0 0;
-            color: #5C3A12;
-            font-weight: 800;
-            font-size: 4.5vw;
-            text-shadow: 0 1px 0 rgba(255,255,255,0.4);
-            z-index: 2;
-        }
-
-        /* Spin Controls */
-        .spin-btn-main {
-            background: linear-gradient(to bottom, #E0E0E0, #BDBDBD);
-            width: 70%;
-            padding: 3vw;
-            border-radius: 10vw;
-            font-weight: 700;
-            font-size: 4vw;
-            color: #5C3A12;
-            border: none;
-            box-shadow: 0 4px 0 #9E9E9E;
-            margin-bottom: 5vw;
-        }
-        .spin-btn-main:active { transform: translateY(4px); box-shadow: none; }
-
-        /* Task Bars (Image Style) */
-        .spin-task-card {
-            background: linear-gradient(90deg, #3E2723, #4E342E);
-            width: 100%;
-            border-radius: 3vw;
-            padding: 3vw;
-            margin-bottom: 3vw;
-            border: 1px solid #8D6E63;
-        }
-        .task-progress-track {
-            background: rgba(255,255,255,0.2);
-            height: 1.5vw;
-            border-radius: 1vw;
-            width: 100%;
-            margin-bottom: 2vw;
-            position: relative;
-        }
-        .task-progress-fill {
-            background: white;
-            height: 100%;
-            border-radius: 1vw;
-            width: 0%;
-        }
-        .task-progress-text {
-            position: absolute;
-            right: 0; top: -4vw;
-            font-size: 3vw; color: white;
-        }
-        .stc-bottom {
-            display: flex; justify-content: space-between; align-items: center;
-        }
-        .stc-text { font-size: 3.2vw; color: white; font-weight: 600; }
-        .stc-btn {
-            background: transparent;
-            border: 1px solid #FFB74D;
-            color: #FFB74D;
-            padding: 1vw 3vw;
-            border-radius: 5vw;
-            font-size: 3vw;
-        }
-
-        .close-spin {
-            position: absolute;
-            top: 4vw; left: 4vw;
-            color: white; font-size: 5vw;
-            background: rgba(0,0,0,0.3);
-            width: 10vw; height: 10vw;
-            border-radius: 50%;
-            display: flex; justify-content: center; align-items: center;
-        }
-
         /* --- FLOATING SCORE --- */
         .floating-score {
             position: absolute;
@@ -692,7 +408,7 @@
             align-items: center;
             justify-content: center;
             gap: 1vw;
-            width: 20vw; /* Adjusted for 3 items */
+            width: 20vw; 
             height: 15vw;
             border-radius: 3.5vw;
             color: rgba(255, 255, 255, 0.4);
@@ -706,6 +422,14 @@
             transition: all 0.3s;
             filter: grayscale(100%);
         }
+        
+        /* Style for FontAwesome icons in nav */
+        .nav-item i {
+            font-size: 6vw;
+            opacity: 0.5;
+            transition: all 0.3s;
+            color: inherit; /* Ensure FA icons use inherited color */
+        }
 
         .nav-item span { font-size: 2.8vw; font-weight: 500; }
 
@@ -717,7 +441,7 @@
             box-shadow: 0 -2.5vw 5vw rgba(0, 229, 255, 0.15) inset;
         }
 
-        .nav-item.active img {
+        .nav-item.active img, .nav-item.active i {
             opacity: 1;
             filter: grayscale(0%) drop-shadow(0 0 2vw var(--accent-cyan));
             transform: scale(1.1);
@@ -880,6 +604,97 @@
             stroke-linejoin: round;
         }
 
+        /* --- NEW FRIEND BUTTON STYLES --- */
+        .invite-container {
+            display: flex;
+            gap: 3vw; /* Space between the two buttons */
+            width: 100%;
+            padding: 0 5vw; /* Match content padding */
+            margin-top: 5vw;
+        }
+        
+        /* Main Invite Button (Gold) */
+        .btn-invite {
+            flex: 1; /* Takes up remaining space */
+            border: none;
+            /* Creating the 3D Gold Gradient Effect */
+            background: linear-gradient(180deg, var(--btn-gold-top) 0%, var(--btn-gold-mid) 40%, var(--btn-gold-bot) 100%);
+            color: var(--btn-text-brown);
+            font-size: 4.5vw; /* Adjusted from 16px */
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            padding: 4vw 0; /* Adjusted from 18px */
+            border-radius: 10vw; /* Adjusted from 50px */
+            cursor: pointer;
+            box-shadow: 0 2vw 5vw rgba(255, 160, 0, 0.4), inset 0 0.5vw 0 rgba(255,255,255,0.4); /* Adjusted shadow */
+            transition: transform 0.1s, filter 0.2s;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 2vw;
+        }
+
+        .btn-invite i {
+            font-size: 6vw;
+            color: var(--btn-text-brown);
+            margin-right: -1vw;
+        }
+
+        /* Shine effect overlay */
+        .btn-invite::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 50%;
+            background: linear-gradient(to bottom, rgba(255,255,255,0.4), transparent);
+            border-radius: 10vw 10vw 0 0;
+            pointer-events: none;
+        }
+
+        .btn-invite:active {
+            transform: translateY(1vw); /* Adjusted for mobile scale */
+            filter: brightness(0.9);
+            box-shadow: 0 1vw 3vw rgba(255, 160, 0, 0.3);
+        }
+
+        /* Copy Button (Square) */
+        .btn-copy {
+            width: 14vw;  /* Adjusted from 58px */
+            height: 14vw; /* Ensure square */
+            flex-shrink: 0;
+            background-color: var(--bg-card); /* Your dark blue theme color */
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 4vw; /* Adjusted from 16px */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: background 0.2s, transform 0.1s;
+        }
+
+        .btn-copy svg {
+            width: 6vw; /* Adjusted from 24px */
+            height: 6vw;
+            fill: white;
+            transition: fill 0.2s;
+        }
+
+        .btn-copy:active {
+            transform: scale(0.95);
+            background-color: #1a4066;
+        }
+
+        /* Copied State Animation */
+        .btn-copy.copied {
+            background-color: var(--accent-cyan);
+            border-color: var(--accent-cyan);
+        }
+        .btn-copy.copied svg {
+            fill: var(--bg-deep); /* Dark icon when background is bright */
+        }
+
     </style>
 </head>
 <body class="home-active">
@@ -895,62 +710,6 @@
     <div id="glassPopup" class="popup-overlay">
         <div class="popup-content" id="popupContent">
             <!-- Content Injected via JS -->
-        </div>
-    </div>
-
-    <!-- SPIN WHEEL MODAL -->
-    <div id="spinModal" class="spin-modal">
-        <div class="close-spin" onclick="closeSpinModal()">
-            <i class="fas fa-arrow-left"></i>
-        </div>
-
-        <div class="spin-title">
-            <h2>Wheel of Fortune</h2>
-            <p>Complete tasks and spin the wheel. Rewards are credited immediately.</p>
-        </div>
-
-        <!-- The Wheel -->
-        <div class="wheel-container">
-            <div class="wheel-pointer"></div>
-            <div class="wheel" id="wheelObj">
-                <!-- Segments -->
-                <!-- 6 Segments. Each 60 deg -->
-                <!-- Text must be positioned and rotated -->
-                <div class="segment-text" style="transform: rotate(30deg) translate(25vw) rotate(90deg);">10.0 <i class="fas fa-star" style="font-size:2vw;"></i></div>
-                <div class="segment-text" style="transform: rotate(90deg) translate(25vw) rotate(90deg);">0.3 <i class="fas fa-star" style="font-size:2vw;"></i></div>
-                <div class="segment-text" style="transform: rotate(150deg) translate(25vw) rotate(90deg);">0.5 <i class="fas fa-star" style="font-size:2vw;"></i></div>
-                <div class="segment-text" style="transform: rotate(210deg) translate(25vw) rotate(90deg);">1.0 <i class="fas fa-star" style="font-size:2vw;"></i></div>
-                <div class="segment-text" style="transform: rotate(270deg) translate(25vw) rotate(90deg);">2.0 <i class="fas fa-star" style="font-size:2vw;"></i></div>
-                <div class="segment-text" style="transform: rotate(330deg) translate(25vw) rotate(90deg);">5.0 <i class="fas fa-star" style="font-size:2vw;"></i></div>
-            </div>
-            <div class="wheel-center">
-                <i class="fas fa-star"></i>
-            </div>
-        </div>
-
-        <button class="spin-btn-main" onclick="spinTheWheel()" id="spinBtnMain">Spin Wheel!</button>
-
-        <!-- Tasks under Wheel -->
-        <div class="spin-task-card">
-            <div class="task-progress-track">
-                <span class="task-progress-text">0/5</span>
-                <div class="task-progress-fill" style="width: 0%;"></div>
-            </div>
-            <div class="stc-bottom">
-                <div class="stc-text">Complete 5 tasks</div>
-                <button class="stc-btn" onclick="switchTab('task'); closeSpinModal();">Go</button>
-            </div>
-        </div>
-
-        <div class="spin-task-card">
-            <div class="task-progress-track">
-                <span class="task-progress-text">0/1</span>
-                <div class="task-progress-fill" style="width: 0%;"></div>
-            </div>
-            <div class="stc-bottom">
-                <div class="stc-text">Invite a friend</div>
-                <button class="stc-btn">Copy</button>
-            </div>
         </div>
     </div>
 
@@ -1016,11 +775,6 @@
             <!-- HOME TAB -->
             <div id="home" class="tab-content active">
 
-                <!-- SPIN WHEEL TRIGGER (New) -->
-                <div class="spin-trigger-btn" onclick="openSpinModal()">
-                    <img src="https://img.icons8.com/3d-fluency/94/roulette.png" alt="Spin">
-                </div>
-
                 <!-- Game Area -->
                 <div class="game-area-wrapper" id="snowContainer">
                     
@@ -1035,7 +789,7 @@
                 </div>
             </div>
 
-            <!-- TASK TAB (New) -->
+            <!-- TASK TAB -->
             <div id="task" class="tab-content">
                 <div style="text-align:center; padding-top: 10px; padding-bottom: 20px;">
                     <h1 class="wallet-title">Daily<br>Tasks</h1>
@@ -1047,46 +801,38 @@
                     <div style="text-align:center; color:rgba(255,255,255,0.5); margin-top:20px;">Loading tasks...</div>
                 </div>
             </div>
-<!-- FRIENDS TAB -->
-<div id="friends" class="tab-content">
-    <div style="padding-top: 2vw;">
-        <!-- 16:9 Image -->
-        <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/referral_banner.webp" 
-             class="friend-banner-img" 
-             alt="Invite Friends"
-             onerror="this.src='https://via.placeholder.com/640x360/0a1f30/00E5FF?text=Invite+Friends'">
-        
-        <!-- Rules Section -->
-        <div class="friend-rules-box">
-            <div class="friend-rules-title">🎁 Invite Friends & Earn Forever!</div>
-            <ul class="friend-rules-list">
-                <li><i class="fas fa-coins" style="color:#FFD700"></i> Get 999 coins when friend joins</li>
-                <li><i class="fas fa-percent" style="color:#00E5FF"></i> Inviter gets 5% of friend's earnings</li>
-                <li><i class="fas fa-users" style="color:#FFA000"></i> Unlimited referrals</li>
-                <li><i class="fas fa-gem" style="color:#6A5ACD"></i> Passive income 🧊</li>
-            </ul>
-        </div>
 
-        <!-- Action Buttons -->
-        <div class="invite-actions">
-            <button class="btn-invite-main" onclick="inviteFriend()">
-                Invite a Friend
-            </button>
+            <!-- FRIENDS TAB (Updated with New Buttons) -->
+            <div id="friends" class="tab-content">
+                <div style="text-align:center; padding-top: 10px; padding-bottom: 20px; margin-top: 10vw;">
+                    <h1 class="wallet-title" style="font-size: 6.5vw; line-height: 1.2;"><span role="img" aria-label="gift">🎁</span> Invite Friends & Earn Forever!</h1>
+                    
+                    <div style="background: var(--glass-bg); border: 1px solid rgba(0,229,255,0.2); border-radius: 3vw; padding: 3vw; margin: 3vw auto; width: 90%; text-align: left;">
+                        <p style="font-size: 3.5vw; font-weight: 600; color: var(--accent-cyan);">
+                            • Inviter gets 5% of friend's earnings
+                        </p>
+                    </div>
+                </div>
 
-            <button class="btn-copy-link" onclick="copyReferralLink(this)">
-                <svg viewBox="0 0 24 24">
-                    <path d="M16 1H4C2.9 1 2 1.9 2 3V17H4V3H16V1ZM19 5H8C6.9 5 6 5.9 6 7V21C6 22.1 6.9 23 8 23H19C20.1 23 21 22.1 21 21V7C21 5.9 20.1 5 19 5ZM19 21H8V7H19V21Z"/>
-                </svg>
-            </button>
-        </div>
+                <!-- NEW BUTTON GROUP -->
+                <div class="invite-container">
+                    <!-- Main Invite Button -->
+                    <button class="btn-invite" onclick="inviteFriend()">
+                        <i class="fas fa-paper-plane"></i>
+                        Invite a Friend
+                    </button>
 
-        <!-- Friend List (Optional/Future) -->
-        <div class="friend-list-header">Your Friends (0)</div>
-        <div class="empty-friends">
-            You haven't invited anyone yet.
-        </div>
-    </div>
-</div>
+                    <!-- Copy Button -->
+                    <button class="btn-copy" id="copyLinkBtn" onclick="handleCopyClick(this)">
+                        <!-- Copy Icon SVG -->
+                        <svg viewBox="0 0 24 24">
+                            <path d="M16 1H4C2.9 1 2 1.9 2 3V17H4V3H16V1ZM19 5H8C6.9 5 6 5.9 6 7V21C6 22.1 6.9 23 8 23H19C20.1 23 21 22.1 21 21V7C21 5.9 20.1 5 19 5ZM19 21H8V7H19V21Z"/>
+                        </svg>
+                    </button>
+                </div>
+                <!-- END NEW BUTTON GROUP -->
+            </div>
+
             <!-- WALLET TAB -->
             <div id="wallet" class="tab-content">
                 <div style="text-align:center; padding-top: 10px;">
@@ -1133,21 +879,23 @@
                 </div>
             </div>
         </div>
-<!-- NAVIGATION -->
+
+        <!-- NAVIGATION -->
         <div class="nav-bar">
             <div class="nav-item active" onclick="switchTab('home', this)">
                 <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/home.webp" alt="Home">
                 <span>Home</span>
             </div>
             
+            <!-- Task Button -->
             <div class="nav-item" onclick="switchTab('task', this)">
                 <img src="https://img.icons8.com/3d-fluency/94/clipboard.png" alt="Task">
                 <span>Task</span>
             </div>
 
-            <!-- NEW FRIENDS NAV ITEM -->
+            <!-- Friends Button -->
             <div class="nav-item" onclick="switchTab('friends', this)">
-                <img src="https://img.icons8.com/3d-fluency/94/conference-call.png" alt="Friends">
+                <i class="fas fa-users" style="color: inherit;"></i>
                 <span>Friends</span>
             </div>
 
@@ -1157,19 +905,20 @@
             </div>
         </div>
 
-    </div> <!-- End of app-container -->
+    </div>
 
     <script>
         // --- FIREBASE CONFIGURATION ---
-        const firebaseConfig = {
-          apiKey: "AIzaSyC3Lef_4TPia7sJA0nEFC7Byc1xSyUxyA0",
-          authDomain: "snowman-adventure-4fa71.firebaseapp.com",
-          databaseURL: "https://snowman-adventure-4fa71-default-rtdb.firebaseio.com",
-          projectId: "snowman-adventure-4fa71",
-          storageBucket: "snowman-adventure-4fa71.firebasestorage.app",
-          messagingSenderId: "507867054186",
-          appId: "1:507867054186:web:12d024de606d00091b4a13",
-          measurementId: "G-J550E6L22Z"
+        
+const firebaseConfig = {
+  apiKey: "AIzaSyC3Lef_4TPia7sJA0nEFC7Byc1xSyUxyA0",
+  authDomain: "snowman-adventure-4fa71.firebaseapp.com",
+  databaseURL: "https://snowman-adventure-4fa71-default-rtdb.firebaseio.com",
+  projectId: "snowman-adventure-4fa71",
+  storageBucket: "snowman-adventure-4fa71.firebasestorage.app",
+  messagingSenderId: "507867054186",
+  appId: "1:507867054186:web:12d024de606d00091b4a13",
+  measurementId: "G-J550E6L22Z"
         };
         
         if (!firebase.apps.length) {
@@ -1185,7 +934,12 @@
         let userId = "test_user_001"; 
         let tapTimes = [];
         let completedTasks = {}; // Store user's completed tasks
-        let isSpinning = false;
+        
+        // ** NEW: INVITE LINK VARIABLE **
+        // !! IMPORTANT: Replace 'YOUR_BOT_USERNAME' with your actual Telegram bot username !!
+        const BOT_USERNAME_PLACEHOLDER = 'your_bot_username'; 
+        let appInviteBaseUrl = `https://t.me/${BOT_USERNAME_PLACEHOLDER}?start=`;
+
 
         // --- DOM ELEMENTS ---
         const balanceDisplay = document.getElementById('displayBalance');
@@ -1201,6 +955,8 @@
         const headerTon = document.getElementById('headerTonBalance');
         const walletCoin = document.getElementById('walletCoin');
         const walletTon = document.getElementById('walletTon');
+        // New Friends button
+        const copyLinkButton = document.getElementById('copyLinkBtn');
 
         // --- TON CONNECT INITIALIZATION ---
         const tonConnectUI = new TON_CONNECT_UI.TonConnectUI({
@@ -1285,8 +1041,16 @@
                     else if (user.first_name) headerName.innerText = user.first_name;
                     if (user.photo_url) headerAvatar.src = user.photo_url;
                 }
+                
+                // Fallback for appInviteBaseUrl if running in a real TWA environment
+                if (BOT_USERNAME_PLACEHOLDER === 'your_bot_username' && tg.initDataUnsafe.start_param) {
+                    // This is a complex logic that usually requires knowing the bot's structure. 
+                    // Keeping the placeholder for user to update.
+                }
             } catch (e) {
                 console.log("Not running in Telegram");
+                // For testing outside Telegram, update base link with a standalone URL if needed.
+                // For TWA-only, this is fine.
             }
         }
 
@@ -1543,87 +1307,48 @@
             }, 5000); 
         }
 
-        // --- SPIN WHEEL LOGIC ---
-        
-        function openSpinModal() {
-            document.getElementById('spinModal').classList.add('active');
+        // --- FRIENDS/INVITE FUNCTIONS (New) ---
+
+        function getInviteLink() {
+            // The deep link for the Telegram Mini App
+            // The structure is t.me/bot_username?start=userId
+            return `${appInviteBaseUrl}${userId}`;
         }
 
-        function closeSpinModal() {
-            if(isSpinning) return;
-            document.getElementById('spinModal').classList.remove('active');
-        }
-
-        function spinTheWheel() {
-            if(isSpinning) return;
-            isSpinning = true;
-
-            const wheel = document.getElementById('wheelObj');
-            const btn = document.getElementById('spinBtnMain');
-            btn.style.opacity = '0.5';
-            btn.innerText = 'Spinning...';
-
-            // Random Spin Logic
-            const minSpin = 1800; // 5 full spins
-            const deg = Math.floor(minSpin + Math.random() * 360);
-            
-            wheel.style.transform = `rotate(${deg}deg)`;
-
-            setTimeout(() => {
-                isSpinning = false;
-                btn.style.opacity = '1';
-                btn.innerText = 'Spin Wheel!';
-                
-                // Calculate Prize
-                const actualDeg = deg % 360;
-                const landingPos = (360 - actualDeg) % 360;
-
-                let prize = 0;
-                if(landingPos >= 0 && landingPos < 60) prize = 10.0;
-                else if(landingPos >= 60 && landingPos < 120) prize = 0.3;
-                else if(landingPos >= 120 && landingPos < 180) prize = 0.5;
-                else if(landingPos >= 180 && landingPos < 240) prize = 1.0;
-                else if(landingPos >= 240 && landingPos < 300) prize = 2.0;
-                else if(landingPos >= 300 && landingPos < 360) prize = 5.0;
-
-                tonBalance += prize;
-                
-                showToast(`You won ${prize} Stars!`);
-                updateUI();
-                saveUserData();
-
-            }, 4000); // 4 seconds animation
-        }
-
-        // --- FRIEND SYSTEM JS (NEW) ---
         function inviteFriend() {
-            const botUsername = "thesnowmanbot"; 
-            const inviteLink = `https://t.me/${botUsername}?start=${userId}`;
-            const shareText = `Join me in Snowman Adventure! ⛄ Get rewards and earn crypto.`;
-            
-            const url = `https://t.me/share/url?url=${encodeURIComponent(inviteLink)}&text=${encodeURIComponent(shareText)}`;
-            
-            if (window.Telegram && window.Telegram.WebApp) {
-                window.Telegram.WebApp.openTelegramLink(url);
-            } else {
-                window.open(url, '_blank');
+            const link = getInviteLink();
+            const text = `Join Snowman Adventure! Earn coins by tapping. Use my link to get a bonus: `; // Text will be combined with the link by TWA
+
+            try {
+                if (window.Telegram.WebApp) {
+                    // This function is designed to forward a message with the share link
+                    window.Telegram.WebApp.shareUrl(link, text);
+                } else {
+                    // Fallback for sharing outside Telegram Web App environment
+                    const telegramShareUrl = `https://t.me/share/url?url=${encodeURIComponent(link)}&text=${encodeURIComponent(text)}`;
+                    window.open(telegramShareUrl, '_blank');
+                    showToast("Sharing via fallback link.");
+                }
+            } catch(e) {
+                console.error("Could not invite via TWA or share URL:", e);
+                showToast("Cannot invite. Please copy the link manually.");
             }
         }
 
-        function copyReferralLink(btn) {
-            // Corrected bot username from 'থ' to 'thesnowmanbot'
-            const botUsername = "thesnowmanbot"; 
-            const inviteLink = `https://t.me/${botUsername}?start=${userId}`;
-            
-            navigator.clipboard.writeText(inviteLink).then(() => {
-                btn.classList.add('copied');
-                showToast("Referral link copied!"); 
+        function handleCopyClick(btnElement) {
+            const link = getInviteLink();
+            navigator.clipboard.writeText(link).then(() => {
+                // Visual feedback
+                showToast("Invite link copied to clipboard!");
+                btnElement.classList.add('copied');
+                
+                // Reset after 1.5 seconds
                 setTimeout(() => {
-                    btn.classList.remove('copied');
+                    btnElement.classList.remove('copied');
                 }, 1500);
             }).catch(err => {
-                console.error('Failed to copy', err);
-                showToast("Failed to copy link");
+                console.error('Failed to copy: ', err);
+                showToast("Failed to copy link.");
             });
         }
 
