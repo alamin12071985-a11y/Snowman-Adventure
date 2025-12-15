@@ -36,6 +36,101 @@
             --spin-dark-gold: #D68C00;
             --spin-brown: #5C3A12;
         }
+/* --- FRIENDS TAB STYLES --- */
+.friend-banner-img {
+    width: 100%;
+    aspect-ratio: 16/9;
+    border-radius: 4vw;
+    object-fit: cover;
+    margin-bottom: 4vw;
+    box-shadow: 0 2vw 5vw rgba(0,0,0,0.3);
+    border: 1px solid rgba(0, 229, 255, 0.2);
+}
+
+.friend-rules-box {
+    background: linear-gradient(180deg, rgba(22, 52, 80, 0.6) 0%, rgba(8, 24, 43, 0.8) 100%);
+    border-radius: 4vw;
+    padding: 4vw;
+    margin-bottom: 5vw;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.friend-rules-title {
+    font-size: 5vw;
+    font-weight: 700;
+    color: var(--level-gold);
+    margin-bottom: 2vw;
+    text-align: center;
+}
+
+.friend-rules-list {
+    list-style: none;
+    padding: 0;
+}
+
+.friend-rules-list li {
+    font-size: 3.2vw;
+    color: rgba(255, 255, 255, 0.8);
+    margin-bottom: 1.5vw;
+    display: flex;
+    align-items: center;
+    gap: 2vw;
+}
+
+.invite-actions {
+    display: flex;
+    gap: 2vw;
+    margin-bottom: 6vw;
+}
+
+.btn-invite-main {
+    flex: 1;
+    background: linear-gradient(180deg, #FFE585 0%, #FFC044 40%, #FFA000 100%);
+    border: none;
+    border-radius: 10vw;
+    color: #3E2723;
+    font-size: 4vw;
+    font-weight: 800;
+    text-transform: uppercase;
+    padding: 3vw 0;
+    box-shadow: 0 1vw 2vw rgba(255, 160, 0, 0.3);
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-invite-main::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 50%;
+    background: linear-gradient(to bottom, rgba(255,255,255,0.4), transparent);
+}
+
+.btn-copy-link {
+    width: 14vw;
+    background-color: #163450;
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 4vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.2s;
+}
+
+.btn-copy-link svg {
+    width: 6vw;
+    height: 6vw;
+    fill: white;
+}
+
+.btn-copy-link.copied {
+    background-color: var(--accent-cyan);
+}
+.btn-copy-link.copied svg { fill: #08182B; }
+
+/* Friend List Placeholder */
+.friend-list-header { font-size: 4vw; font-weight: 700; margin-bottom: 3vw; }
+.empty-friends { text-align: center; color: rgba(255,255,255,0.4); padding: 5vw; font-size: 3vw; }
+
 
         * {
             margin: 0;
@@ -952,7 +1047,46 @@
                     <div style="text-align:center; color:rgba(255,255,255,0.5); margin-top:20px;">Loading tasks...</div>
                 </div>
             </div>
+<!-- FRIENDS TAB -->
+<div id="friends" class="tab-content">
+    <div style="padding-top: 2vw;">
+        <!-- 16:9 Image -->
+        <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/referral_banner.webp" 
+             class="friend-banner-img" 
+             alt="Invite Friends"
+             onerror="this.src='https://via.placeholder.com/640x360/0a1f30/00E5FF?text=Invite+Friends'">
+        
+        <!-- Rules Section -->
+        <div class="friend-rules-box">
+            <div class="friend-rules-title">🎁 Invite Friends & Earn Forever!</div>
+            <ul class="friend-rules-list">
+                <li><i class="fas fa-coins" style="color:#FFD700"></i> Get 999 coins when friend joins</li>
+                <li><i class="fas fa-percent" style="color:#00E5FF"></i> Inviter gets 5% of friend's earnings</li>
+                <li><i class="fas fa-users" style="color:#FFA000"></i> Unlimited referrals</li>
+                <li><i class="fas fa-gem" style="color:#6A5ACD"></i> Passive income 🧊</li>
+            </ul>
+        </div>
 
+        <!-- Action Buttons -->
+        <div class="invite-actions">
+            <button class="btn-invite-main" onclick="inviteFriend()">
+                Invite a Friend
+            </button>
+
+            <button class="btn-copy-link" onclick="copyReferralLink(this)">
+                <svg viewBox="0 0 24 24">
+                    <path d="M16 1H4C2.9 1 2 1.9 2 3V17H4V3H16V1ZM19 5H8C6.9 5 6 5.9 6 7V21C6 22.1 6.9 23 8 23H19C20.1 23 21 22.1 21 21V7C21 5.9 20.1 5 19 5ZM19 21H8V7H19V21Z"/>
+                </svg>
+            </button>
+        </div>
+
+        <!-- Friend List (Optional/Future) -->
+        <div class="friend-list-header">Your Friends (0)</div>
+        <div class="empty-friends">
+            You haven't invited anyone yet.
+        </div>
+    </div>
+</div>
             <!-- WALLET TAB -->
             <div id="wallet" class="tab-content">
                 <div style="text-align:center; padding-top: 10px;">
@@ -999,18 +1133,22 @@
                 </div>
             </div>
         </div>
-
-        <!-- NAVIGATION -->
+<!-- NAVIGATION -->
         <div class="nav-bar">
             <div class="nav-item active" onclick="switchTab('home', this)">
                 <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/home.webp" alt="Home">
                 <span>Home</span>
             </div>
             
-            <!-- Task Button -->
             <div class="nav-item" onclick="switchTab('task', this)">
                 <img src="https://img.icons8.com/3d-fluency/94/clipboard.png" alt="Task">
                 <span>Task</span>
+            </div>
+
+            <!-- NEW FRIENDS NAV ITEM -->
+            <div class="nav-item" onclick="switchTab('friends', this)">
+                <img src="https://img.icons8.com/3d-fluency/94/conference-call.png" alt="Friends">
+                <span>Friends</span>
             </div>
 
             <div class="nav-item" onclick="switchTab('wallet', this)">
@@ -1019,20 +1157,19 @@
             </div>
         </div>
 
-    </div>
+    </div> <!-- End of app-container -->
 
     <script>
         // --- FIREBASE CONFIGURATION ---
-        
-const firebaseConfig = {
-  apiKey: "AIzaSyC3Lef_4TPia7sJA0nEFC7Byc1xSyUxyA0",
-  authDomain: "snowman-adventure-4fa71.firebaseapp.com",
-  databaseURL: "https://snowman-adventure-4fa71-default-rtdb.firebaseio.com",
-  projectId: "snowman-adventure-4fa71",
-  storageBucket: "snowman-adventure-4fa71.firebasestorage.app",
-  messagingSenderId: "507867054186",
-  appId: "1:507867054186:web:12d024de606d00091b4a13",
-  measurementId: "G-J550E6L22Z"
+        const firebaseConfig = {
+          apiKey: "AIzaSyC3Lef_4TPia7sJA0nEFC7Byc1xSyUxyA0",
+          authDomain: "snowman-adventure-4fa71.firebaseapp.com",
+          databaseURL: "https://snowman-adventure-4fa71-default-rtdb.firebaseio.com",
+          projectId: "snowman-adventure-4fa71",
+          storageBucket: "snowman-adventure-4fa71.firebasestorage.app",
+          messagingSenderId: "507867054186",
+          appId: "1:507867054186:web:12d024de606d00091b4a13",
+          measurementId: "G-J550E6L22Z"
         };
         
         if (!firebase.apps.length) {
@@ -1426,15 +1563,8 @@ const firebaseConfig = {
             btn.style.opacity = '0.5';
             btn.innerText = 'Spinning...';
 
-            // Prizes mapping (Based on segments)
-            // Seg 1 (0-60): 10.0, Seg 2 (60-120): 0.3, Seg 3 (120-180): 0.5, 
-            // Seg 4 (180-240): 1.0, Seg 5 (240-300): 2.0, Seg 6 (300-360): 5.0
-            // Since the wheel rotates clockwise, the pointer (top) will land on specific degrees.
-            // 360 - rotation % 360 determines the landing spot relative to top.
-            
-            // For random luck:
+            // Random Spin Logic
             const minSpin = 1800; // 5 full spins
-            const maxSpin = 2160; 
             const deg = Math.floor(minSpin + Math.random() * 360);
             
             wheel.style.transform = `rotate(${deg}deg)`;
@@ -1445,15 +1575,10 @@ const firebaseConfig = {
                 btn.innerText = 'Spin Wheel!';
                 
                 // Calculate Prize
-                // Normalize rotation
                 const actualDeg = deg % 360;
-                // Pointer is at Top (0 deg). 
-                // If wheel rotates 30 deg clockwise, 330 deg segment is at top.
-                // Formula: (360 - actualDeg) % 360
                 const landingPos = (360 - actualDeg) % 360;
 
                 let prize = 0;
-                // Segments are 60 deg each starting from 0.
                 if(landingPos >= 0 && landingPos < 60) prize = 10.0;
                 else if(landingPos >= 60 && landingPos < 120) prize = 0.3;
                 else if(landingPos >= 120 && landingPos < 180) prize = 0.5;
@@ -1462,14 +1587,44 @@ const firebaseConfig = {
                 else if(landingPos >= 300 && landingPos < 360) prize = 5.0;
 
                 tonBalance += prize;
-                // Add to balance logic here (Assuming Star/TON is represented by tonBalance)
-                // If you want Coin, use balance. For now using tonBalance based on stars in image
                 
                 showToast(`You won ${prize} Stars!`);
                 updateUI();
                 saveUserData();
 
             }, 4000); // 4 seconds animation
+        }
+
+        // --- FRIEND SYSTEM JS (NEW) ---
+        function inviteFriend() {
+            const botUsername = "thesnowmanbot"; 
+            const inviteLink = `https://t.me/${botUsername}?start=${userId}`;
+            const shareText = `Join me in Snowman Adventure! ⛄ Get rewards and earn crypto.`;
+            
+            const url = `https://t.me/share/url?url=${encodeURIComponent(inviteLink)}&text=${encodeURIComponent(shareText)}`;
+            
+            if (window.Telegram && window.Telegram.WebApp) {
+                window.Telegram.WebApp.openTelegramLink(url);
+            } else {
+                window.open(url, '_blank');
+            }
+        }
+
+        function copyReferralLink(btn) {
+            // Corrected bot username from 'থ' to 'thesnowmanbot'
+            const botUsername = "thesnowmanbot"; 
+            const inviteLink = `https://t.me/${botUsername}?start=${userId}`;
+            
+            navigator.clipboard.writeText(inviteLink).then(() => {
+                btn.classList.add('copied');
+                showToast("Referral link copied!"); 
+                setTimeout(() => {
+                    btn.classList.remove('copied');
+                }, 1500);
+            }).catch(err => {
+                console.error('Failed to copy', err);
+                showToast("Failed to copy link");
+            });
         }
 
         // Initialize game
