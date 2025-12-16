@@ -285,19 +285,35 @@
         .tab-content.active { display: flex; }
 
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        
-        /* --- NEW BANNER STYLE (16:9) --- */
-        .banner-image {
+
+        /* --- NEW: BANNER PLACEHOLDER STYLES (1020x320 Responsive) --- */
+        .banner-placeholder {
+            width: 90vw; /* Make it wide */
+            height: 28.23vw; /* 90vw / (1020/320) = 90vw / 3.1875 - This maintains the 1020x320 ratio */
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 4vw;
+            margin: 5vw auto 5vw auto; /* Center it and give space */
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 3.5vw;
+            color: rgba(255, 255, 255, 0.7);
+            border: 1px dashed var(--accent-cyan);
+            cursor: pointer;
+            flex-shrink: 0;
+            position: relative;
+        }
+        .banner-placeholder img {
             width: 100%;
-            /* 16:9 Aspect Ratio */
-            aspect-ratio: 16 / 9; 
+            height: 100%;
             object-fit: cover;
             border-radius: 4vw;
-            margin-bottom: 5vw;
-            /* Hide by default until JS loads the URL */
-            display: none; 
-            box-shadow: 0 1vw 4vw rgba(0, 0, 0, 0.3);
-            border: 1px solid rgba(0, 229, 255, 0.1);
+            pointer-events: none; /* Allows the parent div's click to register */
+        }
+        /* Home banner needs less top margin because of the main balance */
+        #village-ad-banner {
+            margin-top: 3vw;
         }
 
         /* --- GAME AREA --- */
@@ -310,8 +326,8 @@
             position: relative;
             z-index: 10;
             padding-bottom: 3vw;
-            justify-content: center;
-            gap: 5vw;
+            justify-content: flex-start; /* Changed to start to allow space for banner */
+            gap: 2vw; /* Reduced gap for better fit */
         }
 
         .main-balance {
@@ -334,7 +350,7 @@
             width: auto;
             max-width: 80vw;
             height: auto;
-            max-height: 45vh;
+            max-height: 40vh; /* Reduced height to fit banner */
             cursor: pointer;
             z-index: 10; 
             transition: transform 0.1s;
@@ -399,7 +415,7 @@
             color: white;
             font-size: 3.5vw;
         }
-
+        
         /* --- NAV BAR --- */
         .nav-bar {
             position: absolute;
@@ -627,13 +643,13 @@
             margin-top: 5vw;
         }
         
-        /* Main Invite Button (CHANGED TO BLUE GRADIENT) */
+        /* Main Invite Button (Gold) */
         .btn-invite {
             flex: 1; /* Takes up remaining space */
             border: none;
-            /* Using the game's blue gradient */
-            background: var(--btn-blue-grad); 
-            color: white; /* Text color changed to white */
+            /* Creating the 3D Gold Gradient Effect */
+            background: linear-gradient(180deg, var(--btn-gold-top) 0%, var(--btn-gold-mid) 40%, var(--btn-gold-bot) 100%);
+            color: var(--btn-text-brown);
             font-size: 4.5vw; /* Adjusted from 16px */
             font-weight: 800;
             text-transform: uppercase;
@@ -641,7 +657,7 @@
             padding: 4vw 0; /* Adjusted from 18px */
             border-radius: 10vw; /* Adjusted from 50px */
             cursor: pointer;
-            box-shadow: 0 2vw 5vw rgba(74, 146, 255, 0.4), inset 0 0.5vw 0 rgba(255,255,255,0.4); /* Blue shadow */
+            box-shadow: 0 2vw 5vw rgba(255, 160, 0, 0.4), inset 0 0.5vw 0 rgba(255,255,255,0.4); /* Adjusted shadow */
             transition: transform 0.1s, filter 0.2s;
             position: relative;
             overflow: hidden;
@@ -653,24 +669,24 @@
 
         .btn-invite i {
             font-size: 6vw;
-            color: white; /* Icon color changed to white */
+            color: var(--btn-text-brown);
             margin-right: -1vw;
         }
 
-        /* Shine effect overlay adjusted for blue */
+        /* Shine effect overlay */
         .btn-invite::after {
             content: '';
             position: absolute;
             top: 0; left: 0; width: 100%; height: 50%;
-            background: linear-gradient(to bottom, rgba(255,255,255,0.2), transparent);
+            background: linear-gradient(to bottom, rgba(255,255,255,0.4), transparent);
             border-radius: 10vw 10vw 0 0;
             pointer-events: none;
         }
 
         .btn-invite:active {
             transform: translateY(1vw); /* Adjusted for mobile scale */
-            filter: brightness(1.1); /* Brighter on active */
-            box-shadow: 0 1vw 3vw rgba(74, 146, 255, 0.3); /* Blue active shadow */
+            filter: brightness(0.9);
+            box-shadow: 0 1vw 3vw rgba(255, 160, 0, 0.3);
         }
 
         /* Copy Button (Square) */
@@ -797,6 +813,14 @@
                         <span id="displayBalance">0</span>
                     </div>
                     
+                    <!-- NEW VILLAGE BANNER (1020x320 Placeholder) -->
+                    <!-- এই জায়গাটিতে অ্যাডমিন প্যানেল থেকে ছবি লাগানো যাবে এবং ক্লিক করলে 'goToVillage()' ফাংশন কল হবে। -->
+                    <div id="village-ad-banner" class="banner-placeholder" onclick="goToVillage()">
+                        <!-- এই img ট্যাগটিতে অ্যাডমিন প্যানেল থেকে আসা URL বসবে -->
+                        <img id="villageBannerImage" src="" alt="Village Banner" style="display: none;">
+                        <span id="villageBannerText">New Village Ad Banner (1020x320 Area)</span>
+                    </div>
+                    
                     <!-- Main Character -->
                     <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/snowman.webp" class="character-img" id="clickerBtn" alt="Snowman">
                     
@@ -805,12 +829,15 @@
 
             <!-- TASK TAB -->
             <div id="task" class="tab-content">
-                <!-- NEW: Task Banner Image -->
-                <img id="taskBanner" class="banner-image" src="" alt="Task Banner">
-
-                <div style="text-align:center; padding-top: 10px; padding-bottom: 20px;">
+                <div style="text-align:center; padding-top: 10px; padding-bottom: 0;">
                     <h1 class="wallet-title">Daily<br>Tasks</h1>
                     <p style="color:rgba(227, 244, 249, 0.7); font-size: 1rem;">Complete tasks to earn coins.</p>
+                </div>
+
+                <!-- TASK BANNER (1020x320 Placeholder) -->
+                <div class="banner-placeholder" onclick="handleTaskBannerClick()">
+                    <img id="taskBannerImage" src="" alt="Task Banner" style="display: none;">
+                    <span id="taskBannerText">Task Page Ad Banner (1020x320 Area)</span>
                 </div>
 
                 <!-- Task List -->
@@ -821,22 +848,25 @@
 
             <!-- FRIENDS TAB (Updated with New Buttons) -->
             <div id="friends" class="tab-content">
-                <!-- NEW: Friends Banner Image -->
-                <img id="friendsBanner" class="banner-image" src="" alt="Friends Banner">
-
-                <div style="text-align:center; padding-top: 10px; padding-bottom: 20px; margin-top: 10vw;">
+                <div style="text-align:center; padding-top: 10px; padding-bottom: 0; margin-top: 10vw;">
                     <h1 class="wallet-title" style="font-size: 6.5vw; line-height: 1.2;"><span role="img" aria-label="gift">🎁</span> Invite Friends & Earn Forever!</h1>
-                    
-                    <div style="background: var(--glass-bg); border: 1px solid rgba(0,229,255,0.2); border-radius: 3vw; padding: 3vw; margin: 3vw auto; width: 90%; text-align: left;">
-                        <p style="font-size: 3.5vw; font-weight: 600; color: var(--accent-cyan);">
-                            • Inviter gets 5% of friend's earnings
-                        </p>
-                    </div>
+                </div>
+                
+                <!-- FRIENDS BANNER (1020x320 Placeholder) -->
+                <div class="banner-placeholder" onclick="handleFriendsBannerClick()" style="margin-top: 0; margin-bottom: 3vw;">
+                    <img id="friendsBannerImage" src="" alt="Friends Banner" style="display: none;">
+                    <span id="friendsBannerText">Friends Page Ad Banner (1020x320 Area)</span>
+                </div>
+
+                <div style="background: var(--glass-bg); border: 1px solid rgba(0,229,255,0.2); border-radius: 3vw; padding: 3vw; margin: 3vw auto; width: 90%; text-align: left;">
+                    <p style="font-size: 3.5vw; font-weight: 600; color: var(--accent-cyan);">
+                        • Inviter gets 5% of friend's earnings
+                    </p>
                 </div>
 
                 <!-- NEW BUTTON GROUP -->
                 <div class="invite-container">
-                    <!-- Main Invite Button (Color Changed in CSS) -->
+                    <!-- Main Invite Button -->
                     <button class="btn-invite" onclick="inviteFriend()">
                         <i class="fas fa-paper-plane"></i>
                         Invite a Friend
@@ -855,49 +885,52 @@
 
             <!-- WALLET TAB -->
             <div id="wallet" class="tab-content">
-                <!-- NEW: Wallet Banner Image -->
-                <img id="walletBanner" class="banner-image" src="" alt="Wallet Banner" style="margin-top: 5vw;">
-
                 <div style="text-align:center; padding-top: 10px;">
                     <h1 class="wallet-title">Get Real<br>Crypto.</h1>
-                    <p style="color:rgba(227, 244, 249, 0.7); font-size: 1rem; margin-bottom: 20px;">Earn and buy tokens.</p>
+                    <p style="color:rgba(227, 244, 249, 0.7); font-size: 1rem; margin-bottom: 0;">Earn and buy tokens.</p>
+                </div>
+                
+                <!-- WALLET BANNER (1020x320 Placeholder) -->
+                <div class="banner-placeholder" onclick="handleWalletBannerClick()" style="margin-top: 3vw; margin-bottom: 5vw;">
+                    <img id="walletBannerImage" src="" alt="Wallet Banner" style="display: none;">
+                    <span id="walletBannerText">Wallet Page Ad Banner (1020x320 Area)</span>
+                </div>
                     
-                    <div class="wallet-stats-grid">
-                        <div class="wallet-stat-box">
-                            <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/coin.webp" alt="Coin">
-                            <span class="wallet-stat-val" id="walletCoin">0</span>
-                            <span class="wallet-stat-label">Coins</span>
-                        </div>
-                        <div class="wallet-stat-box">
-                            <img src="https://static.vecteezy.com/system/resources/previews/024/093/454/non_2x/toncoin-ton-glass-crypto-coin-3d-illustration-free-png.png" alt="TON">
-                            <span class="wallet-stat-val" id="walletTon">0.0</span>
-                            <span class="wallet-stat-label">TON</span>
-                        </div>
+                <div class="wallet-stats-grid">
+                    <div class="wallet-stat-box">
+                        <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/coin.webp" alt="Coin">
+                        <span class="wallet-stat-val" id="walletCoin">0</span>
+                        <span class="wallet-stat-label">Coins</span>
                     </div>
-
-                    <!-- Connect Button -->
-                    <div class="button-group" style="margin-top: 20px;" id="connectBtnContainer">
-                        <button class="btn connect-btn" id="connectWalletBtn" onclick="connectWallet()">
-                             <svg class="icon" viewBox="0 0 24 24">
-                                <rect x="2" y="5" width="20" height="14" rx="2" ry="2"></rect>
-                                <line x1="2" y1="10" x2="22" y2="10"></line>
-                            </svg>
-                            <span class="btn-text">Connect Wallet</span>
-                        </button>
+                    <div class="wallet-stat-box">
+                        <img src="https://static.vecteezy.com/system/resources/previews/024/093/454/non_2x/toncoin-ton-glass-crypto-coin-3d-illustration-free-png.png" alt="TON">
+                        <span class="wallet-stat-val" id="walletTon">0.0</span>
+                        <span class="wallet-stat-label">TON</span>
                     </div>
+                </div>
 
-                    <!-- Address Status -->
-                    <div id="walletStatusBadge" style="display:none; margin-top:10px; background:rgba(255,255,255,0.1); padding:8px 15px; border-radius:20px; font-size:0.8rem; border:1px solid rgba(0,229,255,0.3);">
-                        <span style="width:10px; height:10px; background:#00C853; border-radius:50%; display:inline-block; margin-right:5px;"></span>
-                        <span id="walletAddressDisplay"></span>
-                    </div>
+                <!-- Connect Button -->
+                <div class="button-group" style="margin-top: 20px;" id="connectBtnContainer">
+                    <button class="btn connect-btn" id="connectWalletBtn" onclick="connectWallet()">
+                         <svg class="icon" viewBox="0 0 24 24">
+                            <rect x="2" y="5" width="20" height="14" rx="2" ry="2"></rect>
+                            <line x1="2" y1="10" x2="22" y2="10"></line>
+                        </svg>
+                        <span class="btn-text">Connect Wallet</span>
+                    </button>
+                </div>
 
-                    <div class="exchange-btn" onclick="handleExchangeClick()">
-                        <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/exchange.webp" class="exchange-icon" alt="Swap">
-                        <div class="exchange-text">
-                            <h3>Exchange Tokens!</h3>
-                            <p>Convert your tokens into cryptocurrency.</p>
-                        </div>
+                <!-- Address Status -->
+                <div id="walletStatusBadge" style="display:none; margin-top:10px; background:rgba(255,255,255,0.1); padding:8px 15px; border-radius:20px; font-size:0.8rem; border:1px solid rgba(0,229,255,0.3);">
+                    <span style="width:10px; height:10px; background:#00C853; border-radius:50%; display:inline-block; margin-right:5px;"></span>
+                    <span id="walletAddressDisplay"></span>
+                </div>
+
+                <div class="exchange-btn" onclick="handleExchangeClick()">
+                    <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/exchange.webp" class="exchange-icon" alt="Swap">
+                    <div class="exchange-text">
+                        <h3>Exchange Tokens!</h3>
+                        <p>Convert your tokens into cryptocurrency.</p>
                     </div>
                 </div>
             </div>
@@ -930,7 +963,7 @@
 
     </div>
 
-<script>
+    <script>
         // --- FIREBASE CONFIGURATION ---
         
 const firebaseConfig = {
@@ -958,9 +991,10 @@ const firebaseConfig = {
         let tapTimes = [];
         let completedTasks = {}; // Store user's completed tasks
         
-        // ** UPDATED: INVITE LINK VARIABLE **
-        // এটি এখন Firebase config থেকে লোড হবে
-        let appInviteBaseUrl = ''; 
+        // ** NEW: INVITE LINK VARIABLE **
+        // !! IMPORTANT: Replace 'YOUR_BOT_USERNAME' with your actual Telegram bot username !!
+        const BOT_USERNAME_PLACEHOLDER = 'your_bot_username'; 
+        let appInviteBaseUrl = `https://t.me/${BOT_USERNAME_PLACEHOLDER}?start=`;
 
 
         // --- DOM ELEMENTS ---
@@ -980,7 +1014,7 @@ const firebaseConfig = {
         // New Friends button
         const copyLinkButton = document.getElementById('copyLinkBtn');
 
-        // --- TON CONNECT INITIALIZATION (No Change) ---
+        // --- TON CONNECT INITIALIZATION ---
         const tonConnectUI = new TON_CONNECT_UI.TonConnectUI({
             manifestUrl: 'https://alamin12071985-a11y.github.io/cine-link/tonconnect-manifest.json',
             buttonRootId: null 
@@ -1049,9 +1083,18 @@ const firebaseConfig = {
             initTelegramUser(); 
             startSnowfall();
             loadUserData();
-            loadConfigAndBanners(); // Load banners AND bot username from config
             setInterval(saveUserData, 5000);
+            
+            // NEW: Initial banner image loading (Placeholder for Admin Panel)
+            loadBanners();
         }
+        
+        // NEW: Function to load banners (future admin panel link)
+        function loadBanners() {
+            // This is where you would fetch banner image URLs from Firebase/Admin Panel
+            // For now, it stays as a placeholder showing the dashed line.
+        }
+
 
         function initTelegramUser() {
             try {
@@ -1064,45 +1107,18 @@ const firebaseConfig = {
                     else if (user.first_name) headerName.innerText = user.first_name;
                     if (user.photo_url) headerAvatar.src = user.photo_url;
                 }
+                
+                // Fallback for appInviteBaseUrl if running in a real TWA environment
+                if (BOT_USERNAME_PLACEHOLDER === 'your_bot_username' && tg.initDataUnsafe.start_param) {
+                    // This is a complex logic that usually requires knowing the bot's structure. 
+                    // Keeping the placeholder for user to update.
+                }
             } catch (e) {
                 console.log("Not running in Telegram");
+                // For testing outside Telegram, update base link with a standalone URL if needed.
+                // For TWA-only, this is fine.
             }
         }
-        
-        // --- UPDATED: CONFIG AND BANNER LOADING ---
-        function loadConfigAndBanners() {
-            db.ref('config').once('value').then(snapshot => {
-                const config = snapshot.val();
-                if (config) {
-                    // Load Banner URLs
-                    setBannerImage('taskBanner', config.taskBannerUrl);
-                    setBannerImage('friendsBanner', config.friendsBannerUrl);
-                    setBannerImage('walletBanner', config.walletBannerUrl);
-
-                    // Load Bot Username for Invite Link (NEW)
-                    if (config.botUsername && config.botUsername.trim() !== '') {
-                        appInviteBaseUrl = `https://t.me/${config.botUsername}?start=`;
-                    } else {
-                        console.error("Bot Username not configured in Firebase!");
-                    }
-
-                } else {
-                    console.error("Config node not found in Firebase. Banners and Bot Username will not load.");
-                }
-            }).catch(error => {
-                console.error("Error loading config:", error);
-            });
-        }
-
-        function setBannerImage(elementId, url) {
-            const el = document.getElementById(elementId);
-            if (el && url && url.trim() !== '') {
-                el.src = url;
-                el.style.display = 'block'; 
-            }
-        }
-        // --- END UPDATED: CONFIG AND BANNER LOADING ---
-
 
         function saveUserData() {
             if(!userId) return;
@@ -1288,7 +1304,35 @@ const firebaseConfig = {
             }
         }
 
-        // --- TASK SYSTEM FUNCTIONS (No Change) ---
+        // --- NEW FEATURE PLACEHOLDERS (AS REQUESTED) ---
+        // এই ফাংশনগুলি অ্যাডমিন প্যানেল থেকে ছবি আসার পর সে অনুযায়ী লিংক যোগ করা যাবে।
+
+        function goToVillage() {
+            // ** অনুরোধ অনুযায়ী এই ফাংশনটি আপাতত বন্ধ রাখা হয়েছে। **
+            console.log("Village Navigation Disabled. New Village Coming Soon!");
+            showToast("New Village Coming Soon!");
+            // ভবিষ্যতে চালু করতে: window.open("Your Village URL", '_blank');
+        }
+
+        function handleTaskBannerClick() {
+            // Task page banner click placeholder
+            console.log("Task Banner Clicked.");
+            showToast("Task Banner Clicked!");
+        }
+
+        function handleFriendsBannerClick() {
+            // Friends page banner click placeholder
+            console.log("Friends Banner Clicked.");
+            showToast("Friends Banner Clicked!");
+        }
+        
+        function handleWalletBannerClick() {
+            // Wallet page banner click placeholder
+            console.log("Wallet Banner Clicked.");
+            showToast("Wallet Banner Clicked!");
+        }
+        
+        // --- TASK SYSTEM FUNCTIONS ---
 
         function loadTasksFromDB() {
             const list = document.getElementById('taskList');
@@ -1339,7 +1383,7 @@ const firebaseConfig = {
             btnElement.innerText = 'Checking...';
             btnElement.style.opacity = '0.7';
 
-            // 3. Reward after delay (This simulates checking completion. In a real app, you need a server to verify.)
+            // 3. Reward after delay
             setTimeout(() => {
                 balance += parseInt(reward);
                 completedTasks[taskId] = true;
@@ -1357,52 +1401,36 @@ const firebaseConfig = {
             }, 5000); 
         }
 
-        // --- FRIENDS/INVITE FUNCTIONS (Updated Logic) ---
+        // --- FRIENDS/INVITE FUNCTIONS (New) ---
 
         function getInviteLink() {
-            // Check if appInviteBaseUrl is successfully loaded from Firebase
-            if (!appInviteBaseUrl) {
-                console.error("Invite Base URL is not set. Cannot generate link.");
-                return null;
-            }
             // The deep link for the Telegram Mini App
+            // The structure is t.me/bot_username?start=userId
             return `${appInviteBaseUrl}${userId}`;
         }
 
         function inviteFriend() {
             const link = getInviteLink();
-            
-            if (!link) {
-                showToast("Invite link is not configured yet. Please wait or contact support.");
-                return;
-            }
-            
-            const text = `Join Snowman Adventure! Earn coins by tapping. Use my link to get a bonus: `;
+            const text = `Join Snowman Adventure! Earn coins by tapping. Use my link to get a bonus: `; // Text will be combined with the link by TWA
 
             try {
-                if (window.Telegram && window.Telegram.WebApp) {
-                    // This is the correct way for TWA
+                if (window.Telegram.WebApp) {
+                    // This function is designed to forward a message with the share link
                     window.Telegram.WebApp.shareUrl(link, text);
                 } else {
                     // Fallback for sharing outside Telegram Web App environment
                     const telegramShareUrl = `https://t.me/share/url?url=${encodeURIComponent(link)}&text=${encodeURIComponent(text)}`;
                     window.open(telegramShareUrl, '_blank');
-                    showToast("Sharing via fallback link. The button works!");
+                    showToast("Sharing via fallback link.");
                 }
             } catch(e) {
                 console.error("Could not invite via TWA or share URL:", e);
-                showToast("Cannot invite. Please copy the link manually or use in Telegram.");
+                showToast("Cannot invite. Please copy the link manually.");
             }
         }
 
         function handleCopyClick(btnElement) {
             const link = getInviteLink();
-            
-            if (!link) {
-                showToast("Invite link is not configured yet. Please wait.");
-                return;
-            }
-
             navigator.clipboard.writeText(link).then(() => {
                 // Visual feedback
                 showToast("Invite link copied to clipboard!");
@@ -1421,3 +1449,5 @@ const firebaseConfig = {
         // Initialize game
         init();
     </script>
+</body>
+</html>
