@@ -1387,16 +1387,19 @@ let appInviteBaseUrl = `https://t.me/${BOT_USERNAME_PLACEHOLDER}?startapp=`; // 
         }
         
         // --- NEW: FLOATING BUTTON HANDLER --- 
-        function handleFloatingBtnClick(buttonName) {
-            // As requested, this is currently disabled/placeholder
-            console.log(`${buttonName} button clicked. Feature is coming soon.`);
-            showToast(`${buttonName} feature is coming soon!`);
-            
-            // If it was Reload, perform a soft reload of user data
-            if(buttonName === 'Reload') {
-                loadUserData();
-                showToast("User data reloaded!");
-            }
+    function handleFloatingBtnClick(buttonName) {
+    if (buttonName === 'Leaderboard') {
+        // নতুন leaderboard.html ফাইলটি এখানে ওপেন হবে
+        window.open('https://github.com/alamin12071985-a11y/Snowman-Adventure/blob/e6d013073e7d50af32bfdc64410bab1d0c5a8e9e/leaderboard.html', '_blank'); 
+        return;
+    }
+
+    // Reload বাটনের কাজ (যা আগে ছিল)
+    if(buttonName === 'Reload') {
+        loadUserData();
+        showToast("User data reloaded!");
+        return;
+    }
         }
        
         
