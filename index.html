@@ -377,6 +377,55 @@
             0% { opacity: 1; transform: translateY(0) scale(1); }
             100% { opacity: 0; transform: translateY(-20vw) scale(1.2); }
         }
+/* প্রায় 310 নম্বর লাইনের পরে বা শেষে যোগ করুন */
+/* NEW: Floating Action Buttons */
+.floating-action-btn {
+    position: absolute;
+    top: 55%; /* Slightly lower to align with shoulders better */
+    transform: translateY(-50%); /* Adjust to center vertically */
+    z-index: 15; 
+    
+    /* General Button Styling */
+    background: var(--glass-bg);
+    backdrop-filter: blur(5px);
+    border: 1px solid rgba(0, 229, 255, 0.3);
+    border-radius: 4vw;
+    padding: 2vw 3vw;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5vw;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    width: 25vw; /* Fixed width */
+    text-align: center;
+}
+
+.floating-action-btn:active {
+    transform: translateY(-48%) scale(0.95);
+    box-shadow: 0 0 1vw var(--accent-cyan);
+}
+
+.floating-action-btn i {
+    font-size: 5vw;
+    color: var(--accent-cyan);
+}
+
+.floating-action-btn .btn-text {
+    font-size: 3vw;
+    font-weight: 600;
+    color: var(--text-light);
+    margin-left: 0; /* Override the default .btn-text style */
+}
+
+.left-btn {
+    left: 2vw; /* Position far left */
+}
+
+.right-btn {
+    right: 2vw; /* Position far right */
+}
 
         /* --- TOAST NOTIFICATION --- */
         .toast-notification {
@@ -820,7 +869,19 @@
                         <img id="villageBannerImage" src="" alt="Village Banner" style="display: none;">
                         <span id="villageBannerText">New Village Ad Banner (1020x320 Area)</span>
                     </div>
+<!-- NEW: Floating Button - Left (Reload) -->
+                    <div id="reloadBtn" class="floating-action-btn left-btn" onclick="handleFloatingBtnClick('Reload')">
+                        <i class="fas fa-redo-alt"></i>
+                        <span class="btn-text">Reload</span>
+                    </div>
+
+                    <!-- NEW: Floating Button - Right (Leaderboard) -->
+                    <div id="leaderboardBtn" class="floating-action-btn right-btn" onclick="handleFloatingBtnClick('Leaderboard')">
+                        <i class="fas fa-trophy"></i>
+                        <span class="btn-text">Leaderboard</span>
+                    </div>
                     
+                                
                     <!-- Main Character -->
                     <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/snowman.webp" class="character-img" id="clickerBtn" alt="Snowman">
                     
@@ -993,9 +1054,8 @@ const firebaseConfig = {
         
         // ** NEW: INVITE LINK VARIABLE **
         // !! IMPORTANT: Replace 'YOUR_BOT_USERNAME' with your actual Telegram bot username !!
-        const BOT_USERNAME_PLACEHOLDER = 'your_bot_username'; 
-        let appInviteBaseUrl = `https://t.me/${BOT_USERNAME_PLACEHOLDER}?start=`;
-
+       const BOT_USERNAME_PLACEHOLDER = 'thesnowmanbot'; // <--- 'your_bot_username' এর জায়গায় 'thesnowmanbot'
+let appInviteBaseUrl = `https://t.me/${BOT_USERNAME_PLACEHOLDER}?startapp=`; // <--- '?start=' এর জায়গায় '?startapp='
 
         // --- DOM ELEMENTS ---
         const balanceDisplay = document.getElementById('displayBalance');
@@ -1320,17 +1380,25 @@ const firebaseConfig = {
             showToast("Task Banner Clicked!");
         }
 
-        function handleFriendsBannerClick() {
-            // Friends page banner click placeholder
-            console.log("Friends Banner Clicked.");
-            showToast("Friends Banner Clicked!");
-        }
-        
         function handleWalletBannerClick() {
             // Wallet page banner click placeholder
             console.log("Wallet Banner Clicked.");
             showToast("Wallet Banner Clicked!");
         }
+        
+        // --- NEW: FLOATING BUTTON HANDLER --- 
+        function handleFloatingBtnClick(buttonName) {
+            // As requested, this is currently disabled/placeholder
+            console.log(`${buttonName} button clicked. Feature is coming soon.`);
+            showToast(`${buttonName} feature is coming soon!`);
+            
+            // If it was Reload, perform a soft reload of user data
+            if(buttonName === 'Reload') {
+                loadUserData();
+                showToast("User data reloaded!");
+            }
+        }
+       
         
         // --- TASK SYSTEM FUNCTIONS ---
 
