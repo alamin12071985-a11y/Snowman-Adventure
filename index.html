@@ -58,26 +58,28 @@
             background-color: #050f1a; 
             transition: background 0.3s ease;
         }
-
+        
+        /* ADJUSTED: Background blur to 1px (approximation of '10% blur rate') */
         body.home-active {
             background-image: url('https://alamin12071985-a11y.github.io/Snowman-Adventure/background.webp');
             background-size: cover;
             background-position: center center;
             background-repeat: no-repeat;
             background-attachment: fixed;
-            backdrop-filter: blur(2px);
+            backdrop-filter: blur(1px); /* Adjusted blur */
         }
 
+        /* ADJUSTED: Background blur to 1px (approximation of '10% blur rate') */
         body:not(.home-active) {
             background-image: url('https://alamin12071985-a11y.github.io/Snowman-Adventure/all%20background.webp');
             background-size: cover;
             background-position: center center;
             background-repeat: no-repeat;
             background-attachment: fixed;
-            backdrop-filter: blur(4px);
+            backdrop-filter: blur(1px); /* Adjusted blur */
         }
 
-        /* --- LOADING SCREEN --- */
+        /* --- LOADING SCREEN (No change) --- */
         #loading-screen {
             position: fixed;
             top: 0;
@@ -132,7 +134,7 @@
             font-family: sans-serif;
         }
 
-        /* --- APP CONTAINER --- */
+        /* --- APP CONTAINER (Removed backdrop-filter) --- */
         .app-container {
             width: 100%;
             max-width: 100%; 
@@ -142,10 +144,10 @@
             display: flex;
             flex-direction: column;
             overflow: hidden;
-            backdrop-filter: blur(2px);
+            /* backdrop-filter: blur(2px); <-- REMOVED/SOLVED */
         }
 
-        /* --- HEADER --- */
+        /* --- HEADER (No change) --- */
         .header-dashboard {
             padding: 3vw 3vw 1vw 3vw;
             display: flex;
@@ -264,7 +266,7 @@
         }
         .settings-btn img { width: 6vw; height: 6vw; object-fit: contain; }
 
-        /* --- CONTENT AREA --- */
+        /* --- CONTENT AREA (No change) --- */
         .content-area {
             flex: 1;
             overflow-y: auto;
@@ -286,13 +288,13 @@
 
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* --- BANNER PLACEHOLDERS --- */
+        /* --- BANNER PLACEHOLDERS (Removed home banner CSS) --- */
         .banner-placeholder {
             width: 90vw;
             height: 28.23vw;
             background-color: rgba(255, 255, 255, 0.1);
             border-radius: 4vw;
-            margin: 5vw auto 5vw auto;
+            margin: 5vw auto; /* Simplified margin */
             overflow: hidden;
             display: flex;
             justify-content: center;
@@ -310,9 +312,6 @@
             object-fit: cover;
             border-radius: 4vw;
             pointer-events: none;
-        }
-        #village-ad-banner {
-            margin-top: 3vw;
         }
 
         /* --- GAME AREA --- */
@@ -345,22 +344,23 @@
             filter: drop-shadow(0 0 2.5vw var(--accent-cyan));
         }
 
+        /* ADJUSTED: Snowman Size */
         .character-img {
             width: auto;
-            max-width: 80vw;
+            max-width: 90vw; /* Increased width */
             height: auto;
-            max-height: 40vh; 
+            max-height: 55vh; /* Increased height */
             cursor: pointer;
             z-index: 10; 
             transition: transform 0.1s;
             filter: drop-shadow(0 0 4vw rgba(0, 229, 255, 0.1));
             object-fit: contain;
-            margin: 3vw 0;
+            margin: 0 auto; /* Removed vertical margin to allow flexbox to align it better */
         }
 
         .character-img:active { transform: scale(0.96) rotate(-2deg); }
 
-        /* --- FLOATING SCORE --- */
+        /* --- FLOATING SCORE (No change) --- */
         .floating-score {
             position: absolute;
             color: var(--accent-cyan);
@@ -377,17 +377,14 @@
             100% { opacity: 0; transform: translateY(-20vw) scale(1.2); }
         }
 
-        /* --- FLOATING ACTION BUTTONS --- */
+        /* --- FLOATING ACTION BUTTONS (Adjusted Size, Position, and Styling) --- */
         .floating-action-btn {
             position: absolute;
-            top: 55%; 
-            transform: translateY(-50%); 
             z-index: 15; 
             background: var(--glass-bg);
             backdrop-filter: blur(5px);
             border: 1px solid rgba(0, 229, 255, 0.3);
             border-radius: 4vw;
-            padding: 2vw 3vw;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -395,7 +392,14 @@
             gap: 0.5vw;
             cursor: pointer;
             transition: all 0.2s ease;
-            width: 25vw;
+            
+            /* NEW SIZES */
+            width: 20vw;
+            height: 20vw;
+            padding: 0; 
+            top: 45%; /* Adjusted vertical position */
+            transform: translateY(-50%); 
+            
             text-align: center;
         }
 
@@ -405,21 +409,35 @@
         }
 
         .floating-action-btn i {
-            font-size: 5vw;
+            font-size: 6vw; /* Slightly bigger icon */
             color: var(--accent-cyan);
         }
 
         .floating-action-btn .btn-text {
-            font-size: 3vw;
+            font-size: 2.8vw;
             font-weight: 600;
             color: var(--text-light);
-            margin-left: 0; 
+            line-height: 1.1;
         }
 
-        .left-btn { left: 2vw; }
-        .right-btn { right: 2vw; }
-
-        /* --- TOAST NOTIFICATION --- */
+        .left-btn { left: 3vw; }
+        .right-btn { right: 3vw; }
+        
+        /* Positioning for new buttons (Stacked) */
+        #shopBtn { top: 30%; } /* Above LeaderboardBtn */
+        #casesBtn { top: 30%; } /* Above ReloadBtn */
+        
+        #leaderboardBtn { top: 50%; } /* Original position, slightly adjusted for stacking */
+        #autoTapBtn { top: 50%; } /* Original position, slightly adjusted for stacking */
+        
+        /* Ensure left and right alignment */
+        #shopBtn { right: 3vw; }
+        #casesBtn { left: 3vw; }
+        
+        #leaderboardBtn { right: 3vw; }
+        #autoTapBtn { left: 3vw; }
+        
+        /* --- TOAST NOTIFICATION (No change) --- */
         .toast-notification {
             position: fixed;
             top: 5vw;
@@ -457,7 +475,7 @@
             font-size: 3.5vw;
         }
         
-        /* --- NAV BAR --- */
+        /* --- NAV BAR (No change) --- */
         .nav-bar {
             position: absolute;
             bottom: 0;
@@ -517,7 +535,7 @@
             transform: scale(1.1);
         }
         
-        /* --- WALLET & TASK & FRIENDS STYLES --- */
+        /* --- WALLET & TASK & FRIENDS STYLES (No change) --- */
         .wallet-title {
             font-size: 7.5vw; line-height: 1.1; margin-bottom:2.5vw; 
             font-weight: 800; color: var(--accent-cyan);
@@ -643,7 +661,7 @@
         .btn-copy.copied { background-color: var(--accent-cyan); border-color: var(--accent-cyan); }
         .btn-copy.copied svg { fill: var(--bg-deep); }
 
-        /* --- NEW: LEADERBOARD OVERLAY STYLES --- */
+        /* --- LEADERBOARD OVERLAY STYLES (No change) --- */
         .leaderboard-overlay {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -835,88 +853,7 @@
             box-shadow: 0 -2vw 4vw rgba(0,0,0,0.5);
             z-index: 2005;
         }
-/* --- EPIC GIFT STYLE CRASH UI --- */
-#crashGameModal {
-    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-    background: #111827; z-index: 10000; display: none;
-    flex-direction: column; overflow: hidden; font-family: 'Poppins', sans-serif;
-}
-#crashGameModal.active { display: flex; }
 
-/* Header */
-.crash-header {
-    padding: 15px; display: flex; justify-content: space-between; align-items: center;
-    background: #111827; z-index: 10; border-bottom: 1px solid rgba(255,255,255,0.05);
-}
-.connection-status {
-    background: rgba(255,255,255,0.1); padding: 5px 12px; border-radius: 20px;
-    display: flex; align-items: center; gap: 6px; font-size: 12px; color: #aaa;
-}
-.status-dot-green { width: 8px; height: 8px; background: #10B981; border-radius: 50%; box-shadow: 0 0 5px #10B981; }
-.balance-pill {
-    background: #374151; padding: 6px 12px; border-radius: 20px;
-    color: white; font-weight: bold; display: flex; align-items: center; gap: 8px; border: 1px solid #4B5563;
-}
-.btn-close-crash { color: white; background: none; border: none; font-size: 24px; cursor: pointer; }
-
-/* Canvas Area */
-#crashCanvasWrapper {
-    flex: 1; position: relative; width: 100%; overflow: hidden;
-    background: radial-gradient(circle at bottom left, #1f2937 0%, #111827 60%);
-}
-#crashCanvas { width: 100%; height: 100%; display: block; }
-#crashMultiplier {
-    position: absolute; top: 20%; left: 50%; transform: translateX(-50%);
-    font-size: 4rem; font-weight: 800; color: white; text-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
-}
-#crashStatusMsg {
-    position: absolute; top: 40%; left: 50%; transform: translateX(-50%);
-    color: #9CA3AF; letter-spacing: 2px; font-size: 0.9rem; font-weight: 600;
-}
-
-/* Controls Area */
-.crash-controls-area {
-    background: #111827; padding: 15px; border-top-left-radius: 20px; border-top-right-radius: 20px;
-    box-shadow: 0 -4px 20px rgba(0,0,0,0.4); position: relative; z-index: 20;
-}
-.history-scroller { display: flex; gap: 8px; overflow-x: auto; margin-bottom: 15px; padding-bottom: 5px; }
-.history-pill { padding: 4px 10px; border-radius: 6px; font-size: 12px; font-weight: bold; flex-shrink: 0; color: white; }
-.pill-green { background: rgba(16, 185, 129, 0.2); color: #34D399; border: 1px solid rgba(16, 185, 129, 0.4); }
-.pill-purple { background: rgba(139, 92, 246, 0.2); color: #A78BFA; border: 1px solid rgba(139, 92, 246, 0.4); }
-.pill-blue { background: rgba(59, 130, 246, 0.2); color: #60A5FA; border: 1px solid rgba(59, 130, 246, 0.4); }
-
-.bet-input-row {
-    display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;
-    background: #1F2937; padding: 8px; border-radius: 12px; border: 1px solid #374151;
-}
-.ctrl-btn { width: 35px; height: 35px; background: #374151; border: none; color: white; border-radius: 8px; font-size: 18px; }
-.bet-display { color: white; font-weight: bold; font-size: 16px; display: flex; align-items: center; gap: 5px; }
-
-.bet-btn-large {
-    width: 100%; padding: 16px; border: none; border-radius: 12px;
-    background: #2563EB; color: white; font-size: 18px; font-weight: 700;
-    box-shadow: 0 4px 0 #1D4ED8; cursor: pointer;
-}
-.bet-btn-large:disabled { background: #374151; box-shadow: none; color: #9CA3AF; }
-.bet-btn-large.cashout { background: #10B981; box-shadow: 0 4px 0 #059669; }
-
-/* Player List */
-.player-list-container { flex: 1; background: #111827; overflow-y: auto; padding: 10px 15px; min-height: 150px; }
-.player-card {
-    display: flex; align-items: center; justify-content: space-between;
-    background: #1F2937; margin-bottom: 8px; padding: 10px; border-radius: 12px;
-    border: 1px solid #374151; animation: slideIn 0.3s ease-out;
-}
-@keyframes slideIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-.p-left { display: flex; align-items: center; gap: 10px; }
-.p-avatar { width: 30px; height: 30px; border-radius: 8px; object-fit: cover; background: #374151; }
-.p-name { font-size: 13px; font-weight: 600; color: #F3F4F6; }
-.p-bet-info { font-size: 11px; color: #9CA3AF; }
-.p-win-badge {
-    background: rgba(16, 185, 129, 0.2); color: #34D399; padding: 4px 8px;
-    border-radius: 6px; font-size: 12px; font-weight: bold; border: 1px solid rgba(16, 185, 129, 0.3);
-
-}
     </style>
 </head>
 <body class="home-active">
@@ -964,56 +901,6 @@
             <!-- Will be filled by JS -->
         </div>
     </div>
-<!-- EPIC GIFT STYLE CRASH MODAL -->
-<div id="crashGameModal">
-    <!-- Header -->
-    <div class="crash-header">
-        <button class="btn-close-crash" onclick="closeCrashGame()">
-            <i class="fas fa-arrow-left"></i>
-        </button>
-        <div class="connection-status">
-            <span class="status-dot-green"></span> Live
-        </div>
-        <div class="balance-pill">
-            <i class="fas fa-star" style="color:#00E5FF"></i>
-            <span id="crashStarBalance">0</span>
-            <i class="fas fa-plus-circle" style="color:#9CA3AF; cursor:pointer;" onclick="window.Telegram.WebApp.openTelegramLink('https://t.me/thesnowmanbot')"></i>
-        </div>
-    </div>
-
-    <!-- Canvas -->
-    <div id="crashCanvasWrapper">
-        <div id="crashMultiplier">1.00x</div>
-        <div id="crashStatusMsg">CONNECTING...</div>
-        <canvas id="crashCanvas"></canvas>
-    </div>
-
-    <!-- Controls -->
-    <div class="crash-controls-area">
-        <!-- History -->
-        <div class="history-scroller" id="crashHistoryBar">
-            <!-- Dynamic History items will appear here -->
-        </div>
-
-        <!-- Bet Input -->
-        <div class="bet-input-row">
-            <button class="ctrl-btn" onclick="adjustCrashBet(-10)">-</button>
-            <div class="bet-display">
-                <i class="fas fa-star" style="color:#FFD700; font-size:14px;"></i>
-                <span id="crashBetDisplay">10</span>
-            </div>
-            <button class="ctrl-btn" onclick="adjustCrashBet(10)">+</button>
-        </div>
-
-        <!-- Main Button -->
-        <button id="crashActionBtn" class="bet-btn-large" onclick="handleCrashAction()">Place bet</button>
-    </div>
-
-    <!-- Player List -->
-    <div class="player-list-container" id="crashPlayerList">
-        <!-- Players will be injected here via JS -->
-    </div>
-</div>
 
     <!-- LOADING SCREEN -->
     <div id="loading-screen">
@@ -1085,18 +972,26 @@
                         <span id="displayBalance">0</span>
                     </div>
                     
-                    <!-- NEW VILLAGE BANNER (1020x320 Placeholder) -->
-                    <div id="village-ad-banner" class="banner-placeholder" onclick="goToVillage()">
-                        <img id="villageBannerImage" src="" alt="Village Banner" style="display: none;">
-                        <span id="villageBannerText">New Village Ad Banner (1020x320 Area)</span>
+                    <!-- R E M O V E D: New Village Ad Banner was here -->
+                    
+                    <!-- NEW: Floating Button - Left (Cases) -->
+                    <div id="casesBtn" class="floating-action-btn left-btn" onclick="handleFloatingBtnClick('Cases')">
+                        <i class="fas fa-box-open"></i>
+                        <span class="btn-text">Cases</span>
                     </div>
                     
-                    <!-- NEW: Floating Button - Left (Reload) -->
-                    <div id="reloadBtn" class="floating-action-btn left-btn" onclick="handleFloatingBtnClick('Reload')">
-                        <i class="fas fa-redo-alt"></i>
-                        <span class="btn-text">Reload</span>
+                    <!-- NEW: Floating Button - Left (Auto Tap) -->
+                    <div id="autoTapBtn" class="floating-action-btn left-btn" onclick="handleFloatingBtnClick('AutoTap')">
+                        <i class="fas fa-hand-pointer"></i>
+                        <span class="btn-text">Auto Tap</span>
                     </div>
 
+                    <!-- NEW: Floating Button - Right (Shop) -->
+                    <div id="shopBtn" class="floating-action-btn right-btn" onclick="handleFloatingBtnClick('Shop')">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span class="btn-text">Shop</span>
+                    </div>
+                    
                     <!-- NEW: Floating Button - Right (Leaderboard) -->
                     <div id="leaderboardBtn" class="floating-action-btn right-btn" onclick="handleFloatingBtnClick('Leaderboard')">
                         <i class="fas fa-trophy"></i>
@@ -1147,9 +1042,9 @@
                     </p>
                 </div>
 
-                <!-- NEW BUTTON GROUP -->
+                <!-- INVITE BUTTON GROUP -->
                 <div class="invite-container">
-                    <!-- Main Invite Button -->
+                    <!-- Main Invite Button: Will now specifically use Telegram's shareUrl for forwarding -->
                     <button class="btn-invite" onclick="inviteFriend()">
                         <i class="fas fa-paper-plane"></i>
                         Invite a Friend
@@ -1274,7 +1169,7 @@
         const BOT_USERNAME_PLACEHOLDER = 'thesnowmanbot';
         let appInviteBaseUrl = `https://t.me/${BOT_USERNAME_PLACEHOLDER}?startapp=`;
 
-        // --- DOM ELEMENTS ---
+        // --- DOM ELEMENTS (No change) ---
         const balanceDisplay = document.getElementById('displayBalance');
         const clickerBtn = document.getElementById('clickerBtn');
         const headerName = document.getElementById('headerName');
@@ -1287,7 +1182,7 @@
         const walletCoin = document.getElementById('walletCoin');
         const walletTon = document.getElementById('walletTon');
 
-        // --- TON CONNECT INITIALIZATION ---
+        // --- TON CONNECT INITIALIZATION (No change) ---
         const tonConnectUI = new TON_CONNECT_UI.TonConnectUI({
             manifestUrl: 'https://alamin12071985-a11y.github.io/cine-link/tonconnect-manifest.json',
             buttonRootId: null 
@@ -1324,7 +1219,7 @@
             // Placeholder
         }
 
-        // --- LOADING & INIT ---
+        // --- LOADING & INIT (No change) ---
         window.addEventListener('load', () => {
             let loadPercent = 0;
             const bar = document.getElementById('loadingFill');
@@ -1565,298 +1460,52 @@
             }
         }
 
-    // --- EPIC GIFT REAL-TIME LOGIC ---
-let crashActive = false;
-let crashStars = 0;
-let crashBet = 10;
-let crashRunning = false;
-let crashCrashed = false;
-let currentMultiplier = 1.00;
-let crashPoint = 0;
-let crashLoopId;
+        /* R E M O V E D: goToVillage function */
 
-// ইউজারের তথ্য
-let myUserName = "User";
-let myAvatar = "https://cdn-icons-png.flaticon.com/512/149/149071.png";
-
-// রকেট ইমেজ (Carrot/Rocket style)
-let rocketImg = new Image();
-rocketImg.src = 'https://cdn-icons-png.flaticon.com/512/3063/3063822.png'; 
-
-function listenToStarsBalance() {
-    if(!userId) return;
-    db.ref('users/' + userId + '/game_stars').on('value', (snapshot) => {
-        const val = snapshot.val();
-        crashStars = val ? parseInt(val) : 0;
-        if(crashActive) updateCrashUI();
-    });
-}
-
-// লাইভ প্লেয়ার লিস্ট (ফায়ারবেস থেকে) - Star Updated
-function listenToRealPlayers() {
-    const list = document.getElementById('crashPlayerList');
-    db.ref('crash_active_bets').on('value', (snapshot) => {
-        if(!crashActive) return;
-        list.innerHTML = "";
-        const players = snapshot.val();
-        if(players) {
-            const sortedPlayers = Object.values(players).sort((a, b) => b.bet - a.bet);
-            sortedPlayers.forEach(p => {
-                const div = document.createElement('div');
-                div.className = "player-card";
-                if(p.id === userId) div.style.border = "1px solid #10B981"; 
-
-                let rightHtml = `<div class="p-right"><span style="color:#6B7280; font-size:12px;">Playing...</span></div>`;
-                if(p.status === 'won') {
-                    // এইখানে ডায়মন্ড সরিয়ে স্টার এবং গোল্ড কালার দেওয়া হয়েছে
-                    rightHtml = `<div class="p-win-badge"><i class="fas fa-star" style="color:#FFD700"></i> ${p.winAmount}</div>`;
-                }
-
-                div.innerHTML = `
-                    <div class="p-left">
-                        <img src="${p.avatar}" class="p-avatar">
-                        <div>
-                            <div class="p-name">${p.name} ${p.id === userId ? '(You)' : ''}</div>
-                            <!-- এইখানেও স্টার আইকন এবং গোল্ড কালার -->
-                            <div class="p-bet-info"><i class="fas fa-star" style="color:#FFD700;"></i> ${p.bet}</div>
-                        </div>
-                    </div>
-                    ${rightHtml}
-                `;
-                list.appendChild(div);
-            });
-        }
-    });
-}
-
-function pushMyBetToFirebase(status, winAmt = 0) {
-    if(!userId) return;
-    db.ref('crash_active_bets/' + userId).set({
-        id: userId,
-        name: myUserName,
-        avatar: myAvatar,
-        bet: crashBet,
-        status: status,
-        winAmount: winAmt,
-        timestamp: Date.now()
-    });
-}
-
-function goToVillage() {
-    document.getElementById('crashGameModal').classList.add('active');
-    crashActive = true;
-    
-    // আপডেট ইউজার ইনফো
-    const nameEl = document.getElementById('headerName');
-    const imgEl = document.getElementById('headerAvatar');
-    if(nameEl) myUserName = nameEl.innerText;
-    if(imgEl) myAvatar = imgEl.src;
-
-    listenToStarsBalance();
-    listenToRealPlayers();
-    updateCrashUI();
-    initCrashCanvas();
-}
-
-function closeCrashGame() {
-    document.getElementById('crashGameModal').classList.remove('active');
-    crashActive = false;
-    cancelAnimationFrame(crashLoopId);
-}
-
-function adjustCrashBet(amount) {
-    if (crashBet + amount >= 10) { crashBet += amount; updateCrashUI(); }
-}
-
-function updateCrashUI() {
-    document.getElementById('crashStarBalance').innerText = crashStars.toLocaleString();
-    document.getElementById('crashBetDisplay').innerText = crashBet;
-}
-
-// --- CURVE ANIMATION LOGIC ---
-let canvas, ctx, cWidth, cHeight;
-let progress = 0;
-
-function initCrashCanvas() {
-    canvas = document.getElementById('crashCanvas');
-    ctx = canvas.getContext('2d');
-    resizeCanvas();
-    window.addEventListener('resize', resizeCanvas);
-    drawIdleState();
-}
-
-function resizeCanvas() {
-    const wrapper = document.getElementById('crashCanvasWrapper');
-    if(wrapper) {
-        cWidth = wrapper.offsetWidth;
-        cHeight = wrapper.offsetHeight;
-        canvas.width = cWidth;
-        canvas.height = cHeight;
-    }
-}
-
-function drawIdleState() {
-    ctx.clearRect(0, 0, cWidth, cHeight);
-    ctx.fillStyle = "white";
-    for(let i=0; i<15; i++) ctx.fillRect(Math.random()*cWidth, Math.random()*cHeight, 2, 2);
-    // রকেট শুরুতে নিচে থাকবে
-    ctx.drawImage(rocketImg, 30, cHeight - 60, 40, 40);
-}
-
-function handleCrashAction() {
-    const btn = document.getElementById('crashActionBtn');
-    if (!crashRunning) {
-        if (crashBet > crashStars) { alert("Insufficient Stars!"); return; }
-        
-        crashStars -= crashBet;
-        db.ref('users/' + userId + '/game_stars').set(crashStars);
-        pushMyBetToFirebase('playing', 0); // ফায়ারবেসে স্ট্যাটাস পাঠানো
-        
-        updateCrashUI();
-        startCrashRound();
-    } else {
-        if (!crashCrashed) {
-            const win = Math.floor(crashBet * currentMultiplier);
-            crashStars += win;
-            db.ref('users/' + userId + '/game_stars').set(crashStars);
-            pushMyBetToFirebase('won', win); // জেতার স্ট্যাটাস পাঠানো
-            
-            updateCrashUI();
-            crashRunning = false;
-            
-            btn.innerText = "WON " + win;
-            btn.className = "bet-btn-large cashout";
-            btn.disabled = true;
-            
-            addHistoryPill(currentMultiplier);
-        }
-    }
-}
-
-function startCrashRound() {
-    crashRunning = true;
-    crashCrashed = false;
-    currentMultiplier = 1.00;
-    progress = 0;
-    
-    // ক্রাশ পয়েন্ট সেট
-    crashPoint = (Math.random() * 5) + 1;
-    if(Math.random() > 0.8) crashPoint = (Math.random() * 10) + 2;
-
-    document.getElementById('crashStatusMsg').innerText = "";
-    document.getElementById('crashMultiplier').style.color = "white";
-    
-    const btn = document.getElementById('crashActionBtn');
-    btn.innerText = "CASHOUT";
-    btn.className = "bet-btn-large";
-    btn.style.background = "#FFD700";
-    btn.style.color = "#000";
-    btn.disabled = false;
-    
-    animateCurve();
-}
-
-function animateCurve() {
-    if (!crashActive || !crashRunning) return;
-
-    currentMultiplier += 0.01 + (currentMultiplier * 0.004);
-    progress += 2;
-    document.getElementById('crashMultiplier').innerText = currentMultiplier.toFixed(2) + "x";
-
-    ctx.clearRect(0, 0, cWidth, cHeight);
-    
-    // স্টার ব্যাকগ্রাউন্ড
-    ctx.fillStyle = "rgba(255,255,255,0.4)";
-    for(let i=0; i<10; i++) ctx.fillRect((Math.random()*cWidth), (Math.random()*cHeight), 2, 2);
-
-    // হলুদ লাইন (Curve) আঁকা
-    ctx.beginPath();
-    ctx.moveTo(0, cHeight);
-    
-    let t = progress / 600; 
-    if(t > 1) t = 1;
-
-    let startX = 0, startY = cHeight;
-    let cpX = cWidth * 0.5, cpY = cHeight; // কন্ট্রোল পয়েন্ট
-    let endX = cWidth, endY = 50; // শেষ পয়েন্ট
-
-    // Quadratic Curve সূত্র
-    let rocketX = Math.pow(1-t, 2)*startX + 2*(1-t)*t*cpX + Math.pow(t, 2)*endX;
-    let rocketY = Math.pow(1-t, 2)*startY + 2*(1-t)*t*cpY + Math.pow(t, 2)*endY;
-
-    ctx.strokeStyle = "#FFFF00"; // হলুদ রঙ
-    ctx.lineWidth = 4;
-    ctx.shadowBlur = 15;
-    ctx.shadowColor = "#FFFF00"; // গ্লো এফেক্ট
-    ctx.quadraticCurveTo(cpX, cpY, rocketX, rocketY);
-    ctx.stroke();
-    ctx.shadowBlur = 0;
-
-    // রকেট বসানো
-    ctx.save();
-    ctx.translate(rocketX, rocketY);
-    ctx.rotate(-0.5 * t); 
-    ctx.drawImage(rocketImg, -20, -20, 40, 40);
-    ctx.restore();
-
-    if (currentMultiplier >= crashPoint) {
-        handleCrashState();
-        return;
-    }
-
-    crashLoopId = requestAnimationFrame(animateCurve);
-}
-
-function handleCrashState() {
-    crashCrashed = true;
-    crashRunning = false;
-    
-    document.getElementById('crashStatusMsg').innerText = "CRASHED";
-    document.getElementById('crashMultiplier').style.color = "#EF4444";
-    
-    const btn = document.getElementById('crashActionBtn');
-    btn.innerText = "Place bet";
-    btn.className = "bet-btn-large";
-    btn.style.background = "#2563EB";
-    btn.style.color = "white";
-    btn.disabled = false;
-    
-    addHistoryPill(crashPoint);
-    cancelAnimationFrame(crashLoopId);
-}
-
-function addHistoryPill(val) {
-    const container = document.getElementById('crashHistoryBar');
-    const div = document.createElement('div');
-    div.innerText = val.toFixed(2) + "x";
-    if(val < 2) div.className = "history-pill pill-blue";
-    else if(val < 10) div.className = "history-pill pill-purple";
-    else div.className = "history-pill pill-green";
-    container.prepend(div);
-    if(container.children.length > 10) container.lastChild.remove();
-}
-    function handleTaskBannerClick() { showToast("Task Banner Clicked!"); }
+        function handleTaskBannerClick() { showToast("Task Banner Clicked!"); }
         function handleWalletBannerClick() { showToast("Wallet Banner Clicked!"); }
         function handleFriendsBannerClick() { showToast("Friends Banner Clicked!"); }
         
-        // --- UPDATED FLOATING BUTTON HANDLER ---
+        // --- NEW FLOATING BUTTON HANDLERS ---
+        
+        function openCasesGame() {
+            // Placeholder for Cases Game Logic
+            showToast("Cases Game is currently unavailable. Check back soon!");
+        }
+        
+        function openShop() {
+            // Placeholder for Shop Logic
+            showToast("The Shop is closed for restocking!");
+        }
+        
+        function activateAutoTap() {
+            // Placeholder for Auto Tap Logic
+            showToast("Auto Tap Activated! (Feature Coming Soon)");
+        }
+
         function handleFloatingBtnClick(buttonName) {
             if (buttonName === 'Leaderboard') {
-                // Open Custom Leaderboard Overlay
                 openLeaderboard();
                 return;
             }
-            if(buttonName === 'Reload') {
-                loadUserData();
-                showToast("User data reloaded!");
+            if(buttonName === 'Cases') {
+                openCasesGame();
+                return;
+            }
+            if(buttonName === 'Shop') {
+                openShop();
+                return;
+            }
+            if(buttonName === 'AutoTap') {
+                activateAutoTap();
                 return;
             }
         }
 
-        // --- NEW LEADERBOARD LOGIC ---
+        // --- LEADERBOARD LOGIC (No change) ---
         function openLeaderboard() {
             document.getElementById('leaderboardOverlay').classList.add('active');
-            fetchLeaderboardData(); // Load data
+            fetchLeaderboardData(); 
         }
 
         function closeLeaderboard() {
@@ -1867,7 +1516,7 @@ function addHistoryPill(val) {
             currentLeaderboardTab = type;
             document.querySelectorAll('.lb-tab').forEach(t => t.classList.remove('active'));
             document.getElementById('tab-' + type).classList.add('active');
-            fetchLeaderboardData(); // Reload data with new sort
+            fetchLeaderboardData(); 
         }
 
         function fetchLeaderboardData() {
@@ -1878,18 +1527,14 @@ function addHistoryPill(val) {
             podiumContainer.innerHTML = '<div style="color:white;width:100%;text-align:center;">Loading...</div>';
             listContainer.innerHTML = '';
 
-            // Default sorting field
             let sortField = 'balance'; 
             if(currentLeaderboardTab === 'star') sortField = 'level';
-            // 'refer' logic would go here if available
-
-            // Fetch top 100 users
+            
             db.ref('users').orderByChild(sortField).limitToLast(100).once('value').then(snapshot => {
                 let users = [];
                 snapshot.forEach(child => {
                     let u = child.val();
                     u.key = child.key;
-                    // Ensure necessary fields exist
                     if(!u.username) u.username = "Unknown";
                     if(!u.avatar) u.avatar = "https://alamin12071985-a11y.github.io/Snowman-Adventure/snowman.webp";
                     if(!u.balance) u.balance = 0;
@@ -1897,7 +1542,6 @@ function addHistoryPill(val) {
                     users.push(u);
                 });
 
-                // Reverse because firebase gives ascending order
                 users.reverse();
 
                 renderLeaderboard(users);
@@ -1916,12 +1560,8 @@ function addHistoryPill(val) {
             podiumContainer.innerHTML = '';
             listContainer.innerHTML = '';
 
-            // --- RENDER PODIUM (Top 3) ---
-            // Order in DOM for visual layout (Left=2, Center=1, Right=3)
-            // But we can use flex order or just hardcode HTML structure
+            const top3 = [users[0], users[1], users[2]]; 
             
-            const top3 = [users[0], users[1], users[2]]; // Might be undefined if < 3 users
-
             // 2nd Place (Left)
             if(top3[1]) {
                 const u = top3[1];
@@ -2018,7 +1658,7 @@ function addHistoryPill(val) {
             }
         }
         
-        // --- TASK SYSTEM ---
+        // --- TASK SYSTEM (No change) ---
         function loadTasksFromDB() {
             const list = document.getElementById('taskList');
             db.ref('tasks').once('value').then(snapshot => {
@@ -2076,7 +1716,7 @@ function addHistoryPill(val) {
             }, 5000); 
         }
 
-        // --- FRIENDS/INVITE FUNCTIONS ---
+        // --- FRIENDS/INVITE FUNCTIONS (Ensured Telegram share is primary) ---
         function getInviteLink() {
             return `${appInviteBaseUrl}${userId}`;
         }
@@ -2085,13 +1725,17 @@ function addHistoryPill(val) {
             const link = getInviteLink();
             const text = `Join Snowman Adventure! Earn coins by tapping. Use my link to get a bonus: `;
             try {
-                if (window.Telegram.WebApp) {
+                // This is the correct Telegram WebApp method to forward the link to friends
+                if (window.Telegram.WebApp && window.Telegram.WebApp.shareUrl) {
                     window.Telegram.WebApp.shareUrl(link, text);
                 } else {
+                    // Fallback for non-Web App environment
                     const telegramShareUrl = `https://t.me/share/url?url=${encodeURIComponent(link)}&text=${encodeURIComponent(text)}`;
                     window.open(telegramShareUrl, '_blank');
+                    showToast("Link shared via browser/fallback!");
                 }
             } catch(e) {
+                console.error("Telegram Share Failed:", e);
                 showToast("Cannot invite. Please copy the link manually.");
             }
         }
