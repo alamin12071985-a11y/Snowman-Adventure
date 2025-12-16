@@ -1,5 +1,3 @@
---- START OF FILE index.html ---
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -96,7 +94,7 @@
             align-items: center;
             justify-content: flex-end;
             padding-bottom: 15vw;
-            transition: opacity 0.5s ease;
+            transition: opacity 0.5s ease; /* Transition for fading out */
         }
 
         .loading-container {
@@ -423,7 +421,7 @@
 
         .floating-action-btn .btn-text {
             font-size: 2.8vw;
-            font-weight: 600;
+            font-weight: 60s0;
             color: var(--text-light);
             line-height: 1.1;
         }
@@ -757,7 +755,7 @@
         </div>
     </div>
 
-    <!-- LOADING SCREEN (No change) -->
+    <!-- LOADING SCREEN (FIXED) -->
     <div id="loading-screen">
         <div class="loading-container">
             <div class="progress-bar" id="loadingFill">
@@ -1067,6 +1065,11 @@
         const walletCoin = document.getElementById('walletCoin');
         const walletTon = document.getElementById('walletTon');
         const autoTapBtn = document.getElementById('autoTapBtn');
+        
+        // --- LOADING SCREEN ELEMENTS (NEW) ---
+        const loadingScreen = document.getElementById('loading-screen');
+        const loadingFill = document.getElementById('loadingFill');
+        const loadingPercent = document.getElementById('loadingPercent');
 
 
         // --- TON CONNECT INITIALIZATION (No change) ---
@@ -1101,11 +1104,41 @@
                 console.error(e);
             }
         }
+        
+        // --- LOADING SCREEN FIX FUNCTIONS (NEW) ---
+        function animateLoading(percentage, finalCall = false) {
+            let current = parseInt(loadingPercent.innerText);
+            if (current < percentage) {
+                // A fast loop to smoothly update the percentage
+                for (let i = current; i <= percentage; i++) {
+                    setTimeout(() => {
+                        loadingFill.style.width = `${i}%`;
+                        loadingPercent.innerText = `${i}%`;
+                        if (i === 100 && finalCall) {
+                            setTimeout(hideLoadingScreen, 200); 
+                        }
+                    }, (i - current) * 5); // Adjust speed if needed
+                }
+            }
+        }
+
+        function hideLoadingScreen() {
+            loadingScreen.style.opacity = '0';
+            setTimeout(() => {
+                loadingScreen.style.display = 'none';
+            }, 500); // Matches CSS transition duration
+        }
 
         function init() {
+            // Start progress visually
+            animateLoading(10); 
+            
             initTelegramUser(); 
             startSnowfall();
+            
+            // This is the critical call that must eventually call animateLoading(100, true)
             loadUserData();
+            
             setInterval(saveUserData, 5000);
             
             // Check Auto Tap/Booster status every second for time display/expiry
@@ -1134,7 +1167,17 @@
         }
 
         function loadUserData() {
-            if(!userId) return;
+            if(!userId) {
+                // Should not happen, but as a safeguard
+                updateUI();
+                loadTasksFromDB();
+                animateLoading(100, true);
+                return;
+            }
+
+            // After checking Telegram/UserId and Firebase is ready, set to 50%
+            animateLoading(50);
+            
             db.ref('users/' + userId).once('value').then((snapshot) => {
                 const data = snapshot.val();
                 if (data) {
@@ -1156,6 +1199,14 @@
                     updateUI();
                     loadTasksFromDB();
                 }
+                
+                // DATA LOADED: Finish animation and hide screen
+                animateLoading(100, true); 
+
+            }).catch((error) => {
+                console.error("Firebase load failed:", error);
+                // IF FIREBASE FAILS: Still hide the loading screen so the user can see the UI
+                animateLoading(100, true); 
             });
         }
         
@@ -1341,10 +1392,6 @@
             }
         }
         
-        // NOTE: The separate processSuccessfulPurchase function is REMOVED,
-        // as the backend (via webhook) will now handle the processing logic.
-
-        
         // --- AUTO TAP & BOOSTER LOGIC ---
         function checkAndApplyBooster() {
             const now = Date.now();
@@ -1500,6 +1547,12 @@
                     if (user.username) headerName.innerText = user.username;
                     else if (user.first_name) headerName.innerText = user.first_name;
                     if (user.photo_url) headerAvatar.src = user.photo_url;
+                }
+                // Check for start parameter for referral logic
+                const startParam = tg.initDataUnsafe.start_param;
+                if (startParam && startParam !== userId) { // startParam is the referrer's ID
+                    // This logic should ideally be handled by the backend on user creation
+                    console.log(`Referred by user: ${startParam}`);
                 }
             } catch (e) {
                 console.log("Not running in Telegram");
