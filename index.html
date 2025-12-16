@@ -32,8 +32,8 @@
             --btn-blue-grad: linear-gradient(180deg, #60ccfd 0%, #4a92ff 100%);
 
             /* NEW: Friends Button Colors */
-            --bg-deep: #08182B;      /* Main Background */
-            --bg-card: #163450;      /* Copy Button Background */
+            --bg-deep: #08182B;      
+            --bg-card: #163450;      
             --btn-gold-top: #FFE585;
             --btn-gold-mid: #FFC044;
             --btn-gold-bot: #FFA000;
@@ -286,13 +286,13 @@
 
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* --- NEW: BANNER PLACEHOLDER STYLES (1020x320 Responsive) --- */
+        /* --- BANNER PLACEHOLDERS --- */
         .banner-placeholder {
-            width: 90vw; /* Make it wide */
-            height: 28.23vw; /* 90vw / (1020/320) = 90vw / 3.1875 - This maintains the 1020x320 ratio */
+            width: 90vw;
+            height: 28.23vw;
             background-color: rgba(255, 255, 255, 0.1);
             border-radius: 4vw;
-            margin: 5vw auto 5vw auto; /* Center it and give space */
+            margin: 5vw auto 5vw auto;
             overflow: hidden;
             display: flex;
             justify-content: center;
@@ -309,9 +309,8 @@
             height: 100%;
             object-fit: cover;
             border-radius: 4vw;
-            pointer-events: none; /* Allows the parent div's click to register */
+            pointer-events: none;
         }
-        /* Home banner needs less top margin because of the main balance */
         #village-ad-banner {
             margin-top: 3vw;
         }
@@ -326,8 +325,8 @@
             position: relative;
             z-index: 10;
             padding-bottom: 3vw;
-            justify-content: flex-start; /* Changed to start to allow space for banner */
-            gap: 2vw; /* Reduced gap for better fit */
+            justify-content: flex-start; 
+            gap: 2vw; 
         }
 
         .main-balance {
@@ -350,7 +349,7 @@
             width: auto;
             max-width: 80vw;
             height: auto;
-            max-height: 40vh; /* Reduced height to fit banner */
+            max-height: 40vh; 
             cursor: pointer;
             z-index: 10; 
             transition: transform 0.1s;
@@ -377,55 +376,48 @@
             0% { opacity: 1; transform: translateY(0) scale(1); }
             100% { opacity: 0; transform: translateY(-20vw) scale(1.2); }
         }
-/* প্রায় 310 নম্বর লাইনের পরে বা শেষে যোগ করুন */
-/* NEW: Floating Action Buttons */
-.floating-action-btn {
-    position: absolute;
-    top: 55%; /* Slightly lower to align with shoulders better */
-    transform: translateY(-50%); /* Adjust to center vertically */
-    z-index: 15; 
-    
-    /* General Button Styling */
-    background: var(--glass-bg);
-    backdrop-filter: blur(5px);
-    border: 1px solid rgba(0, 229, 255, 0.3);
-    border-radius: 4vw;
-    padding: 2vw 3vw;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 0.5vw;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    width: 25vw; /* Fixed width */
-    text-align: center;
-}
 
-.floating-action-btn:active {
-    transform: translateY(-48%) scale(0.95);
-    box-shadow: 0 0 1vw var(--accent-cyan);
-}
+        /* --- FLOATING ACTION BUTTONS --- */
+        .floating-action-btn {
+            position: absolute;
+            top: 55%; 
+            transform: translateY(-50%); 
+            z-index: 15; 
+            background: var(--glass-bg);
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(0, 229, 255, 0.3);
+            border-radius: 4vw;
+            padding: 2vw 3vw;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5vw;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            width: 25vw;
+            text-align: center;
+        }
 
-.floating-action-btn i {
-    font-size: 5vw;
-    color: var(--accent-cyan);
-}
+        .floating-action-btn:active {
+            transform: translateY(-48%) scale(0.95);
+            box-shadow: 0 0 1vw var(--accent-cyan);
+        }
 
-.floating-action-btn .btn-text {
-    font-size: 3vw;
-    font-weight: 600;
-    color: var(--text-light);
-    margin-left: 0; /* Override the default .btn-text style */
-}
+        .floating-action-btn i {
+            font-size: 5vw;
+            color: var(--accent-cyan);
+        }
 
-.left-btn {
-    left: 2vw; /* Position far left */
-}
+        .floating-action-btn .btn-text {
+            font-size: 3vw;
+            font-weight: 600;
+            color: var(--text-light);
+            margin-left: 0; 
+        }
 
-.right-btn {
-    right: 2vw; /* Position far right */
-}
+        .left-btn { left: 2vw; }
+        .right-btn { right: 2vw; }
 
         /* --- TOAST NOTIFICATION --- */
         .toast-notification {
@@ -502,12 +494,11 @@
             filter: grayscale(100%);
         }
         
-        /* Style for FontAwesome icons in nav */
         .nav-item i {
             font-size: 6vw;
             opacity: 0.5;
             transition: all 0.3s;
-            color: inherit; /* Ensure FA icons use inherited color */
+            color: inherit;
         }
 
         .nav-item span { font-size: 2.8vw; font-weight: 500; }
@@ -526,7 +517,7 @@
             transform: scale(1.1);
         }
         
-        /* --- WALLET PAGE STYLES --- */
+        /* --- WALLET & TASK & FRIENDS STYLES --- */
         .wallet-title {
             font-size: 7.5vw; line-height: 1.1; margin-bottom:2.5vw; 
             font-weight: 800; color: var(--accent-cyan);
@@ -566,7 +557,6 @@
         .exchange-text h3 { color: white; font-size: 3.5vw; margin-bottom: 0.5vw; }
         .exchange-text p { color: rgba(255,255,255,0.6); font-size: 2.8vw; line-height: 1.2; }
 
-        /* --- TASK PAGE STYLES --- */
         .task-list {
             display: flex;
             flex-direction: column;
@@ -586,9 +576,7 @@
             gap: 3vw;
             transition: transform 0.2s;
         }
-
         .task-card:active { transform: scale(0.98); }
-
         .task-icon {
             width: 12vw;
             height: 12vw;
@@ -596,31 +584,10 @@
             object-fit: cover;
             background: rgba(255,255,255,0.1);
         }
-
-        .task-info {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            gap: 1vw;
-        }
-
-        .task-title {
-            color: white;
-            font-size: 3.5vw;
-            font-weight: 600;
-            line-height: 1.2;
-        }
-
-        .task-reward {
-            display: flex;
-            align-items: center;
-            gap: 1.5vw;
-            font-size: 3vw;
-            color: var(--level-gold);
-            font-weight: 700;
-        }
+        .task-info { flex: 1; display: flex; flex-direction: column; gap: 1vw; }
+        .task-title { color: white; font-size: 3.5vw; font-weight: 600; line-height: 1.2; }
+        .task-reward { display: flex; align-items: center; gap: 1.5vw; font-size: 3vw; color: var(--level-gold); font-weight: 700; }
         .task-reward img { width: 4vw; height: 4vw; }
-
         .task-btn {
             background: var(--btn-blue-grad);
             border: none;
@@ -632,146 +599,241 @@
             min-width: 20vw;
             text-align: center;
         }
+        .task-btn.claimed { background: rgba(255,255,255,0.2); color: rgba(255,255,255,0.5); pointer-events: none; }
 
-        .task-btn.claimed {
-            background: rgba(255,255,255,0.2);
-            color: rgba(255,255,255,0.5);
-            pointer-events: none;
-        }
-
-        /* --- BUTTON STYLES --- */
-        .button-group {
-            display: flex;
-            gap: 2.5vw;
-            justify-content: center;
-            width: 100%;
-            margin-top: 4vw;
-        }
+        .button-group { display: flex; gap: 2.5vw; justify-content: center; width: 100%; margin-top: 4vw; }
         .btn {
-            border: none;
-            height: 14vw;
-            border-radius: 4vw;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            border: none; height: 14vw; border-radius: 4vw; cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
             background: var(--btn-blue-grad);
             box-shadow: 0 2vw 5vw rgba(74, 146, 255, 0.4);
             transition: transform 0.1s ease, box-shadow 0.2s ease;
-            position: relative;
+            position: relative; overflow: hidden;
+        }
+        .connect-btn { padding: 0 5vw; width: 100%; max-width: 62.5vw; }
+        .btn-text { color: white; font-size: 3.5vw; font-weight: 700; margin-left: 2.5vw; letter-spacing: 0.1vw; }
+        .icon { width: 6vw; height: 6vw; fill: none; stroke: white; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+
+        .invite-container { display: flex; gap: 3vw; width: 100%; padding: 0 5vw; margin-top: 5vw; }
+        .btn-invite {
+            flex: 1; border: none;
+            background: linear-gradient(180deg, var(--btn-gold-top) 0%, var(--btn-gold-mid) 40%, var(--btn-gold-bot) 100%);
+            color: var(--btn-text-brown); font-size: 4.5vw; font-weight: 800; text-transform: uppercase;
+            letter-spacing: 0.5px; padding: 4vw 0; border-radius: 10vw; cursor: pointer;
+            box-shadow: 0 2vw 5vw rgba(255, 160, 0, 0.4), inset 0 0.5vw 0 rgba(255,255,255,0.4);
+            transition: transform 0.1s, filter 0.2s; position: relative; overflow: hidden;
+            display: flex; align-items: center; justify-content: center; gap: 2vw;
+        }
+        .btn-invite i { font-size: 6vw; color: var(--btn-text-brown); margin-right: -1vw; }
+        .btn-invite::after {
+            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 50%;
+            background: linear-gradient(to bottom, rgba(255,255,255,0.4), transparent);
+            border-radius: 10vw 10vw 0 0; pointer-events: none;
+        }
+        .btn-invite:active { transform: translateY(1vw); filter: brightness(0.9); box-shadow: 0 1vw 3vw rgba(255, 160, 0, 0.3); }
+
+        .btn-copy {
+            width: 14vw; height: 14vw; flex-shrink: 0; background-color: var(--bg-card);
+            border: 1px solid rgba(255,255,255,0.1); border-radius: 4vw;
+            display: flex; justify-content: center; align-items: center; cursor: pointer;
+            transition: background 0.2s, transform 0.1s;
+        }
+        .btn-copy svg { width: 6vw; height: 6vw; fill: white; transition: fill 0.2s; }
+        .btn-copy:active { transform: scale(0.95); background-color: #1a4066; }
+        .btn-copy.copied { background-color: var(--accent-cyan); border-color: var(--accent-cyan); }
+        .btn-copy.copied svg { fill: var(--bg-deep); }
+
+        /* --- NEW: LEADERBOARD OVERLAY STYLES --- */
+        .leaderboard-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: #050f1a;
+            z-index: 2000;
+            display: none;
+            flex-direction: column;
+            padding: 5vw;
             overflow: hidden;
-        }
-        .connect-btn {
-            padding: 0 5vw;
-            width: 100%;
-            max-width: 62.5vw;
-        }
-        .btn-text {
-            color: white;
-            font-size: 3.5vw;
-            font-weight: 700;
-            margin-left: 2.5vw;
-            letter-spacing: 0.1vw;
-        }
-        .icon {
-            width: 6vw;
-            height: 6vw;
-            fill: none;
-            stroke: white;
-            stroke-width: 2;
-            stroke-linecap: round;
-            stroke-linejoin: round;
+            background-image: url('https://alamin12071985-a11y.github.io/Snowman-Adventure/all%20background.webp');
+            background-size: cover;
+            background-position: center;
         }
 
-        /* --- NEW FRIEND BUTTON STYLES --- */
-        .invite-container {
+        .leaderboard-overlay.active {
             display: flex;
-            gap: 3vw; /* Space between the two buttons */
-            width: 100%;
-            padding: 0 5vw; /* Match content padding */
-            margin-top: 5vw;
+            animation: fadeIn 0.3s ease;
         }
-        
-        /* Main Invite Button (Gold) */
-        .btn-invite {
-            flex: 1; /* Takes up remaining space */
-            border: none;
-            /* Creating the 3D Gold Gradient Effect */
-            background: linear-gradient(180deg, var(--btn-gold-top) 0%, var(--btn-gold-mid) 40%, var(--btn-gold-bot) 100%);
-            color: var(--btn-text-brown);
-            font-size: 4.5vw; /* Adjusted from 16px */
-            font-weight: 800;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            padding: 4vw 0; /* Adjusted from 18px */
-            border-radius: 10vw; /* Adjusted from 50px */
-            cursor: pointer;
-            box-shadow: 0 2vw 5vw rgba(255, 160, 0, 0.4), inset 0 0.5vw 0 rgba(255,255,255,0.4); /* Adjusted shadow */
-            transition: transform 0.1s, filter 0.2s;
-            position: relative;
-            overflow: hidden;
+
+        .leaderboard-header {
             display: flex;
+            justify-content: space-between;
             align-items: center;
+            margin-bottom: 4vw;
+        }
+
+        .leaderboard-header h2 {
+            font-size: 6vw;
+            color: var(--text-light);
+            font-weight: 700;
+        }
+
+        .close-btn {
+            background: none; border: none;
+            color: rgba(255,255,255,0.6);
+            font-size: 8vw;
+            cursor: pointer;
+            line-height: 1;
+        }
+
+        /* Filter Tabs */
+        .leaderboard-tabs {
+            display: flex;
+            justify-content: space-between;
+            background: rgba(255,255,255,0.1);
+            border-radius: 3vw;
+            padding: 1vw;
+            margin-bottom: 5vw;
+        }
+
+        .lb-tab {
+            flex: 1;
+            text-align: center;
+            padding: 2vw 0;
+            font-size: 3.5vw;
+            color: rgba(255,255,255,0.6);
+            border-radius: 2.5vw;
+            transition: all 0.2s;
+        }
+
+        .lb-tab.active {
+            background: var(--glass-bg);
+            color: var(--accent-cyan);
+            font-weight: 600;
+            box-shadow: 0 1vw 2vw rgba(0,0,0,0.2);
+            border: 1px solid rgba(0, 229, 255, 0.2);
+        }
+
+        /* Podium Area */
+        .podium-container {
+            display: flex;
             justify-content: center;
+            align-items: flex-end;
+            margin-bottom: 6vw;
+            height: 45vw;
             gap: 2vw;
         }
 
-        .btn-invite i {
-            font-size: 6vw;
-            color: var(--btn-text-brown);
-            margin-right: -1vw;
-        }
-
-        /* Shine effect overlay */
-        .btn-invite::after {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 50%;
-            background: linear-gradient(to bottom, rgba(255,255,255,0.4), transparent);
-            border-radius: 10vw 10vw 0 0;
-            pointer-events: none;
-        }
-
-        .btn-invite:active {
-            transform: translateY(1vw); /* Adjusted for mobile scale */
-            filter: brightness(0.9);
-            box-shadow: 0 1vw 3vw rgba(255, 160, 0, 0.3);
-        }
-
-        /* Copy Button (Square) */
-        .btn-copy {
-            width: 14vw;  /* Adjusted from 58px */
-            height: 14vw; /* Ensure square */
-            flex-shrink: 0;
-            background-color: var(--bg-card); /* Your dark blue theme color */
-            border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 4vw; /* Adjusted from 16px */
+        .podium-item {
             display: flex;
-            justify-content: center;
+            flex-direction: column;
             align-items: center;
-            cursor: pointer;
-            transition: background 0.2s, transform 0.1s;
+            position: relative;
         }
 
-        .btn-copy svg {
-            width: 6vw; /* Adjusted from 24px */
-            height: 6vw;
-            fill: white;
-            transition: fill 0.2s;
+        .podium-avatar-wrapper {
+            position: relative;
+            margin-bottom: 2vw;
         }
 
-        .btn-copy:active {
-            transform: scale(0.95);
-            background-color: #1a4066;
+        .podium-avatar {
+            border-radius: 50%;
+            border: 0.8vw solid;
+            object-fit: cover;
         }
 
-        /* Copied State Animation */
-        .btn-copy.copied {
-            background-color: var(--accent-cyan);
-            border-color: var(--accent-cyan);
+        .podium-rank-badge {
+            position: absolute;
+            bottom: -1vw;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #000;
+            color: white;
+            font-size: 3vw;
+            font-weight: 700;
+            width: 5vw;
+            height: 5vw;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid rgba(255,255,255,0.3);
         }
-        .btn-copy.copied svg {
-            fill: var(--bg-deep); /* Dark icon when background is bright */
+
+        /* Rank 1 */
+        .rank-1 .podium-avatar { width: 16vw; height: 16vw; border-color: #FFD700; }
+        .rank-1 .podium-base {
+            width: 20vw; height: 22vw;
+            background: linear-gradient(180deg, rgba(255,215,0,0.3) 0%, rgba(0,0,0,0) 100%);
+            border-top: 2px solid #FFD700;
+            clip-path: polygon(10% 0, 90% 0, 100% 100%, 0% 100%);
+            display: flex; flex-direction: column; align-items: center; justify-content: flex-start;
+            padding-top: 3vw;
+        }
+        .rank-1 .podium-rank-badge { background: #FFD700; color: #000; }
+
+        /* Rank 2 */
+        .rank-2 .podium-avatar { width: 13vw; height: 13vw; border-color: #C0C0C0; }
+        .rank-2 .podium-base {
+            width: 18vw; height: 16vw;
+            background: linear-gradient(180deg, rgba(192,192,192,0.3) 0%, rgba(0,0,0,0) 100%);
+            border-top: 2px solid #C0C0C0;
+            clip-path: polygon(10% 0, 90% 0, 100% 100%, 0% 100%);
+            display: flex; flex-direction: column; align-items: center; justify-content: flex-start;
+            padding-top: 2vw;
+        }
+        .rank-2 .podium-rank-badge { background: #C0C0C0; color: #000; }
+
+        /* Rank 3 */
+        .rank-3 .podium-avatar { width: 13vw; height: 13vw; border-color: #CD7F32; }
+        .rank-3 .podium-base {
+            width: 18vw; height: 13vw;
+            background: linear-gradient(180deg, rgba(205,127,50,0.3) 0%, rgba(0,0,0,0) 100%);
+            border-top: 2px solid #CD7F32;
+            clip-path: polygon(10% 0, 90% 0, 100% 100%, 0% 100%);
+            display: flex; flex-direction: column; align-items: center; justify-content: flex-start;
+            padding-top: 2vw;
+        }
+        .rank-3 .podium-rank-badge { background: #CD7F32; color: #000; }
+
+        .podium-name { font-size: 3vw; color: white; margin-bottom: 0.5vw; max-width: 15vw; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+        .podium-score { font-size: 2.5vw; color: var(--accent-cyan); font-weight: 600; }
+
+        /* List Area */
+        .leaderboard-list {
+            flex: 1;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 2vw;
+            padding-bottom: 20vw; /* Space for user bar */
+        }
+
+        .lb-item {
+            display: flex;
+            align-items: center;
+            background: rgba(255,255,255,0.05);
+            padding: 2vw 3vw;
+            border-radius: 3vw;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .lb-rank { font-size: 4vw; width: 8vw; color: rgba(255,255,255,0.5); font-weight: 700; text-align: center; }
+        .lb-avatar { width: 10vw; height: 10vw; border-radius: 50%; margin: 0 3vw; object-fit: cover; background: #fff; }
+        .lb-info { flex: 1; }
+        .lb-name { font-size: 3.5vw; font-weight: 600; color: white; }
+        .lb-score { font-size: 3vw; color: var(--accent-cyan); display: flex; align-items: center; gap: 1vw; }
+        .lb-score img { width: 3.5vw; height: 3.5vw; }
+
+        /* Current User Fixed Bar */
+        .current-user-rank-bar {
+            position: absolute;
+            bottom: 0; left: 0; width: 100%;
+            background: #163450;
+            border-top: 1px solid var(--accent-cyan);
+            padding: 3vw 5vw;
+            display: flex;
+            align-items: center;
+            box-shadow: 0 -2vw 4vw rgba(0,0,0,0.5);
+            z-index: 2005;
         }
 
     </style>
@@ -789,6 +851,36 @@
     <div id="glassPopup" class="popup-overlay">
         <div class="popup-content" id="popupContent">
             <!-- Content Injected via JS -->
+        </div>
+    </div>
+    
+    <!-- NEW: LEADERBOARD OVERLAY -->
+    <div id="leaderboardOverlay" class="leaderboard-overlay">
+        <div class="leaderboard-header">
+            <h2>Leaderboard</h2>
+            <button class="close-btn" onclick="closeLeaderboard()">&times;</button>
+        </div>
+
+        <div class="leaderboard-tabs">
+            <div class="lb-tab active" onclick="switchLeaderboardTab('coins')" id="tab-coins">Coins</div>
+            <div class="lb-tab" onclick="switchLeaderboardTab('refer')" id="tab-refer">Ref</div>
+            <div class="lb-tab" onclick="switchLeaderboardTab('star')" id="tab-star">Level</div>
+        </div>
+
+        <!-- Podium (Top 3) -->
+        <div class="podium-container" id="podiumContainer">
+            <!-- Will be filled by JS -->
+            <div style="color:white; width:100%; text-align:center;">Loading...</div>
+        </div>
+
+        <!-- List (Rank 4+) -->
+        <div class="leaderboard-list" id="leaderboardList">
+            <!-- Will be filled by JS -->
+        </div>
+
+        <!-- My Rank Bar -->
+        <div class="current-user-rank-bar" id="myRankBar" style="display:none;">
+            <!-- Will be filled by JS -->
         </div>
     </div>
 
@@ -863,13 +955,12 @@
                     </div>
                     
                     <!-- NEW VILLAGE BANNER (1020x320 Placeholder) -->
-                    <!-- এই জায়গাটিতে অ্যাডমিন প্যানেল থেকে ছবি লাগানো যাবে এবং ক্লিক করলে 'goToVillage()' ফাংশন কল হবে। -->
                     <div id="village-ad-banner" class="banner-placeholder" onclick="goToVillage()">
-                        <!-- এই img ট্যাগটিতে অ্যাডমিন প্যানেল থেকে আসা URL বসবে -->
                         <img id="villageBannerImage" src="" alt="Village Banner" style="display: none;">
                         <span id="villageBannerText">New Village Ad Banner (1020x320 Area)</span>
                     </div>
-<!-- NEW: Floating Button - Left (Reload) -->
+                    
+                    <!-- NEW: Floating Button - Left (Reload) -->
                     <div id="reloadBtn" class="floating-action-btn left-btn" onclick="handleFloatingBtnClick('Reload')">
                         <i class="fas fa-redo-alt"></i>
                         <span class="btn-text">Reload</span>
@@ -907,7 +998,7 @@
                 </div>
             </div>
 
-            <!-- FRIENDS TAB (Updated with New Buttons) -->
+            <!-- FRIENDS TAB -->
             <div id="friends" class="tab-content">
                 <div style="text-align:center; padding-top: 10px; padding-bottom: 0; margin-top: 10vw;">
                     <h1 class="wallet-title" style="font-size: 6.5vw; line-height: 1.2;"><span role="img" aria-label="gift">🎁</span> Invite Friends & Earn Forever!</h1>
@@ -935,13 +1026,11 @@
 
                     <!-- Copy Button -->
                     <button class="btn-copy" id="copyLinkBtn" onclick="handleCopyClick(this)">
-                        <!-- Copy Icon SVG -->
                         <svg viewBox="0 0 24 24">
                             <path d="M16 1H4C2.9 1 2 1.9 2 3V17H4V3H16V1ZM19 5H8C6.9 5 6 5.9 6 7V21C6 22.1 6.9 23 8 23H19C20.1 23 21 22.1 21 21V7C21 5.9 20.1 5 19 5ZM19 21H8V7H19V21Z"/>
                         </svg>
                     </button>
                 </div>
-                <!-- END NEW BUTTON GROUP -->
             </div>
 
             <!-- WALLET TAB -->
@@ -1004,13 +1093,11 @@
                 <span>Home</span>
             </div>
             
-            <!-- Task Button -->
             <div class="nav-item" onclick="switchTab('task', this)">
                 <img src="https://img.icons8.com/3d-fluency/94/clipboard.png" alt="Task">
                 <span>Task</span>
             </div>
 
-            <!-- Friends Button -->
             <div class="nav-item" onclick="switchTab('friends', this)">
                 <i class="fas fa-users" style="color: inherit;"></i>
                 <span>Friends</span>
@@ -1026,16 +1113,15 @@
 
     <script>
         // --- FIREBASE CONFIGURATION ---
-        
-const firebaseConfig = {
-  apiKey: "AIzaSyC3Lef_4TPia7sJA0nEFC7Byc1xSyUxyA0",
-  authDomain: "snowman-adventure-4fa71.firebaseapp.com",
-  databaseURL: "https://snowman-adventure-4fa71-default-rtdb.firebaseio.com",
-  projectId: "snowman-adventure-4fa71",
-  storageBucket: "snowman-adventure-4fa71.firebasestorage.app",
-  messagingSenderId: "507867054186",
-  appId: "1:507867054186:web:12d024de606d00091b4a13",
-  measurementId: "G-J550E6L22Z"
+        const firebaseConfig = {
+            apiKey: "AIzaSyC3Lef_4TPia7sJA0nEFC7Byc1xSyUxyA0",
+            authDomain: "snowman-adventure-4fa71.firebaseapp.com",
+            databaseURL: "https://snowman-adventure-4fa71-default-rtdb.firebaseio.com",
+            projectId: "snowman-adventure-4fa71",
+            storageBucket: "snowman-adventure-4fa71.firebasestorage.app",
+            messagingSenderId: "507867054186",
+            appId: "1:507867054186:web:12d024de606d00091b4a13",
+            measurementId: "G-J550E6L22Z"
         };
         
         if (!firebase.apps.length) {
@@ -1050,12 +1136,12 @@ const firebaseConfig = {
         let level = 1;
         let userId = "test_user_001"; 
         let tapTimes = [];
-        let completedTasks = {}; // Store user's completed tasks
+        let completedTasks = {}; 
+        let currentLeaderboardTab = 'coins'; // 'coins', 'refer', 'star'
         
-        // ** NEW: INVITE LINK VARIABLE **
-        // !! IMPORTANT: Replace 'YOUR_BOT_USERNAME' with your actual Telegram bot username !!
-       const BOT_USERNAME_PLACEHOLDER = 'thesnowmanbot'; // <--- 'your_bot_username' এর জায়গায় 'thesnowmanbot'
-let appInviteBaseUrl = `https://t.me/${BOT_USERNAME_PLACEHOLDER}?startapp=`; // <--- '?start=' এর জায়গায় '?startapp='
+        // Telegram Bot Config
+        const BOT_USERNAME_PLACEHOLDER = 'thesnowmanbot';
+        let appInviteBaseUrl = `https://t.me/${BOT_USERNAME_PLACEHOLDER}?startapp=`;
 
         // --- DOM ELEMENTS ---
         const balanceDisplay = document.getElementById('displayBalance');
@@ -1065,14 +1151,10 @@ let appInviteBaseUrl = `https://t.me/${BOT_USERNAME_PLACEHOLDER}?startapp=`; // 
         const headerLevelBar = document.getElementById('headerLevelBar');
         const currentLevelHeader = document.getElementById('currentLevelHeader');
         const levelNameHeader = document.getElementById('levelNameHeader');
-        
-        // Header & Wallet Displays
         const headerCoin = document.getElementById('headerCoinBalance');
         const headerTon = document.getElementById('headerTonBalance');
         const walletCoin = document.getElementById('walletCoin');
         const walletTon = document.getElementById('walletTon');
-        // New Friends button
-        const copyLinkButton = document.getElementById('copyLinkBtn');
 
         // --- TON CONNECT INITIALIZATION ---
         const tonConnectUI = new TON_CONNECT_UI.TonConnectUI({
@@ -1086,7 +1168,6 @@ let appInviteBaseUrl = `https://t.me/${BOT_USERNAME_PLACEHOLDER}?startapp=`; // 
             const addressDisplay = document.getElementById('walletAddressDisplay');
 
             if(wallet) {
-                // Hide Button, Show Address
                 btnContainer.style.display = "none";
                 statusBadge.style.display = "block";
                 const rawAddress = wallet.account.address;
@@ -1109,7 +1190,7 @@ let appInviteBaseUrl = `https://t.me/${BOT_USERNAME_PLACEHOLDER}?startapp=`; // 
         }
 
         async function checkAdBlocker() {
-            // Placeholder for adsbox detection
+            // Placeholder
         }
 
         // --- LOADING & INIT ---
@@ -1144,17 +1225,12 @@ let appInviteBaseUrl = `https://t.me/${BOT_USERNAME_PLACEHOLDER}?startapp=`; // 
             startSnowfall();
             loadUserData();
             setInterval(saveUserData, 5000);
-            
-            // NEW: Initial banner image loading (Placeholder for Admin Panel)
             loadBanners();
         }
         
-        // NEW: Function to load banners (future admin panel link)
         function loadBanners() {
-            // This is where you would fetch banner image URLs from Firebase/Admin Panel
-            // For now, it stays as a placeholder showing the dashed line.
+            // Placeholder for admin panel banners
         }
-
 
         function initTelegramUser() {
             try {
@@ -1167,16 +1243,8 @@ let appInviteBaseUrl = `https://t.me/${BOT_USERNAME_PLACEHOLDER}?startapp=`; // 
                     else if (user.first_name) headerName.innerText = user.first_name;
                     if (user.photo_url) headerAvatar.src = user.photo_url;
                 }
-                
-                // Fallback for appInviteBaseUrl if running in a real TWA environment
-                if (BOT_USERNAME_PLACEHOLDER === 'your_bot_username' && tg.initDataUnsafe.start_param) {
-                    // This is a complex logic that usually requires knowing the bot's structure. 
-                    // Keeping the placeholder for user to update.
-                }
             } catch (e) {
                 console.log("Not running in Telegram");
-                // For testing outside Telegram, update base link with a standalone URL if needed.
-                // For TWA-only, this is fine.
             }
         }
 
@@ -1187,6 +1255,8 @@ let appInviteBaseUrl = `https://t.me/${BOT_USERNAME_PLACEHOLDER}?startapp=`; // 
                 tonBalance: tonBalance,
                 tapCount: tapCount,
                 level: level,
+                username: headerName.innerText, // Save name for leaderboard
+                avatar: headerAvatar.src,       // Save avatar for leaderboard
                 lastActive: Date.now()
             });
         }
@@ -1200,9 +1270,9 @@ let appInviteBaseUrl = `https://t.me/${BOT_USERNAME_PLACEHOLDER}?startapp=`; // 
                     tonBalance = data.tonBalance || 0.0;
                     tapCount = data.tapCount || 0;
                     level = data.level || 1;
-                    completedTasks = data.completedTasks || {}; // Load completed tasks
+                    completedTasks = data.completedTasks || {};
                     updateUI();
-                    loadTasksFromDB(); // Fetch tasks
+                    loadTasksFromDB(); 
                 } else {
                     updateUI();
                     loadTasksFromDB();
@@ -1364,50 +1434,196 @@ let appInviteBaseUrl = `https://t.me/${BOT_USERNAME_PLACEHOLDER}?startapp=`; // 
             }
         }
 
-        // --- NEW FEATURE PLACEHOLDERS (AS REQUESTED) ---
-        // এই ফাংশনগুলি অ্যাডমিন প্যানেল থেকে ছবি আসার পর সে অনুযায়ী লিংক যোগ করা যাবে।
-
         function goToVillage() {
-            // ** অনুরোধ অনুযায়ী এই ফাংশনটি আপাতত বন্ধ রাখা হয়েছে। **
-            console.log("Village Navigation Disabled. New Village Coming Soon!");
             showToast("New Village Coming Soon!");
-            // ভবিষ্যতে চালু করতে: window.open("Your Village URL", '_blank');
         }
 
-        function handleTaskBannerClick() {
-            // Task page banner click placeholder
-            console.log("Task Banner Clicked.");
-            showToast("Task Banner Clicked!");
+        function handleTaskBannerClick() { showToast("Task Banner Clicked!"); }
+        function handleWalletBannerClick() { showToast("Wallet Banner Clicked!"); }
+        function handleFriendsBannerClick() { showToast("Friends Banner Clicked!"); }
+        
+        // --- UPDATED FLOATING BUTTON HANDLER ---
+        function handleFloatingBtnClick(buttonName) {
+            if (buttonName === 'Leaderboard') {
+                // Open Custom Leaderboard Overlay
+                openLeaderboard();
+                return;
+            }
+            if(buttonName === 'Reload') {
+                loadUserData();
+                showToast("User data reloaded!");
+                return;
+            }
         }
 
-        function handleWalletBannerClick() {
-            // Wallet page banner click placeholder
-            console.log("Wallet Banner Clicked.");
-            showToast("Wallet Banner Clicked!");
+        // --- NEW LEADERBOARD LOGIC ---
+        function openLeaderboard() {
+            document.getElementById('leaderboardOverlay').classList.add('active');
+            fetchLeaderboardData(); // Load data
+        }
+
+        function closeLeaderboard() {
+            document.getElementById('leaderboardOverlay').classList.remove('active');
+        }
+
+        function switchLeaderboardTab(type) {
+            currentLeaderboardTab = type;
+            document.querySelectorAll('.lb-tab').forEach(t => t.classList.remove('active'));
+            document.getElementById('tab-' + type).classList.add('active');
+            fetchLeaderboardData(); // Reload data with new sort
+        }
+
+        function fetchLeaderboardData() {
+            const podiumContainer = document.getElementById('podiumContainer');
+            const listContainer = document.getElementById('leaderboardList');
+            const myRankBar = document.getElementById('myRankBar');
+            
+            podiumContainer.innerHTML = '<div style="color:white;width:100%;text-align:center;">Loading...</div>';
+            listContainer.innerHTML = '';
+
+            // Default sorting field
+            let sortField = 'balance'; 
+            if(currentLeaderboardTab === 'star') sortField = 'level';
+            // 'refer' logic would go here if available
+
+            // Fetch top 100 users
+            db.ref('users').orderByChild(sortField).limitToLast(100).once('value').then(snapshot => {
+                let users = [];
+                snapshot.forEach(child => {
+                    let u = child.val();
+                    u.key = child.key;
+                    // Ensure necessary fields exist
+                    if(!u.username) u.username = "Unknown";
+                    if(!u.avatar) u.avatar = "https://alamin12071985-a11y.github.io/Snowman-Adventure/snowman.webp";
+                    if(!u.balance) u.balance = 0;
+                    if(!u.level) u.level = 1;
+                    users.push(u);
+                });
+
+                // Reverse because firebase gives ascending order
+                users.reverse();
+
+                renderLeaderboard(users);
+
+            }).catch(err => {
+                console.error(err);
+                podiumContainer.innerHTML = '<div style="color:white">Failed to load</div>';
+            });
+        }
+
+        function renderLeaderboard(users) {
+            const podiumContainer = document.getElementById('podiumContainer');
+            const listContainer = document.getElementById('leaderboardList');
+            const myRankBar = document.getElementById('myRankBar');
+
+            podiumContainer.innerHTML = '';
+            listContainer.innerHTML = '';
+
+            // --- RENDER PODIUM (Top 3) ---
+            // Order in DOM for visual layout (Left=2, Center=1, Right=3)
+            // But we can use flex order or just hardcode HTML structure
+            
+            const top3 = [users[0], users[1], users[2]]; // Might be undefined if < 3 users
+
+            // 2nd Place (Left)
+            if(top3[1]) {
+                const u = top3[1];
+                let displayScore = currentLeaderboardTab === 'star' ? `Lvl ${u.level}` : u.balance.toLocaleString();
+                podiumContainer.innerHTML += `
+                    <div class="podium-item rank-2">
+                        <div class="podium-avatar-wrapper">
+                            <img src="${u.avatar}" class="podium-avatar">
+                            <div class="podium-rank-badge">2</div>
+                        </div>
+                        <div class="podium-base">
+                            <div class="podium-name">${u.username}</div>
+                            <div class="podium-score">${displayScore}</div>
+                        </div>
+                    </div>
+                `;
+            }
+
+            // 1st Place (Center)
+            if(top3[0]) {
+                const u = top3[0];
+                let displayScore = currentLeaderboardTab === 'star' ? `Lvl ${u.level}` : u.balance.toLocaleString();
+                podiumContainer.innerHTML += `
+                    <div class="podium-item rank-1">
+                        <div class="podium-avatar-wrapper">
+                            <img src="${u.avatar}" class="podium-avatar">
+                            <div class="podium-rank-badge">1</div>
+                        </div>
+                        <div class="podium-base">
+                            <div class="podium-name">${u.username}</div>
+                            <div class="podium-score">${displayScore}</div>
+                        </div>
+                    </div>
+                `;
+            }
+
+            // 3rd Place (Right)
+            if(top3[2]) {
+                const u = top3[2];
+                let displayScore = currentLeaderboardTab === 'star' ? `Lvl ${u.level}` : u.balance.toLocaleString();
+                podiumContainer.innerHTML += `
+                    <div class="podium-item rank-3">
+                        <div class="podium-avatar-wrapper">
+                            <img src="${u.avatar}" class="podium-avatar">
+                            <div class="podium-rank-badge">3</div>
+                        </div>
+                        <div class="podium-base">
+                            <div class="podium-name">${u.username}</div>
+                            <div class="podium-score">${displayScore}</div>
+                        </div>
+                    </div>
+                `;
+            }
+
+            // --- RENDER LIST (4+) ---
+            for(let i = 3; i < users.length; i++) {
+                const u = users[i];
+                let displayScore = currentLeaderboardTab === 'star' ? `Lvl ${u.level}` : u.balance.toLocaleString();
+                const item = document.createElement('div');
+                item.className = 'lb-item';
+                item.innerHTML = `
+                    <div class="lb-rank">${i+1}</div>
+                    <img src="${u.avatar}" class="lb-avatar">
+                    <div class="lb-info">
+                        <div class="lb-name">${u.username}</div>
+                        <div class="lb-score">
+                            ${currentLeaderboardTab !== 'star' ? '<img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/coin.webp">' : ''}
+                            ${displayScore}
+                        </div>
+                    </div>
+                `;
+                listContainer.appendChild(item);
+            }
+
+            // --- FIND ME ---
+            const myIndex = users.findIndex(u => u.key === userId);
+            if(myIndex !== -1) {
+                const me = users[myIndex];
+                let displayScore = currentLeaderboardTab === 'star' ? `Lvl ${me.level}` : me.balance.toLocaleString();
+                myRankBar.style.display = 'flex';
+                myRankBar.innerHTML = `
+                    <div class="lb-rank" style="color:var(--accent-cyan);">${myIndex+1}</div>
+                    <img src="${me.avatar}" class="lb-avatar" style="border:2px solid var(--accent-cyan);">
+                    <div class="lb-info">
+                        <div class="lb-name" style="color:var(--accent-cyan);">${me.username} (You)</div>
+                        <div class="lb-score">
+                            ${currentLeaderboardTab !== 'star' ? '<img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/coin.webp">' : ''}
+                            ${displayScore}
+                        </div>
+                    </div>
+                `;
+            } else {
+                myRankBar.style.display = 'none';
+            }
         }
         
-        // --- NEW: FLOATING BUTTON HANDLER --- 
-    function handleFloatingBtnClick(buttonName) {
-    if (buttonName === 'Leaderboard') {
-        // নতুন leaderboard.html ফাইলটি এখানে ওপেন হবে
-        window.open('https://alamin12071985-a11y.github.io/Snowman-Adventure/leaderboard.html', '_blank'); 
-        return;
-    }
-
-    // Reload বাটনের কাজ (যা আগে ছিল)
-    if(buttonName === 'Reload') {
-        loadUserData();
-        showToast("User data reloaded!");
-        return;
-    }
-        }
-       
-        
-        // --- TASK SYSTEM FUNCTIONS ---
-
+        // --- TASK SYSTEM ---
         function loadTasksFromDB() {
             const list = document.getElementById('taskList');
-            // Fetch tasks from 'tasks' node
             db.ref('tasks').once('value').then(snapshot => {
                 const tasks = snapshot.val();
                 list.innerHTML = ''; 
@@ -1444,58 +1660,41 @@ let appInviteBaseUrl = `https://t.me/${BOT_USERNAME_PLACEHOLDER}?startapp=`; // 
 
         function handleTask(taskId, link, reward, btnElement) {
             if (completedTasks[taskId]) return;
-
-            // 1. Open Link
             if(link && link.startsWith('http')) {
                 window.open(link, '_blank');
             }
-
-            // 2. Set Button to Checking
             btnElement.innerText = 'Checking...';
             btnElement.style.opacity = '0.7';
 
-            // 3. Reward after delay
             setTimeout(() => {
                 balance += parseInt(reward);
                 completedTasks[taskId] = true;
-
-                // Update DB
                 db.ref('users/' + userId + '/balance').set(balance);
                 db.ref('users/' + userId + '/completedTasks/' + taskId).set(true);
-
                 updateUI();
                 showToast(`Task Completed! +${reward} Coins`);
-                
                 btnElement.innerText = 'Done';
                 btnElement.classList.add('claimed');
                 btnElement.style.opacity = '1';
             }, 5000); 
         }
 
-        // --- FRIENDS/INVITE FUNCTIONS (New) ---
-
+        // --- FRIENDS/INVITE FUNCTIONS ---
         function getInviteLink() {
-            // The deep link for the Telegram Mini App
-            // The structure is t.me/bot_username?start=userId
             return `${appInviteBaseUrl}${userId}`;
         }
 
         function inviteFriend() {
             const link = getInviteLink();
-            const text = `Join Snowman Adventure! Earn coins by tapping. Use my link to get a bonus: `; // Text will be combined with the link by TWA
-
+            const text = `Join Snowman Adventure! Earn coins by tapping. Use my link to get a bonus: `;
             try {
                 if (window.Telegram.WebApp) {
-                    // This function is designed to forward a message with the share link
                     window.Telegram.WebApp.shareUrl(link, text);
                 } else {
-                    // Fallback for sharing outside Telegram Web App environment
                     const telegramShareUrl = `https://t.me/share/url?url=${encodeURIComponent(link)}&text=${encodeURIComponent(text)}`;
                     window.open(telegramShareUrl, '_blank');
-                    showToast("Sharing via fallback link.");
                 }
             } catch(e) {
-                console.error("Could not invite via TWA or share URL:", e);
                 showToast("Cannot invite. Please copy the link manually.");
             }
         }
@@ -1503,16 +1702,10 @@ let appInviteBaseUrl = `https://t.me/${BOT_USERNAME_PLACEHOLDER}?startapp=`; // 
         function handleCopyClick(btnElement) {
             const link = getInviteLink();
             navigator.clipboard.writeText(link).then(() => {
-                // Visual feedback
-                showToast("Invite link copied to clipboard!");
+                showToast("Invite link copied!");
                 btnElement.classList.add('copied');
-                
-                // Reset after 1.5 seconds
-                setTimeout(() => {
-                    btnElement.classList.remove('copied');
-                }, 1500);
+                setTimeout(() => { btnElement.classList.remove('copied'); }, 1500);
             }).catch(err => {
-                console.error('Failed to copy: ', err);
                 showToast("Failed to copy link.");
             });
         }
