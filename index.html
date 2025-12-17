@@ -696,6 +696,10 @@
         .popup-btn:active { transform: scale(0.98); }
         @keyframes popIn { from { opacity: 0; transform: scale(0.8); } to { opacity: 1; transform: scale(1); } }
 
+        /* Adjusted .task-card for use in the Shop to allow custom icon/button text */
+        .task-card .task-btn { min-width: 25vw; } 
+
+
         /* --- LEADERBOARD OVERLAY STYLES (No change) --- */
         .leaderboard-overlay {
             position: fixed;
@@ -888,9 +892,7 @@
             box-shadow: 0 -2vw 4vw rgba(0,0,0,0.5);
             z-index: 2005;
         }
-        
-        /* Adjusted .task-card for use in the Shop to allow custom icon/button text */
-        .task-card .task-btn { min-width: 25vw; } 
+
     </style>
 </head>
 <body class="home-active">
@@ -1014,25 +1016,25 @@
                     <!-- NEW: Floating Button - Left (Cases) -->
                     <div id="casesBtn" class="floating-action-btn left-btn" onclick="handleFloatingBtnClick('Cases')">
                         <i class="fas fa-box-open"></i>
-                        <span class="btn-text">Cases</span>
+                        <span class="btn-text">  </span>
                     </div>
                     
                     <!-- NEW: Floating Button - Left (Auto Tap) -->
                     <div id="autoTapBtn" class="floating-action-btn left-btn" onclick="handleFloatingBtnClick('AutoTap')">
                         <i class="fas fa-hand-pointer"></i>
-                        <span class="btn-text">Auto Tap</span>
+                        <span class="btn-text">  </span>
                     </div>
 
                     <!-- NEW: Floating Button - Right (Shop) -->
                     <div id="shopBtn" class="floating-action-btn right-btn" onclick="handleFloatingBtnClick('Shop')">
                         <i class="fas fa-shopping-cart"></i>
-                        <span class="btn-text">Shop</span>
+                        <span class="btn-text">  </span>
                     </div>
                     
                     <!-- NEW: Floating Button - Right (Leaderboard) -->
                     <div id="leaderboardBtn" class="floating-action-btn right-btn" onclick="handleFloatingBtnClick('Leaderboard')">
                         <i class="fas fa-trophy"></i>
-                        <span class="btn-text">Leaderboard</span>
+                        <span class="btn-text">  </span>
                     </div>
                     
                                 
@@ -1095,6 +1097,52 @@
                         </svg>
                     </button>
                 </div>
+                
+                <!-- NEW REFERRAL CHALLENGE SECTION -->
+                <div style="background: var(--glass-bg); border: 1px solid var(--accent-cyan); border-radius: 4vw; padding: 4vw; margin: 5vw 0 0 0; width: 100%; text-align: center;">
+                    <h2 style="font-size: 5vw; color: var(--level-gold); margin-bottom: 2vw; font-weight: 800; line-height: 1.2;">
+                        💰 WIN $100 – Invite Friends & Earn Big! ❄️
+                    </h2>
+                    <p style="font-size: 3.2vw; color: var(--text-light); margin-bottom: 2vw;">
+                        Refer active players and get a chance to win
+                        <span style="color: var(--accent-cyan); font-weight: 700;">🏆 $100 Cash Reward</span>
+                    </p>
+
+                    <p style="font-size: 3vw; color: rgba(255,255,255,0.8); margin-bottom: 4vw;">
+                        🚀 The more valid referrals you make, the closer you get to winning!
+                        <br>
+                        ⏳ Limited-time referral challenge — don’t miss it!
+                    </p>
+
+                    <h3 style="font-size: 4vw; color: var(--level-gold); border-bottom: 1px solid rgba(255,255,255,0.2); padding-bottom: 1.5vw; margin-bottom: 2vw; font-weight: 700;">Prize Pools</h3>
+                    
+                    <div style="display: flex; justify-content: space-around; margin-bottom: 4vw;">
+                        <div style="text-align: center;">
+                            <div style="font-size: 4.5vw; font-weight: 800; color: #FFD700;">🥇 1st Place</div>
+                            <div style="font-size: 5.5vw; font-weight: 800; color: #FFD700;">💵 $50</div>
+                        </div>
+                        <div style="text-align: center;">
+                            <div style="font-size: 4.5vw; font-weight: 800; color: #C0C0C0;">🥈 2nd Place</div>
+                            <div style="font-size: 5.5vw; font-weight: 800; color: #C0C0C0;">💵 $30</div>
+                        </div>
+                        <div style="text-align: center;">
+                            <div style="font-size: 4.5vw; font-weight: 800; color: #CD7F32;">🥉 3rd Place</div>
+                            <div style="font-size: 5.5vw; font-weight: 800; color: #CD7F32;">💵 $20</div>
+                        </div>
+                    </div>
+
+                    <h3 style="font-size: 3.5vw; color: var(--accent-cyan); margin-bottom: 1vw; font-weight: 600;">Others: Coin Rewards</h3>
+
+                    <div style="background: rgba(0,0,0,0.5); border-radius: 3vw; padding: 3vw; margin-top: 4vw;">
+                        <h4 style="font-size: 3.5vw; color: #FFC044; margin-bottom: 1vw;">Challenge Ends In:</h4>
+                        <!-- Countdown Timer Display -->
+                        <div id="referral-countdown" style="font-size: 6vw; font-weight: 900; color: var(--accent-cyan);">Loading...</div>
+                        <p style="font-size: 3vw; color: rgba(255,255,255,0.6); margin-top: 1vw;">Reward Date: 1, 1, 2026</p>
+                    </div>
+                    
+                    <p style="font-size: 3vw; color: rgba(255,255,255,0.5); margin-top: 4vw; text-decoration: underline;">Terms & Conditions</p>
+                </div>
+
             </div>
 
             <!-- WALLET TAB (Layout adjusted) -->
@@ -1202,7 +1250,8 @@
         let tapTimes = [];
         let completedTasks = {}; 
         let currentLeaderboardTab = 'coins'; // 'coins', 'refer', 'star'
-        
+        let countdownInterval; // Added for the new countdown
+
         // Telegram Bot Config
         const BOT_USERNAME_PLACEHOLDER = 'thesnowmanbot';
         let appInviteBaseUrl = `https://t.me/${BOT_USERNAME_PLACEHOLDER}?startapp=`;
@@ -1256,8 +1305,31 @@
         async function checkAdBlocker() {
             // Placeholder
         }
+        
+        // --- NEW: COUNTDOWN FUNCTION ---
+        const referralTargetDate = new Date('January 1, 2026 00:00:00 GMT').getTime();
 
-        // --- LOADING & INIT (No change) ---
+        function updateCountdown() {
+            const now = new Date().getTime();
+            const distance = referralTargetDate - now;
+
+            const countdownEl = document.getElementById('referral-countdown');
+            if (countdownEl) {
+                if (distance < 0) {
+                    clearInterval(countdownInterval);
+                    countdownEl.innerHTML = "Challenge Ended!";
+                } else {
+                    const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                    const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                    const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                    const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+                    
+                    countdownEl.innerHTML = `${days}d ${hours}h ${minutes}m ${seconds}s`;
+                }
+            }
+        }
+
+        // --- LOADING & INIT (Modified to include countdown) ---
         window.addEventListener('load', () => {
             let loadPercent = 0;
             const bar = document.getElementById('loadingFill');
@@ -1290,6 +1362,10 @@
             loadUserData();
             setInterval(saveUserData, 5000);
             loadBanners();
+            
+            // Start the countdown timer for the referral challenge
+            updateCountdown(); 
+            countdownInterval = setInterval(updateCountdown, 1000);
         }
         
         function loadBanners() {
@@ -1393,7 +1469,7 @@
             headerLevelBar.style.width = `${Math.min(percentage, 100)}%`;
         }
         
-        // --- SHOP POPUP FUNCTIONS (NEW/MODIFIED) ---
+        // --- SHOP POPUP FUNCTIONS (Implemented Shop Items) ---
         function openShop() {
             const shopItems = [
                 { id: 'tap_power', title: 'Tap Power UP', price: 5000, description: 'Increases coins per tap permanently by 1.', icon: 'fa-hand-pointer' },
