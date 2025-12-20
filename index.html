@@ -30,6 +30,8 @@
             --glass-border: 1px solid rgba(0, 229, 255, 0.15);
             --level-gold: #FFD700;
             --btn-blue-grad: linear-gradient(180deg, #60ccfd 0%, #4a92ff 100%);
+            
+            /* Updated Colors */
             --bg-deep: #08182B;      
             --bg-card: #163450;      
         }
@@ -59,7 +61,7 @@
             background-position: center center;
             background-repeat: no-repeat;
             background-attachment: fixed;
-            backdrop-filter: blur(1px); 
+            backdrop-filter: blur(1px);
         }
 
         body:not(.home-active) {
@@ -71,6 +73,7 @@
             backdrop-filter: blur(1px);
         }
 
+        /* --- LOADING SCREEN --- */
         #loading-screen {
             position: fixed;
             top: 0;
@@ -125,6 +128,7 @@
             font-family: sans-serif;
         }
 
+        /* --- APP CONTAINER --- */
         .app-container {
             width: 100%;
             max-width: 100%; 
@@ -136,6 +140,7 @@
             overflow: hidden;
         }
 
+        /* --- HEADER --- */
         .header-dashboard {
             padding: 3vw 3vw 1vw 3vw;
             display: flex;
@@ -254,6 +259,7 @@
         }
         .settings-btn img { width: 6vw; height: 6vw; object-fit: contain; }
 
+        /* --- CONTENT AREA --- */
         .content-area {
             flex: 1;
             overflow-y: auto;
@@ -275,12 +281,13 @@
 
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
+        /* --- BANNER PLACEHOLDERS --- */
         .banner-placeholder {
             width: 90vw;
             height: 28.23vw;
             background-color: rgba(255, 255, 255, 0.1);
             border-radius: 4vw;
-            margin: 5vw auto; 
+            margin: 5vw auto;
             overflow: hidden;
             display: flex;
             justify-content: center;
@@ -300,6 +307,7 @@
             pointer-events: none;
         }
 
+        /* --- GAME AREA --- */
         .game-area-wrapper {
             width: 100%;
             flex: 1;
@@ -333,7 +341,7 @@
             width: auto;
             max-width: 90vw; 
             height: auto;
-            max-height: 50vh; 
+            max-height: 50vh;
             cursor: pointer;
             z-index: 10; 
             transition: transform 0.1s;
@@ -344,6 +352,7 @@
 
         .character-img:active { transform: scale(0.96) rotate(-2deg); }
 
+        /* --- FLOATING SCORE --- */
         .floating-score {
             position: absolute;
             color: var(--accent-cyan);
@@ -360,6 +369,7 @@
             100% { opacity: 0; transform: translateY(-20vw) scale(1.2); }
         }
 
+        /* --- FLOATING ACTION BUTTONS --- */
         .floating-action-btn {
             position: absolute;
             z-index: 15; 
@@ -377,11 +387,13 @@
             width: 18vw; 
             height: 18vw; 
             padding: 0; 
+            top: 45%; 
+            transform: translateY(-50%); 
             text-align: center;
         }
 
         .floating-action-btn:active {
-            transform: scale(0.95);
+            transform: translateY(-48%) scale(0.95);
             box-shadow: 0 0 1vw var(--accent-cyan);
         }
 
@@ -400,23 +412,28 @@
         .left-btn { left: 3vw; }
         .right-btn { right: 3vw; }
         
-        /* ADJUSTED: Moved Shop and Cases down to 48% */
-        #shopBtn { top: 48%; right: 3vw;} 
-        #casesBtn { top: 48%; left: 3vw;} 
-        
+        #shopBtn { top: 40%; right: 3vw; }
+        #casesBtn { top: 40%; left: 3vw; }
         #leaderboardBtn { top: 75%; right: 3vw; }
         #autoTapBtn { top: 75%; left: 3vw; }
         
+        /* --- UPDATED: GLASS TOAST NOTIFICATION --- */
         .toast-notification {
             position: fixed;
             top: 5vw;
             left: 50%;
             transform: translateX(-50%) translateY(-25vw);
-            background: white;
-            color: #000;
+            
+            /* Glass Effect */
+            background: rgba(8, 24, 43, 0.85); /* Dark semi-transparent */
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(0, 229, 255, 0.3);
+            
+            color: var(--text-light);
             padding: 3vw 5vw;
             border-radius: 7.5vw;
-            box-shadow: 0 1vw 5vw rgba(0,0,0,0.3);
+            box-shadow: 0 2vw 6vw rgba(0,0,0,0.5);
             display: flex;
             align-items: center;
             gap: 2.5vw;
@@ -433,17 +450,19 @@
         }
 
         .toast-icon {
-            width: 6vw;
-            height: 6vw;
-            background: #4CAF50;
+            width: 7vw;
+            height: 7vw;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             color: white;
             font-size: 3.5vw;
+            /* Default background, JS changes it */
+            background: rgba(255, 255, 255, 0.1); 
         }
         
+        /* --- NAV BAR --- */
         .nav-bar {
             position: absolute;
             bottom: 0;
@@ -503,6 +522,7 @@
             transform: scale(1.1);
         }
         
+        /* --- WALLET & TASK & FRIENDS STYLES --- */
         .wallet-title {
             font-size: 7.5vw; line-height: 1.1; margin-bottom:2.5vw; 
             font-weight: 800; color: var(--accent-cyan);
@@ -601,23 +621,27 @@
 
         .invite-container { display: flex; gap: 3vw; width: 100%; padding: 0 5vw; margin-top: 5vw; }
         
-        /* ADJUSTED: Invite Button matches App Theme (Blue/Cyan) */
+        /* --- UPDATED: INVITE BUTTON STYLES (MATCH APP THEME) --- */
         .btn-invite {
             flex: 1; border: none;
+            /* Changed from Gold to Blue Gradient to match theme */
             background: var(--btn-blue-grad);
-            color: white; font-size: 4.5vw; font-weight: 800; text-transform: uppercase;
+            color: white; 
+            font-size: 4.5vw; font-weight: 800; text-transform: uppercase;
             letter-spacing: 0.5px; padding: 4vw 0; border-radius: 10vw; cursor: pointer;
-            box-shadow: 0 2vw 5vw rgba(0, 229, 255, 0.3), inset 0 0.5vw 0 rgba(255,255,255,0.4);
+            /* Updated Shadow */
+            box-shadow: 0 2vw 5vw rgba(0, 229, 255, 0.4), inset 0 0.5vw 0 rgba(255,255,255,0.4);
+            border: 1px solid rgba(255,255,255,0.2);
             transition: transform 0.1s, filter 0.2s; position: relative; overflow: hidden;
             display: flex; align-items: center; justify-content: center; gap: 2vw;
         }
         .btn-invite i { font-size: 6vw; color: white; margin-right: -1vw; }
         .btn-invite::after {
             content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 50%;
-            background: linear-gradient(to bottom, rgba(255,255,255,0.4), transparent);
+            background: linear-gradient(to bottom, rgba(255,255,255,0.2), transparent);
             border-radius: 10vw 10vw 0 0; pointer-events: none;
         }
-        .btn-invite:active { transform: translateY(1vw); filter: brightness(0.9); box-shadow: 0 1vw 3vw rgba(0, 229, 255, 0.2); }
+        .btn-invite:active { transform: translateY(1vw); filter: brightness(0.9); box-shadow: 0 1vw 3vw rgba(0, 229, 255, 0.3); }
 
         .btn-copy {
             width: 14vw; height: 14vw; flex-shrink: 0; background-color: var(--bg-card);
@@ -630,6 +654,7 @@
         .btn-copy.copied { background-color: var(--accent-cyan); border-color: var(--accent-cyan); }
         .btn-copy.copied svg { fill: var(--bg-deep); }
         
+        /* Glass Popup Styling for Shop */
         .popup-overlay {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -667,6 +692,7 @@
         .task-card .task-btn { min-width: 25vw; } 
 
 
+        /* --- LEADERBOARD OVERLAY STYLES --- */
         .leaderboard-overlay {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -707,6 +733,7 @@
             line-height: 1;
         }
 
+        /* Filter Tabs */
         .leaderboard-tabs {
             display: flex;
             justify-content: space-between;
@@ -734,6 +761,7 @@
             border: 1px solid rgba(0, 229, 255, 0.2);
         }
 
+        /* Podium Area */
         .podium-container {
             display: flex;
             justify-content: center;
@@ -779,6 +807,7 @@
             border: 1px solid rgba(255,255,255,0.3);
         }
 
+        /* Rank 1 */
         .rank-1 .podium-avatar { width: 16vw; height: 16vw; border-color: #FFD700; }
         .rank-1 .podium-base {
             width: 20vw; height: 22vw;
@@ -790,6 +819,7 @@
         }
         .rank-1 .podium-rank-badge { background: #FFD700; color: #000; }
 
+        /* Rank 2 */
         .rank-2 .podium-avatar { width: 13vw; height: 13vw; border-color: #C0C0C0; }
         .rank-2 .podium-base {
             width: 18vw; height: 16vw;
@@ -801,6 +831,7 @@
         }
         .rank-2 .podium-rank-badge { background: #C0C0C0; color: #000; }
 
+        /* Rank 3 */
         .rank-3 .podium-avatar { width: 13vw; height: 13vw; border-color: #CD7F32; }
         .rank-3 .podium-base {
             width: 18vw; height: 13vw;
@@ -815,13 +846,14 @@
         .podium-name { font-size: 3vw; color: white; margin-bottom: 0.5vw; max-width: 15vw; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
         .podium-score { font-size: 2.5vw; color: var(--accent-cyan); font-weight: 600; }
 
+        /* List Area */
         .leaderboard-list {
             flex: 1;
             overflow-y: auto;
             display: flex;
             flex-direction: column;
             gap: 2vw;
-            padding-bottom: 20vw; 
+            padding-bottom: 20vw; /* Space for user bar */
         }
 
         .lb-item {
@@ -840,6 +872,7 @@
         .lb-score { font-size: 3vw; color: var(--accent-cyan); display: flex; align-items: center; gap: 1vw; }
         .lb-score img { width: 3.5vw; height: 3.5vw; }
 
+        /* Current User Fixed Bar */
         .current-user-rank-bar {
             position: absolute;
             bottom: 0; left: 0; width: 100%;
@@ -863,9 +896,11 @@
         <i class="fas fa-times" style="margin-left:auto; color:#999; cursor:pointer;" onclick="hideToast()"></i>
     </div>
 
-    <!-- GENERIC GLASS POPUP -->
+    <!-- GENERIC GLASS POPUP (Used for Shop) -->
     <div id="glassPopup" class="popup-overlay">
-        <div class="popup-content" id="popupContent"></div>
+        <div class="popup-content" id="popupContent">
+            <!-- Content Injected via JS -->
+        </div>
     </div>
     
     <!-- LEADERBOARD OVERLAY -->
@@ -881,13 +916,21 @@
             <div class="lb-tab" onclick="switchLeaderboardTab('star')" id="tab-star">Level</div>
         </div>
 
+        <!-- Podium (Top 3) -->
         <div class="podium-container" id="podiumContainer">
+            <!-- Will be filled by JS -->
             <div style="color:white; width:100%; text-align:center;">Loading...</div>
         </div>
 
-        <div class="leaderboard-list" id="leaderboardList"></div>
+        <!-- List (Rank 4+) -->
+        <div class="leaderboard-list" id="leaderboardList">
+            <!-- Will be filled by JS -->
+        </div>
 
-        <div class="current-user-rank-bar" id="myRankBar" style="display:none;"></div>
+        <!-- My Rank Bar -->
+        <div class="current-user-rank-bar" id="myRankBar" style="display:none;">
+            <!-- Will be filled by JS -->
+        </div>
     </div>
 
     <!-- LOADING SCREEN -->
@@ -900,14 +943,20 @@
     </div>
 
     <div class="app-container">
+        
+        <!-- HEADER DASHBOARD -->
         <div class="header-dashboard" id="mainHeader">
+            
+            <!-- Left: Balances -->
             <div class="header-balances">
+                <!-- Coins -->
                 <div class="stat-card-row">
                     <div class="stat-value">
                         <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/coin.webp" alt="C">
                         <span id="headerCoinBalance">0</span>
                     </div>
                 </div>
+                <!-- TON -->
                 <div class="stat-card-row">
                     <div class="stat-value">
                         <img src="https://static.vecteezy.com/system/resources/previews/024/093/454/non_2x/toncoin-ton-glass-crypto-coin-3d-illustration-free-png.png" alt="T">
@@ -916,12 +965,14 @@
                 </div>
             </div>
 
+            <!-- Center: User Profile & Level -->
             <div class="profile-section">
                 <div class="profile-top">
                     <img id="headerAvatar" src="https://alamin12071985-a11y.github.io/Snowman-Adventure/snowman.webp" class="user-avatar" alt="User">
                     <span id="headerName" class="user-name">User</span>
                 </div>
                 
+                <!-- Level Progress -->
                 <div class="header-level-box">
                     <div class="lvl-text">
                         <span id="levelNameHeader">Lvl 1</span>
@@ -933,134 +984,221 @@
                 </div>
             </div>
 
+            <!-- Right: Options -->
             <div class="settings-btn">
                 <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/setting.webp" alt="Settings">
             </div>
         </div>
 
         <div class="content-area">
+            
+            <!-- HOME TAB -->
             <div id="home" class="tab-content active">
+
+                <!-- Home Page Banner -->
                 <div class="banner-placeholder" onclick="switchTab('friends', document.querySelector('.nav-item:nth-child(3)'))" style="margin: 5vw auto 0 auto;">
                     <img src="https://i.ibb.co.com/ZkbRmZv/file-00000000613c71fdb72699502bc3ff0c.png" alt="Referral Banner" style="display: block;">
                     <span id="homeBannerText" style="display: none;">Referral Challenge</span>
                 </div>
 
+                <!-- Game Area -->
                 <div class="game-area-wrapper" id="snowContainer">
+                    
                     <div class="main-balance">
                         <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/coin.webp" alt="C">
                         <span id="displayBalance">0</span>
                     </div>
                     
+                    <!-- Floating Button - Left (Cases) -->
                     <div id="casesBtn" class="floating-action-btn left-btn" onclick="handleFloatingBtnClick('Cases')">
                         <i class="fas fa-box-open"></i>
                         <span class="btn-text">Cases</span>
                     </div>
                     
+                    <!-- Floating Button - Left (Auto Tap) -->
                     <div id="autoTapBtn" class="floating-action-btn left-btn" onclick="handleFloatingBtnClick('AutoTap')">
                         <i class="fas fa-hand-pointer"></i>
                         <span class="btn-text">Auto Tap</span>
                     </div>
 
+                    <!-- Floating Button - Right (Shop) -->
                     <div id="shopBtn" class="floating-action-btn right-btn" onclick="handleFloatingBtnClick('Shop')">
                         <i class="fas fa-shopping-cart"></i>
                         <span class="btn-text">Shop</span>
                     </div>
                     
+                    <!-- Floating Button - Right (Leaderboard) -->
                     <div id="leaderboardBtn" class="floating-action-btn right-btn" onclick="handleFloatingBtnClick('Leaderboard')">
                         <i class="fas fa-trophy"></i>
                         <span class="btn-text">Leaderboard</span>
                     </div>
                     
+                                
+                    <!-- Main Character -->
                     <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/snowman.webp" class="character-img" id="clickerBtn" alt="Snowman">
+                    
                 </div>
             </div>
 
+            <!-- TASK TAB -->
             <div id="task" class="tab-content">
                 <div style="text-align:center; padding-top: 10px; padding-bottom: 0;">
                     <h1 class="wallet-title">Daily<br>Tasks</h1>
                     <p style="color:rgba(227, 244, 249, 0.7); font-size: 1rem;">Complete tasks to earn coins.</p>
                 </div>
+
+                <!-- TASK BANNER -->
                 <div class="banner-placeholder" onclick="handleTaskBannerClick()">
                     <img id="taskBannerImage" src="" alt="Task Banner" style="display: none;">
                     <span id="taskBannerText">Task Page Ad Banner (1020x320 Area)</span>
                 </div>
+
+                <!-- Task List -->
                 <div id="taskList" class="task-list">
                     <div style="text-align:center; color:rgba(255,255,255,0.5); margin-top:20px;">Loading tasks...</div>
                 </div>
             </div>
 
+            <!-- FRIENDS TAB -->
             <div id="friends" class="tab-content">
-                <div style="text-align:center; padding-top: 10px; padding-bottom: 0; margin-top: 5vw;">
+                <div style="text-align:center; padding-top: 10px; padding-bottom: 0; margin-top: 5vw;"> 
                     <h1 class="wallet-title" style="font-size: 6.5vw; line-height: 1.2;"><span role="img" aria-label="gift">🎁</span> Invite Friends & Earn Forever!</h1>
                 </div>
-                <div class="banner-placeholder" onclick="handleFriendsBannerClick()" style="margin-top: 2vw; margin-bottom: 4vw;">
+                
+                <!-- FRIENDS BANNER -->
+                <div class="banner-placeholder" onclick="handleFriendsBannerClick()" style="margin-top: 2vw; margin-bottom: 4vw;"> 
                     <img id="friendsBannerImage" src="" alt="Friends Banner" style="display: none;">
                     <span id="friendsBannerText">Friends Page Ad Banner (1020x320 Area)</span>
                 </div>
+
                 <div style="background: var(--glass-bg); border: 1px solid rgba(0,229,255,0.2); border-radius: 3vw; padding: 3vw; margin: 2vw auto 4vw auto; width: 90%; text-align: left;">
                     <p style="font-size: 3.5vw; font-weight: 600; color: var(--accent-cyan);">
                         • Inviter gets 5% of friend's earnings
                     </p>
                 </div>
+
+                <!-- INVITE BUTTON GROUP -->
                 <div class="invite-container" style="margin-top: 0;">
+                    <!-- Invite Button Updated Style -->
                     <button class="btn-invite" onclick="inviteFriend()">
-                        <i class="fas fa-paper-plane"></i> Invite a Friend
+                        <i class="fas fa-paper-plane"></i>
+                        Invite a Friend
                     </button>
+
+                    <!-- Copy Button -->
                     <button class="btn-copy" id="copyLinkBtn" onclick="handleCopyClick(this)">
-                        <svg viewBox="0 0 24 24"><path d="M16 1H4C2.9 1 2 1.9 2 3V17H4V3H16V1ZM19 5H8C6.9 5 6 5.9 6 7V21C6 22.1 6.9 23 8 23H19C20.1 23 21 22.1 21 21V7C21 5.9 20.1 5 19 5ZM19 21H8V7H19V21Z"/></svg>
+                        <svg viewBox="0 0 24 24">
+                            <path d="M16 1H4C2.9 1 2 1.9 2 3V17H4V3H16V1ZM19 5H8C6.9 5 6 5.9 6 7V21C6 22.1 6.9 23 8 23H19C20.1 23 21 22.1 21 21V7C21 5.9 20.1 5 19 5ZM19 21H8V7H19V21Z"/>
+                        </svg>
                     </button>
                 </div>
+                
+                <!-- REFERRAL CHALLENGE SECTION -->
                 <div style="background: var(--glass-bg); border: 1px solid var(--accent-cyan); border-radius: 4vw; padding: 4vw; margin: 5vw 0 0 0; width: 100%; text-align: center;">
+                    
                     <h3 style="font-size: 4vw; color: var(--level-gold); border-bottom: 1px solid rgba(255,255,255,0.2); padding-bottom: 1.5vw; margin-bottom: 2vw; font-weight: 700;">Prize Pools</h3>
+                    
                     <div style="display: flex; justify-content: space-around; margin-bottom: 4vw;">
-                        <div style="text-align: center;"><div style="font-size: 4.5vw; font-weight: 800; color: #FFD700;">🥇 1st</div><div style="font-size: 5.5vw; font-weight: 800; color: #FFD700;">$50</div></div>
-                        <div style="text-align: center;"><div style="font-size: 4.5vw; font-weight: 800; color: #C0C0C0;">🥈 2nd</div><div style="font-size: 5.5vw; font-weight: 800; color: #C0C0C0;">$30</div></div>
-                        <div style="text-align: center;"><div style="font-size: 4.5vw; font-weight: 800; color: #CD7F32;">🥉 3rd</div><div style="font-size: 5.5vw; font-weight: 800; color: #CD7F32;">$20</div></div>
+                        <div style="text-align: center;">
+                            <div style="font-size: 4.5vw; font-weight: 800; color: #FFD700;">🥇 1st Place</div>
+                            <div style="font-size: 5.5vw; font-weight: 800; color: #FFD700;">💵 $50</div>
+                        </div>
+                        <div style="text-align: center;">
+                            <div style="font-size: 4.5vw; font-weight: 800; color: #C0C0C0;">🥈 2nd Place</div>
+                            <div style="font-size: 5.5vw; font-weight: 800; color: #C0C0C0;">💵 $30</div>
+                        </div>
+                        <div style="text-align: center;">
+                            <div style="font-size: 4.5vw; font-weight: 800; color: #CD7F32;">🥉 3rd Place</div>
+                            <div style="font-size: 5.5vw; font-weight: 800; color: #CD7F32;">💵 $20</div>
+                        </div>
                     </div>
+
                     <p style="font-size: 3vw; color: rgba(255,255,255,0.5); margin-top: 4vw; text-decoration: underline;">Terms & Conditions</p>
-                    <p style="font-size: 3.5vw; color: var(--accent-cyan); margin-top: 1vw; font-weight: 600;">Ending On: 25/01/2026</p>
+                    <p style="font-size: 3.5vw; color: var(--accent-cyan); margin-top: 1vw; font-weight: 600;">Ending On</p>
                 </div>
+
             </div>
 
+            <!-- WALLET TAB -->
             <div id="wallet" class="tab-content">
-                <div style="text-align:center; padding-top: 5px;">
+                <div style="text-align:center; padding-top: 5px;"> 
                     <h1 class="wallet-title">Get Real<br>Crypto.</h1>
                     <p style="color:rgba(227, 244, 249, 0.7); font-size: 1rem; margin-bottom: 0;">Earn and buy tokens.</p>
                 </div>
-                <div class="banner-placeholder" onclick="handleWalletBannerClick()" style="margin-top: 2vw; margin-bottom: 4vw;">
+                
+                <!-- WALLET BANNER -->
+                <div class="banner-placeholder" onclick="handleWalletBannerClick()" style="margin-top: 2vw; margin-bottom: 4vw;"> 
                     <img id="walletBannerImage" src="" alt="Wallet Banner" style="display: none;">
                     <span id="walletBannerText">Wallet Page Ad Banner (1020x320 Area)</span>
                 </div>
+                    
                 <div class="wallet-stats-grid">
-                    <div class="wallet-stat-box"><img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/coin.webp"><span class="wallet-stat-val" id="walletCoin">0</span><span class="wallet-stat-label">Coins</span></div>
-                    <div class="wallet-stat-box"><img src="https://static.vecteezy.com/system/resources/previews/024/093/454/non_2x/toncoin-ton-glass-crypto-coin-3d-illustration-free-png.png"><span class="wallet-stat-val" id="walletTon">0.0</span><span class="wallet-stat-label">TON</span></div>
+                    <div class="wallet-stat-box">
+                        <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/coin.webp" alt="Coin">
+                        <span class="wallet-stat-val" id="walletCoin">0</span>
+                        <span class="wallet-stat-label">Coins</span>
+                    </div>
+                    <div class="wallet-stat-box">
+                        <img src="https://static.vecteezy.com/system/resources/previews/024/093/454/non_2x/toncoin-ton-glass-crypto-coin-3d-illustration-free-png.png" alt="TON">
+                        <span class="wallet-stat-val" id="walletTon">0.0</span>
+                        <span class="wallet-stat-label">TON</span>
+                    </div>
                 </div>
+
+                <!-- Connect Button -->
                 <div class="button-group" style="margin-top: 10px;" id="connectBtnContainer">
                     <button class="btn connect-btn" id="connectWalletBtn" onclick="connectWallet()">
-                         <svg class="icon" viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2" ry="2"></rect><line x1="2" y1="10" x2="22" y2="10"></line></svg>
+                         <svg class="icon" viewBox="0 0 24 24">
+                            <rect x="2" y="5" width="20" height="14" rx="2" ry="2"></rect>
+                            <line x1="2" y1="10" x2="22" y2="10"></line>
+                        </svg>
                         <span class="btn-text">Connect Wallet</span>
                     </button>
                 </div>
+
+                <!-- Address Status -->
                 <div id="walletStatusBadge" style="display:none; margin-top:5px; background:rgba(255,255,255,0.1); padding:8px 15px; border-radius:20px; font-size:0.8rem; border:1px solid rgba(0,229,255,0.3);">
                     <span style="width:10px; height:10px; background:#00C853; border-radius:50%; display:inline-block; margin-right:5px;"></span>
                     <span id="walletAddressDisplay"></span>
                 </div>
+
                 <div class="exchange-btn" onclick="handleExchangeClick()">
-                    <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/exchange.webp" class="exchange-icon">
-                    <div class="exchange-text"><h3>Exchange Tokens!</h3><p>Convert your tokens into cryptocurrency.</p></div>
+                    <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/exchange.webp" class="exchange-icon" alt="Swap">
+                    <div class="exchange-text">
+                        <h3>Exchange Tokens!</h3>
+                        <p>Convert your tokens into cryptocurrency.</p>
+                    </div>
                 </div>
             </div>
         </div>
 
+        <!-- NAVIGATION -->
         <div class="nav-bar">
-            <div class="nav-item active" onclick="switchTab('home', this)"><img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/home.webp"><span>Home</span></div>
-            <div class="nav-item" onclick="switchTab('task', this)"><img src="https://img.icons8.com/3d-fluency/94/clipboard.png"><span>Task</span></div>
-            <div class="nav-item" onclick="switchTab('friends', this)"><i class="fas fa-users"></i><span>Friends</span></div>
-            <div class="nav-item" onclick="switchTab('wallet', this)"><img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/wallet.webp"><span>Wallet</span></div>
+            <div class="nav-item active" onclick="switchTab('home', this)">
+                <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/home.webp" alt="Home">
+                <span>Home</span>
+            </div>
+            
+            <div class="nav-item" onclick="switchTab('task', this)">
+                <img src="https://img.icons8.com/3d-fluency/94/clipboard.png" alt="Task">
+                <span>Task</span>
+            </div>
+
+            <div class="nav-item" onclick="switchTab('friends', this)">
+                <i class="fas fa-users" style="color: inherit;"></i>
+                <span>Friends</span>
+            </div>
+
+            <div class="nav-item" onclick="switchTab('wallet', this)">
+                <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/wallet.webp" alt="Wallet">
+                <span>Wallet</span>
+            </div>
         </div>
+
     </div>
 
     <script>
+        // --- FIREBASE CONFIGURATION ---
         const firebaseConfig = {
             apiKey: "AIzaSyC3Lef_4TPia7sJA0nEFC7Byc1xSyUxyA0",
             authDomain: "snowman-adventure-4fa71.firebaseapp.com",
@@ -1071,56 +1209,209 @@
             appId: "1:507867054186:web:12d024de606d00091b4a13",
             measurementId: "G-J550E6L22Z"
         };
-        if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
+        
+        if (!firebase.apps.length) {
+            firebase.initializeApp(firebaseConfig);
+        }
         const db = firebase.database();
 
-        let balance = 0, tonBalance = 0.0, tapCount = 0, level = 1, userId = "test_user_001"; 
-        let completedTasks = {}, boosterEndTime = 0, autotapEndTime = 0, noadsEndTime = 0, tapMultiplier = 1;
-        let appInviteBaseUrl = `https://t.me/snowmanadventurebot?startapp=`;
+        // --- GAME STATE VARIABLES ---
+        let balance = 0;
+        let tonBalance = 0.0;
+        let tapCount = 0; 
+        let level = 1;
+        let userId = "test_user_001"; 
+        let tapTimes = [];
+        let completedTasks = {}; 
+        let currentLeaderboardTab = 'coins'; 
+        
+        // Boosters/AutoTap
+        let boosterEndTime = 0; 
+        let autotapEndTime = 0; 
+        let noadsEndTime = 0;   
+        let tapMultiplier = 1;
 
-        const balanceDisplay = document.getElementById('displayBalance'), clickerBtn = document.getElementById('clickerBtn');
-        const headerName = document.getElementById('headerName'), headerAvatar = document.getElementById('headerAvatar');
-        const headerLevelBar = document.getElementById('headerLevelBar'), currentLevelHeader = document.getElementById('currentLevelHeader');
-        const levelNameHeader = document.getElementById('levelNameHeader'), headerCoin = document.getElementById('headerCoinBalance');
-        const headerTon = document.getElementById('headerTonBalance'), walletCoin = document.getElementById('walletCoin'), walletTon = document.getElementById('walletTon');
+        // Telegram Bot Config
+        const BOT_USERNAME_PLACEHOLDER = 'snowmanadventurebot';
+        let appInviteBaseUrl = `https://t.me/${BOT_USERNAME_PLACEHOLDER}?startapp=`;
 
-        const tonConnectUI = new TON_CONNECT_UI.TonConnectUI({ manifestUrl: 'https://alamin12071985-a11y.github.io/cine-link/tonconnect-manifest.json', buttonRootId: null });
-        tonConnectUI.onStatusChange(wallet => {
-            const btnContainer = document.getElementById('connectBtnContainer'), statusBadge = document.getElementById('walletStatusBadge'), addressDisplay = document.getElementById('walletAddressDisplay');
-            if(wallet) { btnContainer.style.display = "none"; statusBadge.style.display = "block"; addressDisplay.innerText = wallet.account.address.slice(0,4) + "..." + wallet.account.address.slice(-4); }
-            else { btnContainer.style.display = "flex"; statusBadge.style.display = "none"; }
+        // --- DOM ELEMENTS ---
+        const balanceDisplay = document.getElementById('displayBalance');
+        const clickerBtn = document.getElementById('clickerBtn');
+        const headerName = document.getElementById('headerName');
+        const headerAvatar = document.getElementById('headerAvatar');
+        const headerLevelBar = document.getElementById('headerLevelBar');
+        const currentLevelHeader = document.getElementById('currentLevelHeader');
+        const levelNameHeader = document.getElementById('levelNameHeader');
+        const headerCoin = document.getElementById('headerCoinBalance');
+        const headerTon = document.getElementById('headerTonBalance');
+        const walletCoin = document.getElementById('walletCoin');
+        const walletTon = document.getElementById('walletTon');
+
+        // --- TON CONNECT INITIALIZATION ---
+        const tonConnectUI = new TON_CONNECT_UI.TonConnectUI({
+            manifestUrl: 'https://alamin12071985-a11y.github.io/cine-link/tonconnect-manifest.json',
+            buttonRootId: null 
         });
 
-        async function connectWallet() { try { if(!tonConnectUI.connected) await tonConnectUI.openModal(); } catch(e) { console.error(e); } }
-        function formatTime(s) { const d = Math.floor(s / 86400), h = Math.floor(s % 86400 / 3600), m = Math.floor(s % 3600 / 60); return d > 0 ? `${d}d ${h}h` : h > 0 ? `${h}h ${m}m` : `${m}m ${s % 60}s`; }
+        tonConnectUI.onStatusChange(wallet => {
+            const btnContainer = document.getElementById('connectBtnContainer');
+            const statusBadge = document.getElementById('walletStatusBadge');
+            const addressDisplay = document.getElementById('walletAddressDisplay');
 
+            if(wallet) {
+                btnContainer.style.display = "none";
+                statusBadge.style.display = "block";
+                const rawAddress = wallet.account.address;
+                const shortAddress = rawAddress.slice(0,4) + "..." + rawAddress.slice(-4);
+                addressDisplay.innerText = shortAddress;
+            } else {
+                btnContainer.style.display = "flex";
+                statusBadge.style.display = "none";
+            }
+        });
+
+        async function connectWallet() {
+            try {
+                if(!tonConnectUI.connected) {
+                    await tonConnectUI.openModal();
+                }
+            } catch(e) {
+                console.error(e);
+            }
+        }
+
+        async function checkAdBlocker() {
+            // Placeholder
+        }
+        
+        // --- UTILITY: FORMAT TIME ---
+        function formatTime(seconds) {
+            const d = Math.floor(seconds / (3600*24));
+            const h = Math.floor(seconds % (3600*24) / 3600);
+            const m = Math.floor(seconds % 3600 / 60);
+            const s = Math.floor(seconds % 60);
+            
+            if (d > 0) return `${d}d ${h}h`;
+            if (h > 0) return `${h}h ${m}m`;
+            return `${m}m ${s}s`;
+        }
+
+        // --- LOADING & INIT ---
         window.addEventListener('load', () => {
-            let loadPercent = 0; const bar = document.getElementById('loadingFill'), percentText = document.getElementById('loadingPercent'), screen = document.getElementById('loading-screen');
+            let loadPercent = 0;
+            const bar = document.getElementById('loadingFill');
+            const percentText = document.getElementById('loadingPercent');
+            const screen = document.getElementById('loading-screen');
+            
             const interval = setInterval(() => {
-                loadPercent += Math.floor(Math.random() * 5) + 1; if(loadPercent > 100) loadPercent = 100;
-                bar.style.width = loadPercent + '%'; percentText.innerText = loadPercent + '%';
-                if(loadPercent >= 100) { clearInterval(interval); setTimeout(() => { screen.style.opacity = '0'; setTimeout(() => screen.style.display = 'none', 500); }, 500); }
+                loadPercent += Math.floor(Math.random() * 5) + 1;
+                if(loadPercent > 100) loadPercent = 100;
+                
+                bar.style.width = loadPercent + '%';
+                percentText.innerText = loadPercent + '%';
+
+                if(loadPercent >= 100) {
+                    clearInterval(interval);
+                    setTimeout(() => {
+                        screen.style.opacity = '0';
+                        setTimeout(() => {
+                            screen.style.display = 'none';
+                            checkAdBlocker();
+                        }, 500);
+                    }, 500);
+                }
             }, 50);
         });
 
-        function init() { initTelegramUser(); startSnowfall(); loadUserData(); startAutoTapLoop(); setInterval(saveUserData, 5000); }
-        function initTelegramUser() { try { const tg = window.Telegram.WebApp; tg.expand(); const user = tg.initDataUnsafe.user; if (user) { userId = user.id.toString(); headerName.innerText = user.username || user.first_name; headerAvatar.src = user.photo_url || headerAvatar.src; } } catch (e) {} }
-        function saveUserData() { if(userId) db.ref('users/' + userId).update({ balance, tonBalance, tapCount, level, username: headerName.innerText, avatar: headerAvatar.src, boosterEndTime, autotapEndTime, noadsEndTime, lastActive: Date.now() }); }
+        function init() {
+            initTelegramUser(); 
+            startSnowfall();
+            loadUserData();
+            startAutoTapLoop(); 
+            setInterval(saveUserData, 5000);
+            loadBanners();
+        }
+        
+        function loadBanners() {
+            // Placeholder for admin panel banners
+        }
+
+        function initTelegramUser() {
+            try {
+                const tg = window.Telegram.WebApp;
+                tg.expand(); 
+                const user = tg.initDataUnsafe.user;
+                if (user) {
+                    userId = user.id.toString(); 
+                    if (user.username) headerName.innerText = user.username;
+                    else if (user.first_name) headerName.innerText = user.first_name;
+                    if (user.photo_url) headerAvatar.src = user.photo_url;
+                }
+            } catch (e) {
+                console.log("Not running in Telegram");
+            }
+        }
+
+        function saveUserData() {
+            if(!userId) return;
+            db.ref('users/' + userId).update({
+                balance: balance,
+                tonBalance: tonBalance,
+                tapCount: tapCount,
+                level: level,
+                username: headerName.innerText, 
+                avatar: headerAvatar.src,       
+                lastActive: Date.now()
+            });
+        }
+
         function loadUserData() {
             if(!userId) return;
-            db.ref('users/' + userId).once('value').then((snap) => {
-                const data = snap.val(); if (data) { balance = data.balance || 0; tonBalance = data.tonBalance || 0; tapCount = data.tapCount || 0; level = data.level || 1; completedTasks = data.completedTasks || {}; boosterEndTime = data.boosterEndTime || 0; autotapEndTime = data.autotapEndTime || 0; noadsEndTime = data.noadsEndTime || 0; }
-                updateUI(); loadTasksFromDB();
+            db.ref('users/' + userId).once('value').then((snapshot) => {
+                const data = snapshot.val();
+                if (data) {
+                    balance = data.balance || 0;
+                    tonBalance = data.tonBalance || 0.0;
+                    tapCount = data.tapCount || 0;
+                    level = data.level || 1;
+                    completedTasks = data.completedTasks || {};
+                    
+                    boosterEndTime = data.boosterEndTime || 0;
+                    autotapEndTime = data.autotapEndTime || 0;
+                    noadsEndTime = data.noadsEndTime || 0;
+
+                    updateUI();
+                    loadTasksFromDB(); 
+                } else {
+                    updateUI();
+                    loadTasksFromDB();
+                }
             });
         }
 
         function startSnowfall() {
             const container = document.getElementById('snowContainer');
+            const styleSheet = document.createElement("style");
+            styleSheet.innerText += `@keyframes fall { 0% { transform: translateY(-10px); opacity: 0.8; } 100% { transform: translateY(300px); opacity: 0; } }`;
+            document.head.appendChild(styleSheet);
+
             setInterval(() => {
                 const flake = document.createElement('div');
-                flake.style.cssText = `position:absolute; background:white; border-radius:50%; opacity:0.8; pointer-events:none; animation:fall ${Math.random()*3+3}s linear infinite; width:${Math.random()*4+2}px; height:${Math.random()*4+2}px; left:${Math.random()*90+5}%;`;
-                container.appendChild(flake); setTimeout(() => flake.remove(), 5000);
-            }, 600);
+                flake.style.position = 'absolute';
+                flake.style.background = 'white';
+                flake.style.borderRadius = '50%';
+                flake.style.opacity = '0.8';
+                flake.style.pointerEvents = 'none';
+                flake.style.animation = 'fall linear infinite';
+                const size = Math.random() * 4 + 2 + 'px';
+                flake.style.width = size;
+                flake.style.height = size;
+                flake.style.left = Math.random() * 90 + 5 + '%';
+                flake.style.animationDuration = Math.random() * 3 + 3 + 's';
+                container.appendChild(flake);
+                setTimeout(() => { flake.remove(); }, 5000);
+            }, 600); 
         }
 
         function updateUI() {
@@ -1130,128 +1421,579 @@
             walletCoin.innerText = Math.floor(balance).toLocaleString();
             walletTon.innerText = parseFloat(tonBalance).toFixed(4);
 
-            let next = 4000 + ((level - 1) * 8000), prev = level === 1 ? 0 : (4000 + ((level - 2) * 8000));
-            let perc = ((balance - prev) / (next - prev)) * 100;
-            if (perc >= 100 && level < 100) { level++; perc = 0; showLevelUpPopup(level); }
-            levelNameHeader.innerText = "LVL " + level; currentLevelHeader.innerText = level; headerLevelBar.style.width = `${Math.min(perc, 100)}%`;
+            let nextLevelThreshold = 4000 + ((level - 1) * 8000);
+            let prevLevelThreshold = level === 1 ? 0 : (4000 + ((level - 2) * 8000));
             
-            const now = Date.now(); let status = []; tapMultiplier = 1;
-            if (now < boosterEndTime) { tapMultiplier = 2; status.push(`⚡ Booster: ${formatTime((boosterEndTime-now)/1000)}`); }
-            if (now < autotapEndTime) status.push(`🤖 Auto Tap: ${formatTime((autotapEndTime-now)/1000)}`);
-            if (now < noadsEndTime) status.push(`🚫 No Ads: ${formatTime((noadsEndTime-now)/1000)}`);
-            if (status.length > 0) showToast(`Active: ${status.join(' | ')}`, 60000); else hideToast();
+            let progress = balance - prevLevelThreshold;
+            let range = nextLevelThreshold - prevLevelThreshold;
+            let percentage = (progress / range) * 100;
+
+            if (percentage >= 100 && level < 100) {
+                level++;
+                percentage = 0;
+                showLevelUpPopup(level);
+            }
+
+            levelNameHeader.innerText = "LVL " + level;
+            currentLevelHeader.innerText = level;
+            headerLevelBar.style.width = `${Math.min(percentage, 100)}%`;
+            
+            const now = Date.now();
+            let statusMessage = [];
+            tapMultiplier = 1;
+
+            if (now < boosterEndTime) {
+                tapMultiplier = 2; 
+                const remaining = Math.ceil((boosterEndTime - now) / 1000);
+                statusMessage.push(`⚡ Booster: ${formatTime(remaining)}`);
+            }
+
+            if (now < autotapEndTime) {
+                const remaining = Math.ceil((autotapEndTime - now) / 1000);
+                statusMessage.push(`🤖 Auto Tap: ${formatTime(remaining)}`);
+            }
+            
+            if (now < noadsEndTime) {
+                const remaining = Math.ceil((noadsEndTime - now) / 1000);
+                statusMessage.push(`🚫 No Ads: ${formatTime(remaining)}`);
+            }
+
+            if (statusMessage.length > 0) {
+                showToast(`Active: ${statusMessage.join(' | ')}`, 60000); 
+            } else {
+                hideToast(); 
+            }
         }
+        
+        // --- SHOP DATA & FUNCTIONS ---
+        const starShopItems = [
+            // Coin Packs
+            { id: 'coin_starter', title: 'Starter Pack', stars: 10, reward: '5,000 Snow Coins', description: 'Instantly add coins to your balance.', icon: 'fa-snowflake', type: 'coin' },
+            { id: 'coin_small', title: 'Small Pack', stars: 20, reward: '10,000 Snow Coins', description: 'Instantly add coins to your balance.', icon: 'fa-snowflake', type: 'coin' },
+            { id: 'coin_medium', title: 'Medium Pack', stars: 60, reward: '40,000 Snow Coins', description: 'Instantly add coins to your balance.', icon: 'fa-snowflake', type: 'coin' },
+            { id: 'coin_large', title: 'Large Pack', stars: 120, reward: '100,000 Snow Coins', description: 'Instantly add coins to your balance.', icon: 'fa-snowflake', type: 'coin' },
+            { id: 'coin_mega', title: 'Mega Pack', stars: 220, reward: '220,000 Snow Coins', description: 'Instantly add coins to your balance.', icon: 'fa-snowflake', type: 'coin' },
+            // Boosters (Tap Multiplier)
+            { id: 'booster_3d', title: '3 Days Booster', stars: 20, reward: '⚡ x2 Tap Power', description: 'Doubles your tap power for 3 days.', icon: 'fa-bolt', type: 'booster' },
+            { id: 'booster_15d', title: '15 Days Booster', stars: 70, reward: '⚡ x2 Tap Power', description: 'Doubles your tap power for 15 days.', icon: 'fa-bolt', type: 'booster' },
+            { id: 'booster_30d', title: '30 Days Booster', stars: 120, reward: '⚡ x2 Tap Power', description: 'Doubles your tap power for 30 days.', icon: 'fa-bolt', type: 'booster' },
+            // Auto Tap
+            { id: 'autotap_1d', title: 'Auto Tap (1 Day)', stars: 20, reward: '🤖 Automatic Tapping', description: 'Enable background tapping for 1 day.', icon: 'fa-robot', type: 'autotap' },
+            { id: 'autotap_7d', title: 'Auto Tap (7 Days)', stars: 80, reward: '🤖 Automatic Tapping', description: 'Enable background tapping for 7 days.', icon: 'fa-robot', type: 'autotap' },
+            { id: 'autotap_30d', title: 'Auto Tap (30 Days)', stars: 200, reward: '🤖 Automatic Tapping', description: 'Enable background tapping for 30 days.', icon: 'fa-robot', type: 'autotap' },
+            // No Ads
+            { id: 'noads_1d', title: 'No Ads (1 Day)', stars: 15, reward: '🚫 Ad-Free Experience', description: 'Removes all ads for 1 day.', icon: 'fa-ban', type: 'noads' },
+            { id: 'noads_15d', title: 'No Ads (15 Days)', stars: 60, reward: '🚫 Ad-Free Experience', description: 'Removes all ads for 15 days.', icon: 'fa-ban', type: 'noads' },
+            { id: 'noads_30d', title: 'No Ads (30 Days)', stars: 100, reward: '🚫 Ad-Free Experience', description: 'Removes all ads for 30 days.', icon: 'fa-ban', type: 'noads' },
+            // Cosmetics
+            { id: 'skin_rare', title: 'Rare Skin', stars: 30, reward: '✨ Unlock Skin', description: 'Unlocks a rare snowman cosmetic.', icon: 'fa-hat-wizard', type: 'skin' },
+            { id: 'skin_epic', title: 'Epic Skin', stars: 60, reward: '✨ Unlock Skin', description: 'Unlocks an epic snowman cosmetic.', icon: 'fa-hat-wizard', type: 'skin' },
+            { id: 'skin_legendary', title: 'Legendary Skin', stars: 90, reward: '✨ Unlock Skin', description: 'Unlocks a legendary snowman cosmetic.', icon: 'fa-hat-wizard', type: 'skin' },
+        ];
 
         function openShop() {
-            let html = `<h2 style="font-size:6vw; color:var(--accent-cyan); text-align:center; margin-bottom:4vw;">Stars Shop</h2>`;
-            const items = [
-                { id: 'coin_starter', title: 'Starter Pack', stars: 10, reward: '5,000 Coins', icon: 'fa-snowflake' },
-                { id: 'booster_3d', title: '3 Days Booster', stars: 20, reward: '⚡ x2 Tap Power', icon: 'fa-bolt' },
-                { id: 'autotap_1d', title: 'Auto Tap (1 Day)', stars: 20, reward: '🤖 Auto Tapping', icon: 'fa-robot' }
-            ];
-            html += items.map(item => `
-                <div class="task-card" onclick="initiateStarPurchase('${item.id}', ${item.stars})">
-                    <i class="fas ${item.icon}" style="font-size:8vw; color:var(--accent-cyan);"></i>
-                    <div class="task-info"><div class="task-title">${item.title}</div><div class="task-reward"><i class="fas fa-star"></i> ${item.stars} Stars</div></div>
-                    <button class="task-btn">BUY</button>
-                </div>
-            `).join('');
-            html += `<button class="popup-btn" onclick="closeGlassPopup()" style="background:var(--btn-blue-grad); color:white; width:100%; margin-top:5vw;">Close</button>`;
+            const groups = {
+                'coin': { title: '🪙 Snow Coin Packs', items: [] },
+                'booster': { title: '⚡ Boosters (Tap Multiplier)', items: [] },
+                'autotap': { title: '🤖 Auto Tap', items: [] },
+                'noads': { title: '🚫 No Ads', items: [] },
+                'skin': { title: '🎨 Cosmetics (Skins)', items: [] },
+            };
+
+            starShopItems.forEach(item => {
+                if (groups[item.type]) {
+                    groups[item.type].items.push(item);
+                }
+            });
+
+            let html = `<h2 style="font-size: 6vw; color: var(--accent-cyan); margin-bottom: 4vw; font-weight: 800; text-align: center;">Stars Shop</h2>`;
+
+            for (const type in groups) {
+                if (groups[type].items.length > 0) {
+                    html += `<h3 style="font-size: 4.5vw; color: var(--level-gold); margin: 5vw 0 2vw 0; font-weight: 700; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 1vw;">${groups[type].title}</h3>`;
+                    html += groups[type].items.map(item => `
+                        <div class="task-card shop-item" onclick="initiateStarPurchase('${item.id}', ${item.stars})">
+                            <i class="fas ${item.icon}" style="font-size: 8vw; color: var(--accent-cyan); width: 12vw; text-align: center; background: rgba(0,0,0,0.3); padding: 2vw; border-radius: 3vw;"></i>
+                            <div class="task-info">
+                                <div class="task-title">${item.title}</div>
+                                <div class="task-reward" style="color: #FFD700; font-size: 3.5vw; font-weight: 800;">
+                                    <i class="fas fa-star" style="font-size: 4vw; color: #FFD700; margin-right: 1.5vw;"></i>
+                                    ${item.stars.toLocaleString()} Stars
+                                </div>
+                                <p style="font-size: 2.8vw; color: rgba(255,255,255,0.7); margin-top: 0.5vw;">${item.reward}</p>
+                            </div>
+                            <button class="task-btn" style="min-width: 25vw; background: linear-gradient(180deg, #FFD700 0%, #FFA000 100%); color: #3E2723;">BUY</button>
+                        </div>
+                    `).join('');
+                }
+            }
+
+            html += `<button class="popup-btn" onclick="closeGlassPopup()" style="background: linear-gradient(90deg, #60ccfd, #4a92ff); color: white; width: 100%; margin-top: 5vw;">Close Shop</button>`;
+
             showGlassPopup(html);
         }
 
+        // --- SHOP BACKEND CALL ---
         function initiateStarPurchase(itemId, stars) {
-            if (!userId || userId === 'test_user_001') { showToast("Use Telegram!"); return; }
-            closeGlassPopup(); showToast(`Preparing purchase...`);
-            fetch(`https://snowmanadventure.onrender.com/create_invoice`, {
-                method: 'POST', headers: { 'Content-Type': 'application/json' },
+            // NOTE: You must deploy backend.py to a real server (e.g. Render/Vercel) and put URL here.
+            // Using localhost won't work in Telegram WebApp.
+            const BACKEND_URL = "https://snowmanadventure.onrender.com"; 
+
+            if (!userId || userId === 'test_user_001') {
+                showToast("Open in Telegram to buy!");
+                return;
+            }
+
+            closeGlassPopup();
+            showToast(`Loading payment...`);
+
+            fetch(`${BACKEND_URL}/create_invoice`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ item_id: itemId, user_id: userId })
-            }).then(r => r.json()).then(data => {
-                if (data.ok) window.Telegram.WebApp.openInvoice(data.invoice_url, (s) => { if(s==='paid') { showToast("Success!"); loadUserData(); } });
-                else showToast("Error creating invoice");
-            }).catch(() => showToast("Backend failed!"));
+            })
+            .then(response => {
+                if (!response.ok) throw new Error("Backend Error");
+                return response.json();
+            })
+            .then(data => {
+                // Telegram API returns the link in 'result'
+                if (data.result) {
+                    window.Telegram.WebApp.openInvoice(data.result, (status) => {
+                        if (status === 'paid') {
+                            showToast("Purchase successful!");
+                            loadUserData(); 
+                        } else {
+                            showToast("Payment cancelled.");
+                        }
+                        openShop();
+                    });
+                } else {
+                    console.error("Invoice Error:", data);
+                    showToast("Failed to create invoice.");
+                    openShop();
+                }
+            })
+            .catch(error => {
+                console.error('Purchase error:', error);
+                showToast("Server connection failed!");
+                openShop();
+            });
         }
 
-        function showGlassPopup(h) { const p = document.getElementById('glassPopup'); document.getElementById('popupContent').innerHTML = h; p.classList.add('active'); }
-        function closeGlassPopup() { document.getElementById('glassPopup').classList.remove('active'); }
-        function showLevelUpPopup(l) { showGlassPopup(`<div style="color:white; text-align:center;"><h2>Level Up!</h2><p>You are now LVL ${l}</p><button class="popup-btn" onclick="closeGlassPopup()" style="background:var(--btn-blue-grad); color:white; width:100%;">Cool!</button></div>`); }
-
-        function showToast(m, d = 3000) {
-            const t = document.getElementById('toastNotification'); document.getElementById('toastMessage').innerText = m;
-            t.classList.add('show'); if (t.timeoutId) clearTimeout(t.timeoutId); t.timeoutId = setTimeout(() => t.classList.remove('show'), d);
+        function showGlassPopup(contentHTML) {
+            const popup = document.getElementById('glassPopup');
+            const content = document.getElementById('popupContent');
+            content.innerHTML = contentHTML;
+            popup.classList.add('active');
         }
-        function hideToast() { document.getElementById('toastNotification').classList.remove('show'); }
 
-        function handleTap(e) {
-            e.preventDefault(); const val = level * tapMultiplier; balance += val; tapCount++; updateUI();
-            if (navigator.vibrate) navigator.vibrate(50);
-            let x = e.clientX, y = e.clientY;
-            if(e.touches) { x = e.touches[0].clientX; y = e.touches[0].clientY; }
-            const f = document.createElement('div'); f.className = 'floating-score'; f.innerText = `+${val}`; f.style.left = `${x}px`; f.style.top = `${y}px`;
-            document.body.appendChild(f); setTimeout(() => f.remove(), 800);
+        function closeGlassPopup() {
+            document.getElementById('glassPopup').classList.remove('active');
+        }
+
+        function showLevelUpPopup(newLevel) {
+            const html = `
+                <div class="popup-title" style="font-size:5vw; font-weight:700; color:var(--accent-cyan); margin-bottom:2vw;">Congratulations!</div>
+                <div style="color: white; font-weight: 500; margin-bottom: 5vw; font-size:3.5vw;">You reached LVL ${newLevel}</div>
+                <button class="popup-btn" onclick="closeGlassPopup()" style="background: linear-gradient(90deg, #00E5FF, #4a92ff); color: white;">Awesome!</button>
+            `;
+            showGlassPopup(html);
+        }
+
+        // MODIFIED: Added optional duration and color logic
+        function showToast(message, duration = 3000) {
+            const toast = document.getElementById('toastNotification');
+            const msgEl = document.getElementById('toastMessage');
+            const iconEl = document.querySelector('#toastNotification .toast-icon');
+            
+            // Icon Background Colors
+            if (message.includes('Active:')) {
+                iconEl.innerHTML = '<i class="fas fa-info-circle"></i>';
+                iconEl.style.backgroundColor = 'rgba(33, 150, 243, 0.3)'; 
+            } else if (message.includes('successful') || message.includes('Completed')) {
+                iconEl.innerHTML = '<i class="fas fa-check"></i>';
+                iconEl.style.backgroundColor = 'rgba(76, 175, 80, 0.3)';
+            } else if (message.includes('failed') || message.includes('error')) {
+                iconEl.innerHTML = '<i class="fas fa-exclamation-triangle"></i>';
+                iconEl.style.backgroundColor = 'rgba(255, 152, 0, 0.3)';
+            } else {
+                iconEl.innerHTML = '<i class="fas fa-bell"></i>';
+                iconEl.style.backgroundColor = 'rgba(255, 255, 255, 0.1)';
+            }
+
+            msgEl.innerText = message;
+            toast.classList.add('show');
+            
+            if (toast.timeoutId) clearTimeout(toast.timeoutId);
+            toast.timeoutId = setTimeout(() => { toast.classList.remove('show'); }, duration);
+        }
+
+        function hideToast() {
+            document.getElementById('toastNotification').classList.remove('show');
+        }
+
+        // --- UPDATED: ANTI-CHEAT REMOVED ---
+        function checkTapSpeed() {
+            // Anti-cheat disabled as requested
+            return false;
+        }
+
+        function handleExchangeClick() {
+            showToast("Exchange Tokens feature is coming soon!");
         }
 
         clickerBtn.addEventListener('touchstart', handleTap, {passive: false});
         clickerBtn.addEventListener('click', handleTap);
 
-        function startAutoTapLoop() { setInterval(() => { if (Date.now() < autotapEndTime) { balance += (level * tapMultiplier); updateUI(); } }, 1000); }
-
-        function switchTab(id, nav) {
-            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active')); document.getElementById(id).classList.add('active');
-            if(nav) { document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active')); nav.classList.add('active'); }
-            if(id === 'home') document.body.classList.add('home-active'); else document.body.classList.remove('home-active');
-            document.getElementById('mainHeader').style.display = (id === 'home' ? 'flex' : 'none');
+        function handleTap(e) {
+            e.preventDefault();
+            // checkTapSpeed call removed/ignored
+            
+            const coinsPerTap = level * tapMultiplier; 
+            balance += coinsPerTap;
+            tapCount++; 
+            updateUI(); 
+            
+            if (navigator.vibrate) navigator.vibrate(50);
+            
+            let clientX = e.clientX;
+            let clientY = e.clientY;
+            if(e.touches && e.touches.length > 0) {
+                clientX = e.touches[0].clientX;
+                clientY = e.touches[0].clientY;
+            }
+            if (!clientX) {
+                const rect = e.target.getBoundingClientRect();
+                clientX = rect.left + rect.width / 2;
+                clientY = rect.top + rect.height / 2;
+            }
+            showFloatingText(clientX, clientY, `+${coinsPerTap}`);
+        }
+        
+        // Auto Tap Loop
+        function startAutoTapLoop() {
+            setInterval(() => {
+                const now = Date.now();
+                if (now < autotapEndTime) {
+                    const autoCoins = level * tapMultiplier; 
+                    balance += autoCoins;
+                    updateUI(); 
+                }
+            }, 1000); 
         }
 
-        function handleFloatingBtnClick(b) {
-            if(b === 'Leaderboard') openLeaderboard();
-            else if(b === 'Shop') openShop();
-            else showToast(b + " coming soon!");
+        function showFloatingText(x, y, text) {
+            const floatEl = document.createElement('div');
+            floatEl.className = 'floating-score';
+            floatEl.innerText = text;
+            floatEl.style.left = `${x}px`;
+            floatEl.style.top = `${y}px`;
+            document.body.appendChild(floatEl);
+            setTimeout(() => floatEl.remove(), 800);
         }
 
-        function openLeaderboard() { document.getElementById('leaderboardOverlay').classList.add('active'); fetchLeaderboardData(); }
-        function closeLeaderboard() { document.getElementById('leaderboardOverlay').classList.remove('active'); }
-        function switchLeaderboardTab(t) { document.querySelectorAll('.lb-tab').forEach(el => el.classList.remove('active')); document.getElementById('tab-'+t).classList.add('active'); fetchLeaderboardData(t); }
+        function switchTab(tabId, navElement) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+            document.getElementById(tabId).classList.add('active');
+            
+            if(navElement) {
+                document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+                navElement.classList.add('active');
+            } else {
+                const targetNavIndex = (tabId === 'home' ? 1 : tabId === 'task' ? 2 : tabId === 'friends' ? 3 : 4);
+                document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+                document.querySelector(`.nav-item:nth-child(${targetNavIndex})`).classList.add('active');
+            }
 
-        function fetchLeaderboardData(type = 'coins') {
-            const list = document.getElementById('leaderboardList'), pod = document.getElementById('podiumContainer');
-            list.innerHTML = ''; pod.innerHTML = 'Loading...';
-            db.ref('users').orderByChild(type === 'star' ? 'level' : 'balance').limitToLast(20).once('value').then(snap => {
-                let users = []; snap.forEach(c => { let u = c.val(); u.key = c.key; users.push(u); }); users.reverse();
-                pod.innerHTML = ''; 
-                users.forEach((u, i) => {
-                    const el = document.createElement('div'); el.className = 'lb-item';
-                    el.innerHTML = `<div class="lb-rank">${i+1}</div><img src="${u.avatar || ''}" class="lb-avatar"><div class="lb-info"><div class="lb-name">${u.username}</div><div class="lb-score">${type==='star'?u.level:u.balance}</div></div>`;
-                    list.appendChild(el);
+            if(tabId === 'home') {
+                document.body.classList.add('home-active');
+                document.getElementById('mainHeader').style.display = 'flex';
+            } else {
+                document.body.classList.remove('home-active');
+                document.getElementById('mainHeader').style.display = 'none';
+            }
+        }
+
+        function handleTaskBannerClick() { showToast("Task Banner Clicked!"); }
+        function handleWalletBannerClick() { showToast("Wallet Banner Clicked!"); }
+        function handleFriendsBannerClick() { showToast("Friends Banner Clicked!"); }
+        
+        function openCasesGame() {
+            showToast("Cases Game is currently unavailable. Check back soon!");
+        }
+        
+        function activateAutoTap() {
+            showToast("Auto Tap is purchased via the Shop!");
+            openShop();
+        }
+
+        function handleFloatingBtnClick(buttonName) {
+            if (buttonName === 'Leaderboard') {
+                openLeaderboard();
+                return;
+            }
+            if(buttonName === 'Cases') {
+                openCasesGame();
+                return;
+            }
+            if(buttonName === 'Shop') {
+                openShop(); 
+                return;
+            }
+            if(buttonName === 'AutoTap') {
+                activateAutoTap();
+                return;
+            }
+        }
+
+        // --- LEADERBOARD LOGIC ---
+        function openLeaderboard() {
+            document.getElementById('leaderboardOverlay').classList.add('active');
+            fetchLeaderboardData(); 
+        }
+
+        function closeLeaderboard() {
+            document.getElementById('leaderboardOverlay').classList.remove('active');
+        }
+
+        function switchLeaderboardTab(type) {
+            currentLeaderboardTab = type;
+            document.querySelectorAll('.lb-tab').forEach(t => t.classList.remove('active'));
+            document.getElementById('tab-' + type).classList.add('active');
+            fetchLeaderboardData(); 
+        }
+
+        function fetchLeaderboardData() {
+            const podiumContainer = document.getElementById('podiumContainer');
+            const listContainer = document.getElementById('leaderboardList');
+            const myRankBar = document.getElementById('myRankBar');
+            
+            podiumContainer.innerHTML = '<div style="color:white;width:100%;text-align:center;">Loading...</div>';
+            listContainer.innerHTML = '';
+
+            let sortField = 'balance'; 
+            if(currentLeaderboardTab === 'star') sortField = 'level';
+            
+            db.ref('users').orderByChild(sortField).limitToLast(100).once('value').then(snapshot => {
+                let users = [];
+                snapshot.forEach(child => {
+                    let u = child.val();
+                    u.key = child.key;
+                    if(!u.username) u.username = "Unknown";
+                    if(!u.avatar) u.avatar = "https://alamin12071985-a11y.github.io/Snowman-Adventure/snowman.webp";
+                    if(!u.balance) u.balance = 0;
+                    if(!u.level) u.level = 1;
+                    users.push(u);
                 });
+
+                users.reverse();
+                renderLeaderboard(users);
+
+            }).catch(err => {
+                console.error(err);
+                podiumContainer.innerHTML = '<div style="color:white">Failed to load</div>';
             });
         }
 
+        function renderLeaderboard(users) {
+            const podiumContainer = document.getElementById('podiumContainer');
+            const listContainer = document.getElementById('leaderboardList');
+            const myRankBar = document.getElementById('myRankBar');
+
+            podiumContainer.innerHTML = '';
+            listContainer.innerHTML = '';
+
+            const top3 = [users[0], users[1], users[2]]; 
+            
+            // 2nd Place (Left)
+            if(top3[1]) {
+                const u = top3[1];
+                let displayScore = currentLeaderboardTab === 'star' ? `Lvl ${u.level}` : u.balance.toLocaleString();
+                podiumContainer.innerHTML += `
+                    <div class="podium-item rank-2">
+                        <div class="podium-avatar-wrapper">
+                            <img src="${u.avatar}" class="podium-avatar">
+                            <div class="podium-rank-badge">2</div>
+                        </div>
+                        <div class="podium-base">
+                            <div class="podium-name">${u.username}</div>
+                            <div class="podium-score">${displayScore}</div>
+                        </div>
+                    </div>
+                `;
+            }
+
+            // 1st Place (Center)
+            if(top3[0]) {
+                const u = top3[0];
+                let displayScore = currentLeaderboardTab === 'star' ? `Lvl ${u.level}` : u.balance.toLocaleString();
+                podiumContainer.innerHTML += `
+                    <div class="podium-item rank-1">
+                        <div class="podium-avatar-wrapper">
+                            <img src="${u.avatar}" class="podium-avatar">
+                            <div class="podium-rank-badge">1</div>
+                        </div>
+                        <div class="podium-base">
+                            <div class="podium-name">${u.username}</div>
+                            <div class="podium-score">${displayScore}</div>
+                        </div>
+                    </div>
+                `;
+            }
+
+            // 3rd Place (Right)
+            if(top3[2]) {
+                const u = top3[2];
+                let displayScore = currentLeaderboardTab === 'star' ? `Lvl ${u.level}` : u.balance.toLocaleString();
+                podiumContainer.innerHTML += `
+                    <div class="podium-item rank-3">
+                        <div class="podium-avatar-wrapper">
+                            <img src="${u.avatar}" class="podium-avatar">
+                            <div class="podium-rank-badge">3</div>
+                        </div>
+                        <div class="podium-base">
+                            <div class="podium-name">${u.username}</div>
+                            <div class="podium-score">${displayScore}</div>
+                        </div>
+                    </div>
+                `;
+            }
+
+            // --- RENDER LIST (4+) ---
+            for(let i = 3; i < users.length; i++) {
+                const u = users[i];
+                let displayScore = currentLeaderboardTab === 'star' ? `Lvl ${u.level}` : u.balance.toLocaleString();
+                const item = document.createElement('div');
+                item.className = 'lb-item';
+                item.innerHTML = `
+                    <div class="lb-rank">${i+1}</div>
+                    <img src="${u.avatar}" class="lb-avatar">
+                    <div class="lb-info">
+                        <div class="lb-name">${u.username}</div>
+                        <div class="lb-score">
+                            ${currentLeaderboardTab !== 'star' ? '<img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/coin.webp">' : ''}
+                            ${displayScore}
+                        </div>
+                    </div>
+                `;
+                listContainer.appendChild(item);
+            }
+
+            // --- FIND ME ---
+            const myIndex = users.findIndex(u => u.key === userId);
+            if(myIndex !== -1) {
+                const me = users[myIndex];
+                let displayScore = currentLeaderboardTab === 'star' ? `Lvl ${me.level}` : me.balance.toLocaleString();
+                myRankBar.style.display = 'flex';
+                myRankBar.innerHTML = `
+                    <div class="lb-rank" style="color:var(--accent-cyan);">${myIndex+1}</div>
+                    <img src="${me.avatar}" class="lb-avatar" style="border:2px solid var(--accent-cyan);">
+                    <div class="lb-info">
+                        <div class="lb-name" style="color:var(--accent-cyan);">${me.username} (You)</div>
+                        <div class="lb-score">
+                            ${currentLeaderboardTab !== 'star' ? '<img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/coin.webp">' : ''}
+                            ${displayScore}
+                        </div>
+                    </div>
+                `;
+            } else {
+                myRankBar.style.display = 'none';
+            }
+        }
+        
+        // --- TASK SYSTEM ---
         function loadTasksFromDB() {
             const list = document.getElementById('taskList');
-            db.ref('tasks').once('value').then(snap => {
-                list.innerHTML = ''; const tasks = snap.val(); if(!tasks) return;
-                Object.keys(tasks).forEach(id => {
-                    const t = tasks[id]; const card = document.createElement('div'); card.className = 'task-card';
-                    card.innerHTML = `<div class="task-info"><div class="task-title">${t.title}</div><div class="task-reward">+${t.reward}</div></div><button class="task-btn" onclick="handleTask('${id}', ${t.reward}, this)">Start</button>`;
+            db.ref('tasks').once('value').then(snapshot => {
+                const tasks = snapshot.val();
+                list.innerHTML = ''; 
+
+                if (!tasks) {
+                    list.innerHTML = '<div style="text-align:center; opacity:0.6;">No tasks available today.</div>';
+                    return;
+                }
+
+                Object.keys(tasks).forEach(taskId => {
+                    const task = tasks[taskId];
+                    const isCompleted = completedTasks[taskId] ? true : false;
+                    
+                    const card = document.createElement('div');
+                    card.className = 'task-card';
+                    card.innerHTML = `
+                        <img src="${task.image || 'https://img.icons8.com/3d-fluency/94/checked-checkbox.png'}" class="task-icon" alt="Icon">
+                        <div class="task-info">
+                            <div class="task-title">${task.title}</div>
+                            <div class="task-reward">
+                                <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/coin.webp">
+                                +${task.reward}
+                            </div>
+                        </div>
+                        <button class="task-btn ${isCompleted ? 'claimed' : ''}" 
+                                onclick="handleTask('${taskId}', '${task.link}', ${task.reward}, this)">
+                            ${isCompleted ? 'Done' : 'Start'}
+                        </button>
+                    `;
                     list.appendChild(card);
                 });
             });
         }
 
-        function handleTask(id, r, btn) {
-            btn.innerText = 'Checking...';
-            setTimeout(() => { balance += r; showToast("Task Done!"); btn.innerText = 'Claimed'; btn.disabled = true; updateUI(); }, 3000);
+        function handleTask(taskId, link, reward, btnElement) {
+            if (completedTasks[taskId]) return;
+            if(link && link.startsWith('http')) {
+                window.open(link, '_blank');
+            }
+            btnElement.innerText = 'Checking...';
+            btnElement.style.opacity = '0.7';
+
+            setTimeout(() => {
+                balance += parseInt(reward);
+                completedTasks[taskId] = true;
+                db.ref('users/' + userId + '/balance').set(balance);
+                db.ref('users/' + userId + '/completedTasks/' + taskId).set(true);
+                updateUI();
+                showToast(`Task Completed! +${reward} Coins`);
+                btnElement.innerText = 'Done';
+                btnElement.classList.add('claimed');
+                btnElement.style.opacity = '1';
+            }, 5000); 
+        }
+
+        // --- FRIENDS/INVITE FUNCTIONS ---
+        function getInviteLink() {
+            return `${appInviteBaseUrl}${userId}`;
         }
 
         function inviteFriend() {
-            const link = `${appInviteBaseUrl}${userId}`, text = `Join Snowman Adventure!`;
-            if (window.Telegram.WebApp.shareUrl) window.Telegram.WebApp.shareUrl(link, text);
-            else window.open(`https://t.me/share/url?url=${encodeURIComponent(link)}&text=${encodeURIComponent(text)}`);
+            const link = getInviteLink();
+            const text = `Join Snowman Adventure! Earn coins by tapping. Use my link to get a bonus: `;
+            try {
+                if (window.Telegram.WebApp && window.Telegram.WebApp.shareUrl) {
+                    window.Telegram.WebApp.shareUrl(link, text);
+                } else {
+                    const telegramShareUrl = `https://t.me/share/url?url=${encodeURIComponent(link)}&text=${encodeURIComponent(text)}`;
+                    window.open(telegramShareUrl, '_blank');
+                    showToast("Link shared via browser!");
+                }
+            } catch(e) {
+                console.error("Telegram Share Failed:", e);
+                showToast("Cannot invite. Please copy the link manually.");
+            }
         }
 
-        function handleCopyClick(btn) { navigator.clipboard.writeText(`${appInviteBaseUrl}${userId}`).then(() => { showToast("Copied!"); btn.classList.add('copied'); setTimeout(()=>btn.classList.remove('copied'), 1500); }); }
+        function handleCopyClick(btnElement) {
+            const link = getInviteLink();
+            navigator.clipboard.writeText(link).then(() => {
+                showToast("Invite link copied!");
+                btnElement.classList.add('copied');
+                setTimeout(() => { btnElement.classList.remove('copied'); }, 1500);
+            }).catch(err => {
+                showToast("Failed to copy link.");
+            });
+        }
 
+        // Initialize game
         init();
     </script>
 </body>
