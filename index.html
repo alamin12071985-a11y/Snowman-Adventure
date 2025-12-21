@@ -213,13 +213,13 @@
 
         .header-level-box {
             width: 100%;
-            max-width: 35vw;
+            max-width: 40vw; /* Increased width slightly */
             text-align: center;
         }
         
         .lvl-text {
             font-size: 2.8vw;
-            color: rgba(255,255,255,0.6);
+            color: rgba(255,255,255,0.8);
             margin-bottom: 0.5vw;
             display: flex;
             justify-content: space-between;
@@ -348,6 +348,7 @@
             filter: drop-shadow(0 0 4vw rgba(0, 229, 255, 0.1));
             object-fit: contain;
             margin: 0 auto; 
+            margin-top: -12vw; /* Moved Up as requested */
         }
 
         .character-img:active { transform: scale(0.96) rotate(-2deg); }
@@ -387,7 +388,7 @@
             width: 18vw; 
             height: 18vw; 
             padding: 0; 
-            top: 45%; 
+            top: 58%; /* Moved Down as requested (was 40% range) */
             transform: translateY(-50%); 
             text-align: center;
         }
@@ -412,10 +413,13 @@
         .left-btn { left: 3vw; }
         .right-btn { right: 3vw; }
         
-        #shopBtn { top: 40%; right: 3vw; }
-        #casesBtn { top: 40%; left: 3vw; }
-        #leaderboardBtn { top: 75%; right: 3vw; }
-        #autoTapBtn { top: 75%; left: 3vw; }
+        /* Adjusted Positions */
+        #shopBtn { top: 58%; right: 3vw; }
+        #casesBtn { top: 58%; left: 3vw; }
+        
+        /* Leaderboard and AutoTap lower down */
+        #leaderboardBtn { top: 82%; right: 3vw; }
+        #autoTapBtn { top: 82%; left: 3vw; }
         
         /* --- UPDATED: GLASS TOAST NOTIFICATION --- */
         .toast-notification {
@@ -423,13 +427,10 @@
             top: 5vw;
             left: 50%;
             transform: translateX(-50%) translateY(-25vw);
-            
-            /* Glass Effect */
-            background: rgba(8, 24, 43, 0.85); /* Dark semi-transparent */
+            background: rgba(8, 24, 43, 0.85);
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
             border: 1px solid rgba(0, 229, 255, 0.3);
-            
             color: var(--text-light);
             padding: 3vw 5vw;
             border-radius: 7.5vw;
@@ -458,7 +459,6 @@
             justify-content: center;
             color: white;
             font-size: 3.5vw;
-            /* Default background, JS changes it */
             background: rgba(255, 255, 255, 0.1); 
         }
         
@@ -621,15 +621,12 @@
 
         .invite-container { display: flex; gap: 3vw; width: 100%; padding: 0 5vw; margin-top: 5vw; }
         
-        /* --- UPDATED: INVITE BUTTON STYLES (MATCH APP THEME) --- */
         .btn-invite {
             flex: 1; border: none;
-            /* Changed from Gold to Blue Gradient to match theme */
             background: var(--btn-blue-grad);
             color: white; 
             font-size: 4.5vw; font-weight: 800; text-transform: uppercase;
             letter-spacing: 0.5px; padding: 4vw 0; border-radius: 10vw; cursor: pointer;
-            /* Updated Shadow */
             box-shadow: 0 2vw 5vw rgba(0, 229, 255, 0.4), inset 0 0.5vw 0 rgba(255,255,255,0.4);
             border: 1px solid rgba(255,255,255,0.2);
             transition: transform 0.1s, filter 0.2s; position: relative; overflow: hidden;
@@ -654,7 +651,7 @@
         .btn-copy.copied { background-color: var(--accent-cyan); border-color: var(--accent-cyan); }
         .btn-copy.copied svg { fill: var(--bg-deep); }
         
-        /* Glass Popup Styling for Shop */
+        /* Glass Popup Styling */
         .popup-overlay {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -689,8 +686,34 @@
         .popup-btn:active { transform: scale(0.98); }
         @keyframes popIn { from { opacity: 0; transform: scale(0.8); } to { opacity: 1; transform: scale(1); } }
 
-        .task-card .task-btn { min-width: 25vw; } 
+        /* SPIN WHEEL STYLES */
+        .wheel-container {
+            position: relative;
+            width: 80vw;
+            height: 80vw;
+            margin: 0 auto 5vw auto;
+        }
+        .wheel-img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            transition: transform 4s cubic-bezier(0.25, 0.1, 0.25, 1);
+        }
+        .wheel-marker {
+            position: absolute;
+            top: -2vw;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 8vw;
+            height: 10vw;
+            z-index: 10;
+            filter: drop-shadow(0 0.5vw 0.5vw rgba(0,0,0,0.5));
+            /* Simple Triangle Marker */
+            background-color: #FFD700;
+            clip-path: polygon(50% 100%, 0% 0%, 100% 0%);
+        }
 
+        .task-card .task-btn { min-width: 25vw; } 
 
         /* --- LEADERBOARD OVERLAY STYLES --- */
         .leaderboard-overlay {
@@ -896,7 +919,7 @@
         <i class="fas fa-times" style="margin-left:auto; color:#999; cursor:pointer;" onclick="hideToast()"></i>
     </div>
 
-    <!-- GENERIC GLASS POPUP (Used for Shop) -->
+    <!-- GENERIC GLASS POPUP (Used for Shop/Spin) -->
     <div id="glassPopup" class="popup-overlay">
         <div class="popup-content" id="popupContent">
             <!-- Content Injected via JS -->
@@ -976,7 +999,7 @@
                 <div class="header-level-box">
                     <div class="lvl-text">
                         <span id="levelNameHeader">Lvl 1</span>
-                        <span><span id="currentLevelHeader">0</span>/100</span>
+                        <span><span id="currentLevelHeader">0</span> / <span id="targetLevelHeader">4000</span></span>
                     </div>
                     <div class="header-progress-bg">
                         <div class="header-progress-fill" id="headerLevelBar"></div>
@@ -1009,10 +1032,10 @@
                         <span id="displayBalance">0</span>
                     </div>
                     
-                    <!-- Floating Button - Left (Cases) -->
+                    <!-- Floating Button - Left (SPIN - was Cases) -->
                     <div id="casesBtn" class="floating-action-btn left-btn" onclick="handleFloatingBtnClick('Cases')">
-                        <i class="fas fa-box-open"></i>
-                        <span class="btn-text">Cases</span>
+                        <i class="fas fa-dharmachakra"></i>
+                        <span class="btn-text">Spin</span>
                     </div>
                     
                     <!-- Floating Button - Left (Auto Tap) -->
@@ -1073,7 +1096,7 @@
 
                 <div style="background: var(--glass-bg); border: 1px solid rgba(0,229,255,0.2); border-radius: 3vw; padding: 3vw; margin: 2vw auto 4vw auto; width: 90%; text-align: left;">
                     <p style="font-size: 3.5vw; font-weight: 600; color: var(--accent-cyan);">
-                        • Inviter gets 5% of friend's earnings
+                        • Invite friends and earn 10% all of their income for every user you refer!
                     </p>
                 </div>
 
@@ -1113,8 +1136,10 @@
                         </div>
                     </div>
 
-                    <p style="font-size: 3vw; color: rgba(255,255,255,0.5); margin-top: 4vw; text-decoration: underline;">Terms & Conditions</p>
-                    <p style="font-size: 3.5vw; color: var(--accent-cyan); margin-top: 1vw; font-weight: 600;">Ending On</p>
+                    <a href="https://telegra.ph/Terms--Conditions-12-17-6" target="_blank" style="font-size: 3vw; color: rgba(255,255,255,0.5); margin-top: 4vw; text-decoration: underline;">Terms & Conditions</a>
+                    
+                    <p style="font-size: 3.5vw; color: var(--accent-cyan); margin-top: 3vw; font-weight: 600;">Ending On</p>
+                    <div id="referralTimer" style="font-size: 4vw; font-weight: 700; color: white; margin-top: 1vw;">Loading Timer...</div>
                 </div>
 
             </div>
@@ -1234,6 +1259,9 @@
         // Telegram Bot Config
         const BOT_USERNAME_PLACEHOLDER = 'snowmanadventurebot';
         let appInviteBaseUrl = `https://t.me/${BOT_USERNAME_PLACEHOLDER}?startapp=`;
+        
+        // Backend URL (Replace with your actual backend URL)
+        const BACKEND_URL = "https://snowmanadventure.onrender.com"; 
 
         // --- DOM ELEMENTS ---
         const balanceDisplay = document.getElementById('displayBalance');
@@ -1242,11 +1270,13 @@
         const headerAvatar = document.getElementById('headerAvatar');
         const headerLevelBar = document.getElementById('headerLevelBar');
         const currentLevelHeader = document.getElementById('currentLevelHeader');
+        const targetLevelHeader = document.getElementById('targetLevelHeader');
         const levelNameHeader = document.getElementById('levelNameHeader');
         const headerCoin = document.getElementById('headerCoinBalance');
         const headerTon = document.getElementById('headerTonBalance');
         const walletCoin = document.getElementById('walletCoin');
         const walletTon = document.getElementById('walletTon');
+        const referralTimer = document.getElementById('referralTimer');
 
         // --- TON CONNECT INITIALIZATION ---
         const tonConnectUI = new TON_CONNECT_UI.TonConnectUI({
@@ -1331,10 +1361,37 @@
             startAutoTapLoop(); 
             setInterval(saveUserData, 5000);
             loadBanners();
+            startReferralTimer();
         }
         
         function loadBanners() {
             // Placeholder for admin panel banners
+        }
+
+        // --- COUNTDOWN TIMER ---
+        function startReferralTimer() {
+            // Set the date we're counting down to (e.g., 30 days from now or fixed date)
+            // Example: Dec 31, 2025
+            const countDownDate = new Date("Dec 31, 2025 23:59:59").getTime();
+
+            const x = setInterval(function() {
+                const now = new Date().getTime();
+                const distance = countDownDate - now;
+
+                const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+                if (referralTimer) {
+                    referralTimer.innerHTML = days + "d " + hours + "h " + minutes + "m " + seconds + "s ";
+                }
+
+                if (distance < 0) {
+                    clearInterval(x);
+                    if (referralTimer) referralTimer.innerHTML = "EXPIRED";
+                }
+            }, 1000);
         }
 
         function initTelegramUser() {
@@ -1417,25 +1474,30 @@
         function updateUI() {
             balanceDisplay.innerText = Math.floor(balance).toLocaleString();
             headerCoin.innerText = Math.floor(balance).toLocaleString();
-            headerTon.innerText = parseFloat(tonBalance).toFixed(2);
+            headerTon.innerText = parseFloat(tonBalance).toFixed(4); // Update to 4 decimals for small amounts
             walletCoin.innerText = Math.floor(balance).toLocaleString();
             walletTon.innerText = parseFloat(tonBalance).toFixed(4);
 
+            // Level Logic Updated
             let nextLevelThreshold = 4000 + ((level - 1) * 8000);
             let prevLevelThreshold = level === 1 ? 0 : (4000 + ((level - 2) * 8000));
             
-            let progress = balance - prevLevelThreshold;
-            let range = nextLevelThreshold - prevLevelThreshold;
-            let percentage = (progress / range) * 100;
-
+            // Adjusted calculation for proper progress bar
+            let currentProgress = balance; 
+            // Cap visual progress at 100% if balance > threshold (until level up trigger)
+            let percentage = (currentProgress / nextLevelThreshold) * 100;
+            
             if (percentage >= 100 && level < 100) {
                 level++;
-                percentage = 0;
+                percentage = 0; // Reset visual for next level (or handle continuously)
                 showLevelUpPopup(level);
             }
 
-            levelNameHeader.innerText = "LVL " + level;
-            currentLevelHeader.innerText = level;
+            // Update Header Text: Lvl X | Balance / Threshold
+            levelNameHeader.innerText = "Lvl " + level;
+            currentLevelHeader.innerText = Math.floor(balance);
+            targetLevelHeader.innerText = nextLevelThreshold;
+
             headerLevelBar.style.width = `${Math.min(percentage, 100)}%`;
             
             const now = Date.now();
@@ -1535,10 +1597,6 @@
 
         // --- SHOP BACKEND CALL ---
         function initiateStarPurchase(itemId, stars) {
-            // NOTE: You must deploy backend.py to a real server (e.g. Render/Vercel) and put URL here.
-            // Using localhost won't work in Telegram WebApp.
-            const BACKEND_URL = "https://snowmanadventure.onrender.com"; 
-
             if (!userId || userId === 'test_user_001') {
                 showToast("Open in Telegram to buy!");
                 return;
@@ -1580,6 +1638,72 @@
                 openShop();
             });
         }
+        
+        // --- SPIN WHEEL GAME ---
+        function openCasesGame() {
+            // Renamed Function Logic for Spin
+            const html = `
+                <div class="wheel-container">
+                    <div class="wheel-marker"></div>
+                    <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/spin%20wheel.webp" id="spinWheel" class="wheel-img">
+                </div>
+                <button id="spinActionBtn" class="popup-btn" onclick="spinTheWheel()" style="background: linear-gradient(90deg, #FFD700, #FFA000); color: #000; width: 100%; margin-top: 2vw; box-shadow: 0 0 2vw #FFD700;">SPIN NOW</button>
+                <button class="popup-btn" onclick="closeGlassPopup()" style="background: linear-gradient(90deg, #60ccfd, #4a92ff); color: white; width: 100%; margin-top: 5vw;">Close</button>
+            `;
+            showGlassPopup(html);
+        }
+
+        function spinTheWheel() {
+            const spinBtn = document.getElementById('spinActionBtn');
+            const wheel = document.getElementById('spinWheel');
+            
+            if (!spinBtn || !wheel) return;
+            if (!userId) { showToast("Error: No User ID"); return; }
+            
+            spinBtn.disabled = true;
+            spinBtn.innerText = "Spinning...";
+
+            // Request result from backend to prevent hacking
+            fetch(`${BACKEND_URL}/spin_wheel`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ user_id: userId })
+            })
+            .then(res => res.json())
+            .then(data => {
+                if(!data.ok) {
+                    showToast(data.error || "Spin Failed");
+                    spinBtn.disabled = false;
+                    spinBtn.innerText = "SPIN NOW";
+                    return;
+                }
+
+                // Data returns index (0-7)
+                const prizeIndex = data.index;
+                // Calculate rotation: 
+                // 8 segments = 45 degrees each.
+                // We want the wheel to spin at least 5 times (360 * 5)
+                // Alignment: 360 - (index * 45) + adjustment to center
+                const segmentDeg = 45;
+                const totalRotation = 1800 + (360 - (prizeIndex * segmentDeg));
+                
+                wheel.style.transform = `rotate(${totalRotation}deg)`;
+                
+                // Wait for animation
+                setTimeout(() => {
+                    showToast(`You won ${data.prize} TON!`);
+                    spinBtn.disabled = false;
+                    spinBtn.innerText = "SPIN AGAIN";
+                    loadUserData(); // Refresh balance from server
+                }, 4000); // 4s animation
+            })
+            .catch(err => {
+                console.error(err);
+                showToast("Server Error");
+                spinBtn.disabled = false;
+                spinBtn.innerText = "SPIN NOW";
+            });
+        }
 
         function showGlassPopup(contentHTML) {
             const popup = document.getElementById('glassPopup');
@@ -1601,7 +1725,6 @@
             showGlassPopup(html);
         }
 
-        // MODIFIED: Added optional duration and color logic
         function showToast(message, duration = 3000) {
             const toast = document.getElementById('toastNotification');
             const msgEl = document.getElementById('toastMessage');
@@ -1611,7 +1734,7 @@
             if (message.includes('Active:')) {
                 iconEl.innerHTML = '<i class="fas fa-info-circle"></i>';
                 iconEl.style.backgroundColor = 'rgba(33, 150, 243, 0.3)'; 
-            } else if (message.includes('successful') || message.includes('Completed')) {
+            } else if (message.includes('successful') || message.includes('Completed') || message.includes('won')) {
                 iconEl.innerHTML = '<i class="fas fa-check"></i>';
                 iconEl.style.backgroundColor = 'rgba(76, 175, 80, 0.3)';
             } else if (message.includes('failed') || message.includes('error')) {
@@ -1648,7 +1771,6 @@
 
         function handleTap(e) {
             e.preventDefault();
-            // checkTapSpeed call removed/ignored
             
             const coinsPerTap = level * tapMultiplier; 
             balance += coinsPerTap;
@@ -1719,9 +1841,6 @@
         function handleWalletBannerClick() { showToast("Wallet Banner Clicked!"); }
         function handleFriendsBannerClick() { showToast("Friends Banner Clicked!"); }
         
-        function openCasesGame() {
-            showToast("Cases Game is currently unavailable. Check back soon!");
-        }
         
         function activateAutoTap() {
             showToast("Auto Tap is purchased via the Shop!");
@@ -1734,6 +1853,7 @@
                 return;
             }
             if(buttonName === 'Cases') {
+                // Now mapped to SPIN
                 openCasesGame();
                 return;
             }
