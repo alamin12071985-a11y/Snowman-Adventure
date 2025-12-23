@@ -321,6 +321,7 @@
             gap: 2vw; 
         }
 
+        /* UPDATED: Coin Count Moved Up */
         .main-balance {
             font-size: clamp(1.8rem, 5vw, 2.5rem);
             font-weight: 800;
@@ -329,7 +330,8 @@
             gap: 2.5vw;
             z-index: 5;
             flex-shrink: 0;
-            margin-top: 2vh;
+            margin-top: 0vh; /* Was 2vh, reduced to move up */
+            margin-bottom: 2vh; /* Added space below */
         }
 
         .main-balance img {
@@ -337,6 +339,7 @@
             filter: drop-shadow(0 0 2.5vw var(--accent-cyan));
         }
 
+        /* UPDATED: Snowman Animation */
         .character-img {
             width: auto;
             max-width: 90vw; 
@@ -344,14 +347,21 @@
             max-height: 50vh;
             cursor: pointer;
             z-index: 10; 
-            transition: transform 0.1s;
+            
+            /* Feet anchor logic */
+            transform-origin: bottom center; 
+            transition: transform 0.1s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            
             filter: drop-shadow(0 0 4vw rgba(0, 229, 255, 0.1));
             object-fit: contain;
             margin: 0 auto; 
-            margin-top: -12vw; /* Moved Up as requested */
+            margin-top: -12vw; 
         }
 
-        .character-img:active { transform: scale(0.96) rotate(-2deg); }
+        /* Grow animation on click */
+        .character-img:active { 
+            transform: scale(1.05); /* Grow larger */
+        }
 
         /* --- FLOATING SCORE --- */
         .floating-score {
@@ -1018,11 +1028,8 @@
             <!-- HOME TAB -->
             <div id="home" class="tab-content active">
 
-                <!-- Home Page Banner -->
-                <div class="banner-placeholder" onclick="switchTab('friends', document.querySelector('.nav-item:nth-child(3)'))" style="margin: 5vw auto 0 auto;">
-                    <img src="https://i.ibb.co.com/ZkbRmZv/file-00000000613c71fdb72699502bc3ff0c.png" alt="Referral Banner" style="display: block;">
-                    <span id="homeBannerText" style="display: none;">Referral Challenge</span>
-                </div>
+                <!-- UPDATED: Home Page Banner Removed -->
+                <div style="margin-top: 5vw;"></div>
 
                 <!-- Game Area -->
                 <div class="game-area-wrapper" id="snowContainer">
@@ -1096,7 +1103,8 @@
 
                 <div style="background: var(--glass-bg); border: 1px solid rgba(0,229,255,0.2); border-radius: 3vw; padding: 3vw; margin: 2vw auto 4vw auto; width: 90%; text-align: left;">
                     <p style="font-size: 3.5vw; font-weight: 600; color: var(--accent-cyan);">
-                        • Invite friends and earn 10% all of their income for every user you refer!
+                        <!-- UPDATED: Dynamic percentage ID added -->
+                        • Invite friends and earn <span id="referralPercentageDisplay" style="color:var(--level-gold);">10%</span> all of their income for every user you refer!
                     </p>
                 </div>
 
@@ -1140,6 +1148,16 @@
                     
                     <p style="font-size: 3.5vw; color: var(--accent-cyan); margin-top: 3vw; font-weight: 600;">Ending On</p>
                     <div id="referralTimer" style="font-size: 4vw; font-weight: 700; color: white; margin-top: 1vw;">Loading Timer...</div>
+                </div>
+
+                <!-- REFERRED USERS LIST SECTION -->
+                <div class="referral-list-section" style="margin-top: 5vw; width: 100%; padding-bottom: 20vw;">
+                    <h3 style="font-size: 5vw; color: var(--accent-cyan); text-align: center; margin-bottom: 3vw; font-weight: 700;">Your Friends</h3>
+                    
+                    <div id="referralsList" style="display: flex; flex-direction: column; gap: 2vw;">
+                        <!-- JS will populate this -->
+                        <div style="text-align: center; color: rgba(255,255,255,0.5);">Loading friends...</div>
+                    </div>
                 </div>
 
             </div>
@@ -1249,6 +1267,7 @@
         let tapTimes = [];
         let completedTasks = {}; 
         let currentLeaderboardTab = 'coins'; 
+        let referralCount = 0; 
         
         // Boosters/AutoTap
         let boosterEndTime = 0; 
@@ -1277,6 +1296,7 @@
         const walletCoin = document.getElementById('walletCoin');
         const walletTon = document.getElementById('walletTon');
         const referralTimer = document.getElementById('referralTimer');
+        const referralPercentageDisplay = document.getElementById('referralPercentageDisplay');
 
         // --- TON CONNECT INITIALIZATION ---
         const tonConnectUI = new TON_CONNECT_UI.TonConnectUI({
@@ -1358,6 +1378,7 @@
             initTelegramUser(); 
             startSnowfall();
             loadUserData();
+            loadConfig(); // Load admin config (referral %)
             startAutoTapLoop(); 
             setInterval(saveUserData, 5000);
             loadBanners();
@@ -1366,6 +1387,18 @@
         
         function loadBanners() {
             // Placeholder for admin panel banners
+        }
+        
+        // --- UPDATED: Load Config from Firebase ---
+        function loadConfig() {
+            // Fetches the 'referralPercentage' from the 'config' node in Firebase
+            // You can change this value in your Firebase Console to update it for everyone.
+            db.ref('config/referralPercentage').once('value').then(snapshot => {
+                const percentage = snapshot.val();
+                if (percentage) {
+                    referralPercentageDisplay.innerText = percentage + "%";
+                }
+            });
         }
 
         // --- COUNTDOWN TIMER ---
@@ -1433,17 +1466,75 @@
                     tapCount = data.tapCount || 0;
                     level = data.level || 1;
                     completedTasks = data.completedTasks || {};
+                    referralCount = data.referralCount || 0;
                     
                     boosterEndTime = data.boosterEndTime || 0;
                     autotapEndTime = data.autotapEndTime || 0;
                     noadsEndTime = data.noadsEndTime || 0;
 
                     updateUI();
-                    loadTasksFromDB(); 
+                    loadTasksFromDB();
+                    loadReferrals(); // Load referred friends list
                 } else {
                     updateUI();
                     loadTasksFromDB();
+                    loadReferrals();
                 }
+            });
+        }
+        
+        // --- REFERRAL LIST LOGIC ---
+        function loadReferrals() {
+            const listContainer = document.getElementById('referralsList');
+            if(!userId) return;
+            
+            // Query users who have this user's ID in their 'referredBy' field
+            db.ref('users').orderByChild('referredBy').equalTo(userId).once('value').then(snapshot => {
+                const referrals = [];
+                snapshot.forEach(child => {
+                    referrals.push(child.val());
+                });
+                renderReferrals(referrals);
+            }).catch(err => {
+                console.error("Error loading referrals:", err);
+                listContainer.innerHTML = '<div style="text-align:center; opacity:0.6;">No friends found yet.</div>';
+            });
+        }
+
+        function renderReferrals(referrals) {
+            const listContainer = document.getElementById('referralsList');
+            listContainer.innerHTML = '';
+
+            if (referrals.length === 0) {
+                listContainer.innerHTML = `
+                    <div style="text-align:center; padding: 5vw; background: rgba(255,255,255,0.05); border-radius: 3vw;">
+                        <p style="color:rgba(255,255,255,0.6); font-size: 3.5vw;">You haven't invited anyone yet.</p>
+                        <p style="color:rgba(255,255,255,0.4); font-size: 3vw; margin-top: 1vw;">Share your link to earn!</p>
+                    </div>`;
+                return;
+            }
+
+            referrals.forEach(user => {
+                const name = user.username || "Unknown";
+                const bal = user.balance ? Math.floor(user.balance).toLocaleString() : "0";
+                const av = user.avatar || "https://alamin12071985-a11y.github.io/Snowman-Adventure/snowman.webp";
+
+                const item = document.createElement('div');
+                item.className = 'lb-item'; // Reuse Leaderboard item style
+                item.style.backgroundColor = 'var(--glass-bg)';
+                item.style.border = '1px solid rgba(0,229,255,0.1)';
+                
+                item.innerHTML = `
+                    <img src="${av}" class="lb-avatar" style="margin-left:0;">
+                    <div class="lb-info">
+                        <div class="lb-name">${name}</div>
+                        <div class="lb-score">
+                            <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/coin.webp">
+                            ${bal}
+                        </div>
+                    </div>
+                `;
+                listContainer.appendChild(item);
             });
         }
 
@@ -1474,7 +1565,7 @@
         function updateUI() {
             balanceDisplay.innerText = Math.floor(balance).toLocaleString();
             headerCoin.innerText = Math.floor(balance).toLocaleString();
-            headerTon.innerText = parseFloat(tonBalance).toFixed(4); // Update to 4 decimals for small amounts
+            headerTon.innerText = parseFloat(tonBalance).toFixed(4); 
             walletCoin.innerText = Math.floor(balance).toLocaleString();
             walletTon.innerText = parseFloat(tonBalance).toFixed(4);
 
@@ -1835,6 +1926,11 @@
                 document.body.classList.remove('home-active');
                 document.getElementById('mainHeader').style.display = 'none';
             }
+
+            // Load Referrals when Friends tab is opened
+            if(tabId === 'friends') {
+                loadReferrals();
+            }
         }
 
         function handleTaskBannerClick() { showToast("Task Banner Clicked!"); }
@@ -1894,6 +1990,7 @@
 
             let sortField = 'balance'; 
             if(currentLeaderboardTab === 'star') sortField = 'level';
+            if(currentLeaderboardTab === 'refer') sortField = 'referralCount'; // CHANGED: Sort by referrals
             
             db.ref('users').orderByChild(sortField).limitToLast(100).once('value').then(snapshot => {
                 let users = [];
@@ -1904,6 +2001,7 @@
                     if(!u.avatar) u.avatar = "https://alamin12071985-a11y.github.io/Snowman-Adventure/snowman.webp";
                     if(!u.balance) u.balance = 0;
                     if(!u.level) u.level = 1;
+                    if(!u.referralCount) u.referralCount = 0; // Ensure field exists
                     users.push(u);
                 });
 
@@ -1925,11 +2023,18 @@
             listContainer.innerHTML = '';
 
             const top3 = [users[0], users[1], users[2]]; 
+
+            // Helper to determine what text to show based on tab
+            const getScoreText = (u) => {
+                if(currentLeaderboardTab === 'star') return `Lvl ${u.level}`;
+                if(currentLeaderboardTab === 'refer') return `${u.referralCount} Refs`; // CHANGED: Show Ref count
+                return u.balance.toLocaleString();
+            };
             
             // 2nd Place (Left)
             if(top3[1]) {
                 const u = top3[1];
-                let displayScore = currentLeaderboardTab === 'star' ? `Lvl ${u.level}` : u.balance.toLocaleString();
+                let displayScore = getScoreText(u);
                 podiumContainer.innerHTML += `
                     <div class="podium-item rank-2">
                         <div class="podium-avatar-wrapper">
@@ -1947,7 +2052,7 @@
             // 1st Place (Center)
             if(top3[0]) {
                 const u = top3[0];
-                let displayScore = currentLeaderboardTab === 'star' ? `Lvl ${u.level}` : u.balance.toLocaleString();
+                let displayScore = getScoreText(u);
                 podiumContainer.innerHTML += `
                     <div class="podium-item rank-1">
                         <div class="podium-avatar-wrapper">
@@ -1965,7 +2070,7 @@
             // 3rd Place (Right)
             if(top3[2]) {
                 const u = top3[2];
-                let displayScore = currentLeaderboardTab === 'star' ? `Lvl ${u.level}` : u.balance.toLocaleString();
+                let displayScore = getScoreText(u);
                 podiumContainer.innerHTML += `
                     <div class="podium-item rank-3">
                         <div class="podium-avatar-wrapper">
@@ -1983,7 +2088,13 @@
             // --- RENDER LIST (4+) ---
             for(let i = 3; i < users.length; i++) {
                 const u = users[i];
-                let displayScore = currentLeaderboardTab === 'star' ? `Lvl ${u.level}` : u.balance.toLocaleString();
+                let displayScore = getScoreText(u);
+                
+                // Show coin icon only if NOT refer tab and NOT level tab
+                let iconHtml = (currentLeaderboardTab !== 'star' && currentLeaderboardTab !== 'refer') 
+                    ? '<img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/coin.webp">' 
+                    : '';
+
                 const item = document.createElement('div');
                 item.className = 'lb-item';
                 item.innerHTML = `
@@ -1992,7 +2103,7 @@
                     <div class="lb-info">
                         <div class="lb-name">${u.username}</div>
                         <div class="lb-score">
-                            ${currentLeaderboardTab !== 'star' ? '<img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/coin.webp">' : ''}
+                            ${iconHtml}
                             ${displayScore}
                         </div>
                     </div>
@@ -2004,7 +2115,12 @@
             const myIndex = users.findIndex(u => u.key === userId);
             if(myIndex !== -1) {
                 const me = users[myIndex];
-                let displayScore = currentLeaderboardTab === 'star' ? `Lvl ${me.level}` : me.balance.toLocaleString();
+                let displayScore = getScoreText(me);
+                
+                let iconHtml = (currentLeaderboardTab !== 'star' && currentLeaderboardTab !== 'refer') 
+                    ? '<img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/coin.webp">' 
+                    : '';
+
                 myRankBar.style.display = 'flex';
                 myRankBar.innerHTML = `
                     <div class="lb-rank" style="color:var(--accent-cyan);">${myIndex+1}</div>
@@ -2012,7 +2128,7 @@
                     <div class="lb-info">
                         <div class="lb-name" style="color:var(--accent-cyan);">${me.username} (You)</div>
                         <div class="lb-score">
-                            ${currentLeaderboardTab !== 'star' ? '<img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/coin.webp">' : ''}
+                            ${iconHtml}
                             ${displayScore}
                         </div>
                     </div>
