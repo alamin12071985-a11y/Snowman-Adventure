@@ -339,7 +339,7 @@
             filter: drop-shadow(0 0 2.5vw var(--accent-cyan));
         }
 
-        /* UPDATED: Snowman Animation */
+        /* UPDATED: Snowman Animation & Position */
         .character-img {
             width: auto;
             max-width: 90vw; 
@@ -355,7 +355,8 @@
             filter: drop-shadow(0 0 4vw rgba(0, 229, 255, 0.1));
             object-fit: contain;
             margin: 0 auto; 
-            margin-top: -12vw; 
+            /* UPDATED: Moved down significantly */
+            margin-top: 5vw; 
         }
 
         /* Grow animation on click */
@@ -534,8 +535,15 @@
         
         /* --- WALLET & TASK & FRIENDS STYLES --- */
         .wallet-title {
-            font-size: 7.5vw; line-height: 1.1; margin-bottom:2.5vw; 
-            font-weight: 800; color: var(--accent-cyan);
+            /* UPDATED: One line styles */
+            font-size: 6vw; 
+            line-height: 1.1; 
+            margin-bottom: 2.5vw; 
+            font-weight: 800; 
+            color: var(--accent-cyan);
+            white-space: nowrap; /* Forces text to one line */
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
         .wallet-stats-grid {
@@ -1073,7 +1081,8 @@
             <!-- TASK TAB -->
             <div id="task" class="tab-content">
                 <div style="text-align:center; padding-top: 10px; padding-bottom: 0;">
-                    <h1 class="wallet-title">Daily<br>Tasks</h1>
+                    <!-- UPDATED: Single line Title -->
+                    <h1 class="wallet-title">Daily Tasks</h1>
                     <p style="color:rgba(227, 244, 249, 0.7); font-size: 1rem;">Complete tasks to earn coins.</p>
                 </div>
 
@@ -1092,7 +1101,8 @@
             <!-- FRIENDS TAB -->
             <div id="friends" class="tab-content">
                 <div style="text-align:center; padding-top: 10px; padding-bottom: 0; margin-top: 5vw;"> 
-                    <h1 class="wallet-title" style="font-size: 6.5vw; line-height: 1.2;"><span role="img" aria-label="gift">🎁</span> Invite Friends & Earn Forever!</h1>
+                    <!-- UPDATED: Single line Title (Smaller font for safety) -->
+                    <h1 class="wallet-title" style="font-size: 4.5vw;"><span role="img" aria-label="gift">🎁</span> Invite Friends & Earn Forever!</h1>
                 </div>
                 
                 <!-- FRIENDS BANNER -->
@@ -1165,7 +1175,8 @@
             <!-- WALLET TAB -->
             <div id="wallet" class="tab-content">
                 <div style="text-align:center; padding-top: 5px;"> 
-                    <h1 class="wallet-title">Get Real<br>Crypto.</h1>
+                    <!-- UPDATED: Single line Title -->
+                    <h1 class="wallet-title">Get Real Crypto.</h1>
                     <p style="color:rgba(227, 244, 249, 0.7); font-size: 1rem; margin-bottom: 0;">Earn and buy tokens.</p>
                 </div>
                 
