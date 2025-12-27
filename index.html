@@ -1395,17 +1395,97 @@
             }, 50);
         });
 
-        function init() {
-            initTelegramUser(); 
-            startSnowfall();
-            loadUserData();
-            loadConfig(); 
-            startAutoTapLoop(); 
-            // ডাটা সেভ এবং ১০% কমিশন লজিক প্রতি ৫ সেকেন্ডে রান হবে
-            setInterval(saveUserData, 5000);
-            startReferralTimer();
-        }
+        // --- BACKEND SETUP ---
+const API_URL = "https://snowmanadventure.onrender.com"; // এখানে আপনার Render/Heroku লিংক দিন
+let tgInitData = window.Telegram.WebApp.initData || "";
+let pendingTaps = 0; // অফলাইনে ট্যাপ জমা রাখার জন্য
+
+function init() {
+    initTelegramUser(); 
+    startSnowfall();
+    
+    // আগের loadUserData() বাদ দিয়ে সিকিউর লগিন কল করছি
+    if(userId) {
+        loginAndLoad(); 
+    } else {
+        // টেলিগ্রামের বাইরে টেস্টিং এর জন্য
+        console.log("No Telegram User detected.");
+        loadUserData(); // ব্যাকআপ হিসেবে আগেরটা রাখা যেতে পারে টেস্টিংয়ের জন্য
+    }
+
+    loadConfig(); 
+    startAutoTapLoop(); 
+    startReferralTimer();
+    
+    // ৫ সেকেন্ড পর পর ডাটা সেভের বদলে এখন সিঙ্ক লুপ চলবে
+    startSyncLoop();
+}
+      // --- SERVER AUTHENTICATION ---
+async function loginAndLoad() {
+    try {
+        // সার্ভারে লগিন রিকোয়েস্ট পাঠানো
+        const response = await fetch(`${API_URL}/auth`, {
+            method: 'POST',
+            headers: { 'Authorization': tgInitData }
+        });
         
+        if (!response.ok) throw new Error("Auth failed");
+
+        const data = await response.json();
+        
+        // সার্ভার থেকে আসা ডাটা দিয়ে গেম আপডেট
+        balance = data.balance;
+        level = data.level;
+        tonBalance = data.tonBalance || 0.0;
+        referralCount = data.referralCount || 0;
+        
+        updateUI();
+        console.log("Logged in securely via Server!");
+        
+    } catch (error) {
+        console.error("Login Error:", error);
+        // সার্ভার অফ থাকলে বা এরর হলে ইউজারকে জানান
+        showToast("Connecting to server...");
+    }
+}
+
+// --- SYNC LOOP (প্রতি ৩ সেকেন্ডে ট্যাপ সার্ভারে পাঠাবে) ---
+function startSyncLoop() {
+    setInterval(async () => {
+        if (pendingTaps > 0) {
+            const tapsToSend = pendingTaps;
+            // টেম্পোরারি রিসেট, ফেইল হলে আবার যোগ হবে
+            pendingTaps = 0; 
+            
+            try {
+                const response = await fetch(`${API_URL}/sync_taps`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': tgInitData
+                    },
+                    body: JSON.stringify({ taps: tapsToSend })
+                });
+                
+                const result = await response.json();
+                
+                if (result.status === 'ok') {
+                    // সার্ভারের ব্যালেন্সই আসল ব্যালেন্স
+                    balance = result.balance;
+                    updateUI();
+                } else {
+                    // চিটিং ধরলে বা সমস্যা হলে
+                    console.warn(result.reason);
+                    if(result.balance) balance = result.balance;
+                }
+            } catch (err) {
+                // ইন্টারনেট না থাকলে ট্যাপগুলো আবার ফেরত আসবে
+                pendingTaps += tapsToSend;
+                console.log("Sync skipped (Network error)");
+            }
+        }
+    }, 3000); 
+}  
         function loadConfig() {
             db.ref('config/referralPercentage').once('value').then(snapshot => {
                 const percentage = snapshot.val();
@@ -1950,10 +2030,12 @@
             e.preventDefault();
             
             const coinsPerTap = level * tapMultiplier; 
-            balance += coinsPerTap;
-            tapCount++; 
-            updateUI(); 
-            
+            // ভিজ্যুয়াল আপডেট (যাতে ইউজার ল্যাগ না দেখে)
+balance += coinsPerTap;
+updateUI();
+
+// আসল লজিক: সার্ভারে পাঠানোর জন্য জমা রাখা
+pendingTaps++;
             if (navigator.vibrate) navigator.vibrate(50);
             
             let clientX = e.clientX;
