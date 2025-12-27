@@ -1303,9 +1303,6 @@
         const BOT_USERNAME_PLACEHOLDER = 'snowmanadventurebot'; // আপনার বটের ইউজারনেম দিন
         let appInviteBaseUrl = `https://t.me/${BOT_USERNAME_PLACEHOLDER}?startapp=`;
         
-        // Backend URL 
-        const BACKEND_URL = "https://snowmanadventure.onrender.com"; 
-
         // --- DOM ELEMENTS ---
         const balanceDisplay = document.getElementById('displayBalance');
         const clickerBtn = document.getElementById('clickerBtn');
@@ -1833,39 +1830,42 @@ function startSyncLoop() {
         }
 
         function initiateStarPurchase(itemId, stars) {
-            if (!userId || userId === 'test_user_001') {
-                showToast("Open in Telegram to buy!");
-                return;
-            }
-            closeGlassPopup();
-            showToast(`Loading payment...`);
-            fetch(`${BACKEND_URL}/create_invoice`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ item_id: itemId, user_id: userId })
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.result) {
-                    window.Telegram.WebApp.openInvoice(data.result, (status) => {
-                        if (status === 'paid') {
-                            showToast("Purchase successful!");
-                            loadUserData(); 
-                        } else {
-                            showToast("Payment cancelled.");
-                        }
-                        openShop();
-                    });
+    if (!userId || userId === 'test_user_001') {
+        showToast("Open in Telegram to buy!");
+        return;
+    }
+    closeGlassPopup();
+    showToast(`Loading payment...`);
+    
+    // BACKEND_URL এর বদলে API_URL ব্যবহার করা হলো
+    fetch(`${API_URL}/create_invoice`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ item_id: itemId, user_id: userId })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.result) {
+            window.Telegram.WebApp.openInvoice(data.result, (status) => {
+                if (status === 'paid') {
+                    showToast("Purchase successful!");
+                    // loadUserData() এর পরিবর্তে loginAndLoad() ব্যবহার করা হলো যাতে সার্ভার থেকে ডাটা আপডেট হয়
+                    loginAndLoad(); 
                 } else {
-                    showToast("Failed to create invoice.");
-                    openShop();
+                    showToast("Payment cancelled.");
                 }
-            })
-            .catch(error => {
-                showToast("Server connection failed!");
                 openShop();
             });
+        } else {
+            showToast("Failed to create invoice.");
+            openShop();
         }
+    })
+    .catch(error => {
+        showToast("Server connection failed!");
+        openShop();
+    });
+}
         
         // --- SPIN WHEEL GAME ---
         const spinPrizes = [
@@ -1919,50 +1919,64 @@ function startSyncLoop() {
             popup.classList.add('active');
         }
 
-        function spinTheWheel() {
-            const spinBtn = document.getElementById('spinActionBtn');
-            const wheel = document.getElementById('wheelRotator');
-            
-            // Check Daily Limit
-            const now = new Date();
-            const lastSpin = new Date(lastSpinTime);
-            
-            // If same day/month/year, deny spin
-            if (lastSpinTime !== 0 && 
-                now.getDate() === lastSpin.getDate() &&
-                now.getMonth() === lastSpin.getMonth() &&
-                now.getFullYear() === lastSpin.getFullYear()) {
-                
-                showToast("You already spun today! Come back tomorrow.");
-                return;
+        async function spinTheWheel() {
+    const spinBtn = document.getElementById('spinActionBtn');
+    const wheel = document.getElementById('wheelRotator');
+    
+    // বাটন ডিজেবল করা
+    spinBtn.disabled = true;
+    spinBtn.innerText = "Processing...";
+
+    try {
+        // ১. সার্ভারে রিকোয়েস্ট পাঠানো
+        const response = await fetch(`${API_URL}/spin_wheel`, {
+            method: 'POST',
+            headers: { 
+                'Content-Type': 'application/json',
+                'Authorization': tgInitData 
             }
+        });
+        
+        const data = await response.json();
 
-            spinBtn.disabled = true;
-            spinBtn.innerText = "Spinning...";
-
-            // Determine Prize (Random for Client-Side Demo)
-            const randomIndex = Math.floor(Math.random() * 8);
-            const prize = spinPrizes[randomIndex];
-
-            const segmentArc = 360 / 8;
-            const fullSpins = 5 * 360; 
-            const stopAngle = 360 - (randomIndex * segmentArc) - (segmentArc / 2); // Center alignment
-            const totalRotation = fullSpins + stopAngle;
-
-            wheel.style.transform = `rotate(${totalRotation}deg)`;
-
-            // Wait for animation (4s)
-            setTimeout(() => {
-                // Update Balance
-                tonBalance += prize.amount;
-                lastSpinTime = Date.now();
-                saveUserData(); // Save to Firebase
-                updateUI();
-
-                showToast(`🎉 You won ${prize.label} TON!`);
-                spinBtn.innerText = "COME BACK TOMORROW";
-            }, 4000);
+        // ২. যদি সার্ভার বলে স্পিন করা যাবে না (Cooldown বা Error)
+        if (!data.result) {
+            showToast(data.error || "Cannot spin now!");
+            spinBtn.disabled = false;
+            spinBtn.innerText = "SPIN NOW";
+            return;
         }
+
+        // ৩. সার্ভার থেকে পাওয়া ইনডেক্স অনুযায়ী চাকা ঘোরানো
+        const randomIndex = data.index; 
+        const prizeAmount = data.prize;
+
+        const segmentArc = 360 / 8;
+        const fullSpins = 5 * 360; 
+        // চাকা যাতে মাঝখানে থামে তার ক্যালকুলেশন
+        const stopAngle = 360 - (randomIndex * segmentArc) - (segmentArc / 2); 
+        const totalRotation = fullSpins + stopAngle;
+
+        wheel.style.transform = `rotate(${totalRotation}deg)`;
+        spinBtn.innerText = "Spinning...";
+
+        // ৪. এনিমেশন শেষ হলে রেজাল্ট দেখানো (৪ সেকেন্ড পর)
+        setTimeout(() => {
+            // নতুন ব্যালেন্স আপডেট (সার্ভার থেকে পাওয়া)
+            tonBalance = data.new_ton_balance;
+            updateUI(); 
+
+            showToast(`🎉 You won ${prizeAmount} TON!`);
+            spinBtn.innerText = "COME BACK TOMORROW";
+        }, 4000);
+
+    } catch (e) {
+        console.error(e);
+        showToast("Server connection failed!");
+        spinBtn.disabled = false;
+        spinBtn.innerText = "SPIN NOW";
+    }
+}
 
         function showGlassPopup(contentHTML) {
             const popup = document.getElementById('glassPopup');
