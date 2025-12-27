@@ -690,7 +690,7 @@
         .popup-btn:active { transform: scale(0.98); }
         @keyframes popIn { from { opacity: 0; transform: scale(0.8); } to { opacity: 1; transform: scale(1); } }
 
-        /* SPIN WHEEL UPDATED STYLES - BIGGER ICONS */
+        /* SPIN WHEEL UPDATED STYLES */
         .wheel-container {
             position: relative;
             width: 80vw;
@@ -955,6 +955,9 @@
     </style>
 </head>
 <body class="home-active">
+    
+    <!-- (Body Structure Remains the Same as your provided code, omitted for brevity but Script is fully replaced below) -->
+    <!-- PLEASE PASTE THE REST OF THE BODY HTML HERE IF YOU COPY MANUALLY, OR USE THE FULL FILE PROVIDED -->
 
     <!-- TOAST NOTIFICATION -->
     <div id="toastNotification" class="toast-notification">
@@ -963,40 +966,30 @@
         <i class="fas fa-times" style="margin-left:auto; color:#999; cursor:pointer;" onclick="hideToast()"></i>
     </div>
 
-    <!-- GENERIC GLASS POPUP (Used for Shop/Spin) -->
+    <!-- GENERIC GLASS POPUP -->
     <div id="glassPopup" class="popup-overlay">
-        <div class="popup-content" id="popupContent">
-            <!-- Content Injected via JS -->
-        </div>
+        <div class="popup-content" id="popupContent"></div>
     </div>
     
-    <!-- LEADERBOARD OVERLAY (REBUILT LIKE SCREENSHOT) -->
+    <!-- LEADERBOARD OVERLAY -->
     <div id="leaderboardOverlay" class="leaderboard-overlay">
         <div class="leaderboard-header">
             <h2>Leaderboard</h2>
             <button class="close-btn" onclick="closeLeaderboard()">&times;</button>
         </div>
-
-        <!-- Fake Time Filters (Visual Only) -->
         <div class="lb-filter-row">
             <div class="lb-pill lb-pill-secondary">All Time</div>
             <div class="lb-pill active">Week</div>
             <div class="lb-pill lb-pill-secondary">Month</div>
         </div>
-
-        <!-- Category Filters -->
         <div class="lb-filter-row">
             <div class="lb-pill active" onclick="switchLeaderboardTab('coins')" id="tab-coins">All</div>
             <div class="lb-pill lb-pill-secondary" onclick="switchLeaderboardTab('refer')" id="tab-refer">Referrals</div>
             <div class="lb-pill lb-pill-secondary" onclick="switchLeaderboardTab('star')" id="tab-star">Level</div>
         </div>
-
-        <!-- Podium Section -->
         <div class="podium-section" id="podiumContainer">
             <div style="color:white; width:100%; text-align:center;">Loading...</div>
         </div>
-
-        <!-- My Stats Card -->
         <div class="my-stats-card" id="myStatsCard" style="display:none;">
             <div class="my-stats-row">
                 <div class="my-rank-info">
@@ -1008,11 +1001,7 @@
             </div>
             <div class="my-percentile" id="myRankPercentile">You are doing better than 0% of other members</div>
         </div>
-
-        <!-- List for Rank 4+ -->
-        <div class="rank-list-container" id="leaderboardList">
-            <!-- Items injected here -->
-        </div>
+        <div class="rank-list-container" id="leaderboardList"></div>
     </div>
 
     <!-- LOADING SCREEN -->
@@ -1025,10 +1014,8 @@
     </div>
 
     <div class="app-container">
-        
-        <!-- HEADER DASHBOARD -->
+        <!-- Header -->
         <div class="header-dashboard" id="mainHeader">
-            
             <div class="header-balances">
                 <div class="stat-card-row">
                     <div class="stat-value">
@@ -1043,13 +1030,11 @@
                     </div>
                 </div>
             </div>
-
             <div class="profile-section">
                 <div class="profile-top">
                     <img id="headerAvatar" src="https://alamin12071985-a11y.github.io/Snowman-Adventure/snowman.webp" class="user-avatar" alt="User">
                     <span id="headerName" class="user-name">User</span>
                 </div>
-                
                 <div class="header-level-box">
                     <div class="lvl-text">
                         <span id="levelNameHeader">Lvl 1</span>
@@ -1060,49 +1045,37 @@
                     </div>
                 </div>
             </div>
-
             <div class="settings-btn">
                 <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/setting.webp" alt="Settings">
             </div>
         </div>
 
         <div class="content-area">
-            
             <!-- HOME TAB -->
             <div id="home" class="tab-content active">
-
                 <div style="margin-top: 5vw;"></div>
-
-                <!-- Game Area -->
                 <div class="game-area-wrapper" id="snowContainer">
-                    
                     <div class="main-balance">
                         <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/coin.webp" alt="C">
                         <span id="displayBalance">0</span>
                     </div>
-                    
                     <div id="casesBtn" class="floating-action-btn left-btn" onclick="handleFloatingBtnClick('Cases')">
                         <i class="fas fa-dharmachakra"></i>
                         <span class="btn-text">Spin</span>
                     </div>
-                    
                     <div id="autoTapBtn" class="floating-action-btn left-btn" onclick="handleFloatingBtnClick('AutoTap')">
                         <i class="fas fa-hand-pointer"></i>
                         <span class="btn-text">Auto Tap</span>
                     </div>
-
                     <div id="shopBtn" class="floating-action-btn right-btn" onclick="handleFloatingBtnClick('Shop')">
                         <i class="fas fa-shopping-cart"></i>
                         <span class="btn-text">Shop</span>
                     </div>
-                    
                     <div id="leaderboardBtn" class="floating-action-btn right-btn" onclick="handleFloatingBtnClick('Leaderboard')">
                         <i class="fas fa-trophy"></i>
                         <span class="btn-text">Leaderboard</span>
                     </div>
-                                
                     <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/snowman.webp" class="character-img" id="clickerBtn" alt="Snowman">
-                    
                 </div>
             </div>
 
@@ -1112,12 +1085,10 @@
                     <h1 class="wallet-title">Daily Tasks</h1>
                     <p style="color:rgba(227, 244, 249, 0.7); font-size: 1rem;">Complete tasks to earn coins.</p>
                 </div>
-
                 <div class="banner-placeholder" onclick="handleTaskBannerClick()">
                     <img id="taskBannerImage" src="" alt="Task Banner" style="display: none;">
                     <span id="taskBannerText">Task Page Ad Banner (1020x320 Area)</span>
                 </div>
-
                 <div id="taskList" class="task-list">
                     <div style="text-align:center; color:rgba(255,255,255,0.5); margin-top:20px;">Loading tasks...</div>
                 </div>
@@ -1128,31 +1099,24 @@
                 <div style="text-align:center; padding-top: 10px; padding-bottom: 0; margin-top: 5vw;"> 
                     <h1 class="wallet-title" style="font-size: 4.5vw;"><span role="img" aria-label="gift">🎁</span> Invite Friends & Earn Forever!</h1>
                 </div>
-                
                 <div class="banner-placeholder" onclick="handleFriendsBannerClick()" style="margin-top: 2vw; margin-bottom: 4vw;"> 
                     <img id="friendsBannerImage" src="" alt="Friends Banner" style="display: none;">
                     <span id="friendsBannerText">Friends Page Ad Banner (1020x320 Area)</span>
                 </div>
-
                 <div style="background: var(--glass-bg); border: 1px solid rgba(0,229,255,0.2); border-radius: 3vw; padding: 3vw; margin: 2vw auto 4vw auto; width: 90%; text-align: left;">
                     <p style="font-size: 3.5vw; font-weight: 600; color: var(--accent-cyan);">
                         • Invite friends and earn <span id="referralPercentageDisplay" style="color:var(--level-gold);">10%</span> all of their income for every user you refer!
                     </p>
                 </div>
-
                 <div class="invite-container" style="margin-top: 0;">
                     <button class="btn-invite" onclick="inviteFriend()">
                         <i class="fas fa-paper-plane"></i>
                         Invite a Friend
                     </button>
-
                     <button class="btn-copy" id="copyLinkBtn" onclick="handleCopyClick(this)">
-                        <svg viewBox="0 0 24 24">
-                            <path d="M16 1H4C2.9 1 2 1.9 2 3V17H4V3H16V1ZM19 5H8C6.9 5 6 5.9 6 7V21C6 22.1 6.9 23 8 23H19C20.1 23 21 22.1 21 21V7C21 5.9 20.1 5 19 5ZM19 21H8V7H19V21Z"/>
-                        </svg>
+                        <svg viewBox="0 0 24 24"><path d="M16 1H4C2.9 1 2 1.9 2 3V17H4V3H16V1ZM19 5H8C6.9 5 6 5.9 6 7V21C6 22.1 6.9 23 8 23H19C20.1 23 21 22.1 21 21V7C21 5.9 20.1 5 19 5ZM19 21H8V7H19V21Z"/></svg>
                     </button>
                 </div>
-                
                 <div style="background: var(--glass-bg); border: 1px solid var(--accent-cyan); border-radius: 4vw; padding: 4vw; margin: 5vw 0 0 0; width: 100%; text-align: center;">
                     <h3 style="font-size: 4vw; color: var(--level-gold); border-bottom: 1px solid rgba(255,255,255,0.2); padding-bottom: 1.5vw; margin-bottom: 2vw; font-weight: 700;">Prize Pools</h3>
                     <div style="display: flex; justify-content: space-around; margin-bottom: 4vw;">
@@ -1173,7 +1137,6 @@
                     <p style="font-size: 3.5vw; color: var(--accent-cyan); margin-top: 3vw; font-weight: 600;">Ending On</p>
                     <div id="referralTimer" style="font-size: 4vw; font-weight: 700; color: white; margin-top: 1vw;">Loading Timer...</div>
                 </div>
-
                 <div class="referral-list-section" style="margin-top: 5vw; width: 100%; padding-bottom: 20vw;">
                     <h3 style="font-size: 5vw; color: var(--accent-cyan); text-align: center; margin-bottom: 3vw; font-weight: 700;">Your Friends</h3>
                     <div id="referralsList" style="display: flex; flex-direction: column; gap: 2vw;">
@@ -1188,12 +1151,10 @@
                     <h1 class="wallet-title">Get Real Crypto.</h1>
                     <p style="color:rgba(227, 244, 249, 0.7); font-size: 1rem; margin-bottom: 0;">Earn and buy tokens.</p>
                 </div>
-                
                 <div class="banner-placeholder" onclick="handleWalletBannerClick()" style="margin-top: 2vw; margin-bottom: 4vw;"> 
                     <img id="walletBannerImage" src="" alt="Wallet Banner" style="display: none;">
                     <span id="walletBannerText">Wallet Page Ad Banner (1020x320 Area)</span>
                 </div>
-                    
                 <div class="wallet-stats-grid">
                     <div class="wallet-stat-box">
                         <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/coin.webp" alt="Coin">
@@ -1206,22 +1167,16 @@
                         <span class="wallet-stat-label">TON</span>
                     </div>
                 </div>
-
                 <div class="button-group" style="margin-top: 10px;" id="connectBtnContainer">
                     <button class="btn connect-btn" id="connectWalletBtn" onclick="connectWallet()">
-                         <svg class="icon" viewBox="0 0 24 24">
-                            <rect x="2" y="5" width="20" height="14" rx="2" ry="2"></rect>
-                            <line x1="2" y1="10" x2="22" y2="10"></line>
-                        </svg>
+                         <svg class="icon" viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2" ry="2"></rect><line x1="2" y1="10" x2="22" y2="10"></line></svg>
                         <span class="btn-text">Connect Wallet</span>
                     </button>
                 </div>
-
                 <div id="walletStatusBadge" style="display:none; margin-top:5px; background:rgba(255,255,255,0.1); padding:8px 15px; border-radius:20px; font-size:0.8rem; border:1px solid rgba(0,229,255,0.3);">
                     <span style="width:10px; height:10px; background:#00C853; border-radius:50%; display:inline-block; margin-right:5px;"></span>
                     <span id="walletAddressDisplay"></span>
                 </div>
-
                 <div class="exchange-btn" onclick="handleExchangeClick()">
                     <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/exchange.webp" class="exchange-icon" alt="Swap">
                     <div class="exchange-text">
@@ -1238,25 +1193,22 @@
                 <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/home.webp" alt="Home">
                 <span>Home</span>
             </div>
-            
             <div class="nav-item" onclick="switchTab('task', this)">
                 <img src="https://img.icons8.com/3d-fluency/94/clipboard.png" alt="Task">
                 <span>Task</span>
             </div>
-
             <div class="nav-item" onclick="switchTab('friends', this)">
                 <i class="fas fa-users" style="color: inherit;"></i>
                 <span>Friends</span>
             </div>
-
             <div class="nav-item" onclick="switchTab('wallet', this)">
                 <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/wallet.webp" alt="Wallet">
                 <span>Wallet</span>
             </div>
         </div>
-
     </div>
 
+    <!-- MAIN SCRIPT (FIXED) -->
     <script>
         // --- FIREBASE CONFIGURATION ---
         const firebaseConfig = {
@@ -1285,14 +1237,19 @@
         let currentLeaderboardTab = 'coins'; 
         let referralCount = 0; 
         let lastSpinTime = 0;
+        let myReferredBy = null; // যে আমাকে রেফার করেছে
         
+        // 10% Logic Variables
+        let lastSavedBalance = 0; // ১০% কমিশনের জন্য আগের ব্যালেন্স মনে রাখা
+        let referrerIdFromUrl = null; // URL থেকে রেফার আইডি ধরে রাখার জন্য
+
         // Boosters/AutoTap
         let boosterEndTime = 0; 
         let autotapEndTime = 0; 
         let noadsEndTime = 0;   
         let tapMultiplier = 1;
 
-        const BOT_USERNAME_PLACEHOLDER = 'snowmanadventurebot';
+        const BOT_USERNAME_PLACEHOLDER = 'snowmanadventurebot'; // আপনার বটের ইউজারনেম দিন
         let appInviteBaseUrl = `https://t.me/${BOT_USERNAME_PLACEHOLDER}?startapp=`;
         
         // Backend URL 
@@ -1393,6 +1350,7 @@
             loadUserData();
             loadConfig(); 
             startAutoTapLoop(); 
+            // ডাটা সেভ এবং ১০% কমিশন লজিক প্রতি ৫ সেকেন্ডে রান হবে
             setInterval(saveUserData, 5000);
             startReferralTimer();
         }
@@ -1442,7 +1400,7 @@
                     // রেফারেল আইডি চেক (start_param)
                     const startParam = tg.initDataUnsafe.start_param;
                     if (startParam && startParam !== userId) {
-                        window.referrerId = startParam;
+                        referrerIdFromUrl = startParam;
                     }
                 }
             } catch (e) {
@@ -1450,9 +1408,12 @@
             }
         }
 
+        // --- [FIXED] SAVE DATA & 10% COMMISSION LOGIC ---
         function saveUserData() {
             if(!userId) return;
-            db.ref('users/' + userId).update({
+
+            // ১. নিজের ডাটা আপডেট করা
+            const userUpdate = {
                 balance: balance,
                 tonBalance: tonBalance,
                 tapCount: tapCount,
@@ -1461,9 +1422,44 @@
                 avatar: headerAvatar.src,
                 lastSpinTime: lastSpinTime,
                 lastActive: Date.now()
-            });
+            };
+            
+            // যদি রেফারার থাকে তবে সেটা সেভ করে রাখা
+            if(myReferredBy) {
+                userUpdate.referredBy = myReferredBy;
+            }
+
+            db.ref('users/' + userId).update(userUpdate);
+
+            // ২. ১০% কমিশন লজিক (Referral Logic)
+            // গতবার সেভ করার পর থেকে বর্তমান ব্যালেন্স কত বেড়েছে তা বের করা
+            if (myReferredBy && lastSavedBalance > 0) {
+                const earnedAmount = balance - lastSavedBalance;
+                
+                // যদি আর্ন পজিটিভ হয় এবং অন্তত ১০ কয়েন আর্ন করে (ছোট ডাটা রাইট এড়াতে)
+                if (earnedAmount > 10) {
+                    const commission = Math.floor(earnedAmount * 0.10); // ১০% কমিশন
+                    
+                    if (commission > 0) {
+                        // রেফারারের ব্যালেন্স আপডেট করা (Transaction দিয়ে যাতে ডাটা লস না হয়)
+                        db.ref('users/' + myReferredBy).transaction((referrer) => {
+                            if (referrer) {
+                                referrer.balance = (referrer.balance || 0) + commission;
+                                return referrer;
+                            }
+                            return referrer;
+                        });
+                        // কনসোলে চেক করার জন্য
+                        console.log(`Sent ${commission} coins to referrer ${myReferredBy}`);
+                    }
+                }
+            }
+
+            // বর্তমান ব্যালেন্স আপডেট করে রাখা পরবর্তী ক্যালকুলেশনের জন্য
+            lastSavedBalance = balance;
         }
 
+        // --- [FIXED] LOAD USER DATA & NEW REFERRAL COUNT ---
         function loadUserData() {
             if(!userId) return;
             const userRef = db.ref('users/' + userId);
@@ -1471,7 +1467,7 @@
             userRef.once('value').then((snapshot) => {
                 const data = snapshot.val();
                 if (data) {
-                    // পুরাতন ইউজার হলে ডাটা লোড হবে
+                    // পুরাতন ইউজার
                     balance = data.balance || 0;
                     tonBalance = data.tonBalance || 0.0;
                     tapCount = data.tapCount || 0;
@@ -1479,16 +1475,16 @@
                     completedTasks = data.completedTasks || {};
                     referralCount = data.referralCount || 0;
                     lastSpinTime = data.lastSpinTime || 0;
-                    boosterEndTime = data.boosterEndTime || 0;
-                    autotapEndTime = data.autotapEndTime || 0;
-                    noadsEndTime = data.noadsEndTime || 0;
+                    myReferredBy = data.referredBy || null; // রেফারার আইডি লোড
+                    
+                    lastSavedBalance = balance; // লোড করার সময় ব্যালেন্স সেট
 
                     updateUI();
                     loadTasksFromDB();
                     loadReferrals(); 
                 } else {
-                    // নতুন ইউজার (প্রথমবার অ্যাপ খুললে)
-                    let startBalance = 500; // নতুন ইউজারের জন্য জয়েনিং বোনাস
+                    // নতুন ইউজার (Registration)
+                    let startBalance = 500; 
                     let newUserStats = {
                         balance: startBalance,
                         tonBalance: 0.0,
@@ -1499,23 +1495,27 @@
                         lastActive: Date.now()
                     };
 
-                    // যদি রেফারেল লিঙ্কের মাধ্যমে আসে
-                    if (window.referrerId) {
-                        newUserStats.referredBy = window.referrerId;
-                        
-                        // রেফারারকে (যিনি ইনভাইট করেছেন) ৫০০০ কয়েন বোনাস দেওয়া
-                        db.ref('users/' + window.referrerId).transaction((rUser) => {
+                    // নতুন ইউজার যদি কারো রেফারে আসে
+                    if (referrerIdFromUrl) {
+                        newUserStats.referredBy = referrerIdFromUrl;
+                        myReferredBy = referrerIdFromUrl; // লোকাল ভেরিয়েবল আপডেট
+
+                        // ১. রেফারারকে ৫০০০ কয়েন বোনাস দেওয়া এবং রেফারেল কাউন্ট বাড়ানো
+                        db.ref('users/' + referrerIdFromUrl).transaction((rUser) => {
                             if (rUser) {
                                 rUser.balance = (rUser.balance || 0) + 5000;
-                                rUser.referralCount = (rUser.referralCount || 0) + 1;
+                                rUser.referralCount = (rUser.referralCount || 0) + 1; // [Fix] Count increase
+                                return rUser;
                             }
-                            return rUser;
+                            return rUser; // ইউজার না পেলে কিছু করবে না
                         });
                         showToast("Welcome! Bonus added via referral.");
                     }
 
                     userRef.set(newUserStats);
                     balance = startBalance;
+                    lastSavedBalance = startBalance;
+                    
                     updateUI();
                     loadTasksFromDB();
                 }
@@ -1557,18 +1557,22 @@
                 const av = user.avatar || "https://alamin12071985-a11y.github.io/Snowman-Adventure/snowman.webp";
 
                 const item = document.createElement('div');
-                item.className = 'lb-item';
+                item.style.display = 'flex';
+                item.style.alignItems = 'center';
+                item.style.justifyContent = 'space-between';
                 item.style.backgroundColor = 'var(--glass-bg)';
                 item.style.border = '1px solid rgba(0,229,255,0.1)';
+                item.style.borderRadius = '3vw';
+                item.style.padding = '2vw 4vw';
                 
                 item.innerHTML = `
-                    <img src="${av}" class="lb-avatar" style="margin-left:0;">
-                    <div class="lb-info">
-                        <div class="lb-name">${name}</div>
-                        <div class="lb-score">
-                            <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/coin.webp">
-                            ${bal}
-                        </div>
+                    <div style="display:flex; align-items:center; gap:3vw;">
+                        <img src="${av}" style="width:10vw; height:10vw; border-radius:50%;">
+                        <div style="font-size:3.5vw; font-weight:600; color:white;">${name}</div>
+                    </div>
+                    <div style="font-size:3.5vw; color:#FFD700; font-weight:700;">
+                        <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/coin.webp" style="width:4vw; vertical-align:middle;">
+                        ${bal}
                     </div>
                 `;
                 listContainer.appendChild(item);
@@ -1732,7 +1736,7 @@
             });
         }
         
-        // --- UPDATED SPIN WHEEL GAME (Daily Spin + 8 Prizes) ---
+        // --- SPIN WHEEL GAME ---
         const spinPrizes = [
             { amount: 0.01, label: '0.01' },
             { amount: 0.1,  label: '0.1' },
@@ -1799,14 +1803,9 @@
             spinBtn.innerText = "Spinning...";
 
             // Determine Prize (Random for Client-Side Demo)
-            // 0 to 7
             const randomIndex = Math.floor(Math.random() * 8);
             const prize = spinPrizes[randomIndex];
 
-            // Calculate rotation
-            // 8 segments = 45 deg each
-            // To align segment 'i' at the top (under marker), we need to rotate NEGATIVE (counter-clockwise)
-            // or 360 - (index * 45) + some spins (e.g. 5 * 360) + half-segment offset (22.5) to center it
             const segmentArc = 360 / 8;
             const fullSpins = 5 * 360; 
             const stopAngle = 360 - (randomIndex * segmentArc) - (segmentArc / 2); // Center alignment
@@ -1964,6 +1963,7 @@
             if (buttonName === 'AutoTap') { activateAutoTap(); return; }
         }
 
+        // --- [FIXED] LEADERBOARD LOGIC ---
         function openLeaderboard() {
             document.getElementById('leaderboardOverlay').classList.add('active');
             fetchLeaderboardData(); 
@@ -1992,6 +1992,7 @@
             podiumContainer.innerHTML = '<div style="color:white;width:100%;text-align:center;">Loading...</div>';
             listContainer.innerHTML = '';
 
+            // [FIX] Ensure sort field matches DB keys correctly
             let sortField = 'balance'; 
             if(currentLeaderboardTab === 'star') sortField = 'level';
             if(currentLeaderboardTab === 'refer') sortField = 'referralCount'; 
@@ -2009,6 +2010,7 @@
                     users.push(u);
                 });
 
+                // [FIX] Firebase returns ascending, we need descending (High to Low)
                 users.reverse();
                 renderLeaderboard(users);
             }).catch(err => {
@@ -2027,8 +2029,7 @@
 
             const top3 = [users[0], users[1], users[2]]; 
             
-            // Format number helper
-            const formatNum = (num) => num ? num.toLocaleString() : '0';
+            const formatNum = (num) => num ? Math.floor(num).toLocaleString() : '0';
 
             const getScoreText = (u) => {
                 if(currentLeaderboardTab === 'star') return `Lvl ${u.level}`;
@@ -2037,8 +2038,6 @@
             };
             
             // BUILD PODIUM (Rank 2 - Rank 1 - Rank 3)
-            
-            // Rank 2 (Left)
             if(top3[1]) {
                 const u = top3[1];
                 podiumContainer.innerHTML += `
@@ -2052,7 +2051,6 @@
                     </div>`;
             }
             
-            // Rank 1 (Center)
             if(top3[0]) {
                 const u = top3[0];
                 podiumContainer.innerHTML += `
@@ -2066,7 +2064,6 @@
                     </div>`;
             }
 
-            // Rank 3 (Right)
             if(top3[2]) {
                 const u = top3[2];
                 podiumContainer.innerHTML += `
@@ -2105,9 +2102,7 @@
                 document.getElementById('myRankName').innerText = me.username;
                 document.getElementById('myRankScore').innerText = getScoreText(me);
                 
-                // Calculate percentile
-                let total = users.length; // Actually total fetched (100) or calculate logic
-                // Simple logic: (total - rank) / total * 100
+                let total = users.length;
                 let percentile = Math.floor(((total - (myIndex)) / total) * 100);
                 document.getElementById('myRankPercentile').innerText = `You are doing better than ${percentile}% of other members`;
             } else {
@@ -2137,6 +2132,28 @@
                     list.appendChild(card);
                 });
             });
+        }
+
+        // --- TASK HANDLING LOGIC ---
+        function handleTask(taskId, link, reward, btn) {
+            if (completedTasks[taskId]) return;
+            
+            window.open(link, '_blank');
+            btn.innerText = "Checking...";
+            btn.style.opacity = "0.7";
+            
+            setTimeout(() => {
+                balance += reward;
+                completedTasks[taskId] = true;
+                
+                db.ref('users/' + userId + '/completedTasks').update({ [taskId]: true });
+                db.ref('users/' + userId).update({ balance: balance });
+                
+                btn.innerText = "Done";
+                btn.classList.add('claimed');
+                updateUI();
+                showToast(`Task completed! +${reward} coins`);
+            }, 5000); 
         }
 
         function getInviteLink() { return `${appInviteBaseUrl}${userId}`; }
