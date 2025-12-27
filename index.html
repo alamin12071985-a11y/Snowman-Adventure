@@ -1932,14 +1932,6 @@ function startSyncLoop() {
     }
 }
 
-    } catch (e) {
-        console.error(e);
-        showToast("Server connection failed!");
-        spinBtn.disabled = false;
-        spinBtn.innerText = "SPIN NOW";
-    }
-}
-
         function showGlassPopup(contentHTML) {
             const popup = document.getElementById('glassPopup');
             const content = document.getElementById('popupContent');
