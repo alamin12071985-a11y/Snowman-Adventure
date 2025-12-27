@@ -690,14 +690,42 @@
         .popup-btn:active { transform: scale(0.98); }
         @keyframes popIn { from { opacity: 0; transform: scale(0.8); } to { opacity: 1; transform: scale(1); } }
 
-        /* SPIN WHEEL UPDATED STYLES */
+        /* --- SPIN WHEEL FULL SCREEN STYLES (UPDATED) --- */
+        
+        .fullscreen-popup-content {
+            background: linear-gradient(180deg, #050f1a 0%, #163450 100%);
+            width: 100% !important;
+            height: 100% !important;
+            max-width: 100% !important;
+            max-height: 100% !important;
+            border-radius: 0 !important;
+            padding: 0 !important;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 6000;
+        }
+
+        .wheel-title {
+            font-size: 8vw;
+            color: white;
+            margin-bottom: 5vw;
+            font-weight: 800;
+            text-shadow: 0 0 2vw var(--accent-cyan);
+            margin-top: -10vw; 
+        }
+
         .wheel-container {
             position: relative;
-            width: 80vw;
-            height: 80vw;
-            margin: 0 auto 5vw auto;
+            width: 90vw; 
+            height: 90vw;
+            margin: 0 auto 8vw auto;
         }
-        /* Wrapper for rotating both image and overlay prizes */
+
         .wheel-rotator {
             width: 100%;
             height: 100%;
@@ -705,9 +733,10 @@
             border-radius: 50%;
             overflow: hidden;
             transition: transform 4s cubic-bezier(0.25, 0.1, 0.25, 1);
-            background: #111; /* Fallback */
-            box-shadow: 0 0 5vw var(--accent-cyan); /* Increased glow */
+            background: transparent;
+            box-shadow: 0 0 8vw rgba(0, 229, 255, 0.2); 
         }
+
         .wheel-img {
             width: 100%;
             height: 100%;
@@ -717,7 +746,6 @@
             z-index: 1;
         }
         
-        /* Prize Segments Overlay */
         .wheel-segment {
             position: absolute;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -725,48 +753,74 @@
             z-index: 2;
         }
         
-        /* --- UPDATED CONTENT SIZING --- */
         .segment-content {
             position: absolute;
-            top: 8%; /* Moved closer to the edge to use wider space */
+            top: 6%; 
             left: 50%;
-            transform-origin: 50% 125%; /* Keep rotation anchor same */
+            transform-origin: 50% 125%;
             transform: translateX(-50%);
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            width: 30vw; /* Increased width to allow bigger elements */
+            width: 20vw; 
             text-align: center;
         }
+
         .segment-ton-img {
-            width: 13vw; /* SIGNIFICANTLY LARGER (was 6vw) */
-            height: 13vw; /* SIGNIFICANTLY LARGER */
+            width: 7vw; /* SMALLER ICON */
+            height: 7vw; 
             object-fit: contain;
-            filter: drop-shadow(0 0 4px rgba(0,0,0,0.8));
-            margin-bottom: -1vw; /* Pull text closer */
+            filter: drop-shadow(0 0 2px rgba(0,0,0,0.8));
+            margin-bottom: 0.5vw;
         }
+
         .segment-text {
             color: white;
-            font-weight: 900;
-            font-size: 5.5vw; /* SIGNIFICANTLY LARGER (was 3vw) */
-            text-shadow: 0 0 4px #000, 0 0 8px #000;
+            font-weight: 800;
+            font-size: 3.5vw; /* SMALLER TEXT */
+            text-shadow: 0 0 3px #000;
             margin-top: 0;
             z-index: 10;
         }
 
         .wheel-marker {
             position: absolute;
-            top: -3vw;
+            top: -4vw;
             left: 50%;
             transform: translateX(-50%);
-            width: 10vw;
-            height: 12vw;
+            width: 12vw;
+            height: 14vw;
             z-index: 20;
-            filter: drop-shadow(0 0.5vw 0.5vw rgba(0,0,0,0.5));
-            background-color: #FFD700;
+            filter: drop-shadow(0 1vw 1vw rgba(0,0,0,0.5));
+            background: linear-gradient(180deg, #FFD700 0%, #FFA000 100%);
             clip-path: polygon(50% 100%, 0% 0%, 100% 0%);
-            border: 2px solid white;
+            border-top: 2px solid white;
+        }
+
+        .spin-action-btn {
+            background: linear-gradient(90deg, #FFD700, #FFA000);
+            color: #000;
+            width: 50vw !important; /* SMALLER BUTTON */
+            height: 12vw !important;
+            font-size: 4.5vw !important;
+            border-radius: 8vw !important;
+            box-shadow: 0 0 4vw rgba(255, 215, 0, 0.4);
+            margin-top: 2vw;
+            font-weight: 800;
+            border: none;
+        }
+
+        .close-spin-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            width: 40vw !important;
+            height: 10vw !important;
+            font-size: 3.5vw !important;
+            border-radius: 8vw !important;
+            margin-top: 4vw;
+            cursor: pointer;
         }
 
         .task-card .task-btn { min-width: 25vw; } 
@@ -956,9 +1010,6 @@
 </head>
 <body class="home-active">
     
-    <!-- (Body Structure Remains the Same as your provided code, omitted for brevity but Script is fully replaced below) -->
-    <!-- PLEASE PASTE THE REST OF THE BODY HTML HERE IF YOU COPY MANUALLY, OR USE THE FULL FILE PROVIDED -->
-
     <!-- TOAST NOTIFICATION -->
     <div id="toastNotification" class="toast-notification">
         <div class="toast-icon"><i class="fas fa-check"></i></div>
@@ -1085,9 +1136,9 @@
                     <h1 class="wallet-title">Daily Tasks</h1>
                     <p style="color:rgba(227, 244, 249, 0.7); font-size: 1rem;">Complete tasks to earn coins.</p>
                 </div>
+                <!-- Updated Task Banner -->
                 <div class="banner-placeholder" onclick="handleTaskBannerClick()">
-                    <img id="taskBannerImage" src="" alt="Task Banner" style="display: none;">
-                    <span id="taskBannerText">Task Page Ad Banner (1020x320 Area)</span>
+                    <img id="taskBannerImage" src="https://i.ibb.co.com/ynTYbKbL/20251227-143045.jpg" alt="Task Banner" style="display: block;">
                 </div>
                 <div id="taskList" class="task-list">
                     <div style="text-align:center; color:rgba(255,255,255,0.5); margin-top:20px;">Loading tasks...</div>
@@ -1099,9 +1150,9 @@
                 <div style="text-align:center; padding-top: 10px; padding-bottom: 0; margin-top: 5vw;"> 
                     <h1 class="wallet-title" style="font-size: 4.5vw;"><span role="img" aria-label="gift">🎁</span> Invite Friends & Earn Forever!</h1>
                 </div>
+                <!-- Updated Friends Banner -->
                 <div class="banner-placeholder" onclick="handleFriendsBannerClick()" style="margin-top: 2vw; margin-bottom: 4vw;"> 
-                    <img id="friendsBannerImage" src="" alt="Friends Banner" style="display: none;">
-                    <span id="friendsBannerText">Friends Page Ad Banner (1020x320 Area)</span>
+                    <img id="friendsBannerImage" src="https://i.ibb.co.com/RJMLvT1/20251227-144034.jpg" alt="Friends Banner" style="display: block;">
                 </div>
                 <div style="background: var(--glass-bg); border: 1px solid rgba(0,229,255,0.2); border-radius: 3vw; padding: 3vw; margin: 2vw auto 4vw auto; width: 90%; text-align: left;">
                     <p style="font-size: 3.5vw; font-weight: 600; color: var(--accent-cyan);">
@@ -1151,9 +1202,9 @@
                     <h1 class="wallet-title">Get Real Crypto.</h1>
                     <p style="color:rgba(227, 244, 249, 0.7); font-size: 1rem; margin-bottom: 0;">Earn and buy tokens.</p>
                 </div>
+                <!-- Updated Wallet Banner -->
                 <div class="banner-placeholder" onclick="handleWalletBannerClick()" style="margin-top: 2vw; margin-bottom: 4vw;"> 
-                    <img id="walletBannerImage" src="" alt="Wallet Banner" style="display: none;">
-                    <span id="walletBannerText">Wallet Page Ad Banner (1020x320 Area)</span>
+                    <img id="walletBannerImage" src="https://i.ibb.co.com/Z1fPKcKx/20251227-143016.jpg" alt="Wallet Banner" style="display: block;">
                 </div>
                 <div class="wallet-stats-grid">
                     <div class="wallet-stat-box">
@@ -1208,7 +1259,7 @@
         </div>
     </div>
 
-    <!-- MAIN SCRIPT (FIXED) -->
+    <!-- MAIN SCRIPT (With Referral Fixes & Fullscreen Spin) -->
     <script>
         // --- FIREBASE CONFIGURATION ---
         const firebaseConfig = {
@@ -1767,7 +1818,7 @@
             }
 
             const html = `
-                <div style="text-align:center; color:white; margin-bottom: 2vw; font-weight:700;">Daily Spin</div>
+                <div class="wheel-title">Daily Spin</div>
                 <div class="wheel-container">
                     <div class="wheel-marker"></div>
                     <div id="wheelRotator" class="wheel-rotator">
@@ -1775,10 +1826,17 @@
                         ${segmentsHTML}
                     </div>
                 </div>
-                <button id="spinActionBtn" class="popup-btn" onclick="spinTheWheel()" style="background: linear-gradient(90deg, #FFD700, #FFA000); color: #000; width: 100%; margin-top: 2vw; box-shadow: 0 0 2vw #FFD700;">SPIN NOW</button>
-                <button class="popup-btn" onclick="closeGlassPopup()" style="background: linear-gradient(90deg, #60ccfd, #4a92ff); color: white; width: 100%; margin-top: 5vw;">Close</button>
+                
+                <button id="spinActionBtn" class="spin-action-btn" onclick="spinTheWheel()">SPIN NOW</button>
+                <button class="close-spin-btn" onclick="closeGlassPopup()">Close</button>
             `;
-            showGlassPopup(html);
+            
+            // FULL SCREEN POPUP LOGIC
+            const popup = document.getElementById('glassPopup');
+            const content = document.getElementById('popupContent');
+            content.className = 'popup-content fullscreen-popup-content'; // ADDED FULLSCREEN CLASS
+            content.innerHTML = html;
+            popup.classList.add('active');
         }
 
         function spinTheWheel() {
@@ -1834,7 +1892,16 @@
         }
 
         function closeGlassPopup() {
-            document.getElementById('glassPopup').classList.remove('active');
+            const popup = document.getElementById('glassPopup');
+            const content = document.getElementById('popupContent');
+            
+            popup.classList.remove('active');
+            
+            // Reset classes after animation
+            setTimeout(() => {
+                content.className = 'popup-content'; // REMOVE FULLSCREEN CLASS
+                content.innerHTML = '';
+            }, 300);
         }
 
         function showLevelUpPopup(newLevel) {
