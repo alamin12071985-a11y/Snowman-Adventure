@@ -420,7 +420,7 @@
         #leaderboardBtn { top: 82%; right: 3vw; }
         #autoTapBtn { top: 82%; left: 3vw; }
         
-        /* --- TOAST NOTIFICATION --- */
+        /* --- UPDATED: GLASS TOAST NOTIFICATION --- */
         .toast-notification {
             position: fixed;
             top: 5vw;
@@ -690,60 +690,14 @@
         .popup-btn:active { transform: scale(0.98); }
         @keyframes popIn { from { opacity: 0; transform: scale(0.8); } to { opacity: 1; transform: scale(1); } }
 
-        /* --- UPDATED FULL SCREEN SPIN UI --- */
-        .spin-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(5, 15, 26, 0.98);
-            z-index: 6000;
-            display: none; 
-            flex-direction: column; 
-            align-items: center; 
-            justify-content: center;
-            backdrop-filter: blur(15px);
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-        .spin-overlay.active { display: flex; opacity: 1; }
-
-        .spin-header {
-            position: absolute; top: 0; left: 0; width: 100%;
-            display: flex; justify-content: center; align-items: center;
-            padding: 5vw;
-        }
-        .spin-title {
-            font-size: 6vw; font-weight: 800; color: white;
-            text-transform: uppercase; letter-spacing: 1px;
-            text-shadow: 0 0 10px rgba(0, 229, 255, 0.5);
-        }
-
-        /* The Close 'X' Button */
-        .spin-close-btn {
-            position: absolute; top: 6vw; right: 6vw;
-            width: 10vw; height: 10vw;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            color: rgba(255, 255, 255, 0.7);
-            font-size: 5vw;
-            display: flex; align-items: center; justify-content: center;
-            cursor: pointer;
-            transition: all 0.2s;
-            z-index: 6001;
-        }
-        .spin-close-btn:active {
-            background: rgba(255, 50, 50, 0.3);
-            border-color: rgba(255, 50, 50, 0.5);
-            color: white;
-            transform: scale(0.9);
-        }
-
+        /* SPIN WHEEL UPDATED STYLES - BIGGER ICONS */
         .wheel-container {
             position: relative;
-            width: 90vw;
-            height: 90vw;
-            margin: 5vw auto;
+            width: 80vw;
+            height: 80vw;
+            margin: 0 auto 5vw auto;
         }
-        
+        /* Wrapper for rotating both image and overlay prizes */
         .wheel-rotator {
             width: 100%;
             height: 100%;
@@ -751,76 +705,69 @@
             border-radius: 50%;
             overflow: hidden;
             transition: transform 4s cubic-bezier(0.25, 0.1, 0.25, 1);
-            background: transparent;
-            box-shadow: 0 0 8vw rgba(0, 229, 255, 0.15);
+            background: #111; /* Fallback */
+            box-shadow: 0 0 5vw var(--accent-cyan); /* Increased glow */
         }
         .wheel-img {
-            width: 100%; height: 100%;
+            width: 100%;
+            height: 100%;
             object-fit: cover;
-            position: absolute; top: 0; left: 0;
+            position: absolute;
+            top: 0; left: 0;
             z-index: 1;
         }
         
-        /* Prize Segments - Perfectly Aligned to Pockets */
+        /* Prize Segments Overlay */
         .wheel-segment {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            pointer-events: none; z-index: 2;
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 2;
         }
         
-        /* Centered in the 'pocket' */
+        /* --- UPDATED CONTENT SIZING --- */
         .segment-content {
             position: absolute;
-            top: 14%; /* Pushed down into the visual pocket */
+            top: 8%; /* Moved closer to the edge to use wider space */
             left: 50%;
+            transform-origin: 50% 125%; /* Keep rotation anchor same */
             transform: translateX(-50%);
-            display: flex; flex-direction: column;
-            align-items: center; justify-content: center;
-            width: 20vw; text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 30vw; /* Increased width to allow bigger elements */
+            text-align: center;
         }
         .segment-ton-img {
-            width: 10vw; height: 10vw; /* Sleek size */
+            width: 13vw; /* SIGNIFICANTLY LARGER (was 6vw) */
+            height: 13vw; /* SIGNIFICANTLY LARGER */
             object-fit: contain;
-            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));
-            margin-bottom: -1.5vw;
+            filter: drop-shadow(0 0 4px rgba(0,0,0,0.8));
+            margin-bottom: -1vw; /* Pull text closer */
         }
         .segment-text {
-            color: white; font-weight: 800; font-size: 3.8vw; /* Minimized text */
-            text-shadow: 0 1px 3px rgba(0,0,0,0.8);
-            margin-top: 0; z-index: 10;
+            color: white;
+            font-weight: 900;
+            font-size: 5.5vw; /* SIGNIFICANTLY LARGER (was 3vw) */
+            text-shadow: 0 0 4px #000, 0 0 8px #000;
+            margin-top: 0;
+            z-index: 10;
         }
 
         .wheel-marker {
-            position: absolute; top: -2vw; left: 50%;
+            position: absolute;
+            top: -3vw;
+            left: 50%;
             transform: translateX(-50%);
-            width: 12vw; height: 14vw;
+            width: 10vw;
+            height: 12vw;
             z-index: 20;
-            filter: drop-shadow(0 1vw 1vw rgba(0,0,0,0.5));
-            background-image: url('https://img.icons8.com/fluency/96/down.png'); 
-            background-size: contain; background-repeat: no-repeat; background-position: center;
+            filter: drop-shadow(0 0.5vw 0.5vw rgba(0,0,0,0.5));
+            background-color: #FFD700;
+            clip-path: polygon(50% 100%, 0% 0%, 100% 0%);
+            border: 2px solid white;
         }
-
-        /* Slimmer Spin Button */
-        .spin-action-btn {
-            background: linear-gradient(90deg, #FFD700, #FFA000);
-            color: #3E2723;
-            width: 60%; 
-            height: 13vw;
-            border-radius: 50px;
-            font-size: 4.5vw;
-            font-weight: 800;
-            border: none;
-            box-shadow: 0 0 3vw rgba(255, 215, 0, 0.4);
-            margin-top: 5vw;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            cursor: pointer;
-            transition: transform 0.1s;
-        }
-        .spin-action-btn:disabled {
-            background: #444; color: #888; box-shadow: none;
-        }
-        .spin-action-btn:active { transform: scale(0.95); }
-
 
         .task-card .task-btn { min-width: 25vw; } 
 
@@ -1016,34 +963,14 @@
         <i class="fas fa-times" style="margin-left:auto; color:#999; cursor:pointer;" onclick="hideToast()"></i>
     </div>
 
-    <!-- GENERIC GLASS POPUP (Used for Shop) -->
+    <!-- GENERIC GLASS POPUP (Used for Shop/Spin) -->
     <div id="glassPopup" class="popup-overlay">
         <div class="popup-content" id="popupContent">
             <!-- Content Injected via JS -->
         </div>
     </div>
-
-    <!-- FULL SCREEN SPIN OVERLAY -->
-    <div id="spinOverlay" class="spin-overlay">
-        <div class="spin-close-btn" onclick="closeSpinUI()">
-            <i class="fas fa-times"></i>
-        </div>
-        <div class="spin-header">
-            <div class="spin-title">Daily Spin</div>
-        </div>
-
-        <div class="wheel-container">
-            <div class="wheel-marker"></div>
-            <div id="wheelRotator" class="wheel-rotator">
-                <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/spin%20wheel.webp" class="wheel-img" alt="Wheel">
-                <!-- Segments injected via JS -->
-            </div>
-        </div>
-
-        <button id="spinActionBtn" class="spin-action-btn" onclick="spinTheWheel()">SPIN NOW</button>
-    </div>
     
-    <!-- LEADERBOARD OVERLAY -->
+    <!-- LEADERBOARD OVERLAY (REBUILT LIKE SCREENSHOT) -->
     <div id="leaderboardOverlay" class="leaderboard-overlay">
         <div class="leaderboard-header">
             <h2>Leaderboard</h2>
@@ -1187,8 +1114,8 @@
                 </div>
 
                 <div class="banner-placeholder" onclick="handleTaskBannerClick()">
-                    <img id="taskBannerImage" src="https://i.ibb.co.com/Rk9pXCWC/file-00000000971c72099c35c0c555de979d.png" alt="Task Banner" style="display: block;">
-                    <span id="taskBannerText" style="display: none;">Task Page Ad Banner (1020x320 Area)</span>
+                    <img id="taskBannerImage" src="" alt="Task Banner" style="display: none;">
+                    <span id="taskBannerText">Task Page Ad Banner (1020x320 Area)</span>
                 </div>
 
                 <div id="taskList" class="task-list">
@@ -1203,8 +1130,8 @@
                 </div>
                 
                 <div class="banner-placeholder" onclick="handleFriendsBannerClick()" style="margin-top: 2vw; margin-bottom: 4vw;"> 
-                    <img id="friendsBannerImage" src="https://i.ibb.co.com/cc9Xt7bj/file-00000000802c720992c1e799c040d7a8.png" alt="Friends Banner" style="display: block;">
-                    <span id="friendsBannerText" style="display: none;">Friends Page Ad Banner (1020x320 Area)</span>
+                    <img id="friendsBannerImage" src="" alt="Friends Banner" style="display: none;">
+                    <span id="friendsBannerText">Friends Page Ad Banner (1020x320 Area)</span>
                 </div>
 
                 <div style="background: var(--glass-bg); border: 1px solid rgba(0,229,255,0.2); border-radius: 3vw; padding: 3vw; margin: 2vw auto 4vw auto; width: 90%; text-align: left;">
@@ -1263,8 +1190,8 @@
                 </div>
                 
                 <div class="banner-placeholder" onclick="handleWalletBannerClick()" style="margin-top: 2vw; margin-bottom: 4vw;"> 
-                    <img id="walletBannerImage" src="https://i.ibb.co.com/5XfxrYd1/file-00000000564c72469a4de5cbf7cf62d8.png" alt="Wallet Banner" style="display: block;">
-                    <span id="walletBannerText" style="display: none;">Wallet Page Ad Banner (1020x320 Area)</span>
+                    <img id="walletBannerImage" src="" alt="Wallet Banner" style="display: none;">
+                    <span id="walletBannerText">Wallet Page Ad Banner (1020x320 Area)</span>
                 </div>
                     
                 <div class="wallet-stats-grid">
@@ -1511,6 +1438,12 @@
                     if (user.username) headerName.innerText = user.username;
                     else if (user.first_name) headerName.innerText = user.first_name;
                     if (user.photo_url) headerAvatar.src = user.photo_url;
+
+                    // রেফারেল আইডি চেক (start_param)
+                    const startParam = tg.initDataUnsafe.start_param;
+                    if (startParam && startParam !== userId) {
+                        window.referrerId = startParam;
+                    }
                 }
             } catch (e) {
                 console.log("Not running in Telegram");
@@ -1533,9 +1466,12 @@
 
         function loadUserData() {
             if(!userId) return;
-            db.ref('users/' + userId).once('value').then((snapshot) => {
+            const userRef = db.ref('users/' + userId);
+            
+            userRef.once('value').then((snapshot) => {
                 const data = snapshot.val();
                 if (data) {
+                    // পুরাতন ইউজার হলে ডাটা লোড হবে
                     balance = data.balance || 0;
                     tonBalance = data.tonBalance || 0.0;
                     tapCount = data.tapCount || 0;
@@ -1543,7 +1479,6 @@
                     completedTasks = data.completedTasks || {};
                     referralCount = data.referralCount || 0;
                     lastSpinTime = data.lastSpinTime || 0;
-                    
                     boosterEndTime = data.boosterEndTime || 0;
                     autotapEndTime = data.autotapEndTime || 0;
                     noadsEndTime = data.noadsEndTime || 0;
@@ -1552,9 +1487,37 @@
                     loadTasksFromDB();
                     loadReferrals(); 
                 } else {
+                    // নতুন ইউজার (প্রথমবার অ্যাপ খুললে)
+                    let startBalance = 500; // নতুন ইউজারের জন্য জয়েনিং বোনাস
+                    let newUserStats = {
+                        balance: startBalance,
+                        tonBalance: 0.0,
+                        tapCount: 0,
+                        level: 1,
+                        username: headerName.innerText,
+                        avatar: headerAvatar.src,
+                        lastActive: Date.now()
+                    };
+
+                    // যদি রেফারেল লিঙ্কের মাধ্যমে আসে
+                    if (window.referrerId) {
+                        newUserStats.referredBy = window.referrerId;
+                        
+                        // রেফারারকে (যিনি ইনভাইট করেছেন) ৫০০০ কয়েন বোনাস দেওয়া
+                        db.ref('users/' + window.referrerId).transaction((rUser) => {
+                            if (rUser) {
+                                rUser.balance = (rUser.balance || 0) + 5000;
+                                rUser.referralCount = (rUser.referralCount || 0) + 1;
+                            }
+                            return rUser;
+                        });
+                        showToast("Welcome! Bonus added via referral.");
+                    }
+
+                    userRef.set(newUserStats);
+                    balance = startBalance;
                     updateUI();
                     loadTasksFromDB();
-                    loadReferrals();
                 }
             });
         }
@@ -1597,17 +1560,13 @@
                 item.className = 'lb-item';
                 item.style.backgroundColor = 'var(--glass-bg)';
                 item.style.border = '1px solid rgba(0,229,255,0.1)';
-                item.style.display = 'flex';
-                item.style.alignItems = 'center';
-                item.style.padding = '3vw';
-                item.style.borderRadius = '3vw';
                 
                 item.innerHTML = `
-                    <img src="${av}" style="width:10vw; height:10vw; border-radius:50%; margin-right:3vw;">
-                    <div style="flex:1;">
-                        <div style="font-weight:700; font-size:3.5vw;">${name}</div>
-                        <div style="display:flex; align-items:center; gap:1vw; font-size:3vw; color:rgba(255,255,255,0.7);">
-                            <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/coin.webp" style="width:3.5vw; height:3.5vw;">
+                    <img src="${av}" class="lb-avatar" style="margin-left:0;">
+                    <div class="lb-info">
+                        <div class="lb-name">${name}</div>
+                        <div class="lb-score">
+                            <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/coin.webp">
                             ${bal}
                         </div>
                     </div>
@@ -1773,7 +1732,7 @@
             });
         }
         
-        // --- SPIN WHEEL GAME LOGIC ---
+        // --- UPDATED SPIN WHEEL GAME (Daily Spin + 8 Prizes) ---
         const spinPrizes = [
             { amount: 0.01, label: '0.01' },
             { amount: 0.1,  label: '0.1' },
@@ -1793,7 +1752,6 @@
 
             for(let i=0; i<8; i++) {
                 const rotation = i * sliceAngle;
-                // Add an offset to rotation if needed, but standard should align.
                 segmentsHTML += `
                     <div class="wheel-segment" style="transform: rotate(${rotation}deg);">
                         <div class="segment-content">
@@ -1803,24 +1761,20 @@
                     </div>
                 `;
             }
-            
-            // Inject segments
-            document.getElementById('wheelRotator').innerHTML = `
-                <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/spin%20wheel.webp" class="wheel-img" alt="Wheel">
-                ${segmentsHTML}
+
+            const html = `
+                <div style="text-align:center; color:white; margin-bottom: 2vw; font-weight:700;">Daily Spin</div>
+                <div class="wheel-container">
+                    <div class="wheel-marker"></div>
+                    <div id="wheelRotator" class="wheel-rotator">
+                        <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/spin%20wheel.webp" class="wheel-img">
+                        ${segmentsHTML}
+                    </div>
+                </div>
+                <button id="spinActionBtn" class="popup-btn" onclick="spinTheWheel()" style="background: linear-gradient(90deg, #FFD700, #FFA000); color: #000; width: 100%; margin-top: 2vw; box-shadow: 0 0 2vw #FFD700;">SPIN NOW</button>
+                <button class="popup-btn" onclick="closeGlassPopup()" style="background: linear-gradient(90deg, #60ccfd, #4a92ff); color: white; width: 100%; margin-top: 5vw;">Close</button>
             `;
-            
-            // Show Overlay
-            document.getElementById('spinOverlay').classList.add('active');
-            
-            // Reset Button
-            const spinBtn = document.getElementById('spinActionBtn');
-            spinBtn.disabled = false;
-            spinBtn.innerText = "SPIN NOW";
-        }
-        
-        function closeSpinUI() {
-            document.getElementById('spinOverlay').classList.remove('active');
+            showGlassPopup(html);
         }
 
         function spinTheWheel() {
@@ -1842,7 +1796,7 @@
             }
 
             spinBtn.disabled = true;
-            spinBtn.innerText = "SPINNING...";
+            spinBtn.innerText = "Spinning...";
 
             // Determine Prize (Random for Client-Side Demo)
             // 0 to 7
@@ -1852,22 +1806,10 @@
             // Calculate rotation
             // 8 segments = 45 deg each
             // To align segment 'i' at the top (under marker), we need to rotate NEGATIVE (counter-clockwise)
-            // The segment 0 is at 0deg (12 o'clock). Marker is at 12 o'clock.
-            // If random index is 0, we want 0 deg rotation.
-            // If random index is 1, segment 1 is at 45deg. We need to rotate wheel -45deg to bring it to top.
-            // Center alignment offset: each segment is 45deg wide. 0 starts at 0deg. Center is at 22.5deg.
-            // But CSS logic usually starts 0 at top-center. If segment 0 is rotated 0deg, it starts at 12 and goes to 1:30?
-            // Let's assume segment 0 is centered at 0 deg for simplicity, or we add offset.
-            // Let's add 5 full spins + target.
-            
+            // or 360 - (index * 45) + some spins (e.g. 5 * 360) + half-segment offset (22.5) to center it
             const segmentArc = 360 / 8;
             const fullSpins = 5 * 360; 
-            // We want to stop exactly on the center of the segment.
-            // The segment div is `rotate(i * 45deg)`. That rotates the top-left? No, usually centered.
-            // To bring segment i to top: - (i * 45) - 22.5 (half segment offset if needed).
-            // Let's try simpler: 360 - (index * 45) - 22.5
-            
-            const stopAngle = 360 - (randomIndex * segmentArc) - (segmentArc / 2);
+            const stopAngle = 360 - (randomIndex * segmentArc) - (segmentArc / 2); // Center alignment
             const totalRotation = fullSpins + stopAngle;
 
             wheel.style.transform = `rotate(${totalRotation}deg)`;
