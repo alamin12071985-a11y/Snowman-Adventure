@@ -17,8 +17,6 @@
     
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <!-- FontAwesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
     <style>
         :root {
@@ -347,7 +345,8 @@
             filter: drop-shadow(0 0 4vw rgba(0, 229, 255, 0.1));
             object-fit: contain;
             margin: 0 auto; 
-            margin-top: 5vw; 
+            /* UPDATED: Snowman slightly lower */
+            margin-top: 12vw; 
         }
 
         .character-img:active { 
@@ -399,9 +398,13 @@
             box-shadow: 0 0 1vw var(--accent-cyan);
         }
 
-        .floating-action-btn i {
-            font-size: 5.5vw; 
-            color: var(--accent-cyan);
+        /* UPDATED: Icon Image Styling inside Floating Button */
+        .floating-action-btn img {
+            width: 6vw; 
+            height: 6vw;
+            object-fit: contain;
+            margin-bottom: 0.5vw;
+            filter: drop-shadow(0 0 5px rgba(0, 229, 255, 0.5));
         }
 
         .floating-action-btn .btn-text {
@@ -456,9 +459,21 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            color: white;
-            font-size: 3.5vw;
             background: rgba(255, 255, 255, 0.1); 
+        }
+        
+        .toast-icon img {
+            width: 4.5vw;
+            height: 4.5vw;
+            object-fit: contain;
+        }
+
+        .close-toast-icon {
+            margin-left:auto; 
+            width: 4vw; 
+            height: 4vw; 
+            opacity: 0.6;
+            cursor: pointer;
         }
         
         /* --- NAV BAR --- */
@@ -496,15 +511,9 @@
             opacity: 0.5;
             transition: all 0.3s;
             filter: grayscale(100%);
+            object-fit: contain;
         }
         
-        .nav-item i {
-            font-size: 6vw;
-            opacity: 0.5;
-            transition: all 0.3s;
-            color: inherit;
-        }
-
         .nav-item span { font-size: 2.8vw; font-weight: 500; }
 
         .nav-item.active {
@@ -515,7 +524,7 @@
             box-shadow: 0 -2.5vw 5vw rgba(0, 229, 255, 0.15) inset;
         }
 
-        .nav-item.active img, .nav-item.active i {
+        .nav-item.active img {
             opacity: 1;
             filter: grayscale(0%) drop-shadow(0 0 2vw var(--accent-cyan));
             transform: scale(1.1);
@@ -621,7 +630,7 @@
         }
         .connect-btn { padding: 0 5vw; width: 100%; max-width: 62.5vw; }
         .btn-text { color: white; font-size: 3.5vw; font-weight: 700; margin-left: 2.5vw; letter-spacing: 0.1vw; }
-        .icon { width: 6vw; height: 6vw; fill: none; stroke: white; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+        .icon-img { width: 6vw; height: 6vw; object-fit: contain; }
 
         .invite-container { display: flex; gap: 3vw; width: 100%; padding: 0 5vw; margin-top: 5vw; }
         
@@ -636,7 +645,7 @@
             transition: transform 0.1s, filter 0.2s; position: relative; overflow: hidden;
             display: flex; align-items: center; justify-content: center; gap: 2vw;
         }
-        .btn-invite i { font-size: 6vw; color: white; margin-right: -1vw; }
+        .btn-invite img { width: 6vw; height: 6vw; margin-right: -1vw; object-fit: contain; }
         .btn-invite::after {
             content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 50%;
             background: linear-gradient(to bottom, rgba(255,255,255,0.2), transparent);
@@ -650,10 +659,10 @@
             display: flex; justify-content: center; align-items: center; cursor: pointer;
             transition: background 0.2s, transform 0.1s;
         }
-        .btn-copy svg { width: 6vw; height: 6vw; fill: white; transition: fill 0.2s; }
+        .btn-copy img { width: 6vw; height: 6vw; object-fit: contain; }
         .btn-copy:active { transform: scale(0.95); background-color: #1a4066; }
         .btn-copy.copied { background-color: var(--accent-cyan); border-color: var(--accent-cyan); }
-        .btn-copy.copied svg { fill: var(--bg-deep); }
+        .btn-copy.copied img { filter: brightness(0); }
         
         /* Glass Popup Styling */
         .popup-overlay {
@@ -850,7 +859,8 @@
         }
         .leaderboard-header h2 { font-size: 7vw; color: white; font-weight: 700; }
         
-        .close-btn { background: none; border: none; color: rgba(255,255,255,0.6); font-size: 8vw; cursor: pointer; }
+        .close-btn { background: none; border: none; color: rgba(255,255,255,0.6); width: 8vw; height: 8vw; cursor: pointer; display: flex; justify-content: center; align-items: center; }
+        .close-btn img { width: 100%; height: 100%; object-fit: contain; }
 
         /* Filter Pills (Tabs) */
         .lb-filter-row {
@@ -1012,9 +1022,9 @@
     
     <!-- TOAST NOTIFICATION -->
     <div id="toastNotification" class="toast-notification">
-        <div class="toast-icon"><i class="fas fa-check"></i></div>
+        <div class="toast-icon"><img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/check_icon.webp" alt=""></div>
         <div id="toastMessage">Changes saved</div>
-        <i class="fas fa-times" style="margin-left:auto; color:#999; cursor:pointer;" onclick="hideToast()"></i>
+        <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/close_icon.webp" class="close-toast-icon" onclick="hideToast()" alt="X">
     </div>
 
     <!-- GENERIC GLASS POPUP -->
@@ -1026,7 +1036,9 @@
     <div id="leaderboardOverlay" class="leaderboard-overlay">
         <div class="leaderboard-header">
             <h2>Leaderboard</h2>
-            <button class="close-btn" onclick="closeLeaderboard()">&times;</button>
+            <button class="close-btn" onclick="closeLeaderboard()">
+                <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/close_icon.webp" alt="X">
+            </button>
         </div>
         <div class="lb-filter-row">
             <div class="lb-pill lb-pill-secondary">All Time</div>
@@ -1076,7 +1088,8 @@
                 </div>
                 <div class="stat-card-row">
                     <div class="stat-value">
-                        <img src="https://static.vecteezy.com/system/resources/previews/024/093/454/non_2x/toncoin-ton-glass-crypto-coin-3d-illustration-free-png.png" alt="T">
+                        <!-- Updated TON Icon -->
+                        <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/ton.webp" alt="T">
                         <span id="headerTonBalance">0.0</span>
                     </div>
                 </div>
@@ -1110,22 +1123,24 @@
                         <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/coin.webp" alt="C">
                         <span id="displayBalance">0</span>
                     </div>
+                    <!-- All floating buttons updated to <img> -->
                     <div id="casesBtn" class="floating-action-btn left-btn" onclick="handleFloatingBtnClick('Cases')">
-                        <i class="fas fa-dharmachakra"></i>
+                        <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/spin_icon.webp" alt="Spin">
                         <span class="btn-text">Spin</span>
                     </div>
                     <div id="autoTapBtn" class="floating-action-btn left-btn" onclick="handleFloatingBtnClick('AutoTap')">
-                        <i class="fas fa-hand-pointer"></i>
+                        <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/autotap_icon.webp" alt="Auto">
                         <span class="btn-text">Auto Tap</span>
                     </div>
                     <div id="shopBtn" class="floating-action-btn right-btn" onclick="handleFloatingBtnClick('Shop')">
-                        <i class="fas fa-shopping-cart"></i>
+                        <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/shop_icon.webp" alt="Shop">
                         <span class="btn-text">Shop</span>
                     </div>
                     <div id="leaderboardBtn" class="floating-action-btn right-btn" onclick="handleFloatingBtnClick('Leaderboard')">
-                        <i class="fas fa-trophy"></i>
+                        <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/leaderboard_icon.webp" alt="Rank">
                         <span class="btn-text">Leaderboard</span>
                     </div>
+                    <!-- Snowman Character -->
                     <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/snowman.webp" class="character-img" id="clickerBtn" alt="Snowman">
                 </div>
             </div>
@@ -1161,11 +1176,11 @@
                 </div>
                 <div class="invite-container" style="margin-top: 0;">
                     <button class="btn-invite" onclick="inviteFriend()">
-                        <i class="fas fa-paper-plane"></i>
+                        <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/invite_icon.webp" alt="Invite">
                         Invite a Friend
                     </button>
                     <button class="btn-copy" id="copyLinkBtn" onclick="handleCopyClick(this)">
-                        <svg viewBox="0 0 24 24"><path d="M16 1H4C2.9 1 2 1.9 2 3V17H4V3H16V1ZM19 5H8C6.9 5 6 5.9 6 7V21C6 22.1 6.9 23 8 23H19C20.1 23 21 22.1 21 21V7C21 5.9 20.1 5 19 5ZM19 21H8V7H19V21Z"/></svg>
+                        <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/copy_icon.webp" alt="Copy">
                     </button>
                 </div>
                 <div style="background: var(--glass-bg); border: 1px solid var(--accent-cyan); border-radius: 4vw; padding: 4vw; margin: 5vw 0 0 0; width: 100%; text-align: center;">
@@ -1213,14 +1228,15 @@
                         <span class="wallet-stat-label">Coins</span>
                     </div>
                     <div class="wallet-stat-box">
-                        <img src="https://static.vecteezy.com/system/resources/previews/024/093/454/non_2x/toncoin-ton-glass-crypto-coin-3d-illustration-free-png.png" alt="TON">
+                        <!-- Updated TON Icon -->
+                        <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/ton.webp" alt="TON">
                         <span class="wallet-stat-val" id="walletTon">0.0</span>
                         <span class="wallet-stat-label">TON</span>
                     </div>
                 </div>
                 <div class="button-group" style="margin-top: 10px;" id="connectBtnContainer">
                     <button class="btn connect-btn" id="connectWalletBtn" onclick="connectWallet()">
-                         <svg class="icon" viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2" ry="2"></rect><line x1="2" y1="10" x2="22" y2="10"></line></svg>
+                         <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/wallet_icon.webp" class="icon-img" alt="Wallet">
                         <span class="btn-text">Connect Wallet</span>
                     </button>
                 </div>
@@ -1245,11 +1261,11 @@
                 <span>Home</span>
             </div>
             <div class="nav-item" onclick="switchTab('task', this)">
-                <img src="https://img.icons8.com/3d-fluency/94/clipboard.png" alt="Task">
+                <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/task.webp" alt="Task">
                 <span>Task</span>
             </div>
             <div class="nav-item" onclick="switchTab('friends', this)">
-                <i class="fas fa-users" style="color: inherit;"></i>
+                <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/friends.webp" alt="Friends">
                 <span>Friends</span>
             </div>
             <div class="nav-item" onclick="switchTab('wallet', this)">
@@ -1702,18 +1718,19 @@
         }
         
         // --- SHOP DATA ---
+        // Icons updated to webp filenames
         const starShopItems = [
-            { id: 'coin_starter', title: 'Starter Pack', stars: 10, reward: '5,000 Snow Coins', description: 'Instantly add coins to your balance.', icon: 'fa-snowflake', type: 'coin' },
-            { id: 'coin_small', title: 'Small Pack', stars: 20, reward: '10,000 Snow Coins', description: 'Instantly add coins to your balance.', icon: 'fa-snowflake', type: 'coin' },
-            { id: 'coin_medium', title: 'Medium Pack', stars: 60, reward: '40,000 Snow Coins', description: 'Instantly add coins to your balance.', icon: 'fa-snowflake', type: 'coin' },
-            { id: 'coin_large', title: 'Large Pack', stars: 120, reward: '100,000 Snow Coins', description: 'Instantly add coins to your balance.', icon: 'fa-snowflake', type: 'coin' },
-            { id: 'coin_mega', title: 'Mega Pack', stars: 220, reward: '220,000 Snow Coins', description: 'Instantly add coins to your balance.', icon: 'fa-snowflake', type: 'coin' },
-            { id: 'booster_3d', title: '3 Days Booster', stars: 20, reward: '⚡ x2 Tap Power', description: 'Doubles your tap power for 3 days.', icon: 'fa-bolt', type: 'booster' },
-            { id: 'booster_15d', title: '15 Days Booster', stars: 70, reward: '⚡ x2 Tap Power', description: 'Doubles your tap power for 15 days.', icon: 'fa-bolt', type: 'booster' },
-            { id: 'booster_30d', title: '30 Days Booster', stars: 120, reward: '⚡ x2 Tap Power', description: 'Doubles your tap power for 30 days.', icon: 'fa-bolt', type: 'booster' },
-            { id: 'autotap_1d', title: 'Auto Tap (1 Day)', stars: 20, reward: '🤖 Automatic Tapping', description: 'Enable background tapping for 1 day.', icon: 'fa-robot', type: 'autotap' },
-            { id: 'autotap_7d', title: 'Auto Tap (7 Days)', stars: 80, reward: '🤖 Automatic Tapping', description: 'Enable background tapping for 7 days.', icon: 'fa-robot', type: 'autotap' },
-            { id: 'autotap_30d', title: 'Auto Tap (30 Days)', stars: 200, reward: '🤖 Automatic Tapping', description: 'Enable background tapping for 30 days.', icon: 'fa-robot', type: 'autotap' },
+            { id: 'coin_starter', title: 'Starter Pack', stars: 10, reward: '5,000 Snow Coins', description: 'Instantly add coins to your balance.', icon: 'snowflake.webp', type: 'coin' },
+            { id: 'coin_small', title: 'Small Pack', stars: 20, reward: '10,000 Snow Coins', description: 'Instantly add coins to your balance.', icon: 'snowflake.webp', type: 'coin' },
+            { id: 'coin_medium', title: 'Medium Pack', stars: 60, reward: '40,000 Snow Coins', description: 'Instantly add coins to your balance.', icon: 'snowflake.webp', type: 'coin' },
+            { id: 'coin_large', title: 'Large Pack', stars: 120, reward: '100,000 Snow Coins', description: 'Instantly add coins to your balance.', icon: 'snowflake.webp', type: 'coin' },
+            { id: 'coin_mega', title: 'Mega Pack', stars: 220, reward: '220,000 Snow Coins', description: 'Instantly add coins to your balance.', icon: 'snowflake.webp', type: 'coin' },
+            { id: 'booster_3d', title: '3 Days Booster', stars: 20, reward: '⚡ x2 Tap Power', description: 'Doubles your tap power for 3 days.', icon: 'bolt.webp', type: 'booster' },
+            { id: 'booster_15d', title: '15 Days Booster', stars: 70, reward: '⚡ x2 Tap Power', description: 'Doubles your tap power for 15 days.', icon: 'bolt.webp', type: 'booster' },
+            { id: 'booster_30d', title: '30 Days Booster', stars: 120, reward: '⚡ x2 Tap Power', description: 'Doubles your tap power for 30 days.', icon: 'bolt.webp', type: 'booster' },
+            { id: 'autotap_1d', title: 'Auto Tap (1 Day)', stars: 20, reward: '🤖 Automatic Tapping', description: 'Enable background tapping for 1 day.', icon: 'robot.webp', type: 'autotap' },
+            { id: 'autotap_7d', title: 'Auto Tap (7 Days)', stars: 80, reward: '🤖 Automatic Tapping', description: 'Enable background tapping for 7 days.', icon: 'robot.webp', type: 'autotap' },
+            { id: 'autotap_30d', title: 'Auto Tap (30 Days)', stars: 200, reward: '🤖 Automatic Tapping', description: 'Enable background tapping for 30 days.', icon: 'robot.webp', type: 'autotap' },
         ];
 
         function openShop() {
@@ -1734,11 +1751,11 @@
                     html += `<h3 style="font-size: 4.5vw; color: var(--level-gold); margin: 5vw 0 2vw 0; font-weight: 700; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 1vw;">${groups[type].title}</h3>`;
                     html += groups[type].items.map(item => `
                         <div class="task-card shop-item" onclick="initiateStarPurchase('${item.id}', ${item.stars})">
-                            <i class="fas ${item.icon}" style="font-size: 8vw; color: var(--accent-cyan); width: 12vw; text-align: center; background: rgba(0,0,0,0.3); padding: 2vw; border-radius: 3vw;"></i>
+                            <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/${item.icon}" style="width: 12vw; height: 12vw; object-fit: contain; background: rgba(0,0,0,0.3); padding: 2vw; border-radius: 3vw;">
                             <div class="task-info">
                                 <div class="task-title">${item.title}</div>
                                 <div class="task-reward" style="color: #FFD700; font-size: 3.5vw; font-weight: 800;">
-                                    <i class="fas fa-star" style="font-size: 4vw; color: #FFD700; margin-right: 1.5vw;"></i>
+                                    <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/star.webp" style="width: 4vw; height: 4vw; margin-right: 1.5vw;">
                                     ${item.stars.toLocaleString()} Stars
                                 </div>
                                 <p style="font-size: 2.8vw; color: rgba(255,255,255,0.7); margin-top: 0.5vw;">${item.reward}</p>
@@ -1803,7 +1820,7 @@
             // Generate the wheel segments HTML
             let segmentsHTML = '';
             const sliceAngle = 360 / 8; // 45 degrees
-            const tonImgUrl = "https://static.vecteezy.com/system/resources/previews/024/093/454/non_2x/toncoin-ton-glass-crypto-coin-3d-illustration-free-png.png";
+            const tonImgUrl = "https://alamin12071985-a11y.github.io/Snowman-Adventure/ton.webp";
 
             for(let i=0; i<8; i++) {
                 const rotation = i * sliceAngle;
@@ -1918,16 +1935,20 @@
             const msgEl = document.getElementById('toastMessage');
             const iconEl = document.querySelector('#toastNotification .toast-icon');
             
+            let iconSrc = 'https://alamin12071985-a11y.github.io/Snowman-Adventure/bell_icon.webp'; // Default
+
             if (message.includes('Active:')) {
-                iconEl.innerHTML = '<i class="fas fa-info-circle"></i>';
+                iconSrc = 'https://alamin12071985-a11y.github.io/Snowman-Adventure/info_icon.webp';
                 iconEl.style.backgroundColor = 'rgba(33, 150, 243, 0.3)'; 
             } else if (message.includes('successful') || message.includes('won')) {
-                iconEl.innerHTML = '<i class="fas fa-check"></i>';
+                iconSrc = 'https://alamin12071985-a11y.github.io/Snowman-Adventure/check_icon.webp';
                 iconEl.style.backgroundColor = 'rgba(76, 175, 80, 0.3)';
             } else {
-                iconEl.innerHTML = '<i class="fas fa-bell"></i>';
                 iconEl.style.backgroundColor = 'rgba(255, 255, 255, 0.1)';
             }
+            
+            // Updated to use img
+            iconEl.innerHTML = `<img src="${iconSrc}" alt="icon">`;
 
             msgEl.innerText = message;
             toast.classList.add('show');
@@ -2189,7 +2210,7 @@
                     const card = document.createElement('div');
                     card.className = 'task-card';
                     card.innerHTML = `
-                        <img src="${task.image || 'https://img.icons8.com/3d-fluency/94/checked-checkbox.png'}" class="task-icon" alt="Icon">
+                        <img src="${task.image || 'https://alamin12071985-a11y.github.io/Snowman-Adventure/check_icon.webp'}" class="task-icon" alt="Icon">
                         <div class="task-info">
                             <div class="task-title">${task.title}</div>
                             <div class="task-reward"><img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/coin.webp">+${task.reward}</div>
