@@ -753,9 +753,10 @@
             z-index: 2;
         }
         
+        /* --- MODIFIED SEGMENT CONTENT FOR LARGER IMAGES & POSITIONING --- */
         .segment-content {
             position: absolute;
-            top: 6%; 
+            top: 14%; /* Pushed down to fit inside the orb */
             left: 50%;
             transform-origin: 50% 125%;
             transform: translateX(-50%);
@@ -768,18 +769,19 @@
         }
 
         .segment-ton-img {
-            width: 7vw; /* SMALLER ICON */
-            height: 7vw; 
+            width: 14vw; /* MUCH LARGER ICON */
+            height: 14vw; 
             object-fit: contain;
-            filter: drop-shadow(0 0 2px rgba(0,0,0,0.8));
-            margin-bottom: 0.5vw;
+            filter: drop-shadow(0 0 5px rgba(0,229,255,0.8));
+            margin-bottom: -3vw; /* Tighten space */
+            z-index: 5;
         }
 
         .segment-text {
             color: white;
             font-weight: 800;
-            font-size: 3.5vw; /* SMALLER TEXT */
-            text-shadow: 0 0 3px #000;
+            font-size: 2.8vw; /* SMALLER TEXT */
+            text-shadow: 0 0 4px #000;
             margin-top: 0;
             z-index: 10;
         }
@@ -1303,9 +1305,6 @@
         const BOT_USERNAME_PLACEHOLDER = 'snowmanadventurebot'; // আপনার বটের ইউজারনেম দিন
         let appInviteBaseUrl = `https://t.me/${BOT_USERNAME_PLACEHOLDER}?startapp=`;
         
-        // Backend URL 
-        const BACKEND_URL = "https://snowmanadventure.onrender.com"; 
-
         // --- DOM ELEMENTS ---
         const balanceDisplay = document.getElementById('displayBalance');
         const clickerBtn = document.getElementById('clickerBtn');
@@ -1395,17 +1394,100 @@
             }, 50);
         });
 
-        function init() {
-            initTelegramUser(); 
-            startSnowfall();
-            loadUserData();
-            loadConfig(); 
-            startAutoTapLoop(); 
-            // ডাটা সেভ এবং ১০% কমিশন লজিক প্রতি ৫ সেকেন্ডে রান হবে
-            setInterval(saveUserData, 5000);
-            startReferralTimer();
-        }
+        // --- BACKEND SETUP ---
+const API_URL = "https://snowmanadventure.onrender.com"; // এখানে আপনার Render/Heroku লিংক দিন
+let tgInitData = window.Telegram.WebApp.initData || "";
+let pendingTaps = 0; // অফলাইনে ট্যাপ জমা রাখার জন্য
+
+function init() {
+    initTelegramUser(); 
+    startSnowfall();
+    
+    // চেক করা হচ্ছে ইউজার আইডি এবং টেলিগ্রাম ডাটা আছে কিনা
+    if(userId && tgInitData) {
+        console.log("Connecting to server for user:", userId);
+        loginAndLoad(); 
+    } else {
+        console.log("No Telegram Data found. Are you testing in browser?");
+        // ব্রাউজারে টেস্টিং এর জন্য ফেইক ডাটা
+        showToast("Please open in Telegram App to Save Data!");
+        balance = 500; 
+        updateUI();
+    }
+
+    loadConfig(); 
+    startAutoTapLoop(); 
+    startReferralTimer();
+    
+    // ট্যাপ সিঙ্ক লুপ চালু (ডাটা সেভ করার জন্য)
+    startSyncLoop();
+}
+      // --- SERVER AUTHENTICATION ---
+async function loginAndLoad() {
+    try {
+        // সার্ভারে লগিন রিকোয়েস্ট পাঠানো
+        const response = await fetch(`${API_URL}/auth`, {
+            method: 'POST',
+            headers: { 'Authorization': tgInitData }
+        });
         
+        if (!response.ok) throw new Error("Auth failed");
+
+        const data = await response.json();
+        
+        // সার্ভার থেকে আসা ডাটা দিয়ে গেম আপডেট
+        balance = data.balance;
+        level = data.level;
+        tonBalance = data.tonBalance || 0.0;
+        referralCount = data.referralCount || 0;
+        
+        updateUI();
+        console.log("Logged in securely via Server!");
+        
+    } catch (error) {
+        console.error("Login Error:", error);
+        // সার্ভার অফ থাকলে বা এরর হলে ইউজারকে জানান
+        showToast("Connecting to server...");
+    }
+}
+
+// --- SYNC LOOP (প্রতি ৩ সেকেন্ডে ট্যাপ সার্ভারে পাঠাবে) ---
+function startSyncLoop() {
+    setInterval(async () => {
+        if (pendingTaps > 0) {
+            const tapsToSend = pendingTaps;
+            // টেম্পোরারি রিসেট, ফেইল হলে আবার যোগ হবে
+            pendingTaps = 0; 
+            
+            try {
+                const response = await fetch(`${API_URL}/sync_taps`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': tgInitData
+                    },
+                    body: JSON.stringify({ taps: tapsToSend })
+                });
+                
+                const result = await response.json();
+                
+                if (result.status === 'ok') {
+                    // সার্ভারের ব্যালেন্সই আসল ব্যালেন্স
+                    balance = result.balance;
+                    updateUI();
+                } else {
+                    // চিটিং ধরলে বা সমস্যা হলে
+                    console.warn(result.reason);
+                    if(result.balance) balance = result.balance;
+                }
+            } catch (err) {
+                // ইন্টারনেট না থাকলে ট্যাপগুলো আবার ফেরত আসবে
+                pendingTaps += tapsToSend;
+                console.log("Sync skipped (Network error)");
+            }
+        }
+    }, 3000); 
+}  
         function loadConfig() {
             db.ref('config/referralPercentage').once('value').then(snapshot => {
                 const percentage = snapshot.val();
@@ -1457,58 +1539,7 @@
             } catch (e) {
                 console.log("Not running in Telegram");
             }
-        }
-
-        // --- [FIXED] SAVE DATA & 10% COMMISSION LOGIC ---
-        function saveUserData() {
-            if(!userId) return;
-
-            // ১. নিজের ডাটা আপডেট করা
-            const userUpdate = {
-                balance: balance,
-                tonBalance: tonBalance,
-                tapCount: tapCount,
-                level: level,
-                username: headerName.innerText, 
-                avatar: headerAvatar.src,
-                lastSpinTime: lastSpinTime,
-                lastActive: Date.now()
-            };
-            
-            // যদি রেফারার থাকে তবে সেটা সেভ করে রাখা
-            if(myReferredBy) {
-                userUpdate.referredBy = myReferredBy;
-            }
-
-            db.ref('users/' + userId).update(userUpdate);
-
-            // ২. ১০% কমিশন লজিক (Referral Logic)
-            // গতবার সেভ করার পর থেকে বর্তমান ব্যালেন্স কত বেড়েছে তা বের করা
-            if (myReferredBy && lastSavedBalance > 0) {
-                const earnedAmount = balance - lastSavedBalance;
-                
-                // যদি আর্ন পজিটিভ হয় এবং অন্তত ১০ কয়েন আর্ন করে (ছোট ডাটা রাইট এড়াতে)
-                if (earnedAmount > 10) {
-                    const commission = Math.floor(earnedAmount * 0.10); // ১০% কমিশন
-                    
-                    if (commission > 0) {
-                        // রেফারারের ব্যালেন্স আপডেট করা (Transaction দিয়ে যাতে ডাটা লস না হয়)
-                        db.ref('users/' + myReferredBy).transaction((referrer) => {
-                            if (referrer) {
-                                referrer.balance = (referrer.balance || 0) + commission;
-                                return referrer;
-                            }
-                            return referrer;
-                        });
-                        // কনসোলে চেক করার জন্য
-                        console.log(`Sent ${commission} coins to referrer ${myReferredBy}`);
-                    }
-                }
-            }
-
-            // বর্তমান ব্যালেন্স আপডেট করে রাখা পরবর্তী ক্যালকুলেশনের জন্য
-            lastSavedBalance = balance;
-        }
+        }    
 
         // --- [FIXED] LOAD USER DATA & NEW REFERRAL COUNT ---
         function loadUserData() {
@@ -1753,50 +1784,54 @@
         }
 
         function initiateStarPurchase(itemId, stars) {
-            if (!userId || userId === 'test_user_001') {
-                showToast("Open in Telegram to buy!");
-                return;
-            }
-            closeGlassPopup();
-            showToast(`Loading payment...`);
-            fetch(`${BACKEND_URL}/create_invoice`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ item_id: itemId, user_id: userId })
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.result) {
-                    window.Telegram.WebApp.openInvoice(data.result, (status) => {
-                        if (status === 'paid') {
-                            showToast("Purchase successful!");
-                            loadUserData(); 
-                        } else {
-                            showToast("Payment cancelled.");
-                        }
-                        openShop();
-                    });
+    if (!userId || userId === 'test_user_001') {
+        showToast("Open in Telegram to buy!");
+        return;
+    }
+    closeGlassPopup();
+    showToast(`Loading payment...`);
+    
+    // BACKEND_URL এর বদলে API_URL ব্যবহার করা হলো
+    fetch(`${API_URL}/create_invoice`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ item_id: itemId, user_id: userId })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.result) {
+            window.Telegram.WebApp.openInvoice(data.result, (status) => {
+                if (status === 'paid') {
+                    showToast("Purchase successful!");
+                    // loadUserData() এর পরিবর্তে loginAndLoad() ব্যবহার করা হলো যাতে সার্ভার থেকে ডাটা আপডেট হয়
+                    loginAndLoad(); 
                 } else {
-                    showToast("Failed to create invoice.");
-                    openShop();
+                    showToast("Payment cancelled.");
                 }
-            })
-            .catch(error => {
-                showToast("Server connection failed!");
                 openShop();
             });
+        } else {
+            showToast("Failed to create invoice.");
+            openShop();
         }
+    })
+    .catch(error => {
+        showToast("Server connection failed!");
+        openShop();
+    });
+}
         
         // --- SPIN WHEEL GAME ---
+        // Prizes updated to smaller amounts as requested
         const spinPrizes = [
-            { amount: 0.01, label: '0.01' },
-            { amount: 0.1,  label: '0.1' },
-            { amount: 0.5,  label: '0.5' },
-            { amount: 1.0,  label: '1' },
-            { amount: 5.0,  label: '5' },
-            { amount: 10.0, label: '10' },
-            { amount: 0.05, label: '0.05' },
-            { amount: 0.2,  label: '0.2' }
+            { amount: 0.001, label: '0.001' },
+            { amount: 0.005, label: '0.005' },
+            { amount: 0.01,  label: '0.01' },
+            { amount: 0.02,  label: '0.02' },
+            { amount: 0.1,   label: '0.1' }, // Grand prize (rare)
+            { amount: 0.5,   label: '0.5' }, // Super rare
+            { amount: 0.002, label: '0.002' },
+            { amount: 0.008, label: '0.008' }
         ];
 
         function openCasesGame() {
@@ -1839,50 +1874,66 @@
             popup.classList.add('active');
         }
 
-        function spinTheWheel() {
-            const spinBtn = document.getElementById('spinActionBtn');
-            const wheel = document.getElementById('wheelRotator');
-            
-            // Check Daily Limit
-            const now = new Date();
-            const lastSpin = new Date(lastSpinTime);
-            
-            // If same day/month/year, deny spin
-            if (lastSpinTime !== 0 && 
-                now.getDate() === lastSpin.getDate() &&
-                now.getMonth() === lastSpin.getMonth() &&
-                now.getFullYear() === lastSpin.getFullYear()) {
-                
-                showToast("You already spun today! Come back tomorrow.");
-                return;
-            }
+        async function spinTheWheel() {
+    const spinBtn = document.getElementById('spinActionBtn');
+    const wheel = document.getElementById('wheelRotator');
+    
+    // ১. টেলিগ্রাম ডাটা চেক
+    if (!tgInitData) {
+        showToast("Open inside Telegram to Spin!");
+        return;
+    }
 
-            spinBtn.disabled = true;
-            spinBtn.innerText = "Spinning...";
+    spinBtn.disabled = true;
+    spinBtn.innerText = "Connecting...";
 
-            // Determine Prize (Random for Client-Side Demo)
-            const randomIndex = Math.floor(Math.random() * 8);
-            const prize = spinPrizes[randomIndex];
+    try {
+        const response = await fetch(`${API_URL}/spin_wheel`, {
+            method: 'POST',
+            headers: { 
+                'Content-Type': 'application/json',
+                'Authorization': tgInitData 
+            },
+            body: JSON.stringify({}) 
+        });
+        
+        const data = await response.json();
 
-            const segmentArc = 360 / 8;
-            const fullSpins = 5 * 360; 
-            const stopAngle = 360 - (randomIndex * segmentArc) - (segmentArc / 2); // Center alignment
-            const totalRotation = fullSpins + stopAngle;
-
-            wheel.style.transform = `rotate(${totalRotation}deg)`;
-
-            // Wait for animation (4s)
-            setTimeout(() => {
-                // Update Balance
-                tonBalance += prize.amount;
-                lastSpinTime = Date.now();
-                saveUserData(); // Save to Firebase
-                updateUI();
-
-                showToast(`🎉 You won ${prize.label} TON!`);
-                spinBtn.innerText = "COME BACK TOMORROW";
-            }, 4000);
+        // ২. যদি সার্ভার রিজেক্ট করে (কুলডাউন বা এরর)
+        if (!data.result) {
+            showToast(data.error || "Server Error. Try again.");
+            spinBtn.disabled = false;
+            spinBtn.innerText = "SPIN NOW";
+            return;
         }
+
+        // ৩. স্পিন ঘোরানো
+        const randomIndex = data.index; 
+        const prizeAmount = data.prize;
+
+        const segmentArc = 360 / 8;
+        const fullSpins = 5 * 360; 
+        const stopAngle = 360 - (randomIndex * segmentArc) - (segmentArc / 2); 
+        const totalRotation = fullSpins + stopAngle;
+
+        wheel.style.transform = `rotate(${totalRotation}deg)`;
+        spinBtn.innerText = "Spinning...";
+
+        // ৪. এনিমেশন শেষে রেজাল্ট
+        setTimeout(() => {
+            tonBalance = data.new_ton_balance; // সার্ভার থেকে ব্যালেন্স আপডেট
+            updateUI(); 
+            showToast(`🎉 You won ${prizeAmount} TON!`);
+            spinBtn.innerText = "COME BACK TOMORROW";
+        }, 4000);
+
+    } catch (e) {
+        console.error("Spin Error:", e);
+        showToast("Server is sleeping. Wait 1 min & try again.");
+        spinBtn.disabled = false;
+        spinBtn.innerText = "SPIN NOW";
+    }
+}
 
         function showGlassPopup(contentHTML) {
             const popup = document.getElementById('glassPopup');
@@ -1947,39 +1998,32 @@
         clickerBtn.addEventListener('click', handleTap);
 
         function handleTap(e) {
-            e.preventDefault();
-            
-            const coinsPerTap = level * tapMultiplier; 
-            balance += coinsPerTap;
-            tapCount++; 
-            updateUI(); 
-            
-            if (navigator.vibrate) navigator.vibrate(50);
-            
-            let clientX = e.clientX;
-            let clientY = e.clientY;
-            if(e.touches && e.touches.length > 0) {
-                clientX = e.touches[0].clientX;
-                clientY = e.touches[0].clientY;
-            }
-            if (!clientX) {
-                const rect = e.target.getBoundingClientRect();
-                clientX = rect.left + rect.width / 2;
-                clientY = rect.top + rect.height / 2;
-            }
-            showFloatingText(clientX, clientY, `+${coinsPerTap}`);
-        }
-        
-        function startAutoTapLoop() {
-            setInterval(() => {
-                const now = Date.now();
-                if (now < autotapEndTime) {
-                    const autoCoins = level * tapMultiplier; 
-                    balance += autoCoins;
-                    updateUI(); 
-                }
-            }, 1000); 
-        }
+    if(e) e.preventDefault();
+    
+    const coinsPerTap = level * tapMultiplier; 
+    
+    // ১. ভিজ্যুয়াল আপডেট (সাথে সাথে ব্যালেন্স বাড়বে)
+    balance += coinsPerTap;
+    tapCount++; // লোকাল কাউন্টার
+    updateUI();
+
+    // ২. সার্ভারের জন্য জমা রাখা (এটি ৩ সেকেন্ড পর পর সার্ভারে যাবে)
+    pendingTaps++;
+    
+    // এনিমেশন ইফেক্ট
+    if (navigator.vibrate) navigator.vibrate(50);
+    
+    let clientX = e ? (e.touches ? e.touches[0].clientX : e.clientX) : window.innerWidth/2;
+    let clientY = e ? (e.touches ? e.touches[0].clientY : e.clientY) : window.innerHeight/2;
+    
+    // যদি কোঅর্ডিনেট না পাওয়া যায়
+    if (!clientX || !clientY) {
+        const rect = document.getElementById('clickerBtn').getBoundingClientRect();
+        clientX = rect.left + rect.width / 2;
+        clientY = rect.top + rect.height / 2;
+    }
+    showFloatingText(clientX, clientY, `+${coinsPerTap}`);
+}
 
         function showFloatingText(x, y, text) {
             const floatEl = document.createElement('div');
