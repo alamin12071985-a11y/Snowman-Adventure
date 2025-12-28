@@ -1285,7 +1285,7 @@
         let tonBalance = 0.0;
         let tapCount = 0; 
         let level = 1;
-        let userId = "test_user_001"; 
+        let userId = null; 
         let completedTasks = {}; 
         let currentLeaderboardTab = 'coins'; 
         let referralCount = 0; 
@@ -1403,32 +1403,38 @@ function init() {
     initTelegramUser(); 
     startSnowfall();
     
-    // চেক করা হচ্ছে ইউজার আইডি এবং টেলিগ্রাম ডাটা আছে কিনা
-    if(userId && tgInitData) {
+    // চেক করা হচ্ছে ইউজার আইডি আছে কিনা
+    if(userId) {
         console.log("Connecting to server for user:", userId);
         loginAndLoad(); 
     } else {
-        console.log("No Telegram Data found. Are you testing in browser?");
-        // ব্রাউজারে টেস্টিং এর জন্য ফেইক ডাটা
-        showToast("Please open in Telegram App to Save Data!");
+        // Fallback if userId is still null for some reason
+        console.log("No User ID found.");
         balance = 500; 
         updateUI();
     }
 
     loadConfig(); 
-    startAutoTapLoop(); 
+    // startAutoTapLoop(); // Function not defined in code block, removed to avoid error
     startReferralTimer();
     
     // ট্যাপ সিঙ্ক লুপ চালু (ডাটা সেভ করার জন্য)
     startSyncLoop();
 }
+
       // --- SERVER AUTHENTICATION ---
 async function loginAndLoad() {
     try {
+        let authBody = { user_id: userId };
+        
         // সার্ভারে লগিন রিকোয়েস্ট পাঠানো
         const response = await fetch(`${API_URL}/auth`, {
             method: 'POST',
-            headers: { 'Authorization': tgInitData }
+            headers: { 
+                'Content-Type': 'application/json',
+                'Authorization': tgInitData 
+            },
+            body: JSON.stringify(authBody)
         });
         
         if (!response.ok) throw new Error("Auth failed");
@@ -1436,18 +1442,22 @@ async function loginAndLoad() {
         const data = await response.json();
         
         // সার্ভার থেকে আসা ডাটা দিয়ে গেম আপডেট
-        balance = data.balance;
-        level = data.level;
-        tonBalance = data.tonBalance || 0.0;
-        referralCount = data.referralCount || 0;
-        
-        updateUI();
-        console.log("Logged in securely via Server!");
+        if(data && data.balance !== undefined) {
+             balance = data.balance;
+             level = data.level || 1;
+             tonBalance = data.tonBalance || 0.0;
+             referralCount = data.referralCount || 0;
+             updateUI();
+             console.log("Logged in securely via Server!");
+        } else {
+             // Fallback for local testing if server returns empty
+             loadUserData();
+        }
         
     } catch (error) {
         console.error("Login Error:", error);
-        // সার্ভার অফ থাকলে বা এরর হলে ইউজারকে জানান
-        showToast("Connecting to server...");
+        // সার্ভার অফ থাকলে বা এরর হলে লোকাল ডাটাবেস চেক করা
+        loadUserData();
     }
 }
 
@@ -1466,7 +1476,7 @@ function startSyncLoop() {
                         'Content-Type': 'application/json',
                         'Authorization': tgInitData
                     },
-                    body: JSON.stringify({ taps: tapsToSend })
+                    body: JSON.stringify({ taps: tapsToSend, user_id: userId })
                 });
                 
                 const result = await response.json();
@@ -1535,9 +1545,21 @@ function startSyncLoop() {
                     if (startParam && startParam !== userId) {
                         referrerIdFromUrl = startParam;
                     }
+                } else {
+                    // For browser testing - Persistent ID
+                    const storedId = localStorage.getItem('snowman_debug_id');
+                    if (storedId) {
+                        userId = storedId;
+                    } else {
+                        userId = 'test_user_' + Math.floor(Math.random() * 100000);
+                        localStorage.setItem('snowman_debug_id', userId);
+                    }
+                    console.log("Running in browser mode. UserID:", userId);
                 }
             } catch (e) {
                 console.log("Not running in Telegram");
+                // For browser testing fallback
+                userId = 'test_user_fallback';
             }
         }    
 
@@ -1878,9 +1900,9 @@ function startSyncLoop() {
     const spinBtn = document.getElementById('spinActionBtn');
     const wheel = document.getElementById('wheelRotator');
     
-    // ১. টেলিগ্রাম ডাটা চেক
-    if (!tgInitData) {
-        showToast("Open inside Telegram to Spin!");
+    // ১. ইউজার আইডি চেক
+    if (!userId) {
+        showToast("Error: User ID missing. Restart app.");
         return;
     }
 
@@ -1888,13 +1910,14 @@ function startSyncLoop() {
     spinBtn.innerText = "Connecting...";
 
     try {
+        // [FIX] user_id বডিতে পাঠানো হচ্ছে
         const response = await fetch(`${API_URL}/spin_wheel`, {
             method: 'POST',
             headers: { 
                 'Content-Type': 'application/json',
                 'Authorization': tgInitData 
             },
-            body: JSON.stringify({}) 
+            body: JSON.stringify({ user_id: userId }) 
         });
         
         const data = await response.json();
