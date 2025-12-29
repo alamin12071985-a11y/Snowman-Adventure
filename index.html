@@ -700,7 +700,7 @@
         .popup-btn:active { transform: scale(0.98); }
         @keyframes popIn { from { opacity: 0; transform: scale(0.8); } to { opacity: 1; transform: scale(1); } }
 
-        /* --- SPIN WHEEL FULL SCREEN STYLES (UPDATED) --- */
+        /* --- SPIN WHEEL FULL SCREEN STYLES (RE-FIXED) --- */
         
         .fullscreen-popup-content {
             background: linear-gradient(180deg, #050f1a 0%, #163450 100%);
@@ -763,9 +763,11 @@
             z-index: 2;
         }
         
+        /* ALIGNMENT FIX */
         .segment-content {
             position: absolute;
-            top: 12%;  /* Pushed down to fit in wheel pocket */
+            /* Pushed further out to fit the pockets */
+            top: 18%;  
             left: 50%;
             transform-origin: 50% 125%;
             transform: translateX(-50%);
@@ -777,13 +779,14 @@
             text-align: center;
         }
 
-        /* UPDATED: Much Larger Icon for Wheel */
         .segment-ton-img {
-            width: 13vw; /* Increased from 7vw */
-            height: 13vw; 
+            width: 11vw; /* Adjusted Size */
+            height: 11vw; 
             object-fit: contain;
             filter: drop-shadow(0 0 5px rgba(0,0,0,0.8));
             margin-bottom: 0.2vw;
+            /* Rotate back slightly if needed to look straight */
+            transform: rotate(0deg); 
         }
 
         .segment-text {
@@ -791,7 +794,7 @@
             font-weight: 800;
             font-size: 3.5vw;
             text-shadow: 0 0 3px #000;
-            margin-top: -1vw;
+            margin-top: -1.5vw;
             z-index: 10;
         }
 
@@ -812,7 +815,7 @@
         .spin-action-btn {
             background: linear-gradient(90deg, #FFD700, #FFA000);
             color: #000;
-            width: 60vw !important;
+            width: 70vw !important;
             height: 14vw !important;
             font-size: 4.5vw !important;
             border-radius: 8vw !important;
@@ -833,6 +836,49 @@
             border-radius: 8vw !important;
             margin-top: 4vw;
             cursor: pointer;
+        }
+
+        /* ADS TIMER OVERLAY */
+        #adsTimerOverlay {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.85);
+            z-index: 7000;
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+
+        /* REWARD POPUP (NEW) */
+        .reward-popup {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0.8);
+            width: 80vw;
+            background: linear-gradient(180deg, #163450 0%, #050f1a 100%);
+            border: 2px solid var(--accent-cyan);
+            border-radius: 5vw;
+            padding: 6vw;
+            z-index: 8000;
+            text-align: center;
+            box-shadow: 0 0 10vw rgba(0,229,255,0.5);
+            display: none;
+            opacity: 0;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .reward-popup.active {
+            display: block;
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1);
+        }
+        .reward-icon {
+            width: 25vw;
+            height: 25vw;
+            margin-bottom: 2vw;
+            filter: drop-shadow(0 0 2vw var(--accent-cyan));
         }
 
         /* --- UPDATED LEADERBOARD UI --- */
@@ -886,6 +932,7 @@
             white-space: nowrap;
             border: 1px solid rgba(255,255,255,0.1);
             transition: all 0.2s;
+            cursor: pointer; /* Added pointer */
         }
         .lb-pill.active {
             background: white;
@@ -1053,10 +1100,11 @@
                 <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/close_icon.webp" alt="X">
             </button>
         </div>
+        <!-- FIXED: IDs added to Time Filters -->
         <div class="lb-filter-row">
-            <div class="lb-pill lb-pill-secondary">All Time</div>
-            <div class="lb-pill active">Week</div>
-            <div class="lb-pill lb-pill-secondary">Month</div>
+            <div class="lb-pill lb-pill-secondary" id="time-all" onclick="switchTimeFilter('all')">All Time</div>
+            <div class="lb-pill lb-pill-secondary" id="time-week" onclick="switchTimeFilter('week')">Week</div>
+            <div class="lb-pill lb-pill-secondary" id="time-month" onclick="switchTimeFilter('month')">Month</div>
         </div>
         <div class="lb-filter-row">
             <div class="lb-pill active" onclick="switchLeaderboardTab('coins')" id="tab-coins">All</div>
@@ -1311,7 +1359,10 @@
         let referralCount = 0; 
         let lastSpinTime = 0;
         let myReferredBy = null; 
-        let isAdSpin = false; // New variable to track if ad was watched
+        
+        // ADS & SPIN VARIABLES
+        let adWatchCount = 0; // Tracks 0 to 5
+        let isAdSpin = false; // Flag for spin allowed
         
         // 10% Logic Variables
         let lastSavedBalance = 0;
@@ -1794,8 +1845,7 @@
             });
         }
         
-        // --- SPIN WHEEL GAME (UPDATED WITH ADS) ---
-        // Prizes Reduced as requested
+        // --- SPIN WHEEL GAME (UPDATED 5 Ads = 1 Spin & 15s Wait) ---
         const spinPrizes = [
             { amount: 0.001, label: '0.001' },
             { amount: 0.01,  label: '0.01' },
@@ -1824,19 +1874,23 @@
                 `;
             }
 
-            // Check if user has free spin
             const now = new Date();
             const lastSpin = new Date(lastSpinTime);
+            // Free Spin Logic: If different day
             const isFreeSpinAvailable = (lastSpinTime === 0 || 
                 now.getDate() !== lastSpin.getDate() ||
                 now.getMonth() !== lastSpin.getMonth() ||
                 now.getFullYear() !== lastSpin.getFullYear());
 
             let btnHtml = '';
+            // Reset counter if it's a new free day, though logic below prioritizes free first
             if (isFreeSpinAvailable) {
-                btnHtml = `<button id="spinActionBtn" class="spin-action-btn" onclick="spinTheWheel()">SPIN NOW</button>`;
+                // Free Spin
+                btnHtml = `<button id="spinActionBtn" class="spin-action-btn" onclick="spinTheWheel()">SPIN NOW (FREE)</button>`;
             } else {
-                btnHtml = `<button id="spinActionBtn" class="spin-action-btn" onclick="watchAdForSpin()">Watch Ad to Spin</button>`;
+                // Ad Spin
+                // Show 0/5 Progress
+                btnHtml = `<button id="spinActionBtn" class="spin-action-btn" onclick="watchAdForSpin()">Watch Ad (${adWatchCount}/5)</button>`;
             }
 
             const html = `
@@ -1851,6 +1905,20 @@
                 
                 ${btnHtml}
                 <button class="close-spin-btn" onclick="closeGlassPopup()">Close</button>
+                
+                <!-- ADS TIMER OVERLAY -->
+                <div id="adsTimerOverlay">
+                   <div style="font-size: 10vw; font-weight: 800; color: #FFD700;" id="adsCountdown">15</div>
+                   <div style="font-size: 4vw; margin-top: 2vw;">Wait for reward...</div>
+                </div>
+
+                <!-- REWARD POPUP (Inside Spin Screen) -->
+                <div id="winPopup" class="reward-popup">
+                    <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/ton.webp" class="reward-icon">
+                    <h2 style="color: white; font-size: 6vw; margin-bottom: 2vw;">YOU WON!</h2>
+                    <div id="winAmount" style="color: #FFD700; font-size: 8vw; font-weight: 800; margin-bottom: 5vw;">0.1 TON</div>
+                    <button class="popup-btn" style="background: linear-gradient(90deg, #00E5FF, #4a92ff); color: white; width:100%;" onclick="closeRewardPopup()">CLAIM</button>
+                </div>
             `;
             
             const popup = document.getElementById('glassPopup');
@@ -1860,51 +1928,76 @@
             popup.classList.add('active');
         }
 
-        // Triggered when button is "Watch Ad"
+        // Logic for 5 Ads = 1 Spin with 15s Timer
         function watchAdForSpin() {
             if (typeof window.showAdexora !== 'function') {
-                showToast("Ad script not loaded. Try again later.");
+                showToast("Ad script not loaded.");
                 return;
             }
 
             const btn = document.getElementById('spinActionBtn');
-            btn.innerText = "Loading Ad...";
-            btn.disabled = true;
+            const timerOverlay = document.getElementById('adsTimerOverlay');
+            const countdownEl = document.getElementById('adsCountdown');
 
-            // Call Adexora
-            window.showAdexora()
-            .then(() => {
-                // Ad Watched Successfully
-                isAdSpin = true; // Flag to bypass date check
-                spinTheWheel(); // Run spin logic
-            })
-            .catch(e => {
+            btn.disabled = true;
+            btn.innerText = "Loading...";
+
+            // 1. Show Ad
+            window.showAdexora().then(() => {
+                // 2. Ad Closed/Finished -> Start 15s Timer
+                timerOverlay.style.display = 'flex';
+                let timeLeft = 15;
+                countdownEl.innerText = timeLeft;
+
+                const timerId = setInterval(() => {
+                    timeLeft--;
+                    countdownEl.innerText = timeLeft;
+                    
+                    if (timeLeft <= 0) {
+                        clearInterval(timerId);
+                        timerOverlay.style.display = 'none';
+                        
+                        // 3. Update Count
+                        adWatchCount++;
+                        if (adWatchCount >= 5) {
+                            adWatchCount = 0;
+                            isAdSpin = true;
+                            // Auto Spin or Enable Button? Let's Auto Spin for better UX
+                            spinTheWheel();
+                        } else {
+                            btn.disabled = false;
+                            btn.innerText = `Watch Ad (${adWatchCount}/5)`;
+                        }
+                    }
+                }, 1000);
+
+            }).catch(e => {
                 console.error(e);
-                showToast("Failed to load ad. Please try again.");
-                btn.innerText = "Watch Ad to Spin";
+                showToast("Ad failed to load.");
                 btn.disabled = false;
+                btn.innerText = `Watch Ad (${adWatchCount}/5)`;
             });
         }
 
         function spinTheWheel() {
             const spinBtn = document.getElementById('spinActionBtn');
             const wheel = document.getElementById('wheelRotator');
-            
+            const winPopup = document.getElementById('winPopup');
+            const winAmountEl = document.getElementById('winAmount');
+
+            // Free Spin Check
             const now = new Date();
             const lastSpin = new Date(lastSpinTime);
-            
-            // Check if FREE spin is allowed
-            // If isAdSpin is true, we skip this check
-            if (!isAdSpin && lastSpinTime !== 0 && 
-                now.getDate() === lastSpin.getDate() &&
-                now.getMonth() === lastSpin.getMonth() &&
-                now.getFullYear() === lastSpin.getFullYear()) {
-                
-                // Should not happen if UI is correct, but safety check
-                showToast("Free spin used. Watch ad to spin more.");
-                spinBtn.innerText = "Watch Ad to Spin";
-                spinBtn.setAttribute("onclick", "watchAdForSpin()");
-                return;
+            const isFreeSpinAvailable = (lastSpinTime === 0 || 
+                now.getDate() !== lastSpin.getDate() ||
+                now.getMonth() !== lastSpin.getMonth() ||
+                now.getFullYear() !== lastSpin.getFullYear());
+
+            if (!isAdSpin && !isFreeSpinAvailable) {
+                 // Should not trigger, but fallback
+                 spinBtn.innerText = `Watch Ad (${adWatchCount}/5)`;
+                 spinBtn.setAttribute("onclick", "watchAdForSpin()");
+                 return;
             }
 
             spinBtn.disabled = true;
@@ -1921,27 +2014,33 @@
             wheel.style.transform = `rotate(${totalRotation}deg)`;
 
             setTimeout(() => {
+                // Update Balance
                 tonBalance += prize.amount;
-                
-                // Only update lastSpinTime if it was a FREE spin
                 if (!isAdSpin) {
-                    lastSpinTime = Date.now();
+                    lastSpinTime = Date.now(); // Record Free Spin time
                 }
-
                 saveUserData(); 
                 updateUI();
 
-                showToast(`🎉 You won ${prize.label} TON!`);
-                
-                // Reset UI for next action
-                spinBtn.disabled = false;
-                spinBtn.innerText = "Watch Ad to Spin";
-                spinBtn.setAttribute("onclick", "watchAdForSpin()");
-                
-                // Reset Flag
+                // Show Reward Popup
+                winAmountEl.innerText = `${prize.label} TON`;
+                winPopup.classList.add('active');
+
+                // Reset Button State
                 isAdSpin = false;
+                spinBtn.disabled = false;
                 
+                // Re-check state to update button text
+                if (!isAdSpin) {
+                     spinBtn.innerText = `Watch Ad (0/5)`;
+                     spinBtn.setAttribute("onclick", "watchAdForSpin()");
+                }
+
             }, 4000);
+        }
+
+        function closeRewardPopup() {
+            document.getElementById('winPopup').classList.remove('active');
         }
 
         function showGlassPopup(contentHTML) {
@@ -2102,11 +2201,34 @@
             document.getElementById('leaderboardOverlay').classList.remove('active');
         }
 
+        // Fix for Time Filter UI
+        function switchTimeFilter(period) {
+            document.getElementById('time-all').classList.remove('active');
+            document.getElementById('time-week').classList.remove('active');
+            document.getElementById('time-month').classList.remove('active');
+            document.getElementById('time-all').classList.add('lb-pill-secondary');
+            document.getElementById('time-week').classList.add('lb-pill-secondary');
+            document.getElementById('time-month').classList.add('lb-pill-secondary');
+
+            // Set active
+            const el = document.getElementById('time-' + period);
+            el.classList.add('active');
+            el.classList.remove('lb-pill-secondary');
+            
+            showToast("Filtering data...");
+            // In a real app with transaction history, you'd fetch filtered data here.
+            // For now, we refresh the view.
+            fetchLeaderboardData(); 
+        }
+
         function switchLeaderboardTab(type) {
             currentLeaderboardTab = type;
             document.querySelectorAll('.lb-pill').forEach(t => {
-                 if(t.id) t.classList.remove('active');
-                 if(t.id) t.classList.add('lb-pill-secondary');
+                 // Only target bottom row pills if possible, but this works generally
+                 if(t.id && t.id.startsWith('tab-')) {
+                    t.classList.remove('active');
+                    t.classList.add('lb-pill-secondary');
+                 }
             });
             document.getElementById('tab-' + type).classList.add('active');
             document.getElementById('tab-' + type).classList.remove('lb-pill-secondary');
