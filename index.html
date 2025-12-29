@@ -15,16 +15,9 @@
     <!-- TON Connect UI SDK -->
     <script src="https://unpkg.com/@tonconnect/ui@latest/dist/tonconnect-ui.min.js"></script>
     
-    <!-- Adexium Ads Script -->
-<script type="text/javascript" src="https://cdn.tgads.space/assets/js/adexium-widget.min.js"></script>
-<script type="text/javascript">
-    let myAdWidget; // গ্লোবাল ভেরিয়েবল
-    document.addEventListener('DOMContentLoaded', () => {
-        // উইজেট লোড করা হলো
-        myAdWidget = new AdexiumWidget({wid: 'a8980e84-f0d6-45b5-ad5e-1eae6bf2324b', adFormat: 'interstitial'});
-    });
-</script>
-
+    <!-- Adexora Ads Script -->
+    <script src="https://adexora.com/cdn/ads.js?id=1537"></script>
+    
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
@@ -1935,21 +1928,23 @@
             popup.classList.add('active');
         }
 
-     // Logic for 5 Ads = 1 Spin with 15s Timer (Updated for Adexium)
+        // Logic for 5 Ads = 1 Spin with 15s Timer
         function watchAdForSpin() {
+            if (typeof window.showAdexora !== 'function') {
+                showToast("Ad script not loaded.");
+                return;
+            }
+
             const btn = document.getElementById('spinActionBtn');
             const timerOverlay = document.getElementById('adsTimerOverlay');
             const countdownEl = document.getElementById('adsCountdown');
 
-            // বাটন ডিজেবল করা
             btn.disabled = true;
-            btn.innerText = "Loading Ad...";
+            btn.innerText = "Loading...";
 
-            // Adexium সাধারণত অটোমেটিক লোড হয়, তাই আমরা সরাসরি টাইমার লজিকে যাব।
-            // ব্যবহারকারী অ্যাডে ক্লিক করলে বা ক্লোজ করলে টাইমার চলতে থাকবে।
-            
-            // ১ সেকেন্ড ওয়েট করে টাইমার শুরু হবে (যাতে অ্যাড লোড হওয়ার সময় পায়)
-            setTimeout(() => {
+            // 1. Show Ad
+            window.showAdexora().then(() => {
+                // 2. Ad Closed/Finished -> Start 15s Timer
                 timerOverlay.style.display = 'flex';
                 let timeLeft = 15;
                 countdownEl.innerText = timeLeft;
@@ -1962,12 +1957,12 @@
                         clearInterval(timerId);
                         timerOverlay.style.display = 'none';
                         
-                        // ৩. কাউন্ট আপডেট করা
+                        // 3. Update Count
                         adWatchCount++;
                         if (adWatchCount >= 5) {
                             adWatchCount = 0;
                             isAdSpin = true;
-                            // ৫টা অ্যাড শেষ, স্পিন অটোমেটিক ঘুরবে
+                            // Auto Spin or Enable Button? Let's Auto Spin for better UX
                             spinTheWheel();
                         } else {
                             btn.disabled = false;
@@ -1975,7 +1970,13 @@
                         }
                     }
                 }, 1000);
-            }, 1000);
+
+            }).catch(e => {
+                console.error(e);
+                showToast("Ad failed to load.");
+                btn.disabled = false;
+                btn.innerText = `Watch Ad (${adWatchCount}/5)`;
+            });
         }
 
         function spinTheWheel() {
