@@ -15,6 +15,9 @@
     <!-- TON Connect UI SDK -->
     <script src="https://unpkg.com/@tonconnect/ui@latest/dist/tonconnect-ui.min.js"></script>
     
+    <!-- Adexora Ads Script -->
+    <script src="https://adexora.com/cdn/ads.js?id=1537"></script>
+    
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
@@ -697,7 +700,7 @@
         .popup-btn:active { transform: scale(0.98); }
         @keyframes popIn { from { opacity: 0; transform: scale(0.8); } to { opacity: 1; transform: scale(1); } }
 
-        /* --- SPIN WHEEL FULL SCREEN STYLES --- */
+        /* --- SPIN WHEEL FULL SCREEN STYLES (UPDATED) --- */
         
         .fullscreen-popup-content {
             background: linear-gradient(180deg, #050f1a 0%, #163450 100%);
@@ -762,7 +765,7 @@
         
         .segment-content {
             position: absolute;
-            top: 6%; 
+            top: 12%;  /* Pushed down to fit in wheel pocket */
             left: 50%;
             transform-origin: 50% 125%;
             transform: translateX(-50%);
@@ -770,16 +773,17 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            width: 20vw; 
+            width: 25vw; 
             text-align: center;
         }
 
+        /* UPDATED: Much Larger Icon for Wheel */
         .segment-ton-img {
-            width: 7vw;
-            height: 7vw; 
+            width: 13vw; /* Increased from 7vw */
+            height: 13vw; 
             object-fit: contain;
-            filter: drop-shadow(0 0 2px rgba(0,0,0,0.8));
-            margin-bottom: 0.5vw;
+            filter: drop-shadow(0 0 5px rgba(0,0,0,0.8));
+            margin-bottom: 0.2vw;
         }
 
         .segment-text {
@@ -787,7 +791,7 @@
             font-weight: 800;
             font-size: 3.5vw;
             text-shadow: 0 0 3px #000;
-            margin-top: 0;
+            margin-top: -1vw;
             z-index: 10;
         }
 
@@ -808,14 +812,15 @@
         .spin-action-btn {
             background: linear-gradient(90deg, #FFD700, #FFA000);
             color: #000;
-            width: 50vw !important;
-            height: 12vw !important;
+            width: 60vw !important;
+            height: 14vw !important;
             font-size: 4.5vw !important;
             border-radius: 8vw !important;
             box-shadow: 0 0 4vw rgba(255, 215, 0, 0.4);
             margin-top: 2vw;
             font-weight: 800;
             border: none;
+            text-transform: uppercase;
         }
 
         .close-spin-btn {
@@ -1008,7 +1013,6 @@
             overflow-y: auto;
             padding: 2vw 4vw 10vw 4vw;
             border-radius: 0 0 4vw 4vw; 
-            /* Fix for scrolling issues */
             min-height: 0;
         }
         
@@ -1041,7 +1045,7 @@
         <div class="popup-content" id="popupContent"></div>
     </div>
     
-    <!-- LEADERBOARD OVERLAY (FIXED UI) -->
+    <!-- LEADERBOARD OVERLAY -->
     <div id="leaderboardOverlay" class="leaderboard-overlay">
         <div class="leaderboard-header">
             <h2>Leaderboard</h2>
@@ -1307,6 +1311,7 @@
         let referralCount = 0; 
         let lastSpinTime = 0;
         let myReferredBy = null; 
+        let isAdSpin = false; // New variable to track if ad was watched
         
         // 10% Logic Variables
         let lastSavedBalance = 0;
@@ -1342,7 +1347,7 @@
 
         // --- TON CONNECT INITIALIZATION ---
         const tonConnectUI = new TON_CONNECT_UI.TonConnectUI({
-            manifestUrl: 'https://alamin12071985-a11y.github.io/cine-link/tonconnect-manifest.json',
+            manifestUrl: 'https://alamin12071985-a11y.github.io/Snowman-Adventure/tonconnect-manifest.json',
             buttonRootId: null 
         });
 
@@ -1789,16 +1794,17 @@
             });
         }
         
-        // --- SPIN WHEEL GAME ---
+        // --- SPIN WHEEL GAME (UPDATED WITH ADS) ---
+        // Prizes Reduced as requested
         const spinPrizes = [
-            { amount: 0.01, label: '0.01' },
-            { amount: 0.1,  label: '0.1' },
-            { amount: 0.5,  label: '0.5' },
-            { amount: 1.0,  label: '1' },
-            { amount: 5.0,  label: '5' },
-            { amount: 10.0, label: '10' },
-            { amount: 0.05, label: '0.05' },
-            { amount: 0.2,  label: '0.2' }
+            { amount: 0.001, label: '0.001' },
+            { amount: 0.01,  label: '0.01' },
+            { amount: 0.05,  label: '0.05' },
+            { amount: 0.1,   label: '0.1' },
+            { amount: 0.2,   label: '0.2' },
+            { amount: 0.5,   label: '0.5' },
+            { amount: 0.002, label: '0.002' },
+            { amount: 0.008, label: '0.008' }
         ];
 
         function openCasesGame() {
@@ -1818,6 +1824,21 @@
                 `;
             }
 
+            // Check if user has free spin
+            const now = new Date();
+            const lastSpin = new Date(lastSpinTime);
+            const isFreeSpinAvailable = (lastSpinTime === 0 || 
+                now.getDate() !== lastSpin.getDate() ||
+                now.getMonth() !== lastSpin.getMonth() ||
+                now.getFullYear() !== lastSpin.getFullYear());
+
+            let btnHtml = '';
+            if (isFreeSpinAvailable) {
+                btnHtml = `<button id="spinActionBtn" class="spin-action-btn" onclick="spinTheWheel()">SPIN NOW</button>`;
+            } else {
+                btnHtml = `<button id="spinActionBtn" class="spin-action-btn" onclick="watchAdForSpin()">Watch Ad to Spin</button>`;
+            }
+
             const html = `
                 <div class="wheel-title">Daily Spin</div>
                 <div class="wheel-container">
@@ -1828,7 +1849,7 @@
                     </div>
                 </div>
                 
-                <button id="spinActionBtn" class="spin-action-btn" onclick="spinTheWheel()">SPIN NOW</button>
+                ${btnHtml}
                 <button class="close-spin-btn" onclick="closeGlassPopup()">Close</button>
             `;
             
@@ -1839,6 +1860,32 @@
             popup.classList.add('active');
         }
 
+        // Triggered when button is "Watch Ad"
+        function watchAdForSpin() {
+            if (typeof window.showAdexora !== 'function') {
+                showToast("Ad script not loaded. Try again later.");
+                return;
+            }
+
+            const btn = document.getElementById('spinActionBtn');
+            btn.innerText = "Loading Ad...";
+            btn.disabled = true;
+
+            // Call Adexora
+            window.showAdexora()
+            .then(() => {
+                // Ad Watched Successfully
+                isAdSpin = true; // Flag to bypass date check
+                spinTheWheel(); // Run spin logic
+            })
+            .catch(e => {
+                console.error(e);
+                showToast("Failed to load ad. Please try again.");
+                btn.innerText = "Watch Ad to Spin";
+                btn.disabled = false;
+            });
+        }
+
         function spinTheWheel() {
             const spinBtn = document.getElementById('spinActionBtn');
             const wheel = document.getElementById('wheelRotator');
@@ -1846,12 +1893,17 @@
             const now = new Date();
             const lastSpin = new Date(lastSpinTime);
             
-            if (lastSpinTime !== 0 && 
+            // Check if FREE spin is allowed
+            // If isAdSpin is true, we skip this check
+            if (!isAdSpin && lastSpinTime !== 0 && 
                 now.getDate() === lastSpin.getDate() &&
                 now.getMonth() === lastSpin.getMonth() &&
                 now.getFullYear() === lastSpin.getFullYear()) {
                 
-                showToast("You already spun today! Come back tomorrow.");
+                // Should not happen if UI is correct, but safety check
+                showToast("Free spin used. Watch ad to spin more.");
+                spinBtn.innerText = "Watch Ad to Spin";
+                spinBtn.setAttribute("onclick", "watchAdForSpin()");
                 return;
             }
 
@@ -1870,12 +1922,25 @@
 
             setTimeout(() => {
                 tonBalance += prize.amount;
-                lastSpinTime = Date.now();
+                
+                // Only update lastSpinTime if it was a FREE spin
+                if (!isAdSpin) {
+                    lastSpinTime = Date.now();
+                }
+
                 saveUserData(); 
                 updateUI();
 
                 showToast(`🎉 You won ${prize.label} TON!`);
-                spinBtn.innerText = "COME BACK TOMORROW";
+                
+                // Reset UI for next action
+                spinBtn.disabled = false;
+                spinBtn.innerText = "Watch Ad to Spin";
+                spinBtn.setAttribute("onclick", "watchAdForSpin()");
+                
+                // Reset Flag
+                isAdSpin = false;
+                
             }, 4000);
         }
 
@@ -2173,13 +2238,11 @@
             const list = document.getElementById('taskList');
             list.innerHTML = ''; 
 
-            // --- 1. DAILY 5 TASKS (HARDCODED) ---
             const dailyLink = "https://adexora.my.id/dl/DmkqNKQVbV59";
-            const todayStr = new Date().toDateString(); // "Sat Dec 28 2025"
+            const todayStr = new Date().toDateString(); 
 
             for(let i=1; i<=5; i++) {
                 const taskId = `daily_visit_${i}`;
-                // Check if saved value is TODAY's date string
                 const lastDoneDate = completedTasks[taskId]; 
                 const isDoneToday = (lastDoneDate === todayStr);
 
@@ -2196,13 +2259,11 @@
                 list.appendChild(card);
             }
 
-            // --- 2. FIREBASE TASKS ---
             db.ref('tasks').once('value').then(snapshot => {
                 const tasks = snapshot.val();
                 if (tasks) {
                     Object.keys(tasks).forEach(taskId => {
                         const task = tasks[taskId];
-                        // Firebase tasks are one-time (boolean check)
                         const isCompleted = completedTasks[taskId] ? true : false;
                         const card = document.createElement('div');
                         card.className = 'task-card';
@@ -2220,10 +2281,9 @@
             });
         }
 
-        // --- NEW: HANDLE DAILY TASK (Date Based) ---
         function handleDailyTask(taskId, link, reward, btn) {
             const todayStr = new Date().toDateString();
-            if (completedTasks[taskId] === todayStr) return; // Already done today
+            if (completedTasks[taskId] === todayStr) return; 
 
             window.open(link, '_blank');
             btn.innerText = "Checking...";
@@ -2231,7 +2291,6 @@
             
             setTimeout(() => {
                 balance += reward;
-                // Save DATE STRING instead of boolean
                 completedTasks[taskId] = todayStr;
                 
                 db.ref('users/' + userId + '/completedTasks').update({ [taskId]: todayStr });
@@ -2244,7 +2303,6 @@
             }, 8000); 
         }
 
-        // --- EXISTING ONE-TIME TASKS ---
         function handleTask(taskId, link, reward, btn) {
             if (completedTasks[taskId]) return;
             
