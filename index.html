@@ -1353,16 +1353,19 @@
         let tonBalance = 0.0;
         let tapCount = 0; 
         let level = 1;
-        let userId = "test_user_001"; 
+        let userId = "test_user_" + Math.floor(Math.random() * 10000); // FIXED: Random ID for testing
         let completedTasks = {}; 
         let currentLeaderboardTab = 'coins'; 
         let referralCount = 0; 
         let lastSpinTime = 0;
         let myReferredBy = null; 
         
+        // CRITICAL FIX: Data Loaded Flag
+        let isDataLoaded = false;
+
         // ADS & SPIN VARIABLES
-        let adWatchCount = 0; // Tracks 0 to 5
-        let isAdSpin = false; // Flag for spin allowed
+        let adWatchCount = 0; 
+        let isAdSpin = false; 
         
         // 10% Logic Variables
         let lastSavedBalance = 0;
@@ -1532,7 +1535,8 @@
         }
 
         function saveUserData() {
-            if(!userId) return;
+            // CRITICAL FIX: Do NOT save if data hasn't loaded yet.
+            if(!userId || !isDataLoaded) return;
 
             const userUpdate = {
                 balance: balance,
@@ -1551,11 +1555,12 @@
 
             db.ref('users/' + userId).update(userUpdate);
 
+            // Improved Referral Logic (Atomic & Lower Threshold)
             if (myReferredBy && lastSavedBalance > 0) {
                 const earnedAmount = balance - lastSavedBalance;
                 
-                if (earnedAmount > 10) {
-                    const commission = Math.floor(earnedAmount * 0.10); 
+                if (earnedAmount >= 1) { // Trigger on smaller amounts too
+                    const commission = earnedAmount * 0.10; 
                     
                     if (commission > 0) {
                         db.ref('users/' + myReferredBy).transaction((referrer) => {
@@ -1565,7 +1570,6 @@
                             }
                             return referrer;
                         });
-                        console.log(`Sent ${commission} coins to referrer ${myReferredBy}`);
                     }
                 }
             }
@@ -1590,6 +1594,9 @@
                     myReferredBy = data.referredBy || null; 
                     
                     lastSavedBalance = balance; 
+
+                    // FIX: Mark data as loaded so saveUserData can start working
+                    isDataLoaded = true;
 
                     updateUI();
                     loadTasksFromDB();
@@ -1621,13 +1628,18 @@
                         showToast("Welcome! Bonus added via referral.");
                     }
 
-                    userRef.set(newUserStats);
-                    balance = startBalance;
-                    lastSavedBalance = startBalance;
-                    
-                    updateUI();
-                    loadTasksFromDB();
+                    userRef.set(newUserStats).then(() => {
+                        // FIX: Mark data as loaded after setting new user
+                        isDataLoaded = true;
+                        balance = startBalance;
+                        lastSavedBalance = startBalance;
+                        updateUI();
+                        loadTasksFromDB();
+                    });
                 }
+            }).catch(error => {
+                console.error("Error loading data:", error);
+                showToast("Network error loading data");
             });
         }
         
@@ -1811,7 +1823,7 @@
         }
 
         function initiateStarPurchase(itemId, stars) {
-            if (!userId || userId === 'test_user_001') {
+            if (!userId || userId.startsWith('test_user')) {
                 showToast("Open in Telegram to buy!");
                 return;
             }
@@ -2216,19 +2228,16 @@
             el.classList.remove('lb-pill-secondary');
             
             showToast("Filtering data...");
-            // In a real app with transaction history, you'd fetch filtered data here.
-            // For now, we refresh the view.
             fetchLeaderboardData(); 
         }
 
         function switchLeaderboardTab(type) {
             currentLeaderboardTab = type;
             document.querySelectorAll('.lb-pill').forEach(t => {
-                 // Only target bottom row pills if possible, but this works generally
-                 if(t.id && t.id.startsWith('tab-')) {
+                if(t.id && t.id.startsWith('tab-')) {
                     t.classList.remove('active');
                     t.classList.add('lb-pill-secondary');
-                 }
+                }
             });
             document.getElementById('tab-' + type).classList.add('active');
             document.getElementById('tab-' + type).classList.remove('lb-pill-secondary');
@@ -2238,7 +2247,6 @@
         function fetchLeaderboardData() {
             const podiumContainer = document.getElementById('podiumContainer');
             const listContainer = document.getElementById('leaderboardList');
-            const myStatsCard = document.getElementById('myStatsCard');
             
             podiumContainer.innerHTML = '<div style="color:white;width:100%;text-align:center;">Loading...</div>';
             listContainer.innerHTML = '';
