@@ -15,11 +15,8 @@
     <!-- TON Connect UI SDK -->
     <script src="https://unpkg.com/@tonconnect/ui@latest/dist/tonconnect-ui.min.js"></script>
     
-    <!-- Adexora Ads Script -->
-    <script src="https://adexora.com/cdn/ads.js?id=1537"></script>
-    
-    <!-- TGS Player (For Telegram Animated Stickers) -->
-    <script src="https://unpkg.com/@lottiefiles/tgs-player@latest/dist/tgs-player.js"></script>
+    <!-- GigaPub Ads Script (UPDATED) -->
+    <script src="https://ad.gigapub.tech/script?id=5129"></script>
     
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -75,7 +72,7 @@
             background-attachment: fixed;
         }
 
-        /* --- LOADING SCREEN --- */
+        /* --- INITIAL LOADING SCREEN --- */
         #loading-screen {
             position: fixed;
             top: 0;
@@ -129,6 +126,45 @@
             z-index: 2;
             font-family: sans-serif;
         }
+
+        /* --- NEW GLOBAL ACTION LOADER (REPLACED TGS) --- */
+        #global-action-loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(5, 15, 26, 0.85);
+            backdrop-filter: blur(5px);
+            z-index: 10000; /* Highest z-index */
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            animation: fadeIn 0.2s ease;
+        }
+
+        .spinner-circle {
+            width: 15vw;
+            height: 15vw;
+            border: 1.5vw solid rgba(0, 229, 255, 0.2);
+            border-top: 1.5vw solid var(--accent-cyan);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 4vw;
+            box-shadow: 0 0 5vw rgba(0, 229, 255, 0.4);
+        }
+
+        .loader-text {
+            color: var(--accent-cyan);
+            font-size: 4vw;
+            font-weight: 700;
+            letter-spacing: 0.5vw;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        @keyframes pulse { 0% { opacity: 0.6; } 50% { opacity: 1; } 100% { opacity: 0.6; } }
 
         /* --- APP CONTAINER --- */
         .app-container {
@@ -570,21 +606,6 @@
         }
         .close-btn img { width: 100%; height: 100%; object-fit: contain; }
 
-        /* TGS Loading Overlay */
-        .tgs-loading-overlay {
-            position: absolute;
-            top: 40%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            z-index: 3000;
-            display: none;
-            justify-content: center;
-            align-items: center;
-            width: 40vw;
-            height: 40vw;
-        }
-        .tgs-loading-overlay.active { display: flex; }
-
         /* Filter Pills (Tabs) */
         .lb-tab-container {
             display: flex;
@@ -809,6 +830,12 @@
 </head>
 <body class="home-active">
     
+    <!-- GLOBAL ACTION LOADER -->
+    <div id="global-action-loader">
+        <div class="spinner-circle"></div>
+        <div class="loader-text">LOADING...</div>
+    </div>
+
     <!-- TOAST NOTIFICATION -->
     <div id="toastNotification" class="toast-notification">
         <div class="toast-icon"><img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/check_icon.webp" alt=""></div>
@@ -836,12 +863,6 @@
             <div class="lb-pill active" onclick="switchLeaderboardTab('coins')" id="tab-coins">Coins</div>
             <div class="lb-pill" onclick="switchLeaderboardTab('refer')" id="tab-refer">Referrals</div>
             <div class="lb-pill" onclick="switchLeaderboardTab('star')" id="tab-star">Level</div>
-        </div>
-
-        <!-- TGS Loading Animation Container - FIXED -->
-        <div id="leaderboardLoader" class="tgs-loading-overlay">
-            <!-- URL ENCODED SPACE FOR TGS FILE -->
-            <tgs-player autoplay loop mode="normal" src="https://alamin12071985-a11y.github.io/Snowman-Adventure/animated%20loading.tgs" style="width: 100%; height: 100%;"></tgs-player>
         </div>
 
         <!-- Content Area -->
@@ -1077,12 +1098,13 @@
     <!-- MAIN SCRIPT -->
     <script>
         // --- BANNER LINKS CONFIGURATION (UPDATED) ---
-        // All banners now point to the daily task link as requested
+        // All banners now point to the new GigaPub link as requested
         const bannerLinks = {
-            task: "https://adexora.my.id/dl/DmkqNKQVbV59",
-            friends: "https://adexora.my.id/dl/DmkqNKQVbV59",
-            wallet: "https://adexora.my.id/dl/DmkqNKQVbV59"
+            task: "https://link.gigapub.tech/l/cr13d0r17",
+            friends: "https://link.gigapub.tech/l/cr13d0r17",
+            wallet: "https://link.gigapub.tech/l/cr13d0r17"
         };
+        const dailyLink = "https://link.gigapub.tech/l/cr13d0r17";
 
         // --- FIREBASE CONFIGURATION ---
         const firebaseConfig = {
@@ -1150,6 +1172,18 @@
         const walletTon = document.getElementById('walletTon');
         const referralTimer = document.getElementById('referralTimer');
         const referralPercentageDisplay = document.getElementById('referralPercentageDisplay');
+
+        // --- NEW GLOBAL LOADER FUNCTION ---
+        function showActionLoader(callback) {
+            const loader = document.getElementById('global-action-loader');
+            loader.style.display = 'flex';
+            
+            // Artificial delay to simulate loading process
+            setTimeout(() => {
+                loader.style.display = 'none';
+                if(callback) callback();
+            }, 600); // 0.6s delay
+        }
 
         // --- TON CONNECT INITIALIZATION ---
         const tonConnectUI = new TON_CONNECT_UI.TonConnectUI({
@@ -1534,39 +1568,41 @@
         ];
 
         function openShop() {
-            const groups = {
-                'coin': { title: '🪙 Snow Coin Packs', items: [] },
-                'booster': { title: '⚡ Boosters (Tap Multiplier)', items: [] },
-                'autotap': { title: '🤖 Auto Tap', items: [] },
-            };
+            showActionLoader(() => {
+                const groups = {
+                    'coin': { title: '🪙 Snow Coin Packs', items: [] },
+                    'booster': { title: '⚡ Boosters (Tap Multiplier)', items: [] },
+                    'autotap': { title: '🤖 Auto Tap', items: [] },
+                };
 
-            starShopItems.forEach(item => {
-                if (groups[item.type]) groups[item.type].items.push(item);
-            });
+                starShopItems.forEach(item => {
+                    if (groups[item.type]) groups[item.type].items.push(item);
+                });
 
-            let html = `<h2 style="font-size: 6vw; color: var(--accent-cyan); margin-bottom: 4vw; font-weight: 800; text-align: center;">Stars Shop</h2>`;
+                let html = `<h2 style="font-size: 6vw; color: var(--accent-cyan); margin-bottom: 4vw; font-weight: 800; text-align: center;">Stars Shop</h2>`;
 
-            for (const type in groups) {
-                if (groups[type].items.length > 0) {
-                    html += `<h3 style="font-size: 4.5vw; color: var(--level-gold); margin: 5vw 0 2vw 0; font-weight: 700; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 1vw;">${groups[type].title}</h3>`;
-                    html += groups[type].items.map(item => `
-                        <div class="task-card shop-item" onclick="initiateStarPurchase('${item.id}', ${item.stars})">
-                            <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/${item.icon}" style="width: 12vw; height: 12vw; object-fit: contain; background: rgba(0,0,0,0.3); padding: 2vw; border-radius: 3vw;">
-                            <div class="task-info">
-                                <div class="task-title">${item.title}</div>
-                                <div class="task-reward" style="color: #FFD700; font-size: 3.5vw; font-weight: 800;">
-                                    <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/star.webp" style="width: 4vw; height: 4vw; margin-right: 1.5vw;">
-                                    ${item.stars.toLocaleString()} Stars
+                for (const type in groups) {
+                    if (groups[type].items.length > 0) {
+                        html += `<h3 style="font-size: 4.5vw; color: var(--level-gold); margin: 5vw 0 2vw 0; font-weight: 700; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 1vw;">${groups[type].title}</h3>`;
+                        html += groups[type].items.map(item => `
+                            <div class="task-card shop-item" onclick="initiateStarPurchase('${item.id}', ${item.stars})">
+                                <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/${item.icon}" style="width: 12vw; height: 12vw; object-fit: contain; background: rgba(0,0,0,0.3); padding: 2vw; border-radius: 3vw;">
+                                <div class="task-info">
+                                    <div class="task-title">${item.title}</div>
+                                    <div class="task-reward" style="color: #FFD700; font-size: 3.5vw; font-weight: 800;">
+                                        <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/star.webp" style="width: 4vw; height: 4vw; margin-right: 1.5vw;">
+                                        ${item.stars.toLocaleString()} Stars
+                                    </div>
+                                    <p style="font-size: 2.8vw; color: rgba(255,255,255,0.7); margin-top: 0.5vw;">${item.reward}</p>
                                 </div>
-                                <p style="font-size: 2.8vw; color: rgba(255,255,255,0.7); margin-top: 0.5vw;">${item.reward}</p>
+                                <button class="task-btn" style="min-width: 25vw; background: linear-gradient(180deg, #FFD700 0%, #FFA000 100%); color: #3E2723;">BUY</button>
                             </div>
-                            <button class="task-btn" style="min-width: 25vw; background: linear-gradient(180deg, #FFD700 0%, #FFA000 100%); color: #3E2723;">BUY</button>
-                        </div>
-                    `).join('');
+                        `).join('');
+                    }
                 }
-            }
-            html += `<button class="popup-btn" onclick="closeGlassPopup()" style="background: linear-gradient(90deg, #60ccfd, #4a92ff); color: white; width: 100%; margin-top: 5vw;">Close Shop</button>`;
-            showGlassPopup(html);
+                html += `<button class="popup-btn" onclick="closeGlassPopup()" style="background: linear-gradient(90deg, #60ccfd, #4a92ff); color: white; width: 100%; margin-top: 5vw;">Close Shop</button>`;
+                showGlassPopup(html);
+            });
         }
 
         function initiateStarPurchase(itemId, stars) {
@@ -1617,71 +1653,75 @@
         ];
 
         function openCasesGame() {
-            let segmentsHTML = '';
-            const sliceAngle = 360 / 8;
-            const tonImgUrl = "https://alamin12071985-a11y.github.io/Snowman-Adventure/ton.webp";
+            showActionLoader(() => {
+                let segmentsHTML = '';
+                const sliceAngle = 360 / 8;
+                const tonImgUrl = "https://alamin12071985-a11y.github.io/Snowman-Adventure/ton.webp";
 
-            for(let i=0; i<8; i++) {
-                const rotation = i * sliceAngle;
-                segmentsHTML += `
-                    <div class="wheel-segment" style="transform: rotate(${rotation}deg);">
-                        <div class="segment-content">
-                            <img src="${tonImgUrl}" class="segment-ton-img" alt="TON">
-                            <div class="segment-text">${spinPrizes[i].label}</div>
+                for(let i=0; i<8; i++) {
+                    const rotation = i * sliceAngle;
+                    segmentsHTML += `
+                        <div class="wheel-segment" style="transform: rotate(${rotation}deg);">
+                            <div class="segment-content">
+                                <img src="${tonImgUrl}" class="segment-ton-img" alt="TON">
+                                <div class="segment-text">${spinPrizes[i].label}</div>
+                            </div>
+                        </div>
+                    `;
+                }
+
+                const now = new Date();
+                const lastSpin = new Date(lastSpinTime);
+                const isFreeSpinAvailable = (lastSpinTime === 0 || 
+                    now.getDate() !== lastSpin.getDate() ||
+                    now.getMonth() !== lastSpin.getMonth() ||
+                    now.getFullYear() !== lastSpin.getFullYear());
+
+                let btnHtml = '';
+                if (isFreeSpinAvailable) {
+                    btnHtml = `<button id="spinActionBtn" class="spin-action-btn" onclick="spinTheWheel()">SPIN NOW (FREE)</button>`;
+                } else {
+                    btnHtml = `<button id="spinActionBtn" class="spin-action-btn" onclick="watchAdForSpin()">Watch Ad (${adWatchCount}/5)</button>`;
+                }
+
+                const html = `
+                    <div class="wheel-title">Daily Spin</div>
+                    <div class="wheel-container">
+                        <div class="wheel-marker"></div>
+                        <div id="wheelRotator" class="wheel-rotator">
+                            <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/spin%20wheel.webp" class="wheel-img">
+                            ${segmentsHTML}
                         </div>
                     </div>
-                `;
-            }
-
-            const now = new Date();
-            const lastSpin = new Date(lastSpinTime);
-            const isFreeSpinAvailable = (lastSpinTime === 0 || 
-                now.getDate() !== lastSpin.getDate() ||
-                now.getMonth() !== lastSpin.getMonth() ||
-                now.getFullYear() !== lastSpin.getFullYear());
-
-            let btnHtml = '';
-            if (isFreeSpinAvailable) {
-                btnHtml = `<button id="spinActionBtn" class="spin-action-btn" onclick="spinTheWheel()">SPIN NOW (FREE)</button>`;
-            } else {
-                btnHtml = `<button id="spinActionBtn" class="spin-action-btn" onclick="watchAdForSpin()">Watch Ad (${adWatchCount}/5)</button>`;
-            }
-
-            const html = `
-                <div class="wheel-title">Daily Spin</div>
-                <div class="wheel-container">
-                    <div class="wheel-marker"></div>
-                    <div id="wheelRotator" class="wheel-rotator">
-                        <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/spin%20wheel.webp" class="wheel-img">
-                        ${segmentsHTML}
+                    
+                    ${btnHtml}
+                    <button class="close-spin-btn" onclick="closeGlassPopup()">Close</button>
+                    
+                    <div id="adsTimerOverlay">
+                       <div style="font-size: 10vw; font-weight: 800; color: #FFD700;" id="adsCountdown">15</div>
+                       <div style="font-size: 4vw; margin-top: 2vw;">Wait for reward...</div>
                     </div>
-                </div>
-                
-                ${btnHtml}
-                <button class="close-spin-btn" onclick="closeGlassPopup()">Close</button>
-                
-                <div id="adsTimerOverlay">
-                   <div style="font-size: 10vw; font-weight: 800; color: #FFD700;" id="adsCountdown">15</div>
-                   <div style="font-size: 4vw; margin-top: 2vw;">Wait for reward...</div>
-                </div>
 
-                <div id="winPopup" class="reward-popup">
-                    <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/ton.webp" class="reward-icon">
-                    <h2 style="color: white; font-size: 6vw; margin-bottom: 2vw;">YOU WON!</h2>
-                    <div id="winAmount" style="color: #FFD700; font-size: 8vw; font-weight: 800; margin-bottom: 5vw;">0.1 TON</div>
-                    <button class="popup-btn" style="background: linear-gradient(90deg, #00E5FF, #4a92ff); color: white; width:100%;" onclick="closeRewardPopup()">CLAIM</button>
-                </div>
-            `;
-            
-            const popup = document.getElementById('glassPopup');
-            const content = document.getElementById('popupContent');
-            content.className = 'popup-content fullscreen-popup-content'; 
-            content.innerHTML = html;
-            popup.classList.add('active');
+                    <div id="winPopup" class="reward-popup">
+                        <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/ton.webp" class="reward-icon">
+                        <h2 style="color: white; font-size: 6vw; margin-bottom: 2vw;">YOU WON!</h2>
+                        <div id="winAmount" style="color: #FFD700; font-size: 8vw; font-weight: 800; margin-bottom: 5vw;">0.1 TON</div>
+                        <button class="popup-btn" style="background: linear-gradient(90deg, #00E5FF, #4a92ff); color: white; width:100%;" onclick="closeRewardPopup()">CLAIM</button>
+                    </div>
+                `;
+                
+                const popup = document.getElementById('glassPopup');
+                const content = document.getElementById('popupContent');
+                content.className = 'popup-content fullscreen-popup-content'; 
+                content.innerHTML = html;
+                popup.classList.add('active');
+            });
         }
 
+        // --- NEW AD LOGIC FOR GIGAPUB ---
         function watchAdForSpin() {
-            if (typeof window.showAdexora !== 'function') {
+            // Check if GigaPub function is available
+            if (typeof window.showGiga !== 'function') {
                 showToast("Ad script not loaded.");
                 return;
             }
@@ -1693,7 +1733,9 @@
             btn.disabled = true;
             btn.innerText = "Loading...";
 
-            window.showAdexora().then(() => {
+            // Replace Adexora with GigaPub
+            window.showGiga().then(() => {
+                // Ad viewed successfully logic
                 timerOverlay.style.display = 'flex';
                 let timeLeft = 15;
                 countdownEl.innerText = timeLeft;
@@ -1720,7 +1762,7 @@
 
             }).catch(e => {
                 console.error(e);
-                showToast("Ad failed to load.");
+                showToast("Ad failed to load or closed early.");
                 btn.disabled = false;
                 btn.innerText = `Watch Ad (${adWatchCount}/5)`;
             });
@@ -1842,7 +1884,9 @@
         }
 
         function handleExchangeClick() {
-            showToast("Exchange Tokens feature is coming soon!");
+            showActionLoader(() => {
+                showToast("Exchange Tokens feature is coming soon!");
+            });
         }
 
         clickerBtn.addEventListener('touchstart', handleTap, {passive: false});
@@ -1894,36 +1938,41 @@
         }
 
         function switchTab(tabId, navElement) {
-            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
-            document.getElementById(tabId).classList.add('active');
-            
-            if(navElement) {
-                document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
-                navElement.classList.add('active');
-            } else {
-                const targetNavIndex = (tabId === 'home' ? 1 : tabId === 'task' ? 2 : tabId === 'friends' ? 3 : 4);
-                document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
-                document.querySelector(`.nav-item:nth-child(${targetNavIndex})`).classList.add('active');
-            }
+            // Trigger Action Loader on tab switch
+            showActionLoader(() => {
+                document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+                document.getElementById(tabId).classList.add('active');
+                
+                if(navElement) {
+                    document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+                    navElement.classList.add('active');
+                } else {
+                    const targetNavIndex = (tabId === 'home' ? 1 : tabId === 'task' ? 2 : tabId === 'friends' ? 3 : 4);
+                    document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+                    document.querySelector(`.nav-item:nth-child(${targetNavIndex})`).classList.add('active');
+                }
 
-            if(tabId === 'home') {
-                document.body.classList.add('home-active');
-                document.getElementById('mainHeader').style.display = 'flex';
-            } else {
-                document.body.classList.remove('home-active');
-                document.getElementById('mainHeader').style.display = 'none';
-            }
-            if(tabId === 'friends') loadReferrals();
+                if(tabId === 'home') {
+                    document.body.classList.add('home-active');
+                    document.getElementById('mainHeader').style.display = 'flex';
+                } else {
+                    document.body.classList.remove('home-active');
+                    document.getElementById('mainHeader').style.display = 'none';
+                }
+                if(tabId === 'friends') loadReferrals();
+            });
         }
 
-        // --- BANNER HANDLERS (UPDATED TO LINK TO TASKS) ---
+        // --- BANNER HANDLERS (UPDATED TO NEW LINK) ---
         function handleTaskBannerClick() { window.open(bannerLinks.task, '_blank'); }
         function handleWalletBannerClick() { window.open(bannerLinks.wallet, '_blank'); }
         function handleFriendsBannerClick() { window.open(bannerLinks.friends, '_blank'); }
         
         function activateAutoTap() {
-            showToast("Auto Tap is purchased via the Shop!");
-            openShop();
+            showActionLoader(() => {
+                showToast("Auto Tap is purchased via the Shop!");
+                openShop();
+            });
         }
 
         function handleFloatingBtnClick(buttonName) {
@@ -1933,11 +1982,13 @@
             if (buttonName === 'AutoTap') { activateAutoTap(); return; }
         }
 
-        // --- LEADERBOARD LOGIC (FIXED) ---
+        // --- LEADERBOARD LOGIC (FIXED & TGS REMOVED) ---
         function openLeaderboard() {
-            document.getElementById('leaderboardOverlay').classList.add('active');
-            // Trigger load on open
-            switchLeaderboardTab(currentLeaderboardTab);
+            showActionLoader(() => {
+                document.getElementById('leaderboardOverlay').classList.add('active');
+                // Trigger load on open
+                switchLeaderboardTab(currentLeaderboardTab);
+            });
         }
 
         function closeLeaderboard() {
@@ -1951,27 +2002,21 @@
             document.querySelectorAll('.lb-pill').forEach(el => el.classList.remove('active'));
             document.getElementById('tab-' + type).classList.add('active');
             
-            // Show TGS Loader, Hide Content
-            const loader = document.getElementById('leaderboardLoader');
+            // Show Loader Logic (Simulated by hiding content initially)
             const podium = document.getElementById('podiumContainer');
             const list = document.getElementById('leaderboardList');
             const myStats = document.getElementById('myStatsCard');
 
-            loader.classList.add('active');
-            podium.style.opacity = '0';
-            list.style.opacity = '0';
+            podium.style.opacity = '0.5';
+            list.style.opacity = '0.5';
             myStats.style.display = 'none';
 
-            // Fake delay for animation to be seen, then fetch
-            setTimeout(() => {
-                fetchLeaderboardData();
-            }, 1000); 
+            fetchLeaderboardData();
         }
 
         function fetchLeaderboardData() {
             const podiumContainer = document.getElementById('podiumContainer');
             const listContainer = document.getElementById('leaderboardList');
-            const loader = document.getElementById('leaderboardLoader');
             
             let sortField = 'balance'; 
             if(currentLeaderboardTab === 'star') sortField = 'level';
@@ -1993,8 +2038,7 @@
                 users.reverse();
                 renderLeaderboard(users);
                 
-                // Hide Loader, Show Content
-                loader.classList.remove('active');
+                // Show Content
                 podiumContainer.style.opacity = '1';
                 listContainer.style.opacity = '1';
                 podiumContainer.style.transition = 'opacity 0.3s';
@@ -2002,7 +2046,6 @@
 
             }).catch(err => {
                 console.error(err);
-                loader.classList.remove('active');
                 showToast("Failed to load leaderboard");
             });
         }
@@ -2112,7 +2155,6 @@
             const list = document.getElementById('taskList');
             list.innerHTML = ''; 
 
-            const dailyLink = "https://adexora.my.id/dl/DmkqNKQVbV59";
             const todayStr = new Date().toDateString(); 
 
             for(let i=1; i<=5; i++) {
@@ -2139,6 +2181,12 @@
                     Object.keys(tasks).forEach(taskId => {
                         const task = tasks[taskId];
                         const isCompleted = completedTasks[taskId] ? true : false;
+                        // For regular tasks, we also use the new direct link if the DB link is old or generic, 
+                        // but usually tasks come with specific links. If you want to force override ALL tasks:
+                        // const linkToUse = dailyLink; 
+                        // Otherwise keep task.link:
+                        const linkToUse = task.link || dailyLink;
+
                         const card = document.createElement('div');
                         card.className = 'task-card';
                         card.innerHTML = `
@@ -2147,7 +2195,7 @@
                                 <div class="task-title">${task.title}</div>
                                 <div class="task-reward"><img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/coin.webp">+${task.reward}</div>
                             </div>
-                            <button class="task-btn ${isCompleted ? 'claimed' : ''}" onclick="handleTask('${taskId}', '${task.link}', ${task.reward}, this)">${isCompleted ? 'Done' : 'Start'}</button>
+                            <button class="task-btn ${isCompleted ? 'claimed' : ''}" onclick="handleTask('${taskId}', '${linkToUse}', ${task.reward}, this)">${isCompleted ? 'Done' : 'Start'}</button>
                         `;
                         list.appendChild(card);
                     });
