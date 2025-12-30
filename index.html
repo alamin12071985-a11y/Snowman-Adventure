@@ -15,8 +15,11 @@
     <!-- TON Connect UI SDK -->
     <script src="https://unpkg.com/@tonconnect/ui@latest/dist/tonconnect-ui.min.js"></script>
     
-    <!-- GigaPub Ads Script (UPDATED) -->
+    <!-- GigaPub Ads Script -->
     <script src="https://ad.gigapub.tech/script?id=5129"></script>
+    
+    <!-- Font Awesome (For Icons) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -65,7 +68,7 @@
         }
 
         body:not(.home-active) {
-            background-image: url('https://alamin12071985-a11y.github.io/Snowman-Adventure/all%20background.webp');
+            background-image: url('https://alamin12071985-a11y.github.io/Snowman-Adventure/background.webp');
             background-size: cover;
             background-position: center center;
             background-repeat: no-repeat;
@@ -127,16 +130,15 @@
             font-family: sans-serif;
         }
 
-        /* --- NEW GLOBAL ACTION LOADER (REPLACED TGS) --- */
+        /* --- NEW DIAMOND DOT LOADER (Action Loader) --- */
         #global-action-loader {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(5, 15, 26, 0.85);
-            backdrop-filter: blur(5px);
-            z-index: 10000; /* Highest z-index */
+            background: rgba(5, 15, 26, 0.95); /* Dark background */
+            z-index: 10000;
             display: none;
             flex-direction: column;
             justify-content: center;
@@ -144,27 +146,38 @@
             animation: fadeIn 0.2s ease;
         }
 
-        .spinner-circle {
-            width: 15vw;
-            height: 15vw;
-            border: 1.5vw solid rgba(0, 229, 255, 0.2);
-            border-top: 1.5vw solid var(--accent-cyan);
+        /* 3x3 Grid rotated 45deg */
+        .diamond-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5vw;
+            transform: rotate(45deg);
+        }
+
+        .diamond-dot {
+            width: 3.5vw;
+            height: 3.5vw;
+            background-color: var(--accent-cyan); /* App Color */
             border-radius: 50%;
-            animation: spin 1s linear infinite;
-            margin-bottom: 4vw;
-            box-shadow: 0 0 5vw rgba(0, 229, 255, 0.4);
+            animation: pulseDot 1.2s infinite ease-in-out both;
+            box-shadow: 0 0 1vw rgba(0, 229, 255, 0.6);
         }
 
-        .loader-text {
-            color: var(--accent-cyan);
-            font-size: 4vw;
-            font-weight: 700;
-            letter-spacing: 0.5vw;
-            animation: pulse 1.5s infinite;
-        }
+        /* Animation Delays for Wave Effect */
+        .diamond-dot:nth-child(1) { animation-delay: 0s; }
+        .diamond-dot:nth-child(2) { animation-delay: 0.1s; }
+        .diamond-dot:nth-child(3) { animation-delay: 0.2s; }
+        .diamond-dot:nth-child(4) { animation-delay: 0.1s; }
+        .diamond-dot:nth-child(5) { animation-delay: 0.2s; }
+        .diamond-dot:nth-child(6) { animation-delay: 0.3s; }
+        .diamond-dot:nth-child(7) { animation-delay: 0.2s; }
+        .diamond-dot:nth-child(8) { animation-delay: 0.3s; }
+        .diamond-dot:nth-child(9) { animation-delay: 0.4s; }
 
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-        @keyframes pulse { 0% { opacity: 0.6; } 50% { opacity: 1; } 100% { opacity: 0.6; } }
+        @keyframes pulseDot {
+            0%, 100% { transform: scale(0.6); opacity: 0.4; }
+            50% { transform: scale(1.1); opacity: 1; box-shadow: 0 0 2vw var(--accent-cyan); }
+        }
 
         /* --- APP CONTAINER --- */
         .app-container {
@@ -503,18 +516,18 @@
             background: rgba(255, 255, 255, 0.1); 
         }
         
-        .toast-icon img {
-            width: 4.5vw;
-            height: 4.5vw;
-            object-fit: contain;
+        /* Replaced img with FA styling */
+        .toast-icon i {
+            font-size: 3.5vw;
+            color: white;
         }
 
         .close-toast-icon {
             margin-left:auto; 
-            width: 4vw; 
-            height: 4vw; 
+            font-size: 4vw; 
             opacity: 0.6;
             cursor: pointer;
+            color: white;
         }
         
         /* --- NAV BAR --- */
@@ -571,7 +584,7 @@
             transform: scale(1.1);
         }
 
-        /* --- LEADERBOARD REDESIGN (FIXED) --- */
+        /* --- LEADERBOARD OVERLAY --- */
         .leaderboard-overlay {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -604,6 +617,7 @@
             width: 8vw; height: 8vw; cursor: pointer; display: flex; 
             justify-content: center; align-items: center; 
         }
+        /* Using user's close_icon.webp here */
         .close-btn img { width: 100%; height: 100%; object-fit: contain; }
 
         /* Filter Pills (Tabs) */
@@ -635,7 +649,7 @@
             border: 1px solid rgba(255,255,255,0.1);
         }
 
-        /* Podium Area - FIXED */
+        /* Podium Area */
         .podium-section {
             display: flex;
             justify-content: center;
@@ -656,7 +670,6 @@
             text-align: center;
         }
         
-        /* Podium Avatars */
         .podium-avatar-container { position: relative; margin-bottom: 2vw; display: flex; justify-content: center; }
         .podium-avatar {
             border-radius: 50%;
@@ -664,11 +677,10 @@
             border: 0.8vw solid var(--bg-card);
         }
         
-        /* Rank 1 (Center) */
         .rank-1-wrapper { 
             order: 2; 
             z-index: 10; 
-            padding-bottom: 5vw; /* Elevate it visually */
+            padding-bottom: 5vw; 
             transform: translateY(-5vw);
         }
         .rank-1-wrapper .podium-avatar { 
@@ -678,7 +690,6 @@
             box-shadow: 0 0 5vw rgba(255, 215, 0, 0.4); 
         }
 
-        /* Rank 2 (Left) */
         .rank-2-wrapper { 
             order: 1; 
             z-index: 5; 
@@ -689,7 +700,6 @@
             border-color: var(--accent-cyan); 
         }
 
-        /* Rank 3 (Right) */
         .rank-3-wrapper { 
             order: 3; 
             z-index: 5; 
@@ -746,7 +756,8 @@
         .rank-name-small { font-size: 3.8vw; color: white; font-weight: 600; }
         .rank-score-small { font-size: 3.5vw; color: var(--accent-cyan); font-weight: 700; text-align: right; }
         
-        .arrow-icon { width: 3vw; height: 3vw; margin-left: 2vw; opacity: 0.5; }
+        /* Font Awesome Arrow */
+        .arrow-icon { font-size: 3vw; color: white; margin-left: 2vw; opacity: 0.5; }
         
         /* My Stats (Bottom Fixed inside Leaderboard) */
         .my-stats-fixed {
@@ -774,7 +785,10 @@
         .task-list { display: flex; flex-direction: column; gap: 3vw; width: 100%; padding-bottom: 5vw; }
         .task-card { background: var(--glass-bg); border: 1px solid rgba(0, 229, 255, 0.2); border-radius: 4vw; padding: 3vw; display: flex; align-items: center; justify-content: space-between; gap: 3vw; transition: transform 0.2s; }
         .task-card:active { transform: scale(0.98); }
-        .task-icon { width: 12vw; height: 12vw; border-radius: 3vw; object-fit: cover; background: rgba(255,255,255,0.1); }
+        /* Task Icon now supports both Image and Font Awesome */
+        .task-icon { width: 12vw; height: 12vw; border-radius: 3vw; object-fit: cover; background: rgba(255,255,255,0.1); display: flex; align-items: center; justify-content: center; }
+        .task-icon i { font-size: 5vw; color: var(--accent-cyan); }
+        
         .task-info { flex: 1; display: flex; flex-direction: column; gap: 1vw; }
         .task-title { color: white; font-size: 3.5vw; font-weight: 600; line-height: 1.2; }
         .task-reward { display: flex; align-items: center; gap: 1.5vw; font-size: 3vw; color: var(--level-gold); font-weight: 700; }
@@ -792,10 +806,13 @@
         .btn-invite::after { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 50%; background: linear-gradient(to bottom, rgba(255,255,255,0.2), transparent); border-radius: 10vw 10vw 0 0; pointer-events: none; }
         .btn-invite:active { transform: translateY(1vw); filter: brightness(0.9); box-shadow: 0 1vw 3vw rgba(0, 229, 255, 0.3); }
         .btn-copy { width: 14vw; height: 14vw; flex-shrink: 0; background-color: var(--bg-card); border: 1px solid rgba(255,255,255,0.1); border-radius: 4vw; display: flex; justify-content: center; align-items: center; cursor: pointer; transition: background 0.2s, transform 0.1s; }
+        /* Using Font Awesome for Copy if image fails or for cleaner look */
+        .btn-copy i { font-size: 5vw; color: white; }
         .btn-copy img { width: 6vw; height: 6vw; object-fit: contain; }
+
         .btn-copy:active { transform: scale(0.95); background-color: #1a4066; }
         .btn-copy.copied { background-color: var(--accent-cyan); border-color: var(--accent-cyan); }
-        .btn-copy.copied img { filter: brightness(0); }
+        .btn-copy.copied img, .btn-copy.copied i { filter: brightness(0); color: black; }
         
         /* Glass Popup Styling */
         .popup-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(5, 15, 26, 0.9); backdrop-filter: blur(5px); z-index: 5000; display: none; justify-content: center; align-items: center; padding: 5vw; overflow-y: auto; }
@@ -815,10 +832,12 @@
         
         .segment-content { position: absolute; top: 18%; left: 50%; transform-origin: 50% 125%; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; justify-content: center; width: 25vw; text-align: center; }
         
-        /* UPDATED: Bigger TON Image */
+        /* UPDATED: New Vecteezy TON Image */
         .segment-ton-img { width: 16vw; height: 16vw; object-fit: contain; filter: drop-shadow(0 0 5px rgba(0,0,0,0.8)); margin-bottom: -1vw; transform: rotate(0deg); }
         
-        .segment-text { color: white; font-weight: 800; font-size: 3.5vw; text-shadow: 0 0 3px #000; margin-top: -1.5vw; z-index: 10; }
+        /* Reduced Font Size for amounts */
+        .segment-text { color: white; font-weight: 800; font-size: 3vw; text-shadow: 0 0 3px #000; margin-top: -1.5vw; z-index: 10; }
+        
         .wheel-marker { position: absolute; top: -4vw; left: 50%; transform: translateX(-50%); width: 12vw; height: 14vw; z-index: 20; filter: drop-shadow(0 1vw 1vw rgba(0,0,0,0.5)); background: linear-gradient(180deg, #FFD700 0%, #FFA000 100%); clip-path: polygon(50% 100%, 0% 0%, 100% 0%); border-top: 2px solid white; }
         .spin-action-btn { background: linear-gradient(90deg, #FFD700, #FFA000); color: #000; width: 70vw !important; height: 14vw !important; font-size: 4.5vw !important; border-radius: 8vw !important; box-shadow: 0 0 4vw rgba(255, 215, 0, 0.4); margin-top: 2vw; font-weight: 800; border: none; text-transform: uppercase; }
         .close-spin-btn { background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2); color: white; width: 40vw !important; height: 10vw !important; font-size: 3.5vw !important; border-radius: 8vw !important; margin-top: 4vw; cursor: pointer; }
@@ -830,17 +849,26 @@
 </head>
 <body class="home-active">
     
-    <!-- GLOBAL ACTION LOADER -->
+    <!-- GLOBAL ACTION LOADER (Diamond Dots) -->
     <div id="global-action-loader">
-        <div class="spinner-circle"></div>
-        <div class="loader-text">LOADING...</div>
+        <div class="diamond-grid">
+            <div class="diamond-dot"></div>
+            <div class="diamond-dot"></div>
+            <div class="diamond-dot"></div>
+            <div class="diamond-dot"></div>
+            <div class="diamond-dot"></div>
+            <div class="diamond-dot"></div>
+            <div class="diamond-dot"></div>
+            <div class="diamond-dot"></div>
+            <div class="diamond-dot"></div>
+        </div>
     </div>
 
     <!-- TOAST NOTIFICATION -->
     <div id="toastNotification" class="toast-notification">
-        <div class="toast-icon"><img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/check_icon.webp" alt=""></div>
+        <div class="toast-icon"><i class="fa-solid fa-bell"></i></div>
         <div id="toastMessage">Changes saved</div>
-        <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/close_icon.webp" class="close-toast-icon" onclick="hideToast()" alt="X">
+        <i class="fa-solid fa-xmark close-toast-icon" onclick="hideToast()"></i>
     </div>
 
     <!-- GENERIC GLASS POPUP -->
@@ -848,11 +876,10 @@
         <div class="popup-content" id="popupContent"></div>
     </div>
     
-    <!-- LEADERBOARD OVERLAY (FIXED DESIGN) -->
+    <!-- LEADERBOARD OVERLAY -->
     <div id="leaderboardOverlay" class="leaderboard-overlay">
         <div class="leaderboard-header">
             <button class="close-btn" onclick="closeLeaderboard()">
-                <!-- USING CORRECT ICON FROM LIST -->
                 <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/close_icon.webp" alt="X">
             </button>
             <h2>Leaderboard</h2>
@@ -1097,8 +1124,7 @@
 
     <!-- MAIN SCRIPT -->
     <script>
-        // --- BANNER LINKS CONFIGURATION (UPDATED) ---
-        // All banners now point to the new GigaPub link as requested
+        // --- BANNER LINKS CONFIGURATION ---
         const bannerLinks = {
             task: "https://link.gigapub.tech/l/cr13d0r17",
             friends: "https://link.gigapub.tech/l/cr13d0r17",
@@ -1586,6 +1612,7 @@
                         html += `<h3 style="font-size: 4.5vw; color: var(--level-gold); margin: 5vw 0 2vw 0; font-weight: 700; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 1vw;">${groups[type].title}</h3>`;
                         html += groups[type].items.map(item => `
                             <div class="task-card shop-item" onclick="initiateStarPurchase('${item.id}', ${item.stars})">
+                                <!-- Using placeholder icon logic, can be replaced with FA if icon missing -->
                                 <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/${item.icon}" style="width: 12vw; height: 12vw; object-fit: contain; background: rgba(0,0,0,0.3); padding: 2vw; border-radius: 3vw;">
                                 <div class="task-info">
                                     <div class="task-title">${item.title}</div>
@@ -1656,7 +1683,8 @@
             showActionLoader(() => {
                 let segmentsHTML = '';
                 const sliceAngle = 360 / 8;
-                const tonImgUrl = "https://alamin12071985-a11y.github.io/Snowman-Adventure/ton.webp";
+                // Updated Vecteezy TON Image
+                const tonImgUrl = "https://static.vecteezy.com/system/resources/previews/024/093/451/non_2x/toncoin-ton-glass-crypto-coin-3d-illustration-free-png.png";
 
                 for(let i=0; i<8; i++) {
                     const rotation = i * sliceAngle;
@@ -1720,7 +1748,6 @@
 
         // --- NEW AD LOGIC FOR GIGAPUB ---
         function watchAdForSpin() {
-            // Check if GigaPub function is available
             if (typeof window.showGiga !== 'function') {
                 showToast("Ad script not loaded.");
                 return;
@@ -1733,9 +1760,7 @@
             btn.disabled = true;
             btn.innerText = "Loading...";
 
-            // Replace Adexora with GigaPub
             window.showGiga().then(() => {
-                // Ad viewed successfully logic
                 timerOverlay.style.display = 'flex';
                 let timeLeft = 15;
                 countdownEl.innerText = timeLeft;
@@ -1859,19 +1884,17 @@
             const msgEl = document.getElementById('toastMessage');
             const iconEl = document.querySelector('#toastNotification .toast-icon');
             
-            let iconSrc = 'https://alamin12071985-a11y.github.io/Snowman-Adventure/bell_icon.webp'; 
+            // Replaced custom image logic with Font Awesome classes dynamically if needed
+            // Default is bell (in HTML). We can switch classes here.
+            let iconClass = 'fa-bell'; 
 
             if (message.includes('Active:')) {
-                iconSrc = 'https://alamin12071985-a11y.github.io/Snowman-Adventure/info_icon.webp';
-                iconEl.style.backgroundColor = 'rgba(33, 150, 243, 0.3)'; 
-            } else if (message.includes('successful') || message.includes('won')) {
-                iconSrc = 'https://alamin12071985-a11y.github.io/Snowman-Adventure/check_icon.webp';
-                iconEl.style.backgroundColor = 'rgba(76, 175, 80, 0.3)';
-            } else {
-                iconEl.style.backgroundColor = 'rgba(255, 255, 255, 0.1)';
+                iconClass = 'fa-circle-info';
+            } else if (message.includes('successful') || message.includes('won') || message.includes('completed')) {
+                iconClass = 'fa-circle-check';
             }
             
-            iconEl.innerHTML = `<img src="${iconSrc}" alt="icon">`;
+            iconEl.innerHTML = `<i class="fa-solid ${iconClass}"></i>`;
 
             msgEl.innerText = message;
             toast.classList.add('show');
@@ -1963,7 +1986,7 @@
             });
         }
 
-        // --- BANNER HANDLERS (UPDATED TO NEW LINK) ---
+        // --- BANNER HANDLERS ---
         function handleTaskBannerClick() { window.open(bannerLinks.task, '_blank'); }
         function handleWalletBannerClick() { window.open(bannerLinks.wallet, '_blank'); }
         function handleFriendsBannerClick() { window.open(bannerLinks.friends, '_blank'); }
@@ -1982,7 +2005,7 @@
             if (buttonName === 'AutoTap') { activateAutoTap(); return; }
         }
 
-        // --- LEADERBOARD LOGIC (FIXED & TGS REMOVED) ---
+        // --- LEADERBOARD LOGIC ---
         function openLeaderboard() {
             showActionLoader(() => {
                 document.getElementById('leaderboardOverlay').classList.add('active');
@@ -2073,7 +2096,7 @@
                 return formatNum(u.balance);
             };
             
-            // --- PODIUM RENDER LOGIC FIXED ---
+            // --- PODIUM RENDER LOGIC ---
             
             // RANK 2 (Left Side)
             if (users.length > 1) {
@@ -2132,7 +2155,11 @@
                         <img src="${u.avatar}" class="rank-avatar-small">
                         <div class="rank-name-small">${u.username}</div>
                     </div>
-                    <div class="rank-score-small">${getScoreText(u)}</div>
+                    <div class="rank-score-small">
+                        ${getScoreText(u)}
+                        <!-- Font Awesome Arrow instead of generic image -->
+                        <i class="fa-solid fa-chevron-right arrow-icon"></i>
+                    </div>
                 `;
                 listContainer.appendChild(item);
             }
@@ -2165,7 +2192,7 @@
                 const card = document.createElement('div');
                 card.className = 'task-card';
                 card.innerHTML = `
-                    <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/info_icon.webp" class="task-icon" alt="Web">
+                    <div class="task-icon"><i class="fa-solid fa-earth-americas"></i></div>
                     <div class="task-info">
                         <div class="task-title">Visit Site ${i}</div>
                         <div class="task-reward"><img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/coin.webp">+1000</div>
@@ -2181,16 +2208,17 @@
                     Object.keys(tasks).forEach(taskId => {
                         const task = tasks[taskId];
                         const isCompleted = completedTasks[taskId] ? true : false;
-                        // For regular tasks, we also use the new direct link if the DB link is old or generic, 
-                        // but usually tasks come with specific links. If you want to force override ALL tasks:
-                        // const linkToUse = dailyLink; 
-                        // Otherwise keep task.link:
                         const linkToUse = task.link || dailyLink;
+                        
+                        // Using FA check-circle as default task icon if image missing
+                        const iconHtml = task.image 
+                            ? `<img src="${task.image}" class="task-icon" style="background:transparent; object-fit:cover;">` 
+                            : `<div class="task-icon"><i class="fa-solid fa-circle-check"></i></div>`;
 
                         const card = document.createElement('div');
                         card.className = 'task-card';
                         card.innerHTML = `
-                            <img src="${task.image || 'https://alamin12071985-a11y.github.io/Snowman-Adventure/check_icon.webp'}" class="task-icon" alt="Icon">
+                            ${iconHtml}
                             <div class="task-info">
                                 <div class="task-title">${task.title}</div>
                                 <div class="task-reward"><img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/coin.webp">+${task.reward}</div>
