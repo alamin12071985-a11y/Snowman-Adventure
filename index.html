@@ -65,7 +65,6 @@
             background-position: center center;
             background-repeat: no-repeat;
             background-attachment: fixed;
-            backdrop-filter: blur(1px);
         }
 
         body:not(.home-active) {
@@ -74,7 +73,6 @@
             background-position: center center;
             background-repeat: no-repeat;
             background-attachment: fixed;
-            backdrop-filter: blur(1px);
         }
 
         /* --- LOADING SCREEN --- */
@@ -537,7 +535,7 @@
             transform: scale(1.1);
         }
 
-        /* --- LEADERBOARD REDESIGN (UPDATED) --- */
+        /* --- LEADERBOARD REDESIGN (FIXED) --- */
         .leaderboard-overlay {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -575,9 +573,9 @@
         /* TGS Loading Overlay */
         .tgs-loading-overlay {
             position: absolute;
-            top: 30%;
+            top: 40%;
             left: 50%;
-            transform: translateX(-50%);
+            transform: translate(-50%, -50%);
             z-index: 3000;
             display: none;
             justify-content: center;
@@ -616,15 +614,16 @@
             border: 1px solid rgba(255,255,255,0.1);
         }
 
-        /* Podium Area */
+        /* Podium Area - FIXED */
         .podium-section {
             display: flex;
             justify-content: center;
             align-items: flex-end;
-            margin: 2vw 0 6vw 0;
-            height: 50vw;
+            margin: 4vw 0 6vw 0;
+            height: auto;
             position: relative;
             flex-shrink: 0;
+            gap: 2vw;
         }
 
         .podium-block-wrapper {
@@ -633,23 +632,52 @@
             align-items: center;
             justify-content: flex-end;
             position: relative;
-            margin: 0 -2vw;
+            text-align: center;
         }
         
         /* Podium Avatars */
-        .podium-avatar-container { position: relative; margin-bottom: 2vw; }
+        .podium-avatar-container { position: relative; margin-bottom: 2vw; display: flex; justify-content: center; }
         .podium-avatar {
             border-radius: 50%;
             object-fit: cover;
             border: 0.8vw solid var(--bg-card);
         }
         
-        .rank-1-wrapper { z-index: 10; margin-bottom: 5vw; }
-        .rank-1-wrapper .podium-avatar { width: 22vw; height: 22vw; border-color: var(--podium-gold); box-shadow: 0 0 5vw rgba(255, 215, 0, 0.4); }
-        .rank-2-wrapper { z-index: 5; }
-        .rank-2-wrapper .podium-avatar { width: 16vw; height: 16vw; border-color: var(--accent-cyan); }
-        .rank-3-wrapper { z-index: 5; }
-        .rank-3-wrapper .podium-avatar { width: 16vw; height: 16vw; border-color: #00E5FF; }
+        /* Rank 1 (Center) */
+        .rank-1-wrapper { 
+            order: 2; 
+            z-index: 10; 
+            padding-bottom: 5vw; /* Elevate it visually */
+            transform: translateY(-5vw);
+        }
+        .rank-1-wrapper .podium-avatar { 
+            width: 24vw; 
+            height: 24vw; 
+            border-color: var(--podium-gold); 
+            box-shadow: 0 0 5vw rgba(255, 215, 0, 0.4); 
+        }
+
+        /* Rank 2 (Left) */
+        .rank-2-wrapper { 
+            order: 1; 
+            z-index: 5; 
+        }
+        .rank-2-wrapper .podium-avatar { 
+            width: 17vw; 
+            height: 17vw; 
+            border-color: var(--accent-cyan); 
+        }
+
+        /* Rank 3 (Right) */
+        .rank-3-wrapper { 
+            order: 3; 
+            z-index: 5; 
+        }
+        .rank-3-wrapper .podium-avatar { 
+            width: 17vw; 
+            height: 17vw; 
+            border-color: #00E5FF; 
+        }
 
         .rank-badge-icon {
             position: absolute;
@@ -660,14 +688,15 @@
             border-radius: 50%;
             background: white;
             box-shadow: 0 1vw 2vw rgba(0,0,0,0.3);
+            z-index: 15;
         }
-        .badge-1 { background: var(--podium-gold); width: 8vw; height: 8vw; font-size: 4vw; }
+        .badge-1 { background: var(--podium-gold); width: 8.5vw; height: 8.5vw; font-size: 4.5vw; }
         .badge-2 { background: var(--accent-cyan); }
         .badge-3 { background: #26c6da; }
 
         .podium-info { text-align: center; margin-top: 1vw; }
-        .podium-name { font-size: 3.5vw; font-weight: 700; color: white; max-width: 20vw; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; margin-bottom: 0.5vw; }
-        .podium-score { font-size: 3.2vw; font-weight: 600; color: var(--podium-gold); }
+        .podium-name { font-size: 3.2vw; font-weight: 700; color: white; max-width: 18vw; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; margin-bottom: 0.5vw; }
+        .podium-score { font-size: 3vw; font-weight: 600; color: var(--podium-gold); }
 
         /* List Area */
         .rank-list-container {
@@ -762,8 +791,12 @@
         .wheel-rotator { width: 100%; height: 100%; position: relative; border-radius: 50%; overflow: hidden; transition: transform 4s cubic-bezier(0.25, 0.1, 0.25, 1); background: transparent; box-shadow: 0 0 8vw rgba(0, 229, 255, 0.2); }
         .wheel-img { width: 100%; height: 100%; object-fit: cover; position: absolute; top: 0; left: 0; z-index: 1; }
         .wheel-segment { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 2; }
+        
         .segment-content { position: absolute; top: 18%; left: 50%; transform-origin: 50% 125%; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; justify-content: center; width: 25vw; text-align: center; }
-        .segment-ton-img { width: 11vw; height: 11vw; object-fit: contain; filter: drop-shadow(0 0 5px rgba(0,0,0,0.8)); margin-bottom: 0.2vw; transform: rotate(0deg); }
+        
+        /* UPDATED: Bigger TON Image */
+        .segment-ton-img { width: 16vw; height: 16vw; object-fit: contain; filter: drop-shadow(0 0 5px rgba(0,0,0,0.8)); margin-bottom: -1vw; transform: rotate(0deg); }
+        
         .segment-text { color: white; font-weight: 800; font-size: 3.5vw; text-shadow: 0 0 3px #000; margin-top: -1.5vw; z-index: 10; }
         .wheel-marker { position: absolute; top: -4vw; left: 50%; transform: translateX(-50%); width: 12vw; height: 14vw; z-index: 20; filter: drop-shadow(0 1vw 1vw rgba(0,0,0,0.5)); background: linear-gradient(180deg, #FFD700 0%, #FFA000 100%); clip-path: polygon(50% 100%, 0% 0%, 100% 0%); border-top: 2px solid white; }
         .spin-action-btn { background: linear-gradient(90deg, #FFD700, #FFA000); color: #000; width: 70vw !important; height: 14vw !important; font-size: 4.5vw !important; border-radius: 8vw !important; box-shadow: 0 0 4vw rgba(255, 215, 0, 0.4); margin-top: 2vw; font-weight: 800; border: none; text-transform: uppercase; }
@@ -788,11 +821,12 @@
         <div class="popup-content" id="popupContent"></div>
     </div>
     
-    <!-- LEADERBOARD OVERLAY (NEW DESIGN) -->
+    <!-- LEADERBOARD OVERLAY (FIXED DESIGN) -->
     <div id="leaderboardOverlay" class="leaderboard-overlay">
         <div class="leaderboard-header">
             <button class="close-btn" onclick="closeLeaderboard()">
-                <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/close_icon.webp" alt="<">
+                <!-- USING CORRECT ICON FROM LIST -->
+                <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/close_icon.webp" alt="X">
             </button>
             <h2>Leaderboard</h2>
         </div>
@@ -804,16 +838,17 @@
             <div class="lb-pill" onclick="switchLeaderboardTab('star')" id="tab-star">Level</div>
         </div>
 
-        <!-- TGS Loading Animation Container -->
+        <!-- TGS Loading Animation Container - FIXED -->
         <div id="leaderboardLoader" class="tgs-loading-overlay">
-            <tgs-player autoplay loop mode="normal" src="https://alamin12071985-a11y.github.io/Snowman-Adventure/animated loading.tgs" style="width: 100%; height: 100%;"></tgs-player>
+            <!-- URL ENCODED SPACE FOR TGS FILE -->
+            <tgs-player autoplay loop mode="normal" src="https://alamin12071985-a11y.github.io/Snowman-Adventure/animated%20loading.tgs" style="width: 100%; height: 100%;"></tgs-player>
         </div>
 
         <!-- Content Area -->
         <div id="lbContentArea" style="display:flex; flex-direction:column; height:100%;">
             <!-- Podium -->
             <div class="podium-section" id="podiumContainer">
-                <!-- Javascript will inject Top 3 here -->
+                <!-- Javascript will inject Top 3 here correctly -->
             </div>
 
             <!-- List -->
@@ -917,6 +952,7 @@
                     <p style="color:rgba(227, 244, 249, 0.7); font-size: 1rem;">Complete tasks to earn coins.</p>
                 </div>
                 <div class="banner-placeholder" onclick="handleTaskBannerClick()">
+                    <!-- UPDATED BANNER LINK HANDLER -->
                     <img id="taskBannerImage" src="https://i.ibb.co.com/ynTYbKbL/20251227-143045.jpg" alt="Task Banner" style="display: block;">
                 </div>
                 <div id="taskList" class="task-list">
@@ -930,6 +966,7 @@
                     <h1 class="wallet-title" style="font-size: 4.5vw;"><span role="img" aria-label="gift">🎁</span> Invite Friends & Earn Forever!</h1>
                 </div>
                 <div class="banner-placeholder" onclick="handleFriendsBannerClick()" style="margin-top: 2vw; margin-bottom: 4vw;"> 
+                     <!-- UPDATED BANNER LINK HANDLER -->
                     <img id="friendsBannerImage" src="https://i.ibb.co.com/RJMLvT1/20251227-144034.jpg" alt="Friends Banner" style="display: block;">
                 </div>
                 <div style="background: var(--glass-bg); border: 1px solid rgba(0,229,255,0.2); border-radius: 3vw; padding: 3vw; margin: 2vw auto 4vw auto; width: 90%; text-align: left;">
@@ -939,7 +976,7 @@
                 </div>
                 <div class="invite-container" style="margin-top: 0;">
                     <button class="btn-invite" onclick="inviteFriend()">
-                        <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/invite_icon.webp" alt="Invite">
+                        <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/friends.webp" alt="Invite">
                         Invite a Friend
                     </button>
                     <button class="btn-copy" id="copyLinkBtn" onclick="handleCopyClick(this)">
@@ -981,6 +1018,7 @@
                     <p style="color:rgba(227, 244, 249, 0.7); font-size: 1rem; margin-bottom: 0;">Earn and buy tokens.</p>
                 </div>
                 <div class="banner-placeholder" onclick="handleWalletBannerClick()" style="margin-top: 2vw; margin-bottom: 4vw;"> 
+                     <!-- UPDATED BANNER LINK HANDLER -->
                     <img id="walletBannerImage" src="https://i.ibb.co.com/Z1fPKcKx/20251227-143016.jpg" alt="Wallet Banner" style="display: block;">
                 </div>
                 <div class="wallet-stats-grid">
@@ -1038,11 +1076,12 @@
 
     <!-- MAIN SCRIPT -->
     <script>
-        // --- BANNER LINKS CONFIGURATION ---
+        // --- BANNER LINKS CONFIGURATION (UPDATED) ---
+        // All banners now point to the daily task link as requested
         const bannerLinks = {
-            task: "https://your-task-link.com",
-            friends: "https://your-friends-link.com",
-            wallet: "https://your-wallet-link.com"
+            task: "https://adexora.my.id/dl/DmkqNKQVbV59",
+            friends: "https://adexora.my.id/dl/DmkqNKQVbV59",
+            wallet: "https://adexora.my.id/dl/DmkqNKQVbV59"
         };
 
         // --- FIREBASE CONFIGURATION ---
@@ -1877,7 +1916,7 @@
             if(tabId === 'friends') loadReferrals();
         }
 
-        // --- BANNER HANDLERS (UPDATED) ---
+        // --- BANNER HANDLERS (UPDATED TO LINK TO TASKS) ---
         function handleTaskBannerClick() { window.open(bannerLinks.task, '_blank'); }
         function handleWalletBannerClick() { window.open(bannerLinks.wallet, '_blank'); }
         function handleFriendsBannerClick() { window.open(bannerLinks.friends, '_blank'); }
@@ -1894,7 +1933,7 @@
             if (buttonName === 'AutoTap') { activateAutoTap(); return; }
         }
 
-        // --- LEADERBOARD LOGIC (UPDATED WITH TGS) ---
+        // --- LEADERBOARD LOGIC (FIXED) ---
         function openLeaderboard() {
             document.getElementById('leaderboardOverlay').classList.add('active');
             // Trigger load on open
@@ -1976,62 +2015,67 @@
             podiumContainer.innerHTML = '';
             listContainer.innerHTML = '';
 
-            const top3 = [users[0], users[1], users[2]]; 
+            // Ensure we have 3 users even if list is short to avoid errors
+            const top3 = [
+                users[0] || {username: '-', balance: 0, avatar: 'https://alamin12071985-a11y.github.io/Snowman-Adventure/snowman.webp'},
+                users[1] || {username: '-', balance: 0, avatar: 'https://alamin12071985-a11y.github.io/Snowman-Adventure/snowman.webp'},
+                users[2] || {username: '-', balance: 0, avatar: 'https://alamin12071985-a11y.github.io/Snowman-Adventure/snowman.webp'}
+            ]; 
             
             const formatNum = (num) => num ? Math.floor(num).toLocaleString() : '0';
 
             const getScoreText = (u) => {
-                if(currentLeaderboardTab === 'star') return `Lvl ${u.level}`;
-                if(currentLeaderboardTab === 'refer') return `${u.referralCount}`;
+                if(currentLeaderboardTab === 'star') return `Lvl ${u.level || 0}`;
+                if(currentLeaderboardTab === 'refer') return `${u.referralCount || 0}`;
                 return formatNum(u.balance);
             };
             
-            // Render Podium (2, 1, 3 order usually looks best)
-            // Rank 2
-            if(top3[1]) {
-                const u = top3[1];
+            // --- PODIUM RENDER LOGIC FIXED ---
+            
+            // RANK 2 (Left Side)
+            if (users.length > 1) {
                 podiumContainer.innerHTML += `
-                    <div class="podium-block-wrapper rank-2-wrapper">
-                        <div class="podium-avatar-container">
-                            <img src="${u.avatar}" class="podium-avatar">
-                            <div class="rank-badge-icon badge-2">2</div>
-                        </div>
-                        <div class="podium-info">
-                            <div class="podium-name">${u.username}</div>
-                            <div class="podium-score">${getScoreText(u)}</div>
-                        </div>
-                    </div>`;
+                <div class="podium-block-wrapper rank-2-wrapper">
+                    <div class="podium-avatar-container">
+                        <img src="${top3[1].avatar}" class="podium-avatar">
+                        <div class="rank-badge-icon badge-2">2</div>
+                    </div>
+                    <div class="podium-info">
+                        <div class="podium-name">${top3[1].username}</div>
+                        <div class="podium-score">${getScoreText(top3[1])}</div>
+                    </div>
+                </div>`;
             }
-            // Rank 1
-            if(top3[0]) {
-                const u = top3[0];
+
+            // RANK 1 (Center - Elevated)
+            if (users.length > 0) {
                 podiumContainer.innerHTML += `
-                    <div class="podium-block-wrapper rank-1-wrapper">
-                         <div class="podium-avatar-container">
-                             <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/crown.webp" style="position:absolute; top:-6vw; left:50%; transform:translateX(-50%); width:8vw; z-index:20;">
-                            <img src="${u.avatar}" class="podium-avatar">
-                            <div class="rank-badge-icon badge-1">1</div>
-                        </div>
-                        <div class="podium-info">
-                            <div class="podium-name">${u.username}</div>
-                            <div class="podium-score">${getScoreText(u)}</div>
-                        </div>
-                    </div>`;
+                <div class="podium-block-wrapper rank-1-wrapper">
+                     <div class="podium-avatar-container">
+                        <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/crown.webp" style="position:absolute; top:-14vw; left:50%; transform:translateX(-50%); width:10vw; z-index:20;">
+                        <img src="${top3[0].avatar}" class="podium-avatar">
+                        <div class="rank-badge-icon badge-1">1</div>
+                    </div>
+                    <div class="podium-info">
+                        <div class="podium-name">${top3[0].username}</div>
+                        <div class="podium-score">${getScoreText(top3[0])}</div>
+                    </div>
+                </div>`;
             }
-            // Rank 3
-            if(top3[2]) {
-                const u = top3[2];
+
+            // RANK 3 (Right Side)
+            if (users.length > 2) {
                 podiumContainer.innerHTML += `
-                    <div class="podium-block-wrapper rank-3-wrapper">
-                         <div class="podium-avatar-container">
-                            <img src="${u.avatar}" class="podium-avatar">
-                            <div class="rank-badge-icon badge-3">3</div>
-                        </div>
-                        <div class="podium-info">
-                            <div class="podium-name">${u.username}</div>
-                            <div class="podium-score">${getScoreText(u)}</div>
-                        </div>
-                    </div>`;
+                <div class="podium-block-wrapper rank-3-wrapper">
+                     <div class="podium-avatar-container">
+                        <img src="${top3[2].avatar}" class="podium-avatar">
+                        <div class="rank-badge-icon badge-3">3</div>
+                    </div>
+                    <div class="podium-info">
+                        <div class="podium-name">${top3[2].username}</div>
+                        <div class="podium-score">${getScoreText(top3[2])}</div>
+                    </div>
+                </div>`;
             }
 
             // Render List (Rank 4+)
