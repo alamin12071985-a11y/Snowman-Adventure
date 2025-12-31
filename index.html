@@ -21,9 +21,6 @@
     <!-- TGS Player (For Telegram Animated Stickers) -->
     <script src="https://unpkg.com/@lottiefiles/tgs-player@latest/dist/tgs-player.js"></script>
     
-    <!-- Font Awesome (New) -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
@@ -468,12 +465,11 @@
             align-items: center;
             justify-content: center;
             background: rgba(255, 255, 255, 0.1); 
-            font-size: 4vw;
         }
         
-        .toast-icon img, .toast-icon i {
+        .toast-icon img {
             width: 4.5vw;
-            height: auto;
+            height: 4.5vw;
             object-fit: contain;
         }
 
@@ -483,10 +479,6 @@
             height: 4vw; 
             opacity: 0.6;
             cursor: pointer;
-            font-size: 4vw;
-            display: flex;
-            align-items: center;
-            justify-content: center;
         }
         
         /* --- NAV BAR --- */
@@ -531,11 +523,10 @@
 
         .nav-item.active {
             color: var(--accent-cyan);
-            /* UPDATED BACKGROUND FOR ACTIVE STATE AS REQUESTED */
-            background: linear-gradient(135deg, rgba(22, 52, 80, 0.95), rgba(0, 229, 255, 0.15));
-            border: 1px solid rgba(0, 229, 255, 0.3);
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.1) 0%, rgba(0, 229, 255, 0.05) 100%);
             backdrop-filter: blur(5px);
-            box-shadow: 0 0 15px rgba(0, 229, 255, 0.2) inset;
+            border-top: 1px solid rgba(0, 229, 255, 0.5);
+            box-shadow: 0 -2.5vw 5vw rgba(0, 229, 255, 0.15) inset;
         }
 
         .nav-item.active img {
@@ -576,7 +567,6 @@
             background: none; border: none; color: rgba(255,255,255,0.6); 
             width: 8vw; height: 8vw; cursor: pointer; display: flex; 
             justify-content: center; align-items: center; 
-            font-size: 6vw;
         }
         .close-btn img { width: 100%; height: 100%; object-fit: contain; }
 
@@ -763,9 +753,7 @@
         .task-list { display: flex; flex-direction: column; gap: 3vw; width: 100%; padding-bottom: 5vw; }
         .task-card { background: var(--glass-bg); border: 1px solid rgba(0, 229, 255, 0.2); border-radius: 4vw; padding: 3vw; display: flex; align-items: center; justify-content: space-between; gap: 3vw; transition: transform 0.2s; }
         .task-card:active { transform: scale(0.98); }
-        .task-icon { width: 12vw; height: 12vw; border-radius: 3vw; object-fit: cover; background: rgba(255,255,255,0.1); display:flex; justify-content:center; align-items:center; }
-        .task-icon img { width: 100%; height: 100%; object-fit:contain; }
-        .task-icon i { font-size: 6vw; color: white; }
+        .task-icon { width: 12vw; height: 12vw; border-radius: 3vw; object-fit: cover; background: rgba(255,255,255,0.1); }
         .task-info { flex: 1; display: flex; flex-direction: column; gap: 1vw; }
         .task-title { color: white; font-size: 3.5vw; font-weight: 600; line-height: 1.2; }
         .task-reward { display: flex; align-items: center; gap: 1.5vw; font-size: 3vw; color: var(--level-gold); font-weight: 700; }
@@ -776,17 +764,17 @@
         .btn { border: none; height: 14vw; border-radius: 4vw; cursor: pointer; display: flex; align-items: center; justify-content: center; background: var(--btn-blue-grad); box-shadow: 0 2vw 5vw rgba(74, 146, 255, 0.4); transition: transform 0.1s ease, box-shadow 0.2s ease; position: relative; overflow: hidden; }
         .connect-btn { padding: 0 5vw; width: 100%; max-width: 62.5vw; }
         .btn-text { color: white; font-size: 3.5vw; font-weight: 700; margin-left: 2.5vw; letter-spacing: 0.1vw; }
-        .icon-img, .btn i { width: 6vw; height: auto; object-fit: contain; font-size: 5vw; }
+        .icon-img { width: 6vw; height: 6vw; object-fit: contain; }
         .invite-container { display: flex; gap: 3vw; width: 100%; padding: 0 5vw; margin-top: 5vw; }
         .btn-invite { flex: 1; border: none; background: var(--btn-blue-grad); color: white; font-size: 4.5vw; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; padding: 4vw 0; border-radius: 10vw; cursor: pointer; box-shadow: 0 2vw 5vw rgba(0, 229, 255, 0.4), inset 0 0.5vw 0 rgba(255,255,255,0.4); border: 1px solid rgba(255,255,255,0.2); transition: transform 0.1s, filter 0.2s; position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center; gap: 2vw; }
         .btn-invite img { width: 6vw; height: 6vw; margin-right: -1vw; object-fit: contain; }
         .btn-invite::after { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 50%; background: linear-gradient(to bottom, rgba(255,255,255,0.2), transparent); border-radius: 10vw 10vw 0 0; pointer-events: none; }
         .btn-invite:active { transform: translateY(1vw); filter: brightness(0.9); box-shadow: 0 1vw 3vw rgba(0, 229, 255, 0.3); }
         .btn-copy { width: 14vw; height: 14vw; flex-shrink: 0; background-color: var(--bg-card); border: 1px solid rgba(255,255,255,0.1); border-radius: 4vw; display: flex; justify-content: center; align-items: center; cursor: pointer; transition: background 0.2s, transform 0.1s; }
-        .btn-copy img, .btn-copy i { width: auto; height: auto; object-fit: contain; font-size: 6vw; color: white; }
+        .btn-copy img { width: 6vw; height: 6vw; object-fit: contain; }
         .btn-copy:active { transform: scale(0.95); background-color: #1a4066; }
         .btn-copy.copied { background-color: var(--accent-cyan); border-color: var(--accent-cyan); }
-        .btn-copy.copied img, .btn-copy.copied i { filter: brightness(0); color: black; }
+        .btn-copy.copied img { filter: brightness(0); }
         
         /* Glass Popup Styling */
         .popup-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(5, 15, 26, 0.9); backdrop-filter: blur(5px); z-index: 5000; display: none; justify-content: center; align-items: center; padding: 5vw; overflow-y: auto; }
@@ -823,11 +811,9 @@
     
     <!-- TOAST NOTIFICATION -->
     <div id="toastNotification" class="toast-notification">
-        <!-- Replaced Check Icon with FA -->
-        <div class="toast-icon"><i class="fa-solid fa-circle-check"></i></div>
+        <div class="toast-icon"><img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/check_icon.webp" alt=""></div>
         <div id="toastMessage">Changes saved</div>
-        <!-- Replaced Close Icon with FA -->
-        <i class="fa-solid fa-xmark close-toast-icon" onclick="hideToast()"></i>
+        <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/close_icon.webp" class="close-toast-icon" onclick="hideToast()" alt="X">
     </div>
 
     <!-- GENERIC GLASS POPUP -->
@@ -839,8 +825,8 @@
     <div id="leaderboardOverlay" class="leaderboard-overlay">
         <div class="leaderboard-header">
             <button class="close-btn" onclick="closeLeaderboard()">
-                <!-- Replaced Close Icon with FA -->
-                <i class="fa-solid fa-xmark"></i>
+                <!-- USING CORRECT ICON FROM LIST -->
+                <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/close_icon.webp" alt="X">
             </button>
             <h2>Leaderboard</h2>
         </div>
@@ -852,8 +838,9 @@
             <div class="lb-pill" onclick="switchLeaderboardTab('star')" id="tab-star">Level</div>
         </div>
 
-        <!-- TGS Loading Animation Container -->
+        <!-- TGS Loading Animation Container - FIXED -->
         <div id="leaderboardLoader" class="tgs-loading-overlay">
+            <!-- URL ENCODED SPACE FOR TGS FILE -->
             <tgs-player autoplay loop mode="normal" src="https://alamin12071985-a11y.github.io/Snowman-Adventure/animated%20loading.tgs" style="width: 100%; height: 100%;"></tgs-player>
         </div>
 
@@ -992,9 +979,8 @@
                         <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/friends.webp" alt="Invite">
                         Invite a Friend
                     </button>
-                    <!-- Replaced Copy Icon with FA -->
                     <button class="btn-copy" id="copyLinkBtn" onclick="handleCopyClick(this)">
-                        <i class="fa-solid fa-copy"></i>
+                        <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/copy_icon.webp" alt="Copy">
                     </button>
                 </div>
                 <div style="background: var(--glass-bg); border: 1px solid var(--accent-cyan); border-radius: 4vw; padding: 4vw; margin: 5vw 0 0 0; width: 100%; text-align: center;">
@@ -1049,9 +1035,8 @@
                 </div>
                 <div class="button-group" style="margin-top: 10px;" id="connectBtnContainer">
                     <button class="btn connect-btn" id="connectWalletBtn" onclick="connectWallet()">
-                        <!-- Replaced Wallet Icon with FA -->
-                         <i class="fa-solid fa-wallet" style="margin-right:2vw;"></i>
-                        <span class="btn-text" style="margin-left:0;">Connect Wallet</span>
+                         <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/wallet_icon.webp" class="icon-img" alt="Wallet">
+                        <span class="btn-text">Connect Wallet</span>
                     </button>
                 </div>
                 <div id="walletStatusBadge" style="display:none; margin-top:5px; background:rgba(255,255,255,0.1); padding:8px 15px; border-radius:20px; font-size:0.8rem; border:1px solid rgba(0,229,255,0.3);">
@@ -1092,6 +1077,7 @@
     <!-- MAIN SCRIPT -->
     <script>
         // --- BANNER LINKS CONFIGURATION (UPDATED) ---
+        // All banners now point to the daily task link as requested
         const bannerLinks = {
             task: "https://adexora.my.id/dl/DmkqNKQVbV59",
             friends: "https://adexora.my.id/dl/DmkqNKQVbV59",
@@ -1674,6 +1660,11 @@
                 ${btnHtml}
                 <button class="close-spin-btn" onclick="closeGlassPopup()">Close</button>
                 
+                <div id="adsTimerOverlay">
+                   <div style="font-size: 10vw; font-weight: 800; color: #FFD700;" id="adsCountdown">15</div>
+                   <div style="font-size: 4vw; margin-top: 2vw;">Wait for reward...</div>
+                </div>
+
                 <div id="winPopup" class="reward-popup">
                     <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/ton.webp" class="reward-icon">
                     <h2 style="color: white; font-size: 6vw; margin-bottom: 2vw;">YOU WON!</h2>
@@ -1696,23 +1687,36 @@
             }
 
             const btn = document.getElementById('spinActionBtn');
-            // REMOVED ADS TIMER OVERLAY AS REQUESTED
+            const timerOverlay = document.getElementById('adsTimerOverlay');
+            const countdownEl = document.getElementById('adsCountdown');
 
             btn.disabled = true;
             btn.innerText = "Loading...";
 
             window.showAdexora().then(() => {
-                // Instantly proceed after ad promise resolves (or assume viewed)
-                adWatchCount++;
-                if (adWatchCount >= 5) {
-                    adWatchCount = 0;
-                    isAdSpin = true;
-                    spinTheWheel();
-                } else {
-                    btn.disabled = false;
-                    btn.innerText = `Watch Ad (${adWatchCount}/5)`;
-                    showToast("Ad watched! Watch more to spin.");
-                }
+                timerOverlay.style.display = 'flex';
+                let timeLeft = 15;
+                countdownEl.innerText = timeLeft;
+
+                const timerId = setInterval(() => {
+                    timeLeft--;
+                    countdownEl.innerText = timeLeft;
+                    
+                    if (timeLeft <= 0) {
+                        clearInterval(timerId);
+                        timerOverlay.style.display = 'none';
+                        
+                        adWatchCount++;
+                        if (adWatchCount >= 5) {
+                            adWatchCount = 0;
+                            isAdSpin = true;
+                            spinTheWheel();
+                        } else {
+                            btn.disabled = false;
+                            btn.innerText = `Watch Ad (${adWatchCount}/5)`;
+                        }
+                    }
+                }, 1000);
 
             }).catch(e => {
                 console.error(e);
@@ -1813,20 +1817,19 @@
             const msgEl = document.getElementById('toastMessage');
             const iconEl = document.querySelector('#toastNotification .toast-icon');
             
-            // Replaced logic to use Font Awesome Classes instead of img src
-            let iconClass = 'fa-solid fa-bell'; 
+            let iconSrc = 'https://alamin12071985-a11y.github.io/Snowman-Adventure/bell_icon.webp'; 
 
             if (message.includes('Active:')) {
-                iconClass = 'fa-solid fa-circle-info';
+                iconSrc = 'https://alamin12071985-a11y.github.io/Snowman-Adventure/info_icon.webp';
                 iconEl.style.backgroundColor = 'rgba(33, 150, 243, 0.3)'; 
             } else if (message.includes('successful') || message.includes('won')) {
-                iconClass = 'fa-solid fa-circle-check';
+                iconSrc = 'https://alamin12071985-a11y.github.io/Snowman-Adventure/check_icon.webp';
                 iconEl.style.backgroundColor = 'rgba(76, 175, 80, 0.3)';
             } else {
                 iconEl.style.backgroundColor = 'rgba(255, 255, 255, 0.1)';
             }
             
-            iconEl.innerHTML = `<i class="${iconClass}"></i>`;
+            iconEl.innerHTML = `<img src="${iconSrc}" alt="icon">`;
 
             msgEl.innerText = message;
             toast.classList.add('show');
@@ -2120,7 +2123,7 @@
                 const card = document.createElement('div');
                 card.className = 'task-card';
                 card.innerHTML = `
-                    <div class="task-icon"><i class="fa-solid fa-circle-info"></i></div>
+                    <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/info_icon.webp" class="task-icon" alt="Web">
                     <div class="task-info">
                         <div class="task-title">Visit Site ${i}</div>
                         <div class="task-reward"><img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/coin.webp">+1000</div>
@@ -2139,9 +2142,7 @@
                         const card = document.createElement('div');
                         card.className = 'task-card';
                         card.innerHTML = `
-                             <div class="task-icon">
-                                ${task.image ? `<img src="${task.image}" alt="icon">` : `<i class="fa-solid fa-list-check"></i>`}
-                            </div>
+                            <img src="${task.image || 'https://alamin12071985-a11y.github.io/Snowman-Adventure/check_icon.webp'}" class="task-icon" alt="Icon">
                             <div class="task-info">
                                 <div class="task-title">${task.title}</div>
                                 <div class="task-reward"><img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/coin.webp">+${task.reward}</div>
