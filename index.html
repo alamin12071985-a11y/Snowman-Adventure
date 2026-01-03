@@ -127,7 +127,7 @@
             font-family: sans-serif;
         }
 
-        /* --- JOIN GATE OVERLAY (NEW) --- */
+        /* --- JOIN GATE OVERLAY --- */
         .join-gate-overlay {
             position: fixed;
             top: 0;
@@ -135,8 +135,8 @@
             width: 100%;
             height: 100%;
             background: #000;
-            z-index: 9990; /* Just below loading, above everything else */
-            display: none; /* Shown via JS */
+            z-index: 9990; 
+            display: none; 
             flex-direction: column;
             align-items: center;
             justify-content: center;
@@ -168,7 +168,7 @@
         .join-icon-circle img {
             width: 8vw;
             height: 8vw;
-            filter: brightness(0) invert(1); /* Make White */
+            filter: brightness(0) invert(1);
         }
 
         .join-gate-card h2 {
@@ -215,7 +215,7 @@
         .icon-circle-small img {
             width: 5vw;
             height: 5vw;
-            filter: brightness(0) invert(1); /* Make White */
+            filter: brightness(0) invert(1);
         }
 
         .join-text {
@@ -491,7 +491,7 @@
         /* --- TAP ME HINT (ABOVE HEAD) --- */
         .tap-me-hint {
             position: absolute;
-            top: 35%; /* Moved UP */
+            top: 25%; /* Moved Higher */
             left: 50%;
             transform: translate(-50%, -50%);
             font-size: 8vw;
@@ -578,28 +578,28 @@
         #leaderboardBtn { top: 82%; right: 3vw; }
         #autoTapBtn { top: 82%; left: 3vw; }
         
-        /* --- TOAST NOTIFICATION --- */
+        /* --- TOAST NOTIFICATION REDESIGNED --- */
         .toast-notification {
             position: fixed;
             top: 5vw;
             left: 50%;
-            transform: translateX(-50%) translateY(-25vw);
-            background: rgba(8, 24, 43, 0.85);
+            transform: translateX(-50%) translateY(-30vw);
+            background: rgba(16, 32, 50, 0.95);
             backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(0, 229, 255, 0.3);
-            color: var(--text-light);
-            padding: 3vw 5vw;
-            border-radius: 7.5vw;
-            box-shadow: 0 2vw 6vw rgba(0,0,0,0.5);
+            border: 1px solid rgba(0, 229, 255, 0.4);
+            color: white;
+            padding: 3vw 4vw;
+            border-radius: 4vw;
+            box-shadow: 0 4vw 8vw rgba(0,0,0,0.6);
             display: flex;
             align-items: center;
-            gap: 2.5vw;
-            z-index: 5000;
+            justify-content: space-between; /* Icon Left, Close Right */
+            gap: 3vw;
+            z-index: 9999;
             opacity: 0;
             transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             width: 90%;
-            max-width: 80vw;
+            max-width: 85vw;
         }
 
         .toast-notification.show {
@@ -607,30 +607,45 @@
             opacity: 1;
         }
 
+        .toast-content-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 3vw;
+            flex: 1;
+        }
+
         .toast-icon {
-            width: 7vw;
-            height: 7vw;
+            width: 8vw;
+            height: 8vw;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            background: rgba(255, 255, 255, 0.1); 
+            background: rgba(0, 229, 255, 0.15); 
+            flex-shrink: 0;
         }
         
         .toast-icon img {
-            width: 4.5vw;
-            height: 4.5vw;
+            width: 5vw;
+            height: 5vw;
             object-fit: contain;
-             /* Icons are colored from CDN, no invert needed unless specific */
+        }
+
+        #toastMessage {
+            font-size: 3.5vw;
+            font-weight: 600;
+            line-height: 1.2;
+            text-align: left;
         }
 
         .close-toast-icon {
-            margin-left:auto; 
-            width: 4vw; 
-            height: 4vw; 
-            opacity: 0.6;
+            width: 5vw; 
+            height: 5vw; 
+            opacity: 0.7;
             cursor: pointer;
-            filter: brightness(0) invert(1); /* Make White */
+            filter: brightness(0) invert(1);
+            flex-shrink: 0;
+            padding: 1vw;
         }
         
         /* --- NAV BAR --- */
@@ -933,7 +948,7 @@
         .btn-invite { flex: 1; border: none; background: var(--btn-blue-grad); color: white; font-size: 4.5vw; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; padding: 4vw 0; border-radius: 10vw; cursor: pointer; box-shadow: 0 2vw 5vw rgba(0, 229, 255, 0.4), inset 0 0.5vw 0 rgba(255,255,255,0.4); border: 1px solid rgba(255,255,255,0.2); transition: transform 0.1s, filter 0.2s; position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center; gap: 2vw; }
         .btn-invite img { 
             width: 8vw; height: 8vw; margin-right: -1vw; object-fit: contain; 
-            filter: brightness(0) invert(1); /* Make White */
+            /* Telegram Icon is already colored, no invert needed */
         }
         .btn-invite::after { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 50%; background: linear-gradient(to bottom, rgba(255,255,255,0.2), transparent); border-radius: 10vw 10vw 0 0; pointer-events: none; }
         .btn-invite:active { transform: translateY(1vw); filter: brightness(0.9); box-shadow: 0 1vw 3vw rgba(0, 229, 255, 0.3); }
@@ -991,8 +1006,6 @@
         .spin-action-btn { background: linear-gradient(90deg, #FFD700, #FFA000); color: #000; width: 70vw !important; height: 14vw !important; font-size: 4.5vw !important; border-radius: 8vw !important; box-shadow: 0 0 4vw rgba(255, 215, 0, 0.4); margin-top: 2vw; font-weight: 800; border: none; text-transform: uppercase; }
         .close-spin-btn { background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2); color: white; width: 40vw !important; height: 10vw !important; font-size: 3.5vw !important; border-radius: 8vw !important; margin-top: 4vw; cursor: pointer; }
         
-        /* Ads Timer Overlay REMOVED */
-        
         .reward-popup { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0.8); width: 80vw; background: linear-gradient(180deg, #163450 0%, #050f1a 100%); border: 2px solid var(--accent-cyan); border-radius: 5vw; padding: 6vw; z-index: 8000; text-align: center; box-shadow: 0 0 10vw rgba(0,229,255,0.5); display: none; opacity: 0; transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
         .reward-popup.active { display: block; opacity: 1; transform: translate(-50%, -50%) scale(1); }
         .reward-icon { width: 25vw; height: 25vw; margin-bottom: 2vw; filter: drop-shadow(0 0 2vw var(--accent-cyan)); }
@@ -1044,8 +1057,12 @@
     
     <!-- TOAST NOTIFICATION -->
     <div id="toastNotification" class="toast-notification">
-        <div class="toast-icon"><img src="https://cdn-icons-png.flaticon.com/512/190/190411.png" alt=""></div>
-        <div id="toastMessage">Changes saved</div>
+        <div class="toast-content-wrapper">
+            <div class="toast-icon">
+                <img src="https://cdn-icons-png.flaticon.com/512/3602/3602145.png" alt="info">
+            </div>
+            <div id="toastMessage">Changes saved</div>
+        </div>
         <img src="https://cdn-icons-png.flaticon.com/512/2976/2976286.png" class="close-toast-icon" onclick="hideToast()" alt="X">
     </div>
 
@@ -1338,8 +1355,10 @@
         let tonBalance = 0.0;
         let tapCount = 0; 
         let level = 1;
-        // Persistence Fix: Try to get userId from localStorage first
+        // UserID logic: Prefer local storage for persistence first
         let userId = localStorage.getItem('snowman_userid');
+        
+        // This ensures if we have no ID, we generate a test one, but real one comes from Telegram later
         if (!userId) {
             userId = "test_user_" + Math.floor(Math.random() * 10000);
             localStorage.setItem('snowman_userid', userId);
@@ -1453,9 +1472,8 @@
             })
             .then(response => {
                  if (!response.ok) {
-                     // If backend fails (e.g. 404), fallback to simulation for demo purposes
-                     // throw new Error("Backend unavailable");
-                     return { joined: true }; // Fallback
+                     // If backend fails, treat as error (don't auto-pass)
+                     throw new Error("Backend unavailable");
                  }
                  return response.json();
             })
@@ -1467,18 +1485,15 @@
                     joinGate.style.display = 'none';
                     checkAdBlocker();
                 } else {
-                    showToast("Please join both channels!");
+                    // ALERT USER (Toast)
+                    showToast("Please join both channels!", 3000, true);
                 }
             })
             .catch(err => {
                 console.error("Join check failed:", err);
-                // Fallback for demo if backend is offline
-                setTimeout(() => {
-                    checkBtn.classList.remove('loading');
-                    checkBtn.innerText = "Check";
-                    joinGate.style.display = 'none';
-                    checkAdBlocker();
-                }, 1000);
+                checkBtn.classList.remove('loading');
+                checkBtn.innerText = "Check";
+                showToast("Connection failed. Try again.", 3000, true);
             });
         }
 
@@ -1510,11 +1525,13 @@
         });
 
         function init() {
+            // Must init Telegram user FIRST to get correct ID for DB
             initTelegramUser(); 
             startSnowfall();
-            loadUserData();
+            loadUserData(); // Load data from Firebase using the ID
             loadConfig(); 
             startAutoTapLoop(); 
+            // Save data every 5 seconds
             setInterval(saveUserData, 5000);
             startReferralTimer();
         }
@@ -1573,7 +1590,9 @@
         }
 
         function saveUserData() {
-            if(!userId || !isDataLoaded) return;
+            if(!userId) return; // Critical check
+            if(!isDataLoaded) return; // Don't save if we haven't loaded yet (prevents overwrite)
+
             const userUpdate = {
                 balance: balance,
                 tonBalance: tonBalance,
@@ -1584,11 +1603,20 @@
                 lastSpinTime: lastSpinTime,
                 lastActive: Date.now()
             };
+
             if(myReferredBy) {
                 userUpdate.referredBy = myReferredBy;
             }
-            db.ref('users/' + userId).update(userUpdate);
 
+            // Write to Firebase
+            db.ref('users/' + userId).update(userUpdate).then(() => {
+                // Optional: Console log for debugging
+                // console.log("Data saved successfully for " + userId);
+            }).catch(err => {
+                console.error("Save failed", err);
+            });
+
+            // Referral Logic
             if (myReferredBy && lastSavedBalance > 0) {
                 const earnedAmount = balance - lastSavedBalance;
                 if (earnedAmount >= 1) { 
@@ -2053,24 +2081,29 @@
             showGlassPopup(html);
         }
 
-        function showToast(message, duration = 3000) {
+        function showToast(message, duration = 3000, isError = false) {
             const toast = document.getElementById('toastNotification');
             const msgEl = document.getElementById('toastMessage');
-            const iconEl = document.querySelector('#toastNotification .toast-icon');
+            const iconEl = document.querySelector('.toast-icon img');
+            const iconContainer = document.querySelector('.toast-icon');
             
-            let iconSrc = 'https://cdn-icons-png.flaticon.com/512/10010/10010069.png'; // Default Info
-            if (message.includes('Active:')) {
-                iconSrc = 'https://cdn-icons-png.flaticon.com/512/10010/10010069.png';
-                iconEl.style.backgroundColor = 'rgba(33, 150, 243, 0.3)'; 
+            let iconSrc = 'https://cdn-icons-png.flaticon.com/512/3602/3602145.png'; // Bell/Info
+            let bgColor = 'rgba(0, 229, 255, 0.15)'; // Blue
+
+            if (isError) {
+                // Warning/Error Icon
+                iconSrc = 'https://cdn-icons-png.flaticon.com/512/497/497738.png'; 
+                bgColor = 'rgba(255, 0, 0, 0.2)'; // Red
             } else if (message.includes('successful') || message.includes('won')) {
-                iconSrc = 'https://cdn-icons-png.flaticon.com/512/190/190411.png'; // Check
-                iconEl.style.backgroundColor = 'rgba(76, 175, 80, 0.3)';
-            } else {
-                iconEl.style.backgroundColor = 'rgba(255, 255, 255, 0.1)';
+                // Success Icon
+                iconSrc = 'https://cdn-icons-png.flaticon.com/512/190/190411.png'; 
+                bgColor = 'rgba(76, 175, 80, 0.2)'; // Green
             }
             
-            iconEl.innerHTML = `<img src="${iconSrc}" alt="icon">`;
+            iconEl.src = iconSrc;
+            iconContainer.style.background = bgColor;
             msgEl.innerText = message;
+            
             toast.classList.add('show');
             if (toast.timeoutId) clearTimeout(toast.timeoutId);
             toast.timeoutId = setTimeout(() => { toast.classList.remove('show'); }, duration);
@@ -2097,6 +2130,9 @@
             balance += coinsPerTap;
             tapCount++; 
             updateUI(); 
+            // Save on every 10th tap to reduce writes, but ensure local variable is up to date
+            if(tapCount % 10 === 0) saveUserData();
+
             if (navigator.vibrate) navigator.vibrate(50);
             let clientX = e.clientX;
             let clientY = e.clientY;
