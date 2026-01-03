@@ -8,7 +8,7 @@
     <!-- Telegram Web App Script -->
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     
-    <!-- Firebase SDK -->
+    <!-- Firebase SDK (Version 8 - Compatible with your code) -->
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
     
@@ -1017,16 +1017,14 @@
     <div id="joinGateOverlay" class="join-gate-overlay">
         <div class="join-gate-card">
             <div class="join-icon-circle">
-                <!-- Simple Group Icon -->
                 <img src="https://cdn-icons-png.flaticon.com/512/166/166258.png" alt="Group">
             </div>
             <h2>Join Our Community</h2>
             <p>Join our channel and group to continue</p>
             
-            <a href="https://t.me/snowmanadventureannouncement" target="_blank" class="join-row" onclick="markJoined('channel')">
+            <a href="https://t.me/snowmanadventureannouncement" target="_blank" class="join-row">
                 <div class="join-row-left">
                     <div class="icon-circle-small">
-                        <!-- Channel/Speaker Icon -->
                         <img src="https://cdn-icons-png.flaticon.com/512/2111/2111646.png">
                     </div>
                     <div class="join-text">
@@ -1037,10 +1035,9 @@
                 <button class="join-btn-small">JOIN</button>
             </a>
 
-            <a href="https://t.me/snowmanadventuregroup" target="_blank" class="join-row" onclick="markJoined('group')">
+            <a href="https://t.me/snowmanadventuregroup" target="_blank" class="join-row">
                 <div class="join-row-left">
                     <div class="icon-circle-small">
-                        <!-- Chat Bubble Icon -->
                         <img src="https://cdn-icons-png.flaticon.com/512/476/476863.png">
                     </div>
                     <div class="join-text">
@@ -1051,6 +1048,7 @@
                 <button class="join-btn-small">JOIN</button>
             </a>
 
+            <!-- This Check Button will trigger the Backend verification -->
             <button id="checkJoinBtn" class="check-btn" onclick="verifyJoin()">Check</button>
         </div>
     </div>
@@ -1080,30 +1078,21 @@
             <h2>Leaderboard</h2>
         </div>
         
-        <!-- Tabs -->
         <div class="lb-tab-container">
             <div class="lb-pill active" onclick="switchLeaderboardTab('coins')" id="tab-coins">Coins</div>
             <div class="lb-pill" onclick="switchLeaderboardTab('refer')" id="tab-refer">Referrals</div>
             <div class="lb-pill" onclick="switchLeaderboardTab('star')" id="tab-star">Level</div>
         </div>
 
-        <!-- TGS Loading Animation Container -->
         <div id="leaderboardLoader" class="tgs-loading-overlay">
-            <tgs-player autoplay loop mode="normal" src="https://alamin12071985-a11y.github.io/Snowman-Adventure/animated%20loading.tgs" style="width: 100%; height: 100%;"></tgs-player>
+            <div style="color:white; font-size:4vw;">Loading...</div>
         </div>
 
-        <!-- Content Area -->
         <div id="lbContentArea" style="display:flex; flex-direction:column; height:100%;">
-            <!-- Podium -->
-            <div class="podium-section" id="podiumContainer">
-            </div>
-
-            <!-- List -->
-            <div class="rank-list-container" id="leaderboardList">
-            </div>
+            <div class="podium-section" id="podiumContainer"></div>
+            <div class="rank-list-container" id="leaderboardList"></div>
         </div>
 
-        <!-- My Fixed Stats -->
         <div class="my-stats-fixed" id="myStatsCard" style="display:none;">
             <div class="rank-left">
                 <img id="myRankAvatar" src="" class="rank-avatar-small">
@@ -1188,7 +1177,6 @@
                         <span class="btn-text">Leaderboard</span>
                     </div>
                     
-                    <!-- Tap Me Animation Hint -->
                     <div id="tapMeHint" class="tap-me-hint">Tap Me!</div>
 
                     <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/snowman.webp" class="character-img" id="clickerBtn" alt="Snowman">
@@ -1225,7 +1213,6 @@
                 
                 <div class="invite-container" style="margin-top: 0;">
                     <button class="btn-invite" onclick="inviteFriend()">
-                         <!-- TELEGRAM ICON -->
                         <img src="https://cdn-icons-png.flaticon.com/512/2111/2111646.png" alt="Invite">
                         Invite a Friend
                     </button>
@@ -1238,17 +1225,14 @@
                     <div style="display: flex; justify-content: space-around; margin-bottom: 4vw;">
                         <div style="text-align: center;">
                             <div style="font-size: 4.5vw; font-weight: 800; color: #FFD700;">🥇 1st Place</div>
-                            <!-- UPDATED TO USDT ($100) -->
                             <div style="font-size: 5.5vw; font-weight: 800; color: #FFD700;">💵 $100</div>
                         </div>
                         <div style="text-align: center;">
                             <div style="font-size: 4.5vw; font-weight: 800; color: #C0C0C0;">🥈 2nd Place</div>
-                             <!-- UPDATED TO USDT ($60) -->
                             <div style="font-size: 5.5vw; font-weight: 800; color: #C0C0C0;">💵 $60</div>
                         </div>
                         <div style="text-align: center;">
                             <div style="font-size: 4.5vw; font-weight: 800; color: #CD7F32;">🥉 3rd Place</div>
-                             <!-- UPDATED TO USDT ($40) -->
                             <div style="font-size: 5.5vw; font-weight: 800; color: #CD7F32;">💵 $40</div>
                         </div>
                     </div>
@@ -1287,7 +1271,6 @@
                 </div>
                 <div class="button-group" style="margin-top: 10px;" id="connectBtnContainer">
                     <button class="btn connect-btn" id="connectWalletBtn" onclick="connectWallet()">
-                         <!-- UPDATED WALLET ICON (Internet) -->
                          <img src="https://cdn-icons-png.flaticon.com/512/1041/1041888.png" class="icon-img" alt="Wallet">
                         <span class="btn-text">Connect Wallet</span>
                     </button>
@@ -1346,6 +1329,7 @@
             measurementId: "G-J550E6L22Z"
         };
         
+        // Initialize Firebase
         if (!firebase.apps.length) {
             firebase.initializeApp(firebaseConfig);
         }
@@ -1355,15 +1339,7 @@
         let tonBalance = 0.0;
         let tapCount = 0; 
         let level = 1;
-        // UserID logic: Prefer local storage for persistence first
-        let userId = localStorage.getItem('snowman_userid');
-        
-        // This ensures if we have no ID, we generate a test one, but real one comes from Telegram later
-        if (!userId) {
-            userId = "test_user_" + Math.floor(Math.random() * 10000);
-            localStorage.setItem('snowman_userid', userId);
-        }
-
+        let userId = null; // Will be set by init()
         let completedTasks = {}; 
         let currentLeaderboardTab = 'coins'; 
         let referralCount = 0; 
@@ -1442,59 +1418,63 @@
             return `${m}m ${s}s`;
         }
 
-        /* --- JOIN GATE LOGIC --- */
-        let hasJoinedChannel = false;
-        let hasJoinedGroup = false;
-
-        function markJoined(type) {
-            if (type === 'channel') hasJoinedChannel = true;
-            if (type === 'group') hasJoinedGroup = true;
-        }
-
-        function verifyJoin() {
+        /* --- JOIN GATE LOGIC (UPDATED WITH REAL BACKEND CHECK) --- */
+        async function verifyJoin() {
             const checkBtn = document.getElementById('checkJoinBtn');
             const joinGate = document.getElementById('joinGateOverlay');
             
-            // Start Loading Animation
+            // Check if userId is loaded
+            if (!userId) {
+                showToast("User ID not found. Reloading...", 2000, true);
+                initTelegramUser(); // Try again
+                return;
+            }
+
+            // Visual Loading State
             checkBtn.innerText = "Checking...";
             checkBtn.innerHTML = "Checking... <span style='display:inline-block; width:10px; height:10px; border:2px solid white; border-top:2px solid transparent; border-radius:50%; animation:spin 1s linear infinite;'></span>";
             checkBtn.classList.add('loading');
-
+            
             const style = document.createElement('style');
             style.innerHTML = `@keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }`;
             document.head.appendChild(style);
 
-            // REAL BACKEND CHECK
-            fetch(`${BACKEND_URL}/verify_join`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ user_id: userId })
-            })
-            .then(response => {
-                 if (!response.ok) {
-                     // If backend fails, treat as error (don't auto-pass)
-                     throw new Error("Backend unavailable");
-                 }
-                 return response.json();
-            })
-            .then(data => {
+            try {
+                // Call Backend API
+                const response = await fetch(`${BACKEND_URL}/verify_join`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ user_id: userId })
+                });
+
+                if (!response.ok) {
+                    throw new Error("Backend connection failed");
+                }
+
+                const data = await response.json();
+
+                // Reset Button
                 checkBtn.classList.remove('loading');
                 checkBtn.innerText = "Check";
 
                 if (data.joined === true) {
+                    // SUCCESS
                     joinGate.style.display = 'none';
                     checkAdBlocker();
+                    showToast("Verified! Welcome to the game.");
                 } else {
-                    // ALERT USER (Toast)
-                    showToast("Please join both channels!", 3000, true);
+                    // FAILED
+                    showToast("Please join BOTH channels first!", 3000, true);
                 }
-            })
-            .catch(err => {
+
+            } catch (err) {
                 console.error("Join check failed:", err);
                 checkBtn.classList.remove('loading');
                 checkBtn.innerText = "Check";
-                showToast("Connection failed. Try again.", 3000, true);
-            });
+                
+                // If backend is down, we must block user or show error
+                showToast("Server error. Cannot verify.", 3000, true);
+            }
         }
 
         window.addEventListener('load', () => {
@@ -1516,7 +1496,7 @@
                         screen.style.opacity = '0';
                         setTimeout(() => {
                             screen.style.display = 'none';
-                            // SHOW JOIN GATE INSTEAD OF DIRECTLY GOING TO GAME
+                            // Always show Join Gate first
                             joinGate.style.display = 'flex';
                         }, 500);
                     }, 500);
@@ -1525,17 +1505,55 @@
         });
 
         function init() {
-            // Must init Telegram user FIRST to get correct ID for DB
+            // 1. Get User ID
             initTelegramUser(); 
+            
+            // 2. Start Game Logic
             startSnowfall();
             loadUserData(); // Load data from Firebase using the ID
             loadConfig(); 
             startAutoTapLoop(); 
-            // Save data every 5 seconds
+            
+            // 3. Save Interval
             setInterval(saveUserData, 5000);
             startReferralTimer();
         }
         
+        function initTelegramUser() {
+            try {
+                const tg = window.Telegram.WebApp;
+                tg.expand(); 
+                const user = tg.initDataUnsafe.user;
+                if (user) {
+                    userId = user.id.toString(); 
+                    localStorage.setItem('snowman_userid', userId); 
+                    if (user.username) headerName.innerText = user.username;
+                    else if (user.first_name) headerName.innerText = user.first_name;
+                    if (user.photo_url) headerAvatar.src = user.photo_url;
+
+                    const startParam = tg.initDataUnsafe.start_param;
+                    if (startParam && startParam !== userId) {
+                        referrerIdFromUrl = startParam;
+                    }
+                } else {
+                    // Fallback for non-Telegram browsers (testing)
+                    let storedId = localStorage.getItem('snowman_userid');
+                    if (!storedId) {
+                        storedId = "test_user_" + Math.floor(Math.random() * 100000);
+                        localStorage.setItem('snowman_userid', storedId);
+                    }
+                    userId = storedId;
+                }
+            } catch (e) {
+                console.log("Not running in Telegram", e);
+                // Ensure userId exists
+                if(!userId) {
+                    userId = "test_user_" + Math.floor(Math.random() * 100000);
+                    localStorage.setItem('snowman_userid', userId);
+                }
+            }
+        }
+
         function loadConfig() {
             db.ref('config/referralPercentage').once('value').then(snapshot => {
                 const percentage = snapshot.val();
@@ -1567,31 +1585,9 @@
             }, 1000);
         }
 
-        function initTelegramUser() {
-            try {
-                const tg = window.Telegram.WebApp;
-                tg.expand(); 
-                const user = tg.initDataUnsafe.user;
-                if (user) {
-                    userId = user.id.toString(); 
-                    localStorage.setItem('snowman_userid', userId); // Update persistence with Real ID
-                    if (user.username) headerName.innerText = user.username;
-                    else if (user.first_name) headerName.innerText = user.first_name;
-                    if (user.photo_url) headerAvatar.src = user.photo_url;
-
-                    const startParam = tg.initDataUnsafe.start_param;
-                    if (startParam && startParam !== userId) {
-                        referrerIdFromUrl = startParam;
-                    }
-                }
-            } catch (e) {
-                console.log("Not running in Telegram");
-            }
-        }
-
         function saveUserData() {
-            if(!userId) return; // Critical check
-            if(!isDataLoaded) return; // Don't save if we haven't loaded yet (prevents overwrite)
+            if(!userId) return; 
+            if(!isDataLoaded) return; // Don't save empty data over existing data
 
             const userUpdate = {
                 balance: balance,
@@ -1608,15 +1604,14 @@
                 userUpdate.referredBy = myReferredBy;
             }
 
-            // Write to Firebase
+            // Save to Firebase
             db.ref('users/' + userId).update(userUpdate).then(() => {
-                // Optional: Console log for debugging
-                // console.log("Data saved successfully for " + userId);
+                console.log("Data Saved:", balance);
             }).catch(err => {
                 console.error("Save failed", err);
             });
 
-            // Referral Logic
+            // Handle Referral Commission
             if (myReferredBy && lastSavedBalance > 0) {
                 const earnedAmount = balance - lastSavedBalance;
                 if (earnedAmount >= 1) { 
@@ -1642,6 +1637,7 @@
             userRef.once('value').then((snapshot) => {
                 const data = snapshot.val();
                 if (data) {
+                    // Existing User
                     balance = data.balance || 0;
                     tonBalance = data.tonBalance || 0.0;
                     tapCount = data.tapCount || 0;
@@ -1658,6 +1654,7 @@
                     loadTasksFromDB();
                     loadReferrals(); 
                 } else {
+                    // New User
                     let startBalance = 500; 
                     let newUserStats = {
                         balance: startBalance,
@@ -2122,7 +2119,6 @@
 
         function handleTap(e) {
             e.preventDefault();
-            // REMOVE TAP ME HINT ON FIRST CLICK
             const hint = document.getElementById('tapMeHint');
             if(hint) hint.style.display = 'none';
 
@@ -2130,7 +2126,7 @@
             balance += coinsPerTap;
             tapCount++; 
             updateUI(); 
-            // Save on every 10th tap to reduce writes, but ensure local variable is up to date
+            // Save on every 10th tap to reduce writes
             if(tapCount % 10 === 0) saveUserData();
 
             if (navigator.vibrate) navigator.vibrate(50);
@@ -2416,7 +2412,7 @@
                 balance += reward;
                 completedTasks[taskId] = todayStr;
                 db.ref('users/' + userId + '/completedTasks').update({ [taskId]: todayStr });
-                db.ref('users/' + userId).update({ balance: balance });
+                saveUserData();
                 btn.innerText = "Done";
                 btn.classList.add('claimed');
                 updateUI();
@@ -2433,7 +2429,7 @@
                 balance += reward;
                 completedTasks[taskId] = true;
                 db.ref('users/' + userId + '/completedTasks').update({ [taskId]: true });
-                db.ref('users/' + userId).update({ balance: balance });
+                saveUserData();
                 btn.innerText = "Done";
                 btn.classList.add('claimed');
                 updateUI();
@@ -2466,6 +2462,7 @@
             }).catch(err => { showToast("Failed to copy link."); });
         }
 
+        // Initialize App
         init();
     </script>
 </body>
