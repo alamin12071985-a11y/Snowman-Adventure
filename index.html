@@ -8,7 +8,7 @@
     <!-- Telegram Web App Script -->
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     
-    <!-- Firebase SDK (Version 8 - Compatible with your code) -->
+    <!-- Firebase SDK -->
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
     
@@ -1048,7 +1048,6 @@
                 <button class="join-btn-small">JOIN</button>
             </a>
 
-            <!-- This Check Button will trigger the Backend verification -->
             <button id="checkJoinBtn" class="check-btn" onclick="verifyJoin()">Check</button>
         </div>
     </div>
@@ -1418,15 +1417,102 @@
             return `${m}m ${s}s`;
         }
 
-        /* --- JOIN GATE LOGIC (UPDATED WITH REAL BACKEND CHECK) --- */
+        /* --- LOADING & JOIN CHECK LOGIC (OPTIMIZED) --- */
+
+        window.addEventListener('load', () => {
+            // Immediately init user ID to be ready for checks
+            initTelegramUser();
+
+            let loadPercent = 0;
+            const bar = document.getElementById('loadingFill');
+            const percentText = document.getElementById('loadingPercent');
+            const screen = document.getElementById('loading-screen');
+            const joinGate = document.getElementById('joinGateOverlay');
+            
+            const interval = setInterval(() => {
+                loadPercent += Math.floor(Math.random() * 5) + 1;
+                if(loadPercent > 100) loadPercent = 100;
+                bar.style.width = loadPercent + '%';
+                percentText.innerText = loadPercent + '%';
+
+                if(loadPercent >= 100) {
+                    clearInterval(interval);
+                    
+                    // START: Check Join Status Logic
+                    decideScreenFlow(screen, joinGate);
+                }
+            }, 50);
+        });
+
+        async function decideScreenFlow(loadingScreen, joinGate) {
+            // Check if user is already verified locally
+            const isVerifiedLocal = localStorage.getItem('snowman_join_verified') === 'true';
+
+            if (isVerifiedLocal) {
+                // User already verified before -> Go to Game
+                hideLoadingShowGame(loadingScreen);
+                checkAdBlocker();
+            } else {
+                // Not verified locally -> Check Backend silently
+                try {
+                    const status = await checkJoinStatusBackend();
+                    if (status === true) {
+                        // Backend says verified -> Save local & Go to Game
+                        localStorage.setItem('snowman_join_verified', 'true');
+                        hideLoadingShowGame(loadingScreen);
+                        checkAdBlocker();
+                    } else {
+                        // Backend says NOT verified -> Show Join Popup
+                        hideLoadingShowPopup(loadingScreen, joinGate);
+                    }
+                } catch (e) {
+                    // Error connecting -> Fallback to popup
+                    hideLoadingShowPopup(loadingScreen, joinGate);
+                }
+            }
+        }
+
+        function hideLoadingShowGame(screen) {
+            screen.style.opacity = '0';
+            setTimeout(() => {
+                screen.style.display = 'none';
+                // Join gate remains hidden
+            }, 500);
+        }
+
+        function hideLoadingShowPopup(screen, popup) {
+            screen.style.opacity = '0';
+            setTimeout(() => {
+                screen.style.display = 'none';
+                popup.style.display = 'flex';
+            }, 500);
+        }
+
+        async function checkJoinStatusBackend() {
+            if (!userId) return false;
+            try {
+                const response = await fetch(`${BACKEND_URL}/verify_join`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ user_id: userId })
+                });
+                if (!response.ok) return false;
+                const data = await response.json();
+                return data.joined === true;
+            } catch (err) {
+                console.error("Silent check failed", err);
+                return false;
+            }
+        }
+
+        /* --- JOIN GATE LOGIC (Button Click) --- */
         async function verifyJoin() {
             const checkBtn = document.getElementById('checkJoinBtn');
             const joinGate = document.getElementById('joinGateOverlay');
             
-            // Check if userId is loaded
             if (!userId) {
                 showToast("User ID not found. Reloading...", 2000, true);
-                initTelegramUser(); // Try again
+                initTelegramUser(); 
                 return;
             }
 
@@ -1447,18 +1533,15 @@
                     body: JSON.stringify({ user_id: userId })
                 });
 
-                if (!response.ok) {
-                    throw new Error("Backend connection failed");
-                }
-
                 const data = await response.json();
 
-                // Reset Button
                 checkBtn.classList.remove('loading');
                 checkBtn.innerText = "Check";
 
                 if (data.joined === true) {
-                    // SUCCESS
+                    // SUCCESS: Save to LocalStorage and Open Game
+                    localStorage.setItem('snowman_join_verified', 'true');
+                    
                     joinGate.style.display = 'none';
                     checkAdBlocker();
                     showToast("Verified! Welcome to the game.");
@@ -1471,41 +1554,12 @@
                 console.error("Join check failed:", err);
                 checkBtn.classList.remove('loading');
                 checkBtn.innerText = "Check";
-                
-                // If backend is down, we must block user or show error
                 showToast("Server error. Cannot verify.", 3000, true);
             }
         }
 
-        window.addEventListener('load', () => {
-            let loadPercent = 0;
-            const bar = document.getElementById('loadingFill');
-            const percentText = document.getElementById('loadingPercent');
-            const screen = document.getElementById('loading-screen');
-            const joinGate = document.getElementById('joinGateOverlay');
-            
-            const interval = setInterval(() => {
-                loadPercent += Math.floor(Math.random() * 5) + 1;
-                if(loadPercent > 100) loadPercent = 100;
-                bar.style.width = loadPercent + '%';
-                percentText.innerText = loadPercent + '%';
-
-                if(loadPercent >= 100) {
-                    clearInterval(interval);
-                    setTimeout(() => {
-                        screen.style.opacity = '0';
-                        setTimeout(() => {
-                            screen.style.display = 'none';
-                            // Always show Join Gate first
-                            joinGate.style.display = 'flex';
-                        }, 500);
-                    }, 500);
-                }
-            }, 50);
-        });
-
         function init() {
-            // 1. Get User ID
+            // 1. Get User ID (Already called in load, but good for safety)
             initTelegramUser(); 
             
             // 2. Start Game Logic
@@ -1546,7 +1600,6 @@
                 }
             } catch (e) {
                 console.log("Not running in Telegram", e);
-                // Ensure userId exists
                 if(!userId) {
                     userId = "test_user_" + Math.floor(Math.random() * 100000);
                     localStorage.setItem('snowman_userid', userId);
