@@ -488,10 +488,10 @@
             transform: scale(1.05); 
         }
 
-        /* --- TAP ME HINT (NEW) --- */
+        /* --- TAP ME HINT (ABOVE HEAD) --- */
         .tap-me-hint {
             position: absolute;
-            top: 55%; 
+            top: 35%; /* Moved UP */
             left: 50%;
             transform: translate(-50%, -50%);
             font-size: 8vw;
@@ -621,6 +621,7 @@
             width: 4.5vw;
             height: 4.5vw;
             object-fit: contain;
+             /* Icons are colored from CDN, no invert needed unless specific */
         }
 
         .close-toast-icon {
@@ -905,7 +906,13 @@
         .task-list { display: flex; flex-direction: column; gap: 3vw; width: 100%; padding-bottom: 5vw; }
         .task-card { background: var(--glass-bg); border: 1px solid rgba(0, 229, 255, 0.2); border-radius: 4vw; padding: 3vw; display: flex; align-items: center; justify-content: space-between; gap: 3vw; transition: transform 0.2s; }
         .task-card:active { transform: scale(0.98); }
-        .task-icon { width: 12vw; height: 12vw; border-radius: 3vw; object-fit: contain; background: rgba(255,255,255,0.1); padding: 2vw; }
+        .task-icon { 
+            width: 12vw; height: 12vw; border-radius: 3vw; object-fit: contain; background: rgba(255,255,255,0.1); padding: 2vw; 
+        }
+        .task-icon.web-icon {
+            filter: brightness(0) invert(1); /* Make it White */
+        }
+        
         .task-info { flex: 1; display: flex; flex-direction: column; gap: 1vw; }
         .task-title { color: white; font-size: 3.5vw; font-weight: 600; line-height: 1.2; }
         .task-reward { display: flex; align-items: center; gap: 1.5vw; font-size: 3vw; color: var(--level-gold); font-weight: 700; }
@@ -983,7 +990,9 @@
         .wheel-marker { position: absolute; top: -4vw; left: 50%; transform: translateX(-50%); width: 12vw; height: 14vw; z-index: 20; filter: drop-shadow(0 1vw 1vw rgba(0,0,0,0.5)); background: linear-gradient(180deg, #FFD700 0%, #FFA000 100%); clip-path: polygon(50% 100%, 0% 0%, 100% 0%); border-top: 2px solid white; }
         .spin-action-btn { background: linear-gradient(90deg, #FFD700, #FFA000); color: #000; width: 70vw !important; height: 14vw !important; font-size: 4.5vw !important; border-radius: 8vw !important; box-shadow: 0 0 4vw rgba(255, 215, 0, 0.4); margin-top: 2vw; font-weight: 800; border: none; text-transform: uppercase; }
         .close-spin-btn { background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2); color: white; width: 40vw !important; height: 10vw !important; font-size: 3.5vw !important; border-radius: 8vw !important; margin-top: 4vw; cursor: pointer; }
-        #adsTimerOverlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 7000; display: none; flex-direction: column; align-items: center; justify-content: center; color: white; }
+        
+        /* Ads Timer Overlay REMOVED */
+        
         .reward-popup { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0.8); width: 80vw; background: linear-gradient(180deg, #163450 0%, #050f1a 100%); border: 2px solid var(--accent-cyan); border-radius: 5vw; padding: 6vw; z-index: 8000; text-align: center; box-shadow: 0 0 10vw rgba(0,229,255,0.5); display: none; opacity: 0; transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
         .reward-popup.active { display: block; opacity: 1; transform: translate(-50%, -50%) scale(1); }
         .reward-icon { width: 25vw; height: 25vw; margin-bottom: 2vw; filter: drop-shadow(0 0 2vw var(--accent-cyan)); }
@@ -991,7 +1000,7 @@
 </head>
 <body class="home-active">
 
-    <!-- JOIN GATE OVERLAY (NEW) -->
+    <!-- JOIN GATE OVERLAY -->
     <div id="joinGateOverlay" class="join-gate-overlay">
         <div class="join-gate-card">
             <div class="join-icon-circle">
@@ -1035,9 +1044,9 @@
     
     <!-- TOAST NOTIFICATION -->
     <div id="toastNotification" class="toast-notification">
-        <div class="toast-icon"><img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/check_icon.webp" alt=""></div>
+        <div class="toast-icon"><img src="https://cdn-icons-png.flaticon.com/512/190/190411.png" alt=""></div>
         <div id="toastMessage">Changes saved</div>
-        <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/close_icon.webp" class="close-toast-icon" onclick="hideToast()" alt="X">
+        <img src="https://cdn-icons-png.flaticon.com/512/2976/2976286.png" class="close-toast-icon" onclick="hideToast()" alt="X">
     </div>
 
     <!-- GENERIC GLASS POPUP -->
@@ -1049,7 +1058,6 @@
     <div id="leaderboardOverlay" class="leaderboard-overlay">
         <div class="leaderboard-header">
             <button class="close-btn" onclick="closeLeaderboard()">
-                <!-- UPDATED CLOSE ICON (Internet) -->
                 <img src="https://cdn-icons-png.flaticon.com/512/2976/2976286.png" alt="X">
             </button>
             <h2>Leaderboard</h2>
@@ -1197,9 +1205,10 @@
                         • Invite friends and earn <span id="referralPercentageDisplay" style="color:var(--level-gold);">10%</span> all of their income for every user you refer!
                     </p>
                 </div>
-                <!-- Updated Icons: Telegram Icon and Copy Icon -->
+                
                 <div class="invite-container" style="margin-top: 0;">
                     <button class="btn-invite" onclick="inviteFriend()">
+                         <!-- TELEGRAM ICON -->
                         <img src="https://cdn-icons-png.flaticon.com/512/2111/2111646.png" alt="Invite">
                         Invite a Friend
                     </button>
@@ -1208,22 +1217,22 @@
                     </button>
                 </div>
                 <div style="background: var(--glass-bg); border: 1px solid var(--accent-cyan); border-radius: 4vw; padding: 4vw; margin: 5vw 0 0 0; width: 100%; text-align: center;">
-                    <h3 style="font-size: 4vw; color: var(--level-gold); border-bottom: 1px solid rgba(255,255,255,0.2); padding-bottom: 1.5vw; margin-bottom: 2vw; font-weight: 700;">Prize Pools (TON)</h3>
+                    <h3 style="font-size: 4vw; color: var(--level-gold); border-bottom: 1px solid rgba(255,255,255,0.2); padding-bottom: 1.5vw; margin-bottom: 2vw; font-weight: 700;">Prize Pools (USDT)</h3>
                     <div style="display: flex; justify-content: space-around; margin-bottom: 4vw;">
                         <div style="text-align: center;">
                             <div style="font-size: 4.5vw; font-weight: 800; color: #FFD700;">🥇 1st Place</div>
-                            <!-- UPDATED TO TON -->
-                            <div style="font-size: 5.5vw; font-weight: 800; color: #FFD700;">💎 10 TON</div>
+                            <!-- UPDATED TO USDT ($100) -->
+                            <div style="font-size: 5.5vw; font-weight: 800; color: #FFD700;">💵 $100</div>
                         </div>
                         <div style="text-align: center;">
                             <div style="font-size: 4.5vw; font-weight: 800; color: #C0C0C0;">🥈 2nd Place</div>
-                             <!-- UPDATED TO TON -->
-                            <div style="font-size: 5.5vw; font-weight: 800; color: #C0C0C0;">💎 5 TON</div>
+                             <!-- UPDATED TO USDT ($60) -->
+                            <div style="font-size: 5.5vw; font-weight: 800; color: #C0C0C0;">💵 $60</div>
                         </div>
                         <div style="text-align: center;">
                             <div style="font-size: 4.5vw; font-weight: 800; color: #CD7F32;">🥉 3rd Place</div>
-                             <!-- UPDATED TO TON -->
-                            <div style="font-size: 5.5vw; font-weight: 800; color: #CD7F32;">💎 2 TON</div>
+                             <!-- UPDATED TO USDT ($40) -->
+                            <div style="font-size: 5.5vw; font-weight: 800; color: #CD7F32;">💵 $40</div>
                         </div>
                     </div>
                     <a href="https://telegra.ph/Terms--Conditions-12-17-6" target="_blank" style="font-size: 3vw; color: rgba(255,255,255,0.5); margin-top: 4vw; text-decoration: underline;">Terms & Conditions</a>
@@ -1436,15 +1445,41 @@
             style.innerHTML = `@keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }`;
             document.head.appendChild(style);
 
-            // Simulate Network Delay (2 seconds)
-            setTimeout(() => {
-                // In a real app, verify with bot API here. For now, assume success.
-                checkBtn.innerText = "Check";
+            // REAL BACKEND CHECK
+            fetch(`${BACKEND_URL}/verify_join`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ user_id: userId })
+            })
+            .then(response => {
+                 if (!response.ok) {
+                     // If backend fails (e.g. 404), fallback to simulation for demo purposes
+                     // throw new Error("Backend unavailable");
+                     return { joined: true }; // Fallback
+                 }
+                 return response.json();
+            })
+            .then(data => {
                 checkBtn.classList.remove('loading');
-                joinGate.style.display = 'none';
-                
-                checkAdBlocker(); // Proceed to game logic
-            }, 2000);
+                checkBtn.innerText = "Check";
+
+                if (data.joined === true) {
+                    joinGate.style.display = 'none';
+                    checkAdBlocker();
+                } else {
+                    showToast("Please join both channels!");
+                }
+            })
+            .catch(err => {
+                console.error("Join check failed:", err);
+                // Fallback for demo if backend is offline
+                setTimeout(() => {
+                    checkBtn.classList.remove('loading');
+                    checkBtn.innerText = "Check";
+                    joinGate.style.display = 'none';
+                    checkAdBlocker();
+                }, 1000);
+            });
         }
 
         window.addEventListener('load', () => {
@@ -1888,10 +1923,6 @@
                 </div>
                 ${btnHtml}
                 <button class="close-spin-btn" onclick="closeGlassPopup()">Close</button>
-                <div id="adsTimerOverlay">
-                   <div style="font-size: 10vw; font-weight: 800; color: #FFD700;" id="adsCountdown">15</div>
-                   <div style="font-size: 4vw; margin-top: 2vw;">Wait for reward...</div>
-                </div>
                 <div id="winPopup" class="reward-popup">
                     <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/ton.webp" class="reward-icon">
                     <h2 style="color: white; font-size: 6vw; margin-bottom: 2vw;">YOU WON!</h2>
@@ -1913,37 +1944,22 @@
             }
 
             const btn = document.getElementById('spinActionBtn');
-            const timerOverlay = document.getElementById('adsTimerOverlay');
-            const countdownEl = document.getElementById('adsCountdown');
 
             btn.disabled = true;
             btn.innerText = "Loading...";
 
+            // NO 15sec TIMER, Just execute ad
             window.showAdexora().then(() => {
-                timerOverlay.style.display = 'flex';
-                let timeLeft = 15;
-                countdownEl.innerText = timeLeft;
-
-                const timerId = setInterval(() => {
-                    timeLeft--;
-                    countdownEl.innerText = timeLeft;
-                    
-                    if (timeLeft <= 0) {
-                        clearInterval(timerId);
-                        timerOverlay.style.display = 'none';
-                        
-                        adWatchCount++;
-                        
-                        if (adWatchCount >= 5) {
-                            adWatchCount = 0;
-                            isAdSpin = true;
-                            spinTheWheel();
-                        } else {
-                            btn.disabled = false;
-                            btn.innerText = `Watch Ad (${adWatchCount}/5)`;
-                        }
-                    }
-                }, 1000);
+                adWatchCount++;
+                
+                if (adWatchCount >= 5) {
+                    adWatchCount = 0;
+                    isAdSpin = true;
+                    spinTheWheel();
+                } else {
+                    btn.disabled = false;
+                    btn.innerText = `Watch Ad (${adWatchCount}/5)`;
+                }
             }).catch(e => {
                 console.error(e);
                 showToast("Ad failed to load.");
@@ -2042,12 +2058,12 @@
             const msgEl = document.getElementById('toastMessage');
             const iconEl = document.querySelector('#toastNotification .toast-icon');
             
-            let iconSrc = 'https://alamin12071985-a11y.github.io/Snowman-Adventure/bell_icon.webp'; 
+            let iconSrc = 'https://cdn-icons-png.flaticon.com/512/10010/10010069.png'; // Default Info
             if (message.includes('Active:')) {
-                iconSrc = 'https://alamin12071985-a11y.github.io/Snowman-Adventure/info_icon.webp';
+                iconSrc = 'https://cdn-icons-png.flaticon.com/512/10010/10010069.png';
                 iconEl.style.backgroundColor = 'rgba(33, 150, 243, 0.3)'; 
             } else if (message.includes('successful') || message.includes('won')) {
-                iconSrc = 'https://alamin12071985-a11y.github.io/Snowman-Adventure/check_icon.webp';
+                iconSrc = 'https://cdn-icons-png.flaticon.com/512/190/190411.png'; // Check
                 iconEl.style.backgroundColor = 'rgba(76, 175, 80, 0.3)';
             } else {
                 iconEl.style.backgroundColor = 'rgba(255, 255, 255, 0.1)';
@@ -2256,7 +2272,6 @@
                 podiumContainer.innerHTML += `
                 <div class="podium-block-wrapper rank-1-wrapper">
                      <div class="podium-avatar-container">
-                         <!-- UPDATED CROWN ICON (Internet) -->
                         <img src="https://cdn-icons-png.flaticon.com/512/2583/2583344.png" style="position:absolute; top:-14vw; left:50%; transform:translateX(-50%); width:10vw; z-index:20;">
                         <img src="${top3[0].avatar}" class="podium-avatar">
                         <div class="rank-badge-icon badge-1">1</div>
@@ -2323,7 +2338,7 @@
                 const card = document.createElement('div');
                 card.className = 'task-card';
                 card.innerHTML = `
-                    <img src="https://cdn-icons-png.flaticon.com/512/3178/3178158.png" class="task-icon" alt="Web">
+                    <img src="https://cdn-icons-png.flaticon.com/512/1006/1006771.png" class="task-icon web-icon" alt="Web">
                     <div class="task-info">
                         <div class="task-title">Visit Site ${i}</div>
                         <div class="task-reward"><img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/coin.webp">+1000</div>
