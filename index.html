@@ -32,7 +32,9 @@
             --btn-blue-grad: linear-gradient(180deg, #60ccfd 0%, #4a92ff 100%);
             --bg-deep: #08182B;      
             --bg-card: #163450;
-            --partner-green: #C6F221; /* New Partner Color */
+            --podium-gold: #FFD700;
+            --podium-silver: #E0E0E0;
+            --podium-bronze: #CD7F32;
         }
 
         * {
@@ -76,7 +78,7 @@
             top: 0; left: 0; width: 100%; height: 100%;
             background: #000;
             z-index: 100000;
-            display: none;
+            display: none; /* Shown via JS if check fails */
             flex-direction: column;
             justify-content: center;
             align-items: center;
@@ -89,253 +91,842 @@
         /* --- LOADING SCREEN --- */
         #loading-screen {
             position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%; z-index: 9999;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 9999;
             background-image: url('https://alamin12071985-a11y.github.io/Snowman-Adventure/loading%20screen.webp');
-            background-size: cover; background-position: center bottom; background-repeat: no-repeat;
-            display: flex; flex-direction: column; align-items: center; justify-content: flex-end;
-            padding-bottom: 15vw; transition: opacity 0.5s ease;
+            background-size: cover;
+            background-position: center bottom;
+            background-repeat: no-repeat;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-end;
+            padding-bottom: 15vw;
+            transition: opacity 0.5s ease;
         }
 
-        .loading-container { width: 80vw; height: 6vw; background-color: #050f1a; border: 1vw solid var(--accent-cyan); border-radius: 3vw; position: relative; padding: 0.4vw; box-shadow: 0 1.5vw 3vw rgba(0,0,0,0.6); }
-        .progress-bar { width: 0%; height: 100%; background: linear-gradient(to bottom, #00E5FF 0%, #6A5ACD 100%); border-radius: 2.5vw; position: relative; display: flex; align-items: center; justify-content: flex-end; box-shadow: inset 0 0.5vw 0.5vw rgba(255,255,255,0.4); transition: width 0.1s linear; }
-        .percentage { color: white; font-weight: 900; font-size: 3.5vw; margin-right: 4vw; text-shadow: 0.5vw 0.5vw 0px #000000; font-style: italic; z-index: 2; font-family: sans-serif; }
-
-        /* --- JOIN GATE OVERLAY --- */
-        .join-gate-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 9998; display: none; flex-direction: column; align-items: center; justify-content: center; backdrop-filter: blur(10px); }
-        .join-gate-card { width: 90vw; background: #111; border-radius: 5vw; padding: 6vw; display: flex; flex-direction: column; align-items: center; border: 1px solid var(--accent-cyan); box-shadow: 0 0 15vw rgba(0, 229, 255, 0.3); animation: popIn 0.4s ease; }
-        .join-icon-circle { width: 16vw; height: 16vw; background: #1A2A3A; border-radius: 50%; display: flex; justify-content: center; align-items: center; margin-bottom: 4vw; border: 1px solid #333; }
-        .join-icon-circle img { width: 8vw; height: 8vw; filter: brightness(0) invert(1); }
-        .join-gate-card h2 { font-size: 5.5vw; font-weight: 700; margin-bottom: 2vw; color: white; text-align: center; }
-        .join-gate-card p { font-size: 3.5vw; color: #ccc; margin-bottom: 6vw; text-align: center; }
-        .join-row { display: flex; width: 100%; justify-content: space-between; align-items: center; background: #1A1A1A; padding: 3vw; border-radius: 3vw; margin-bottom: 3vw; text-decoration: none; border: 1px solid rgba(255,255,255,0.1); }
-        .join-row-left { display: flex; align-items: center; gap: 3vw; }
-        .icon-circle-small { width: 10vw; height: 10vw; background: #252525; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
-        .icon-circle-small img { width: 5vw; height: 5vw; filter: brightness(0) invert(1); }
-        .join-text { display: flex; flex-direction: column; }
-        .join-text span { font-size: 3.8vw; font-weight: 600; color: white; }
-        .join-text small { font-size: 2.8vw; color: #888; }
-        .join-btn-small { background: transparent; color: #00E5FF; border: none; font-weight: 700; font-size: 3.5vw; cursor: pointer; }
-        .check-btn { width: 100%; padding: 4vw; background: var(--btn-blue-grad); color: white; font-weight: 700; font-size: 4vw; border: none; border-radius: 3vw; margin-top: 2vw; cursor: pointer; transition: 0.3s; box-shadow: 0 0 5vw rgba(0, 229, 255, 0.4); }
-        .check-btn:active { transform: scale(0.98); }
-        .check-btn.loading { opacity: 0.7; pointer-events: none; }
-
-        /* --- APP CONTAINER --- */
-        .app-container { width: 100%; max-width: 100%; height: 100dvh; background: rgba(0, 0, 0, 0.2); position: relative; display: flex; flex-direction: column; overflow: hidden; }
-
-        /* --- HEADER --- */
-        .header-dashboard { padding: 3vw 3vw 1vw 3vw; display: flex; justify-content: space-between; align-items: flex-start; z-index: 20; background: linear-gradient(180deg, rgba(5,15,26,0.9) 0%, rgba(5,15,26,0) 100%); flex-shrink: 0; }
-        .header-balances { display: flex; flex-direction: column; gap: 1vw; }
-        .stat-card-row { background: var(--glass-bg); backdrop-filter: blur(5px); border: 1px solid rgba(0, 229, 255, 0.2); border-radius: 3vw; padding: 1vw 2vw; display: flex; align-items: center; gap: 1.5vw; min-width: 20vw; }
-        .stat-value { font-size: 3.5vw; font-weight: 700; display: flex; align-items: center; gap: 1.5vw; color: white; }
-        .stat-value img { width: 5vw; height: 5vw; object-fit: contain; }
-        .profile-section { flex: 1; display: flex; flex-direction: column; align-items: center; margin: 0 2vw; }
-        .profile-top { display: flex; align-items: center; gap: 2vw; background: rgba(0, 0, 0, 0.3); padding: 1vw 3vw 1vw 1vw; border-radius: 7vw; border: 1px solid rgba(0, 229, 255, 0.1); margin-bottom: 1vw; }
-        .user-avatar { width: 8vw; height: 8vw; border-radius: 50%; border: 0.5vw solid var(--accent-cyan); object-fit: cover; background: #fff; }
-        .user-name { font-weight: 700; font-size: 3.5vw; text-transform: uppercase; letter-spacing: 0.2vw; max-width: 25vw; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-        .header-level-box { width: 100%; max-width: 40vw; text-align: center; }
-        .lvl-text { font-size: 2.8vw; color: rgba(255,255,255,0.8); margin-bottom: 0.5vw; display: flex; justify-content: space-between; padding: 0 1vw; }
-        .header-progress-bg { width: 100%; height: 2vw; background: rgba(255, 255, 255, 0.1); border-radius: 1vw; overflow: hidden; border: 1px solid rgba(0, 229, 255, 0.2); }
-        .header-progress-fill { height: 100%; width: 0%; background: linear-gradient(90deg, #FF8C00, #FFD700); box-shadow: 0 0 2vw rgba(255, 215, 0, 0.5); transition: width 0.3s ease; }
-        .settings-btn { background: var(--glass-bg); backdrop-filter: blur(5px); border: 1px solid rgba(0, 229, 255, 0.2); border-radius: 50%; width: 10vw; height: 10vw; display: flex; justify-content: center; align-items: center; color: var(--accent-cyan); font-size: 4vw; overflow: hidden; }
-        .settings-btn img { width: 6vw; height: 6vw; object-fit: contain; }
-
-        /* --- CONTENT AREA --- */
-        .content-area { flex: 1; overflow-y: auto; padding: 0 5vw 25vw 5vw; position: relative; display: flex; flex-direction: column; }
-        .tab-content { display: none; flex-direction: column; animation: fadeIn 0.4s ease; height: 100%; width: 100%; }
-        .tab-content.active { display: flex; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-
-        /* --- BANNER PLACEHOLDERS --- */
-        .banner-placeholder { width: 90vw; height: 28.23vw; background-color: rgba(255, 255, 255, 0.1); border-radius: 4vw; margin: 5vw auto; overflow: hidden; display: flex; justify-content: center; align-items: center; font-size: 3.5vw; color: rgba(255, 255, 255, 0.7); border: 1px dashed var(--accent-cyan); cursor: pointer; flex-shrink: 0; position: relative; }
-        .banner-placeholder img { width: 100%; height: 100%; object-fit: cover; border-radius: 4vw; pointer-events: none; }
-
-        /* --- GAME AREA --- */
-        .game-area-wrapper { width: 100%; flex: 1; display: flex; flex-direction: column; align-items: center; position: relative; z-index: 10; padding-bottom: 3vw; justify-content: flex-start; gap: 2vw; }
-        .main-balance { font-size: clamp(1.8rem, 5vw, 2.5rem); font-weight: 800; display: flex; align-items: center; gap: 2.5vw; z-index: 5; flex-shrink: 0; margin-top: 0vh; margin-bottom: 2vh; }
-        .main-balance img { width: clamp(35px, 10vw, 45px); filter: drop-shadow(0 0 2.5vw var(--accent-cyan)); }
-        .character-img { width: auto; max-width: 90vw; height: auto; max-height: 50vh; cursor: pointer; z-index: 10; transform-origin: bottom center; transition: transform 0.1s cubic-bezier(0.175, 0.885, 0.32, 1.275); filter: drop-shadow(0 0 4vw rgba(0, 229, 255, 0.1)); object-fit: contain; margin: 0 auto; margin-top: 12vw; }
-        .character-img:active { transform: scale(1.05); }
-        .tap-me-hint { position: absolute; top: 25%; left: 50%; transform: translate(-50%, -50%); font-size: 8vw; font-weight: 900; color: white; text-shadow: 0 0 2vw #00E5FF; pointer-events: none; z-index: 25; white-space: nowrap; animation: pulseHint 0.8s infinite alternate; }
-        @keyframes pulseHint { 0% { transform: translate(-50%, -50%) scale(1); opacity: 1; } 100% { transform: translate(-50%, -50%) scale(1.15); opacity: 0.8; } }
-        .floating-score { position: absolute; color: var(--accent-cyan); font-weight: 800; font-size: 8vw; pointer-events: none; animation: floatUp 0.8s ease-out forwards; z-index: 100; text-shadow: 0 0 2.5vw var(--accent-violet); }
-        @keyframes floatUp { 0% { opacity: 1; transform: translateY(0) scale(1); } 100% { opacity: 0; transform: translateY(-20vw) scale(1.2); } }
-        
-        /* --- FLOATING BUTTONS --- */
-        .floating-action-btn { position: absolute; z-index: 15; background: var(--glass-bg); backdrop-filter: blur(5px); border: 1px solid rgba(0, 229, 255, 0.3); border-radius: 4vw; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0.5vw; cursor: pointer; transition: all 0.2s ease; width: 18vw; height: 18vw; padding: 0; top: 58%; transform: translateY(-50%); text-align: center; }
-        .floating-action-btn:active { transform: translateY(-48%) scale(0.95); box-shadow: 0 0 1vw var(--accent-cyan); }
-        .floating-action-btn img { width: 6vw; height: 6vw; object-fit: contain; margin-bottom: 0.5vw; filter: drop-shadow(0 0 5px rgba(0, 229, 255, 0.5)); }
-        .floating-action-btn .btn-text { font-size: 2.6vw; font-weight: 600; color: var(--text-light); line-height: 1.1; }
-        .left-btn { left: 3vw; }
-        .right-btn { right: 3vw; }
-        #shopBtn { top: 58%; right: 3vw; }
-        #casesBtn { top: 58%; left: 3vw; }
-        #leaderboardBtn { top: 82%; right: 3vw; }
-        #autoTapBtn { top: 82%; left: 3vw; }
-
-        /* --- NAV BAR --- */
-        .nav-bar { position: absolute; bottom: 0; left: 0; right: 0; height: 21vw; background: linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.9) 100%); border-top: 1px solid rgba(255, 255, 255, 0.05); display: flex; justify-content: space-evenly; align-items: center; z-index: 100; padding-bottom: 2.5vw; }
-        .nav-item { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1vw; width: 20vw; height: 15vw; border-radius: 3.5vw; color: rgba(255, 255, 255, 0.4); transition: all 0.3s ease; }
-        .nav-item img { width: 6vw; height: 6vw; opacity: 0.5; transition: all 0.3s; filter: grayscale(100%); object-fit: contain; }
-        .nav-item span { font-size: 2.8vw; font-weight: 500; }
-        .nav-item.active { color: var(--accent-cyan); background: linear-gradient(180deg, rgba(255, 255, 255, 0.1) 0%, rgba(0, 229, 255, 0.05) 100%); backdrop-filter: blur(5px); border-top: 1px solid rgba(0, 229, 255, 0.5); box-shadow: 0 -2.5vw 5vw rgba(0, 229, 255, 0.15) inset; }
-        .nav-item.active img { opacity: 1; filter: grayscale(0%) drop-shadow(0 0 2vw var(--accent-cyan)); transform: scale(1.1); }
-
-        /* --- AFFILIATE & PARTNER STYLES (NEW) --- */
-        .affiliate-card {
-            background: linear-gradient(135deg, #182915 0%, #081008 100%); /* Darkish Green tint */
-            border: 1px solid var(--partner-green);
-            border-radius: 4vw;
-            padding: 4vw;
-            margin: 5vw 0 0 0;
-            width: 100%;
+        .loading-container {
+            width: 80vw;
+            height: 6vw; 
+            background-color: #050f1a;
+            border: 1vw solid var(--accent-cyan);
+            border-radius: 3vw; 
             position: relative;
-            overflow: hidden;
+            padding: 0.4vw;
+            box-shadow: 0 1.5vw 3vw rgba(0,0,0,0.6);
+        }
+
+        .progress-bar {
+            width: 0%;
+            height: 100%;
+            background: linear-gradient(to bottom, #00E5FF 0%, #6A5ACD 100%);
+            border-radius: 2.5vw;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            box-shadow: inset 0 0.5vw 0.5vw rgba(255,255,255,0.4);
+            transition: width 0.1s linear;
+        }
+
+        .percentage {
+            color: white;
+            font-weight: 900;
+            font-size: 3.5vw;
+            margin-right: 4vw;
+            text-shadow: 0.5vw 0.5vw 0px #000000;
+            font-style: italic;
+            z-index: 2;
+            font-family: sans-serif;
+        }
+
+        /* --- JOIN GATE OVERLAY (STRICT) --- */
+        .join-gate-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.95); /* Opaque background */
+            z-index: 9998; 
+            display: none; 
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(10px);
+        }
+        
+        .join-gate-card {
+            width: 90vw;
+            background: #111;
+            border-radius: 5vw;
+            padding: 6vw;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            border: 1px solid var(--accent-cyan);
+            box-shadow: 0 0 15vw rgba(0, 229, 255, 0.3);
+            animation: popIn 0.4s ease;
+        }
+
+        .join-icon-circle {
+            width: 16vw;
+            height: 16vw;
+            background: #1A2A3A;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 4vw;
+            border: 1px solid #333;
+        }
+        .join-icon-circle img {
+            width: 8vw;
+            height: 8vw;
+            filter: brightness(0) invert(1);
+        }
+
+        .join-gate-card h2 {
+            font-size: 5.5vw;
+            font-weight: 700;
+            margin-bottom: 2vw;
+            color: white;
+            text-align: center;
+        }
+
+        .join-gate-card p {
+            font-size: 3.5vw;
+            color: #ccc;
+            margin-bottom: 6vw;
+            text-align: center;
+        }
+
+        .join-row {
+            display: flex;
+            width: 100%;
+            justify-content: space-between;
+            align-items: center;
+            background: #1A1A1A;
+            padding: 3vw;
+            border-radius: 3vw;
+            margin-bottom: 3vw;
+            text-decoration: none;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .join-row-left {
+            display: flex;
+            align-items: center;
+            gap: 3vw;
+        }
+
+        .icon-circle-small {
+            width: 10vw;
+            height: 10vw;
+            background: #252525;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .icon-circle-small img {
+            width: 5vw;
+            height: 5vw;
+            filter: brightness(0) invert(1);
+        }
+
+        .join-text {
             display: flex;
             flex-direction: column;
         }
-        .affiliate-header {
+        .join-text span {
+            font-size: 3.8vw;
+            font-weight: 600;
+            color: white;
+        }
+        .join-text small {
+            font-size: 2.8vw;
+            color: #888;
+        }
+
+        .join-btn-small {
+            background: transparent;
+            color: #00E5FF;
+            border: none;
+            font-weight: 700;
+            font-size: 3.5vw;
+            cursor: pointer;
+        }
+
+        .check-btn {
+            width: 100%;
+            padding: 4vw;
+            background: var(--btn-blue-grad);
+            color: white;
+            font-weight: 700;
+            font-size: 4vw;
+            border: none;
+            border-radius: 3vw;
+            margin-top: 2vw;
+            cursor: pointer;
+            transition: 0.3s;
+            box-shadow: 0 0 5vw rgba(0, 229, 255, 0.4);
+        }
+        .check-btn:active { transform: scale(0.98); }
+        .check-btn.loading {
+            opacity: 0.7;
+            pointer-events: none;
+        }
+
+        /* --- APP CONTAINER --- */
+        .app-container {
+            width: 100%;
+            max-width: 100%; 
+            height: 100dvh;
+            background: rgba(0, 0, 0, 0.2); 
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        /* --- HEADER --- */
+        .header-dashboard {
+            padding: 3vw 3vw 1vw 3vw;
             display: flex;
             justify-content: space-between;
             align-items: flex-start;
-            margin-bottom: 2vw;
+            z-index: 20;
+            background: linear-gradient(180deg, rgba(5,15,26,0.9) 0%, rgba(5,15,26,0) 100%);
+            flex-shrink: 0;
         }
-        .affiliate-title {
-            font-size: 5vw;
-            font-weight: 700;
-            color: white;
-            line-height: 1.2;
-        }
-        .affiliate-icon {
-            width: 15vw;
-            height: 15vw;
-            object-fit: contain;
-            filter: drop-shadow(0 0 2vw rgba(198, 242, 33, 0.4));
-        }
-        .affiliate-desc {
-            font-size: 3.2vw;
-            color: rgba(255,255,255,0.7);
-            margin-bottom: 4vw;
-            max-width: 80%;
-            line-height: 1.4;
-        }
-        .affiliate-actions {
+
+        .header-balances {
             display: flex;
-            gap: 3vw;
-        }
-        .btn-affiliate-detail {
-            flex: 1;
-            padding: 3vw 0;
-            border-radius: 3vw;
-            background: rgba(255,255,255,0.1);
-            color: white;
-            font-size: 3.5vw;
-            font-weight: 600;
-            border: none;
-            cursor: pointer;
-        }
-        .btn-affiliate-partner {
-            flex: 1.5;
-            padding: 3vw 0;
-            border-radius: 3vw;
-            background: var(--partner-green);
-            color: black;
-            font-size: 3.5vw;
-            font-weight: 700;
-            border: none;
-            cursor: pointer;
-            box-shadow: 0 0 3vw rgba(198, 242, 33, 0.3);
-        }
-
-        /* Partner Form Modal */
-        .partner-modal-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: #000;
-            z-index: 9000;
-            display: none;
             flex-direction: column;
-            padding: 5vw;
-            overflow-y: auto;
+            gap: 1vw;
         }
-        .partner-modal-overlay.active { display: flex; animation: slideUp 0.3s ease; }
-        @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
 
-        .partner-form-header {
-            display: flex; justify-content: space-between; align-items: center; margin-bottom: 6vw;
+        .stat-card-row {
+            background: var(--glass-bg);
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(0, 229, 255, 0.2);
+            border-radius: 3vw; 
+            padding: 1vw 2vw;
+            display: flex;
+            align-items: center;
+            gap: 1.5vw;
+            min-width: 20vw;
         }
-        .partner-form-title { font-size: 6vw; font-weight: 700; color: white; }
-        .close-form-btn { background: none; border: none; width: 8vw; height: 8vw; filter: brightness(0) invert(1); cursor: pointer; }
-        
-        .form-group { margin-bottom: 4vw; }
-        .form-label { display: block; color: rgba(255,255,255,0.7); font-size: 3.2vw; margin-bottom: 1.5vw; }
-        .form-input, .form-select {
-            width: 100%;
-            background: #1A1A1A;
-            border: 1px solid #333;
-            border-radius: 3vw;
-            padding: 3.5vw;
-            color: white;
-            font-size: 3.8vw;
-            outline: none;
-            font-family: 'Poppins', sans-serif;
+
+        .stat-value { font-size: 3.5vw; font-weight: 700; display: flex; align-items: center; gap: 1.5vw; color: white; }
+        .stat-value img { width: 5vw; height: 5vw; object-fit: contain; }
+
+        .profile-section {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 0 2vw;
         }
-        .form-input:focus { border-color: var(--partner-green); }
-        .checkbox-group { display: flex; align-items: center; gap: 2vw; margin-top: 2vw; margin-bottom: 6vw; }
-        .form-checkbox { width: 5vw; height: 5vw; accent-color: var(--partner-green); }
-        .checkbox-label { color: rgba(255,255,255,0.6); font-size: 3vw; text-decoration: underline; }
-        
-        .submit-partner-btn {
-            width: 100%;
-            padding: 4vw;
-            background: var(--partner-green);
-            color: black;
+
+        .profile-top {
+            display: flex;
+            align-items: center;
+            gap: 2vw;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 1vw 3vw 1vw 1vw;
+            border-radius: 7vw;
+            border: 1px solid rgba(0, 229, 255, 0.1);
+            margin-bottom: 1vw;
+        }
+
+        .user-avatar {
+            width: 8vw;
+            height: 8vw;
+            border-radius: 50%;
+            border: 0.5vw solid var(--accent-cyan);
+            object-fit: cover;
+            background: #fff;
+        }
+
+        .user-name {
             font-weight: 700;
-            font-size: 4.5vw;
-            border-radius: 3vw;
-            border: none;
-            cursor: pointer;
+            font-size: 3.5vw;
+            text-transform: uppercase;
+            letter-spacing: 0.2vw;
+            max-width: 25vw;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .header-level-box {
+            width: 100%;
+            max-width: 40vw; 
+            text-align: center;
         }
         
-        /* Affiliate Details Modal */
-        .details-modal {
-            position: fixed; bottom: 0; left: 0; width: 100%; max-height: 85vh;
-            background: #0F0F0F;
-            border-top-left-radius: 6vw; border-top-right-radius: 6vw;
-            z-index: 9500;
-            padding: 6vw;
-            transform: translateY(100%);
-            transition: transform 0.3s ease;
-            border-top: 1px solid #333;
-            overflow-y: auto;
-        }
-        .details-modal.active { transform: translateY(0); }
-        
-        .detail-visual {
+        .lvl-text {
+            font-size: 2.8vw;
+            color: rgba(255,255,255,0.8);
+            margin-bottom: 0.5vw;
             display: flex;
             justify-content: space-between;
+            padding: 0 1vw;
+        }
+
+        .header-progress-bg {
+            width: 100%;
+            height: 2vw;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 1vw;
+            overflow: hidden;
+            border: 1px solid rgba(0, 229, 255, 0.2);
+        }
+
+        .header-progress-fill {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #FF8C00, #FFD700); 
+            box-shadow: 0 0 2vw rgba(255, 215, 0, 0.5);
+            transition: width 0.3s ease;
+        }
+
+        .settings-btn {
+            background: var(--glass-bg);
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(0, 229, 255, 0.2);
+            border-radius: 50%;
+            width: 10vw;
+            height: 10vw;
+            display: flex;
+            justify-content: center;
             align-items: center;
-            margin: 6vw 0;
+            color: var(--accent-cyan);
+            font-size: 4vw;
+            overflow: hidden;
+        }
+        .settings-btn img { width: 6vw; height: 6vw; object-fit: contain; }
+
+        /* --- CONTENT AREA --- */
+        .content-area {
+            flex: 1;
+            overflow-y: auto;
+            padding: 0 5vw 25vw 5vw;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .tab-content {
+            display: none;
+            flex-direction: column;
+            animation: fadeIn 0.4s ease;
+            height: 100%;
+            width: 100%;
+        }
+
+        .tab-content.active { display: flex; }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* --- BANNER PLACEHOLDERS --- */
+        .banner-placeholder {
+            width: 90vw;
+            height: 28.23vw;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 4vw;
+            margin: 5vw auto;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 3.5vw;
+            color: rgba(255, 255, 255, 0.7);
+            border: 1px dashed var(--accent-cyan);
+            cursor: pointer;
+            flex-shrink: 0;
             position: relative;
         }
-        .vis-block {
-            background: #1A1A1A;
-            border-radius: 3vw;
-            padding: 3vw 2vw;
-            text-align: center;
+        .banner-placeholder img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 4vw;
+            pointer-events: none;
+        }
+
+        /* --- GAME AREA --- */
+        .game-area-wrapper {
+            width: 100%;
             flex: 1;
-            border: 1px solid #333;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            z-index: 10;
+            padding-bottom: 3vw;
+            justify-content: flex-start; 
+            gap: 2vw; 
         }
-        .vis-block.main {
-            transform: scale(1.15);
-            background: linear-gradient(180deg, rgba(198, 242, 33, 0.2) 0%, rgba(198, 242, 33, 0) 100%);
-            border-color: var(--partner-green);
-            z-index: 2;
+
+        .main-balance {
+            font-size: clamp(1.8rem, 5vw, 2.5rem);
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            gap: 2.5vw;
+            z-index: 5;
+            flex-shrink: 0;
+            margin-top: 0vh; 
+            margin-bottom: 2vh; 
         }
-        .vis-percent { font-size: 6vw; font-weight: 800; color: white; line-height: 1; }
-        .vis-label { font-size: 2.5vw; color: #888; margin-top: 1vw; }
-        .vis-block.main .vis-percent { color: var(--partner-green); }
+
+        .main-balance img {
+            width: clamp(35px, 10vw, 45px); 
+            filter: drop-shadow(0 0 2.5vw var(--accent-cyan));
+        }
+
+        .character-img {
+            width: auto;
+            max-width: 90vw; 
+            height: auto;
+            max-height: 50vh;
+            cursor: pointer;
+            z-index: 10; 
+            transform-origin: bottom center; 
+            transition: transform 0.1s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            filter: drop-shadow(0 0 4vw rgba(0, 229, 255, 0.1));
+            object-fit: contain;
+            margin: 0 auto; 
+            margin-top: 12vw; 
+        }
+
+        .character-img:active { 
+            transform: scale(1.05); 
+        }
+
+        /* --- TAP ME HINT (ABOVE HEAD) --- */
+        .tap-me-hint {
+            position: absolute;
+            top: 25%; /* Moved Higher */
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 8vw;
+            font-weight: 900;
+            color: white;
+            text-shadow: 0 0 2vw #00E5FF;
+            pointer-events: none;
+            z-index: 25;
+            white-space: nowrap;
+            animation: pulseHint 0.8s infinite alternate;
+        }
         
-        .detail-text { font-size: 3.5vw; color: #ccc; line-height: 1.5; text-align: center; margin-bottom: 6vw; }
-        .got-it-btn { width: 100%; background: var(--partner-green); color: black; font-weight: 700; padding: 4vw; border-radius: 3vw; border: none; font-size: 4vw; }
+        @keyframes pulseHint {
+            0% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+            100% { transform: translate(-50%, -50%) scale(1.15); opacity: 0.8; }
+        }
+
+        /* --- FLOATING SCORE --- */
+        .floating-score {
+            position: absolute;
+            color: var(--accent-cyan);
+            font-weight: 800;
+            font-size: 8vw;
+            pointer-events: none;
+            animation: floatUp 0.8s ease-out forwards;
+            z-index: 100;
+            text-shadow: 0 0 2.5vw var(--accent-violet);
+        }
+
+        @keyframes floatUp {
+            0% { opacity: 1; transform: translateY(0) scale(1); }
+            100% { opacity: 0; transform: translateY(-20vw) scale(1.2); }
+        }
+
+        /* --- FLOATING ACTION BUTTONS --- */
+        .floating-action-btn {
+            position: absolute;
+            z-index: 15; 
+            background: var(--glass-bg);
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(0, 229, 255, 0.3);
+            border-radius: 4vw;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5vw;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            width: 18vw; 
+            height: 18vw; 
+            padding: 0; 
+            top: 58%; 
+            transform: translateY(-50%); 
+            text-align: center;
+        }
+
+        .floating-action-btn:active {
+            transform: translateY(-48%) scale(0.95);
+            box-shadow: 0 0 1vw var(--accent-cyan);
+        }
+
+        .floating-action-btn img {
+            width: 6vw; 
+            height: 6vw;
+            object-fit: contain;
+            margin-bottom: 0.5vw;
+            filter: drop-shadow(0 0 5px rgba(0, 229, 255, 0.5));
+        }
+
+        .floating-action-btn .btn-text {
+            font-size: 2.6vw; 
+            font-weight: 600;
+            color: var(--text-light);
+            line-height: 1.1;
+        }
+
+        .left-btn { left: 3vw; }
+        .right-btn { right: 3vw; }
+        
+        #shopBtn { top: 58%; right: 3vw; }
+        #casesBtn { top: 58%; left: 3vw; }
+        
+        #leaderboardBtn { top: 82%; right: 3vw; }
+        #autoTapBtn { top: 82%; left: 3vw; }
+        
+        /* --- TOAST NOTIFICATION REDESIGNED --- */
+        .toast-notification {
+            position: fixed;
+            top: 5vw;
+            left: 50%;
+            transform: translateX(-50%) translateY(-30vw);
+            background: rgba(16, 32, 50, 0.95);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(0, 229, 255, 0.4);
+            color: white;
+            padding: 3vw 4vw;
+            border-radius: 4vw;
+            box-shadow: 0 4vw 8vw rgba(0,0,0,0.6);
+            display: flex;
+            align-items: center;
+            justify-content: space-between; /* Icon Left, Close Right */
+            gap: 3vw;
+            z-index: 9999;
+            opacity: 0;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            width: 90%;
+            max-width: 85vw;
+        }
+
+        .toast-notification.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+        }
+
+        .toast-content-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 3vw;
+            flex: 1;
+        }
+
+        .toast-icon {
+            width: 8vw;
+            height: 8vw;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0, 229, 255, 0.15); 
+            flex-shrink: 0;
+        }
+        
+        .toast-icon img {
+            width: 5vw;
+            height: 5vw;
+            object-fit: contain;
+        }
+
+        #toastMessage {
+            font-size: 3.5vw;
+            font-weight: 600;
+            line-height: 1.2;
+            text-align: left;
+        }
+
+        .close-toast-icon {
+            width: 5vw; 
+            height: 5vw; 
+            opacity: 0.7;
+            cursor: pointer;
+            filter: brightness(0) invert(1);
+            flex-shrink: 0;
+            padding: 1vw;
+        }
+        
+        /* --- NAV BAR --- */
+        .nav-bar {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 21vw;
+            background: linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.9) 100%);
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            display: flex;
+            justify-content: space-evenly;
+            align-items: center;
+            z-index: 100;
+            padding-bottom: 2.5vw;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 1vw;
+            width: 20vw; 
+            height: 15vw;
+            border-radius: 3.5vw;
+            color: rgba(255, 255, 255, 0.4);
+            transition: all 0.3s ease;
+        }
+
+        .nav-item img {
+            width: 6vw;
+            height: 6vw;
+            opacity: 0.5;
+            transition: all 0.3s;
+            filter: grayscale(100%); /* Original behavior */
+            object-fit: contain;
+        }
+        
+        .nav-item span { font-size: 2.8vw; font-weight: 500; }
+
+        .nav-item.active {
+            color: var(--accent-cyan);
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.1) 0%, rgba(0, 229, 255, 0.05) 100%);
+            backdrop-filter: blur(5px);
+            border-top: 1px solid rgba(0, 229, 255, 0.5);
+            box-shadow: 0 -2.5vw 5vw rgba(0, 229, 255, 0.15) inset;
+        }
+
+        .nav-item.active img {
+            opacity: 1;
+            filter: grayscale(0%) drop-shadow(0 0 2vw var(--accent-cyan));
+            transform: scale(1.1);
+        }
+
+        /* --- LEADERBOARD REDESIGN --- */
+        .leaderboard-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(180deg, #163450 0%, #050f1a 100%);
+            z-index: 2000;
+            display: none;
+            flex-direction: column;
+            padding: 4vw;
+            overflow: hidden;
+            box-sizing: border-box;
+        }
+
+        .leaderboard-overlay.active {
+            display: flex;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .leaderboard-header {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 4vw;
+            flex-shrink: 0;
+            position: relative;
+        }
+        .leaderboard-header h2 { font-size: 6vw; color: white; font-weight: 700; }
+        .close-btn { 
+            position: absolute; left: 0;
+            background: none; border: none; color: rgba(255,255,255,0.6); 
+            width: 8vw; height: 8vw; cursor: pointer; display: flex; 
+            justify-content: center; align-items: center; 
+        }
+        .close-btn img { 
+            width: 100%; height: 100%; object-fit: contain; 
+            filter: brightness(0) invert(1); /* Make White */
+        }
+
+        /* TGS Loading Overlay */
+        .tgs-loading-overlay {
+            position: absolute;
+            top: 40%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 3000;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            width: 40vw;
+            height: 40vw;
+        }
+        .tgs-loading-overlay.active { display: flex; }
+
+        /* Filter Pills (Tabs) */
+        .lb-tab-container {
+            display: flex;
+            background: rgba(0,0,0,0.2);
+            border-radius: 3vw;
+            padding: 1vw;
+            margin-bottom: 4vw;
+            flex-shrink: 0;
+        }
+        
+        .lb-pill {
+            flex: 1;
+            text-align: center;
+            padding: 2.5vw 0;
+            border-radius: 2.5vw;
+            font-size: 3.5vw;
+            font-weight: 500;
+            color: rgba(255,255,255,0.6);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        .lb-pill.active {
+            background: var(--bg-card);
+            color: white;
+            font-weight: 700;
+            box-shadow: 0 1vw 2vw rgba(0,0,0,0.2);
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        /* Podium Area */
+        .podium-section {
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            margin: 4vw 0 6vw 0;
+            height: auto;
+            position: relative;
+            flex-shrink: 0;
+            gap: 2vw;
+        }
+
+        .podium-block-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-end;
+            position: relative;
+            text-align: center;
+        }
+        
+        .podium-avatar-container { position: relative; margin-bottom: 2vw; display: flex; justify-content: center; }
+        .podium-avatar {
+            border-radius: 50%;
+            object-fit: cover;
+            border: 0.8vw solid var(--bg-card);
+        }
+        
+        /* Rank 1 (Center) */
+        .rank-1-wrapper { 
+            order: 2; 
+            z-index: 10; 
+            padding-bottom: 5vw;
+            transform: translateY(-5vw);
+        }
+        .rank-1-wrapper .podium-avatar { 
+            width: 24vw; 
+            height: 24vw; 
+            border-color: var(--podium-gold); 
+            box-shadow: 0 0 5vw rgba(255, 215, 0, 0.4); 
+        }
+
+        /* Rank 2 (Left) */
+        .rank-2-wrapper { 
+            order: 1; 
+            z-index: 5; 
+        }
+        .rank-2-wrapper .podium-avatar { 
+            width: 17vw; 
+            height: 17vw; 
+            border-color: var(--accent-cyan); 
+        }
+
+        /* Rank 3 (Right) */
+        .rank-3-wrapper { 
+            order: 3; 
+            z-index: 5; 
+        }
+        .rank-3-wrapper .podium-avatar { 
+            width: 17vw; 
+            height: 17vw; 
+            border-color: #00E5FF; 
+        }
+
+        .rank-badge-icon {
+            position: absolute;
+            bottom: -2vw; left: 50%; transform: translateX(-50%);
+            width: 7vw; height: 7vw;
+            display: flex; align-items: center; justify-content: center;
+            font-weight: 800; font-size: 3.5vw; color: #000;
+            border-radius: 50%;
+            background: white;
+            box-shadow: 0 1vw 2vw rgba(0,0,0,0.3);
+            z-index: 15;
+        }
+        .badge-1 { background: var(--podium-gold); width: 8.5vw; height: 8.5vw; font-size: 4.5vw; }
+        .badge-2 { background: var(--accent-cyan); }
+        .badge-3 { background: #26c6da; }
+
+        .podium-info { text-align: center; margin-top: 1vw; }
+        .podium-name { font-size: 3.2vw; font-weight: 700; color: white; max-width: 18vw; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; margin-bottom: 0.5vw; }
+        .podium-score { font-size: 3vw; font-weight: 600; color: var(--podium-gold); }
+
+        /* List Area */
+        .rank-list-container {
+            flex: 1;
+            background: var(--bg-deep);
+            border-radius: 5vw 5vw 0 0; 
+            padding: 4vw;
+            overflow-y: auto;
+            position: relative;
+        }
+
+        .rank-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 3vw 4vw;
+            background: var(--bg-card);
+            border-radius: 4vw;
+            margin-bottom: 2vw;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+        
+        .rank-left { display: flex; align-items: center; gap: 3vw; }
+        .rank-num { font-size: 3.5vw; color: rgba(255,255,255,0.6); font-weight: 600; width: 6vw; }
+        .rank-avatar-small { width: 10vw; height: 10vw; border-radius: 50%; object-fit: cover; }
+        .rank-name-small { font-size: 3.8vw; color: white; font-weight: 600; }
+        .rank-score-small { font-size: 3.5vw; color: var(--accent-cyan); font-weight: 700; text-align: right; }
+        
+        /* My Stats */
+        .my-stats-fixed {
+            background: #234363;
+            padding: 3vw 5vw;
+            border-radius: 4vw 4vw 0 0;
+            display: flex; align-items: center; justify-content: space-between;
+            box-shadow: 0 -2vw 4vw rgba(0,0,0,0.3);
+            flex-shrink: 0;
+            margin-top: -2vw;
+            z-index: 100;
+        }
 
         /* Generic Styles */
         .wallet-title { font-size: 6vw; line-height: 1.1; margin-bottom: 2.5vw; font-weight: 800; color: var(--accent-cyan); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
@@ -352,8 +943,12 @@
         .task-list { display: flex; flex-direction: column; gap: 3vw; width: 100%; padding-bottom: 5vw; }
         .task-card { background: var(--glass-bg); border: 1px solid rgba(0, 229, 255, 0.2); border-radius: 4vw; padding: 3vw; display: flex; align-items: center; justify-content: space-between; gap: 3vw; transition: transform 0.2s; }
         .task-card:active { transform: scale(0.98); }
-        .task-icon { width: 12vw; height: 12vw; border-radius: 3vw; object-fit: contain; background: rgba(255,255,255,0.1); padding: 2vw; }
-        .task-icon.web-icon { filter: brightness(0) invert(1); }
+        .task-icon { 
+            width: 12vw; height: 12vw; border-radius: 3vw; object-fit: contain; background: rgba(255,255,255,0.1); padding: 2vw; 
+        }
+        .task-icon.web-icon {
+            filter: brightness(0) invert(1); /* Make it White */
+        }
         
         .task-info { flex: 1; display: flex; flex-direction: column; gap: 1vw; }
         .task-title { color: white; font-size: 3.5vw; font-weight: 600; line-height: 1.2; }
@@ -366,11 +961,17 @@
         .btn { border: none; height: 14vw; border-radius: 4vw; cursor: pointer; display: flex; align-items: center; justify-content: center; background: var(--btn-blue-grad); box-shadow: 0 2vw 5vw rgba(74, 146, 255, 0.4); transition: transform 0.1s ease, box-shadow 0.2s ease; position: relative; overflow: hidden; }
         .connect-btn { padding: 0 5vw; width: 100%; max-width: 62.5vw; }
         .btn-text { color: white; font-size: 3.5vw; font-weight: 700; margin-left: 2.5vw; letter-spacing: 0.1vw; }
-        .icon-img { width: 6vw; height: 6vw; object-fit: contain; filter: brightness(0) invert(1); }
+        .icon-img { 
+            width: 6vw; height: 6vw; object-fit: contain; 
+            filter: brightness(0) invert(1); /* Make White */
+        }
         
         .invite-container { display: flex; gap: 3vw; width: 100%; padding: 0 5vw; margin-top: 5vw; }
         .btn-invite { flex: 1; border: none; background: var(--btn-blue-grad); color: white; font-size: 4.5vw; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; padding: 4vw 0; border-radius: 10vw; cursor: pointer; box-shadow: 0 2vw 5vw rgba(0, 229, 255, 0.4), inset 0 0.5vw 0 rgba(255,255,255,0.4); border: 1px solid rgba(255,255,255,0.2); transition: transform 0.1s, filter 0.2s; position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center; gap: 2vw; }
-        .btn-invite img { width: 8vw; height: 8vw; margin-right: -1vw; object-fit: contain; }
+        .btn-invite img { 
+            width: 8vw; height: 8vw; margin-right: -1vw; object-fit: contain; 
+            /* Telegram Icon is already colored, no invert needed */
+        }
         .btn-invite::after { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 50%; background: linear-gradient(to bottom, rgba(255,255,255,0.2), transparent); border-radius: 10vw 10vw 0 0; pointer-events: none; }
         .btn-invite:active { transform: translateY(1vw); filter: brightness(0.9); box-shadow: 0 1vw 3vw rgba(0, 229, 255, 0.3); }
         
@@ -386,39 +987,50 @@
         .popup-btn { border: none; height: 12vw; border-radius: 10vw; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 4vw; font-weight: 700; transition: transform 0.1s ease; }
         .popup-btn:active { transform: scale(0.98); }
         @keyframes popIn { from { opacity: 0; transform: scale(0.8); } to { opacity: 1; transform: scale(1); } }
+
+        /* Level Up Popup */
+        .level-up-card {
+            background: linear-gradient(135deg, #6A5ACD 0%, #00E5FF 100%);
+            padding: 3px;
+            border-radius: 5vw;
+            width: 100%;
+            box-shadow: 0 0 8vw rgba(0, 229, 255, 0.6);
+            animation: pulseGlow 2s infinite alternate;
+        }
+        @keyframes pulseGlow { 0% { box-shadow: 0 0 5vw rgba(0, 229, 255, 0.4); } 100% { box-shadow: 0 0 10vw rgba(0, 229, 255, 0.8); } }
         
-        /* Toast Notification */
-        .toast-notification { position: fixed; top: 5vw; left: 50%; transform: translateX(-50%) translateY(-30vw); background: rgba(16, 32, 50, 0.95); backdrop-filter: blur(12px); border: 1px solid rgba(0, 229, 255, 0.4); color: white; padding: 3vw 4vw; border-radius: 4vw; box-shadow: 0 4vw 8vw rgba(0,0,0,0.6); display: flex; align-items: center; justify-content: space-between; gap: 3vw; z-index: 9999; opacity: 0; transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); width: 90%; max-width: 85vw; }
-        .toast-notification.show { transform: translateX(-50%) translateY(0); opacity: 1; }
-        .toast-content-wrapper { display: flex; align-items: center; gap: 3vw; flex: 1; }
-        .toast-icon { width: 8vw; height: 8vw; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: rgba(0, 229, 255, 0.15); flex-shrink: 0; }
-        .toast-icon img { width: 5vw; height: 5vw; object-fit: contain; }
-        #toastMessage { font-size: 3.5vw; font-weight: 600; line-height: 1.2; text-align: left; }
-        .close-toast-icon { width: 5vw; height: 5vw; opacity: 0.7; cursor: pointer; filter: brightness(0) invert(1); flex-shrink: 0; padding: 1vw; }
+        .level-up-inner {
+            background: #08182B;
+            border-radius: 4.5vw;
+            padding: 8vw 5vw;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+        .lvl-img-anim { width: 30vw; height: 30vw; object-fit: contain; margin-bottom: 5vw; filter: drop-shadow(0 0 3vw #FFD700); animation: bounce 2s infinite; }
+        @keyframes bounce { 0%, 20%, 50%, 80%, 100% {transform: translateY(0);} 40% {transform: translateY(-20px);} 60% {transform: translateY(-10px);} }
 
-        /* Level Up & Spin Styles (omitted some specific animation for brevity but kept classes) */
-        .level-up-card { background: linear-gradient(135deg, #6A5ACD 0%, #00E5FF 100%); padding: 3px; border-radius: 5vw; width: 100%; box-shadow: 0 0 8vw rgba(0, 229, 255, 0.6); }
-        .level-up-inner { background: #08182B; border-radius: 4.5vw; padding: 8vw 5vw; display: flex; flex-direction: column; align-items: center; text-align: center; }
-        .lvl-img-anim { width: 30vw; height: 30vw; object-fit: contain; margin-bottom: 5vw; filter: drop-shadow(0 0 3vw #FFD700); }
+        /* Full Screen Spin & Ads */
         .fullscreen-popup-content { background: linear-gradient(180deg, #050f1a 0%, #163450 100%); width: 100% !important; height: 100% !important; max-width: 100% !important; max-height: 100% !important; border-radius: 0 !important; padding: 0 !important; display: flex; flex-direction: column; align-items: center; justify-content: center; position: fixed; top: 0; left: 0; z-index: 6000; }
+        .wheel-title { font-size: 8vw; color: white; margin-bottom: 5vw; font-weight: 800; text-shadow: 0 0 2vw var(--accent-cyan); margin-top: -10vw; }
         .wheel-container { position: relative; width: 90vw; height: 90vw; margin: 0 auto 8vw auto; }
-        .wheel-rotator { width: 100%; height: 100%; position: relative; border-radius: 50%; overflow: hidden; transition: transform 4s cubic-bezier(0.25, 0.1, 0.25, 1); }
-        .wheel-img { width: 100%; height: 100%; object-fit: cover; position: absolute; top: 0; left: 0; }
-        .wheel-marker { position: absolute; top: -4vw; left: 50%; transform: translateX(-50%); width: 12vw; height: 14vw; z-index: 20; background: linear-gradient(180deg, #FFD700 0%, #FFA000 100%); clip-path: polygon(50% 100%, 0% 0%, 100% 0%); }
-        .reward-popup { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0.8); width: 80vw; background: linear-gradient(180deg, #163450 0%, #050f1a 100%); border: 2px solid var(--accent-cyan); border-radius: 5vw; padding: 6vw; z-index: 8000; text-align: center; display: none; opacity: 0; transition: all 0.3s; }
+        .wheel-rotator { width: 100%; height: 100%; position: relative; border-radius: 50%; overflow: hidden; transition: transform 4s cubic-bezier(0.25, 0.1, 0.25, 1); background: transparent; box-shadow: 0 0 8vw rgba(0, 229, 255, 0.2); }
+        .wheel-img { width: 100%; height: 100%; object-fit: cover; position: absolute; top: 0; left: 0; z-index: 1; }
+        .wheel-segment { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 2; }
+        
+        .segment-content { position: absolute; top: 18%; left: 50%; transform-origin: 50% 125%; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; justify-content: center; width: 25vw; text-align: center; }
+        
+        .segment-ton-img { width: 16vw; height: 16vw; object-fit: contain; filter: drop-shadow(0 0 5px rgba(0,0,0,0.8)); margin-bottom: -1vw; transform: rotate(0deg); }
+        
+        .segment-text { color: white; font-weight: 800; font-size: 3.5vw; text-shadow: 0 0 3px #000; margin-top: -1.5vw; z-index: 10; }
+        .wheel-marker { position: absolute; top: -4vw; left: 50%; transform: translateX(-50%); width: 12vw; height: 14vw; z-index: 20; filter: drop-shadow(0 1vw 1vw rgba(0,0,0,0.5)); background: linear-gradient(180deg, #FFD700 0%, #FFA000 100%); clip-path: polygon(50% 100%, 0% 0%, 100% 0%); border-top: 2px solid white; }
+        .spin-action-btn { background: linear-gradient(90deg, #FFD700, #FFA000); color: #000; width: 70vw !important; height: 14vw !important; font-size: 4.5vw !important; border-radius: 8vw !important; box-shadow: 0 0 4vw rgba(255, 215, 0, 0.4); margin-top: 2vw; font-weight: 800; border: none; text-transform: uppercase; }
+        .close-spin-btn { background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2); color: white; width: 40vw !important; height: 10vw !important; font-size: 3.5vw !important; border-radius: 8vw !important; margin-top: 4vw; cursor: pointer; }
+        
+        .reward-popup { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0.8); width: 80vw; background: linear-gradient(180deg, #163450 0%, #050f1a 100%); border: 2px solid var(--accent-cyan); border-radius: 5vw; padding: 6vw; z-index: 8000; text-align: center; box-shadow: 0 0 10vw rgba(0,229,255,0.5); display: none; opacity: 0; transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
         .reward-popup.active { display: block; opacity: 1; transform: translate(-50%, -50%) scale(1); }
-
-        /* Leaderboard Overlays (simplified for this view) */
-        .leaderboard-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(180deg, #163450 0%, #050f1a 100%); z-index: 2000; display: none; flex-direction: column; padding: 4vw; }
-        .leaderboard-overlay.active { display: flex; }
-        .leaderboard-header { display: flex; justify-content: center; align-items: center; margin-bottom: 4vw; position: relative; }
-        .leaderboard-header h2 { font-size: 6vw; color: white; font-weight: 700; }
-        .close-btn { position: absolute; left: 0; background: none; border: none; width: 8vw; height: 8vw; cursor: pointer; }
-        .close-btn img { width: 100%; height: 100%; object-fit: contain; filter: brightness(0) invert(1); }
-        .lb-tab-container { display: flex; background: rgba(0,0,0,0.2); border-radius: 3vw; padding: 1vw; margin-bottom: 4vw; }
-        .lb-pill { flex: 1; text-align: center; padding: 2.5vw 0; border-radius: 2.5vw; font-size: 3.5vw; font-weight: 500; color: rgba(255,255,255,0.6); transition: all 0.3s ease; }
-        .lb-pill.active { background: var(--bg-card); color: white; font-weight: 700; }
-        .rank-list-container { flex: 1; background: var(--bg-deep); border-radius: 5vw 5vw 0 0; padding: 4vw; overflow-y: auto; }
+        .reward-icon { width: 25vw; height: 25vw; margin-bottom: 2vw; filter: drop-shadow(0 0 2vw var(--accent-cyan)); }
     </style>
 </head>
 <body class="home-active">
@@ -438,20 +1050,33 @@
             </div>
             <h2>Join Community</h2>
             <p>You must join our channels to play.</p>
+            
             <a href="https://t.me/snowmanadventureannouncement" target="_blank" class="join-row">
                 <div class="join-row-left">
-                    <div class="icon-circle-small"><img src="https://cdn-icons-png.flaticon.com/512/2111/2111646.png"></div>
-                    <div class="join-text"><span>Join Channel</span><small>Snowman Announcement</small></div>
+                    <div class="icon-circle-small">
+                        <img src="https://cdn-icons-png.flaticon.com/512/2111/2111646.png">
+                    </div>
+                    <div class="join-text">
+                        <span>Join Channel</span>
+                        <small>Snowman Announcement</small>
+                    </div>
                 </div>
                 <button class="join-btn-small">JOIN</button>
             </a>
+
             <a href="https://t.me/snowmanadventuregroup" target="_blank" class="join-row">
                 <div class="join-row-left">
-                    <div class="icon-circle-small"><img src="https://cdn-icons-png.flaticon.com/512/476/476863.png"></div>
-                    <div class="join-text"><span>Join Group</span><small>Snowman Community</small></div>
+                    <div class="icon-circle-small">
+                        <img src="https://cdn-icons-png.flaticon.com/512/476/476863.png">
+                    </div>
+                    <div class="join-text">
+                        <span>Join Group</span>
+                        <small>Snowman Community</small>
+                    </div>
                 </div>
                 <button class="join-btn-small">JOIN</button>
             </a>
+
             <button id="checkJoinBtn" class="check-btn" onclick="verifyJoin()">Check & Play</button>
         </div>
     </div>
@@ -459,106 +1084,61 @@
     <!-- TOAST NOTIFICATION -->
     <div id="toastNotification" class="toast-notification">
         <div class="toast-content-wrapper">
-            <div class="toast-icon"><img src="https://cdn-icons-png.flaticon.com/512/3602/3602145.png" alt="info"></div>
+            <div class="toast-icon">
+                <img src="https://cdn-icons-png.flaticon.com/512/3602/3602145.png" alt="info">
+            </div>
             <div id="toastMessage">Changes saved</div>
         </div>
         <img src="https://cdn-icons-png.flaticon.com/512/2976/2976286.png" class="close-toast-icon" onclick="hideToast()" alt="X">
     </div>
 
     <!-- GENERIC GLASS POPUP -->
-    <div id="glassPopup" class="popup-overlay"><div class="popup-content" id="popupContent"></div></div>
+    <div id="glassPopup" class="popup-overlay">
+        <div class="popup-content" id="popupContent"></div>
+    </div>
     
     <!-- LEADERBOARD OVERLAY -->
     <div id="leaderboardOverlay" class="leaderboard-overlay">
         <div class="leaderboard-header">
-            <button class="close-btn" onclick="closeLeaderboard()"><img src="https://cdn-icons-png.flaticon.com/512/2976/2976286.png" alt="X"></button>
+            <button class="close-btn" onclick="closeLeaderboard()">
+                <img src="https://cdn-icons-png.flaticon.com/512/2976/2976286.png" alt="X">
+            </button>
             <h2>Leaderboard</h2>
         </div>
+        
         <div class="lb-tab-container">
             <div class="lb-pill active" onclick="switchLeaderboardTab('coins')" id="tab-coins">Coins</div>
             <div class="lb-pill" onclick="switchLeaderboardTab('refer')" id="tab-refer">Referrals</div>
+            <div class="lb-pill" onclick="switchLeaderboardTab('star')" id="tab-star">Level</div>
         </div>
+
+        <div id="leaderboardLoader" class="tgs-loading-overlay">
+            <div style="color:white; font-size:4vw;">Loading...</div>
+        </div>
+
         <div id="lbContentArea" style="display:flex; flex-direction:column; height:100%;">
-            <div class="podium-section" id="podiumContainer" style="height: 40vw;"></div>
+            <div class="podium-section" id="podiumContainer"></div>
             <div class="rank-list-container" id="leaderboardList"></div>
         </div>
-    </div>
 
-    <!-- PARTNER FORM MODAL -->
-    <div id="partnerFormOverlay" class="partner-modal-overlay">
-        <div class="partner-form-header">
-            <button class="close-form-btn" onclick="closePartnerForm()"><img src="https://cdn-icons-png.flaticon.com/512/271/271220.png" alt="Back"></button>
-            <div class="partner-form-title">Become a Partner</div>
-            <div style="width:8vw;"></div>
-        </div>
-
-        <div class="form-group">
-            <label class="form-label">Name *</label>
-            <input type="text" id="partnerName" class="form-input" placeholder="Enter name">
-        </div>
-        <div class="form-group">
-            <label class="form-label">Email *</label>
-            <input type="email" id="partnerEmail" class="form-input" placeholder="Enter email">
-        </div>
-        <div class="form-group">
-            <label class="form-label">Phone</label>
-            <input type="tel" id="partnerPhone" class="form-input" placeholder="+123456789">
-        </div>
-        <div class="form-group">
-            <label class="form-label">Telegram username *</label>
-            <input type="text" id="partnerTg" class="form-input" placeholder="@username">
-        </div>
-        <div class="form-group">
-            <label class="form-label">Your Role *</label>
-            <select id="partnerRole" class="form-select">
-                <option value="">Enter role</option>
-                <option value="Influencer">Influencer</option>
-                <option value="Community Admin">Community Admin</option>
-                <option value="Blogger">Blogger</option>
-                <option value="Other">Other</option>
-            </select>
-        </div>
-        <div class="form-group">
-            <label class="form-label">Link to your media resources *</label>
-            <input type="url" id="partnerLink" class="form-input" placeholder="Enter link">
-        </div>
-        <div class="checkbox-group">
-            <input type="checkbox" id="partnerTerms" class="form-checkbox">
-            <label for="partnerTerms" class="checkbox-label">I accept the Terms of Service</label>
-        </div>
-        <button class="submit-partner-btn" onclick="submitPartnerForm()">Send & Start Earning</button>
-        <div style="height: 10vw;"></div>
-    </div>
-
-    <!-- AFFILIATE DETAILS MODAL -->
-    <div id="affiliateDetailsModal" class="details-modal">
-        <div style="text-align: center; margin-bottom: 4vw;">
-            <h2 style="font-size: 5.5vw; color: white;">Affiliate Program</h2>
-        </div>
-        <div class="detail-visual">
-            <div class="vis-block">
-                <div class="vis-percent">15%</div>
-                <div class="vis-label">Referral<br>rewards</div>
+        <div class="my-stats-fixed" id="myStatsCard" style="display:none;">
+            <div class="rank-left">
+                <img id="myRankAvatar" src="" class="rank-avatar-small">
+                <div style="display:flex; flex-direction:column;">
+                    <div id="myRankName" class="rank-name-small">Me</div>
+                    <div style="font-size:2.5vw; color:rgba(255,255,255,0.5);">Rank <span id="myRankNum">#--</span></div>
+                </div>
             </div>
-            <div class="vis-block main">
-                <div class="vis-percent">45%</div>
-                <div class="vis-label">Affiliate<br>rewards</div>
-            </div>
-            <div class="vis-block">
-                <div class="vis-percent">+5%</div>
-                <div class="vis-label">Sub-affiliates'<br>rewards</div>
-            </div>
+            <div class="rank-score-small" id="myRankScore">0</div>
         </div>
-        <p class="detail-text">
-            Do you have a large audience and a lot of followers? Become our partner and profit with RevShare 45%. Earn a percentage of the net revenue on the referred players. Get in and let us enjoy the success together!
-        </p>
-        <button class="got-it-btn" onclick="closeDetailsModal()">Got It</button>
     </div>
 
     <!-- LOADING SCREEN -->
     <div id="loading-screen">
         <div class="loading-container">
-            <div class="progress-bar" id="loadingFill"><span class="percentage" id="loadingPercent">0%</span></div>
+            <div class="progress-bar" id="loadingFill">
+                <span class="percentage" id="loadingPercent">0%</span>
+            </div>
         </div>
     </div>
 
@@ -567,10 +1147,16 @@
         <div class="header-dashboard" id="mainHeader">
             <div class="header-balances">
                 <div class="stat-card-row">
-                    <div class="stat-value"><img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/coin.webp" alt="C"><span id="headerCoinBalance">0</span></div>
+                    <div class="stat-value">
+                        <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/coin.webp" alt="C">
+                        <span id="headerCoinBalance">0</span>
+                    </div>
                 </div>
                 <div class="stat-card-row">
-                    <div class="stat-value"><img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/ton.webp" alt="T"><span id="headerTonBalance">0.0</span></div>
+                    <div class="stat-value">
+                        <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/ton.webp" alt="T">
+                        <span id="headerTonBalance">0.0</span>
+                    </div>
                 </div>
             </div>
             <div class="profile-section">
@@ -579,11 +1165,18 @@
                     <span id="headerName" class="user-name">User</span>
                 </div>
                 <div class="header-level-box">
-                    <div class="lvl-text"><span id="levelNameHeader">Lvl 1</span><span><span id="currentLevelHeader">0</span> / <span id="targetLevelHeader">4000</span></span></div>
-                    <div class="header-progress-bg"><div class="header-progress-fill" id="headerLevelBar"></div></div>
+                    <div class="lvl-text">
+                        <span id="levelNameHeader">Lvl 1</span>
+                        <span><span id="currentLevelHeader">0</span> / <span id="targetLevelHeader">4000</span></span>
+                    </div>
+                    <div class="header-progress-bg">
+                        <div class="header-progress-fill" id="headerLevelBar"></div>
+                    </div>
                 </div>
             </div>
-            <div class="settings-btn"><img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/setting.webp" alt="Settings"></div>
+            <div class="settings-btn">
+                <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/setting.webp" alt="Settings">
+            </div>
         </div>
 
         <div class="content-area">
@@ -611,7 +1204,9 @@
                         <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/leaderboard_icon.webp" alt="Rank">
                         <span class="btn-text">Leaderboard</span>
                     </div>
+                    
                     <div id="tapMeHint" class="tap-me-hint">Tap Me!</div>
+
                     <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/snowman.webp" class="character-img" id="clickerBtn" alt="Snowman">
                 </div>
             </div>
@@ -625,16 +1220,23 @@
                 <div class="banner-placeholder" onclick="handleTaskBannerClick()">
                     <img id="taskBannerImage" src="https://i.ibb.co.com/ynTYbKbL/20251227-143045.jpg" alt="Task Banner" style="display: block;">
                 </div>
-                <div id="taskList" class="task-list"><div style="text-align:center; color:rgba(255,255,255,0.5); margin-top:20px;">Loading tasks...</div></div>
+                <div id="taskList" class="task-list">
+                    <div style="text-align:center; color:rgba(255,255,255,0.5); margin-top:20px;">Loading tasks...</div>
+                </div>
             </div>
 
             <!-- FRIENDS TAB -->
             <div id="friends" class="tab-content">
                 <div style="text-align:center; padding-top: 10px; padding-bottom: 0; margin-top: 5vw;"> 
-                    <h1 class="wallet-title" style="font-size: 4.5vw;"><span role="img" aria-label="gift">🎁</span> Invite Friends & Earn!</h1>
+                    <h1 class="wallet-title" style="font-size: 4.5vw;"><span role="img" aria-label="gift">🎁</span> Invite Friends & Earn Forever!</h1>
                 </div>
                 <div class="banner-placeholder" onclick="handleFriendsBannerClick()" style="margin-top: 2vw; margin-bottom: 4vw;"> 
                     <img id="friendsBannerImage" src="https://i.ibb.co.com/RJMLvT1/20251227-144034.jpg" alt="Friends Banner" style="display: block;">
+                </div>
+                <div style="background: var(--glass-bg); border: 1px solid rgba(0,229,255,0.2); border-radius: 3vw; padding: 3vw; margin: 2vw auto 4vw auto; width: 90%; text-align: left;">
+                    <p style="font-size: 3.5vw; font-weight: 600; color: var(--accent-cyan);">
+                        • Invite friends and earn <span id="referralPercentageDisplay" style="color:var(--level-gold);">10%</span> all of their income for every user you refer!
+                    </p>
                 </div>
                 
                 <div class="invite-container" style="margin-top: 0;">
@@ -646,22 +1248,26 @@
                         <img src="https://cdn-icons-png.flaticon.com/512/126/126498.png" alt="Copy">
                     </button>
                 </div>
-
-                <!-- AFFILIATE PROGRAM CARD (REPLACED PRIZE POOL) -->
-                <div class="affiliate-card">
-                    <div class="affiliate-header">
-                        <div class="affiliate-title">Affiliate Program</div>
-                        <img src="https://cdn-icons-png.flaticon.com/512/8662/8662584.png" class="affiliate-icon" alt="Gift">
+                <div style="background: var(--glass-bg); border: 1px solid var(--accent-cyan); border-radius: 4vw; padding: 4vw; margin: 5vw 0 0 0; width: 100%; text-align: center;">
+                    <h3 style="font-size: 4vw; color: var(--level-gold); border-bottom: 1px solid rgba(255,255,255,0.2); padding-bottom: 1.5vw; margin-bottom: 2vw; font-weight: 700;">Prize Pools (USDT)</h3>
+                    <div style="display: flex; justify-content: space-around; margin-bottom: 4vw;">
+                        <div style="text-align: center;">
+                            <div style="font-size: 4.5vw; font-weight: 800; color: #FFD700;">🥇 1st Place</div>
+                            <div style="font-size: 5.5vw; font-weight: 800; color: #FFD700;">💵 $100</div>
+                        </div>
+                        <div style="text-align: center;">
+                            <div style="font-size: 4.5vw; font-weight: 800; color: #C0C0C0;">🥈 2nd Place</div>
+                            <div style="font-size: 5.5vw; font-weight: 800; color: #C0C0C0;">💵 $60</div>
+                        </div>
+                        <div style="text-align: center;">
+                            <div style="font-size: 4.5vw; font-weight: 800; color: #CD7F32;">🥉 3rd Place</div>
+                            <div style="font-size: 5.5vw; font-weight: 800; color: #CD7F32;">💵 $40</div>
+                        </div>
                     </div>
-                    <div class="affiliate-desc">
-                        Do you have a large audience and a lot of followers? Become our partner and profit with RevShare 45%.
-                    </div>
-                    <div class="affiliate-actions">
-                        <button class="btn-affiliate-detail" onclick="openDetailsModal()">Detail</button>
-                        <button class="btn-affiliate-partner" onclick="openPartnerForm()">Become Partner</button>
-                    </div>
+                    <a href="https://telegra.ph/Terms--Conditions-12-17-6" target="_blank" style="font-size: 3vw; color: rgba(255,255,255,0.5); margin-top: 4vw; text-decoration: underline;">Terms & Conditions</a>
+                    <p style="font-size: 3.5vw; color: var(--accent-cyan); margin-top: 3vw; font-weight: 600;">Ending On</p>
+                    <div id="referralTimer" style="font-size: 4vw; font-weight: 700; color: white; margin-top: 1vw;">Loading Timer...</div>
                 </div>
-
                 <div class="referral-list-section" style="margin-top: 5vw; width: 100%; padding-bottom: 20vw;">
                     <h3 style="font-size: 5vw; color: var(--accent-cyan); text-align: center; margin-bottom: 3vw; font-weight: 700;">Your Friends</h3>
                     <div id="referralsList" style="display: flex; flex-direction: column; gap: 2vw;">
@@ -680,8 +1286,16 @@
                     <img id="walletBannerImage" src="https://i.ibb.co.com/Z1fPKcKx/20251227-143016.jpg" alt="Wallet Banner" style="display: block;">
                 </div>
                 <div class="wallet-stats-grid">
-                    <div class="wallet-stat-box"><img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/coin.webp" alt="Coin"><span class="wallet-stat-val" id="walletCoin">0</span><span class="wallet-stat-label">Coins</span></div>
-                    <div class="wallet-stat-box"><img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/ton.webp" alt="TON"><span class="wallet-stat-val" id="walletTon">0.0</span><span class="wallet-stat-label">TON</span></div>
+                    <div class="wallet-stat-box">
+                        <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/coin.webp" alt="Coin">
+                        <span class="wallet-stat-val" id="walletCoin">0</span>
+                        <span class="wallet-stat-label">Coins</span>
+                    </div>
+                    <div class="wallet-stat-box">
+                        <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/ton.webp" alt="TON">
+                        <span class="wallet-stat-val" id="walletTon">0.0</span>
+                        <span class="wallet-stat-label">TON</span>
+                    </div>
                 </div>
                 <div class="button-group" style="margin-top: 10px;" id="connectBtnContainer">
                     <button class="btn connect-btn" id="connectWalletBtn" onclick="connectWallet()">
@@ -695,17 +1309,32 @@
                 </div>
                 <div class="exchange-btn" onclick="handleExchangeClick()">
                     <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/exchange.webp" class="exchange-icon" alt="Swap">
-                    <div class="exchange-text"><h3>Exchange Tokens!</h3><p>Convert your tokens into cryptocurrency.</p></div>
+                    <div class="exchange-text">
+                        <h3>Exchange Tokens!</h3>
+                        <p>Convert your tokens into cryptocurrency.</p>
+                    </div>
                 </div>
             </div>
         </div>
 
         <!-- NAVIGATION -->
         <div class="nav-bar">
-            <div class="nav-item active" onclick="switchTab('home', this)"><img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/home.webp" alt="Home"><span>Home</span></div>
-            <div class="nav-item" onclick="switchTab('task', this)"><img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/task.webp" alt="Task"><span>Task</span></div>
-            <div class="nav-item" onclick="switchTab('friends', this)"><img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/friends.webp" alt="Friends"><span>Friends</span></div>
-            <div class="nav-item" onclick="switchTab('wallet', this)"><img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/wallet.webp" alt="Wallet"><span>Wallet</span></div>
+            <div class="nav-item active" onclick="switchTab('home', this)">
+                <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/home.webp" alt="Home">
+                <span>Home</span>
+            </div>
+            <div class="nav-item" onclick="switchTab('task', this)">
+                <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/task.webp" alt="Task">
+                <span>Task</span>
+            </div>
+            <div class="nav-item" onclick="switchTab('friends', this)">
+                <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/friends.webp" alt="Friends">
+                <span>Friends</span>
+            </div>
+            <div class="nav-item" onclick="switchTab('wallet', this)">
+                <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/wallet.webp" alt="Wallet">
+                <span>Wallet</span>
+            </div>
         </div>
     </div>
 
@@ -728,10 +1357,31 @@
             measurementId: "G-J550E6L22Z"
         };
         
-        if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
+        // Initialize Firebase
+        if (!firebase.apps.length) {
+            firebase.initializeApp(firebaseConfig);
+        }
         const db = firebase.database();
 
-        let balance = 0, tonBalance = 0.0, tapCount = 0, level = 1, userId = null, completedTasks = {}, currentLeaderboardTab = 'coins', referralCount = 0, lastSpinTime = 0, myReferredBy = null, isDataLoaded = false, adWatchCount = 0, isAdSpin = false, lastSavedBalance = 0, referrerIdFromUrl = null, boosterEndTime = 0, autotapEndTime = 0, noadsEndTime = 0, tapMultiplier = 1;
+        let balance = 0;
+        let tonBalance = 0.0;
+        let tapCount = 0; 
+        let level = 1;
+        let userId = null; 
+        let completedTasks = {}; 
+        let currentLeaderboardTab = 'coins'; 
+        let referralCount = 0; 
+        let lastSpinTime = 0;
+        let myReferredBy = null; 
+        let isDataLoaded = false;
+        let adWatchCount = 0; 
+        let isAdSpin = false; 
+        let lastSavedBalance = 0;
+        let referrerIdFromUrl = null; 
+        let boosterEndTime = 0; 
+        let autotapEndTime = 0; 
+        let noadsEndTime = 0;   
+        let tapMultiplier = 1;
 
         const BOT_USERNAME_PLACEHOLDER = 'snowmanadventurebot';
         let appInviteBaseUrl = `https://t.me/${BOT_USERNAME_PLACEHOLDER}?startapp=`;
@@ -749,6 +1399,8 @@
         const headerTon = document.getElementById('headerTonBalance');
         const walletCoin = document.getElementById('walletCoin');
         const walletTon = document.getElementById('walletTon');
+        const referralTimer = document.getElementById('referralTimer');
+        const referralPercentageDisplay = document.getElementById('referralPercentageDisplay');
 
         const tonConnectUI = new TON_CONNECT_UI.TonConnectUI({
             manifestUrl: 'https://alamin12071985-a11y.github.io/Snowman-Adventure/tonconnect-manifest.json',
@@ -759,11 +1411,13 @@
             const btnContainer = document.getElementById('connectBtnContainer');
             const statusBadge = document.getElementById('walletStatusBadge');
             const addressDisplay = document.getElementById('walletAddressDisplay');
+
             if(wallet) {
                 btnContainer.style.display = "none";
                 statusBadge.style.display = "block";
                 const rawAddress = wallet.account.address;
-                addressDisplay.innerText = rawAddress.slice(0,4) + "..." + rawAddress.slice(-4);
+                const shortAddress = rawAddress.slice(0,4) + "..." + rawAddress.slice(-4);
+                addressDisplay.innerText = shortAddress;
             } else {
                 btnContainer.style.display = "flex";
                 statusBadge.style.display = "none";
@@ -771,151 +1425,165 @@
         });
 
         async function connectWallet() {
-            try { if(!tonConnectUI.connected) await tonConnectUI.openModal(); } catch(e) { console.error(e); }
+            try {
+                if(!tonConnectUI.connected) {
+                    await tonConnectUI.openModal();
+                }
+            } catch(e) {
+                console.error(e);
+            }
         }
 
         async function checkAdBlocker() {}
+        
         function formatTime(seconds) {
-            const d = Math.floor(seconds / (3600*24)), h = Math.floor(seconds % (3600*24) / 3600), m = Math.floor(seconds % 3600 / 60), s = Math.floor(seconds % 60);
-            if (d > 0) return `${d}d ${h}h`; if (h > 0) return `${h}h ${m}m`; return `${m}m ${s}s`;
+            const d = Math.floor(seconds / (3600*24));
+            const h = Math.floor(seconds % (3600*24) / 3600);
+            const m = Math.floor(seconds % 3600 / 60);
+            const s = Math.floor(seconds % 60);
+            if (d > 0) return `${d}d ${h}h`;
+            if (h > 0) return `${h}h ${m}m`;
+            return `${m}m ${s}s`;
         }
 
-        /* --- AFFILIATE / PARTNER FUNCTIONS --- */
-        function openPartnerForm() {
-            if(userId && document.getElementById('partnerTg')) {
-                document.getElementById('partnerTg').value = '@' + headerName.innerText; // Prefill
-            }
-            document.getElementById('partnerFormOverlay').classList.add('active');
-        }
+        /* --- INITIALIZATION & TELEGRAM CHECK --- */
 
-        function closePartnerForm() {
-            document.getElementById('partnerFormOverlay').classList.remove('active');
-        }
-
-        function submitPartnerForm() {
-            const name = document.getElementById('partnerName').value;
-            const email = document.getElementById('partnerEmail').value;
-            const tg = document.getElementById('partnerTg').value;
-            const role = document.getElementById('partnerRole').value;
-            const link = document.getElementById('partnerLink').value;
-            const terms = document.getElementById('partnerTerms').checked;
-
-            if(!name || !email || !tg || !role || !link) {
-                showToast("Please fill all required fields", 3000, true);
-                return;
-            }
-            if(!terms) {
-                showToast("Please accept Terms of Service", 3000, true);
-                return;
-            }
-
-            // Mock Submission - In a real app, send to BACKEND_URL
-            const btn = document.querySelector('.submit-partner-btn');
-            const originalText = btn.innerText;
-            btn.innerText = "Sending...";
-            btn.style.opacity = "0.7";
-
-            setTimeout(() => {
-                btn.innerText = "Sent!";
-                showToast("Application sent successfully!");
-                setTimeout(() => {
-                    closePartnerForm();
-                    btn.innerText = originalText;
-                    btn.style.opacity = "1";
-                    // Reset Form
-                    document.getElementById('partnerName').value = '';
-                    document.getElementById('partnerEmail').value = '';
-                    document.getElementById('partnerPhone').value = '';
-                    document.getElementById('partnerLink').value = '';
-                    document.getElementById('partnerTerms').checked = false;
-                }, 1500);
-            }, 1500);
-        }
-
-        function openDetailsModal() {
-            document.getElementById('affiliateDetailsModal').classList.add('active');
-        }
-
-        function closeDetailsModal() {
-            document.getElementById('affiliateDetailsModal').classList.remove('active');
-        }
-
-        /* --- INITIALIZATION --- */
         window.addEventListener('load', () => {
+            // STRICT TELEGRAM CHECK
             if(!initTelegramUser()) {
                 document.getElementById('loading-screen').style.display = 'none';
                 document.getElementById('telegram-only-blocker').style.display = 'flex';
-                return;
+                return; // Stop everything
             }
+
             let loadPercent = 0;
-            const bar = document.getElementById('loadingFill'), percentText = document.getElementById('loadingPercent'), screen = document.getElementById('loading-screen'), joinGate = document.getElementById('joinGateOverlay');
+            const bar = document.getElementById('loadingFill');
+            const percentText = document.getElementById('loadingPercent');
+            const screen = document.getElementById('loading-screen');
+            const joinGate = document.getElementById('joinGateOverlay');
+            
             const interval = setInterval(() => {
                 loadPercent += Math.floor(Math.random() * 5) + 1;
                 if(loadPercent > 100) loadPercent = 100;
                 bar.style.width = loadPercent + '%';
                 percentText.innerText = loadPercent + '%';
+
                 if(loadPercent >= 100) {
                     clearInterval(interval);
+                    // Start logic after loading
                     performInitialJoinCheck(screen, joinGate);
                 }
             }, 50);
         });
 
+        // Attempt to get user. Returns false if not in Telegram.
         function initTelegramUser() {
             try {
                 const tg = window.Telegram.WebApp;
-                if (!tg.initDataUnsafe || !tg.initDataUnsafe.user) return false;
+                if (!tg.initDataUnsafe || !tg.initDataUnsafe.user) {
+                    return false; // Not in Telegram or no user data
+                }
+
                 tg.expand(); 
                 const user = tg.initDataUnsafe.user;
                 userId = user.id.toString(); 
+                
                 if (user.username) headerName.innerText = user.username;
                 else if (user.first_name) headerName.innerText = user.first_name;
                 if (user.photo_url) headerAvatar.src = user.photo_url;
+
                 const startParam = tg.initDataUnsafe.start_param;
-                if (startParam && startParam !== userId) referrerIdFromUrl = startParam;
+                if (startParam && startParam !== userId) {
+                    referrerIdFromUrl = startParam;
+                }
                 return true;
-            } catch (e) { console.error("Telegram init error", e); return false; }
+            } catch (e) {
+                console.error("Telegram init error", e);
+                return false;
+            }
         }
 
+        /* --- STRICT JOIN GATE LOGIC --- */
+        
+        // This runs after the loading bar fills
         async function performInitialJoinCheck(loadingScreen, joinGate) {
+            // 1. Silent check to backend. 
+            // We do NOT trust localStorage blindly for the 'hide' decision anymore 
+            // because the user wants it to be persistent if they leave the channel.
+            
             try {
                 const response = await fetch(`${BACKEND_URL}/verify_join`, {
-                    method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ user_id: userId })
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ user_id: userId })
                 });
+
                 if (response.ok) {
                     const data = await response.json();
                     if (data.joined === true) {
+                        // User is joined. Proceed to game.
                         loadingScreen.style.opacity = '0';
-                        setTimeout(() => { loadingScreen.style.display = 'none'; init(); }, 500);
+                        setTimeout(() => {
+                            loadingScreen.style.display = 'none';
+                            init(); // Start Game
+                        }, 500);
                         return;
                     }
                 }
-            } catch (e) { console.log("Initial check failed, showing gate safely."); }
+            } catch (e) {
+                console.log("Initial check failed, showing gate safely.");
+            }
+
+            // If we are here, either the check failed or user is not joined.
+            // Show the gate.
             loadingScreen.style.opacity = '0';
-            setTimeout(() => { loadingScreen.style.display = 'none'; joinGate.style.display = 'flex'; }, 500);
+            setTimeout(() => {
+                loadingScreen.style.display = 'none';
+                joinGate.style.display = 'flex'; // Show persistent gate
+            }, 500);
         }
 
         async function verifyJoin() {
             const checkBtn = document.getElementById('checkJoinBtn');
             const joinGate = document.getElementById('joinGateOverlay');
-            if (!userId) return;
+            
+            if (!userId) return; // Should not happen due to initial check
+
+            // UI Loading State
             checkBtn.innerText = "Checking...";
+            checkBtn.innerHTML = "Checking... <span style='display:inline-block; width:10px; height:10px; border:2px solid white; border-top:2px solid transparent; border-radius:50%; animation:spin 1s linear infinite;'></span>";
             checkBtn.classList.add('loading');
+            
+            const style = document.createElement('style');
+            style.innerHTML = `@keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }`;
+            document.head.appendChild(style);
+
             try {
+                // Call Backend API
                 const response = await fetch(`${BACKEND_URL}/verify_join`, {
-                    method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ user_id: userId })
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ user_id: userId })
                 });
+
                 const data = await response.json();
+
                 checkBtn.classList.remove('loading');
                 checkBtn.innerText = "Check & Play";
+
                 if (data.joined === true) {
+                    // SUCCESS
                     joinGate.style.display = 'none';
                     checkAdBlocker();
                     showToast("Verified! Welcome to the game.");
+                    
+                    // If game wasn't init yet, do it
                     if(!isDataLoaded) init(); 
                 } else {
+                    // FAILED - GATE STAYS OPEN
                     showToast("Please join BOTH channels first!", 3000, true);
                 }
+
             } catch (err) {
                 console.error("Join check failed:", err);
                 checkBtn.classList.remove('loading');
@@ -925,26 +1593,84 @@
         }
 
         function init() {
+            // Already initialized user ID
             startSnowfall();
             loadUserData(); 
+            loadConfig(); 
             startAutoTapLoop(); 
+            
             setInterval(saveUserData, 5000);
+            startReferralTimer();
+        }
+
+        function loadConfig() {
+            db.ref('config/referralPercentage').once('value').then(snapshot => {
+                const percentage = snapshot.val();
+                if (percentage) {
+                    referralPercentageDisplay.innerText = percentage + "%";
+                }
+            });
+        }
+
+        function startReferralTimer() {
+            const countDownDate = new Date("Feb 14, 2026 23:59:59").getTime();
+            const x = setInterval(function() {
+                const now = new Date().getTime();
+                const distance = countDownDate - now;
+
+                const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+                if (referralTimer) {
+                    referralTimer.innerHTML = days + "d " + hours + "h " + minutes + "m " + seconds + "s ";
+                }
+
+                if (distance < 0) {
+                    clearInterval(x);
+                    if (referralTimer) referralTimer.innerHTML = "EXPIRED";
+                }
+            }, 1000);
         }
 
         function saveUserData() {
-            if(!userId || !isDataLoaded) return; 
+            if(!userId) return; 
+            if(!isDataLoaded) return; 
+
             const userUpdate = {
-                balance: balance, tonBalance: tonBalance, tapCount: tapCount, level: level, username: headerName.innerText, avatar: headerAvatar.src, lastSpinTime: lastSpinTime, lastActive: Date.now()
+                balance: balance,
+                tonBalance: tonBalance,
+                tapCount: tapCount,
+                level: level,
+                username: headerName.innerText, 
+                avatar: headerAvatar.src,
+                lastSpinTime: lastSpinTime,
+                lastActive: Date.now()
             };
-            if(myReferredBy) userUpdate.referredBy = myReferredBy;
-            db.ref('users/' + userId).update(userUpdate);
+
+            if(myReferredBy) {
+                userUpdate.referredBy = myReferredBy;
+            }
+
+            // Save to Firebase
+            db.ref('users/' + userId).update(userUpdate).then(() => {
+                // success
+            }).catch(err => {
+                console.error("Save failed", err);
+            });
+
+            // Handle Referral Commission
             if (myReferredBy && lastSavedBalance > 0) {
                 const earnedAmount = balance - lastSavedBalance;
                 if (earnedAmount >= 1) { 
                     const commission = earnedAmount * 0.10; 
                     if (commission > 0) {
                         db.ref('users/' + myReferredBy).transaction((referrer) => {
-                            if (referrer) { referrer.balance = (referrer.balance || 0) + commission; return referrer; }
+                            if (referrer) {
+                                referrer.balance = (referrer.balance || 0) + commission;
+                                return referrer;
+                            }
                             return referrer;
                         });
                     }
@@ -956,30 +1682,65 @@
         function loadUserData() {
             if(!userId) return;
             const userRef = db.ref('users/' + userId);
+            
             userRef.once('value').then((snapshot) => {
                 const data = snapshot.val();
                 if (data) {
-                    balance = data.balance || 0; tonBalance = data.tonBalance || 0.0; tapCount = data.tapCount || 0; level = data.level || 1;
-                    completedTasks = data.completedTasks || {}; referralCount = data.referralCount || 0; lastSpinTime = data.lastSpinTime || 0;
-                    myReferredBy = data.referredBy || null; lastSavedBalance = balance; isDataLoaded = true;
-                    updateUI(); loadTasksFromDB(); loadReferrals(); 
+                    // Existing User
+                    balance = data.balance || 0;
+                    tonBalance = data.tonBalance || 0.0;
+                    tapCount = data.tapCount || 0;
+                    level = data.level || 1;
+                    completedTasks = data.completedTasks || {};
+                    referralCount = data.referralCount || 0;
+                    lastSpinTime = data.lastSpinTime || 0;
+                    myReferredBy = data.referredBy || null; 
+                    
+                    lastSavedBalance = balance; 
+                    isDataLoaded = true;
+
+                    updateUI();
+                    loadTasksFromDB();
+                    loadReferrals(); 
                 } else {
+                    // New User
                     let startBalance = 500; 
-                    let newUserStats = { balance: startBalance, tonBalance: 0.0, tapCount: 0, level: 1, username: headerName.innerText, avatar: headerAvatar.src, lastActive: Date.now() };
+                    let newUserStats = {
+                        balance: startBalance,
+                        tonBalance: 0.0,
+                        tapCount: 0,
+                        level: 1,
+                        username: headerName.innerText,
+                        avatar: headerAvatar.src,
+                        lastActive: Date.now()
+                    };
+
                     if (referrerIdFromUrl) {
                         newUserStats.referredBy = referrerIdFromUrl;
                         myReferredBy = referrerIdFromUrl; 
                         db.ref('users/' + referrerIdFromUrl).transaction((rUser) => {
-                            if (rUser) { rUser.balance = (rUser.balance || 0) + 5000; rUser.referralCount = (rUser.referralCount || 0) + 1; return rUser; }
+                            if (rUser) {
+                                rUser.balance = (rUser.balance || 0) + 5000;
+                                rUser.referralCount = (rUser.referralCount || 0) + 1; 
+                                return rUser;
+                            }
                             return rUser; 
                         });
                         showToast("Welcome! Bonus added via referral.");
                     }
+
                     userRef.set(newUserStats).then(() => {
-                        isDataLoaded = true; balance = startBalance; lastSavedBalance = startBalance; updateUI(); loadTasksFromDB();
+                        isDataLoaded = true;
+                        balance = startBalance;
+                        lastSavedBalance = startBalance;
+                        updateUI();
+                        loadTasksFromDB();
                     });
                 }
-            }).catch(error => { console.error("Error loading data:", error); showToast("Network error loading data"); });
+            }).catch(error => {
+                console.error("Error loading data:", error);
+                showToast("Network error loading data");
+            });
         }
         
         function loadReferrals() {
@@ -987,25 +1748,53 @@
             if(!userId) return;
             db.ref('users').orderByChild('referredBy').equalTo(userId).once('value').then(snapshot => {
                 const referrals = [];
-                snapshot.forEach(child => { referrals.push(child.val()); });
+                snapshot.forEach(child => {
+                    referrals.push(child.val());
+                });
                 renderReferrals(referrals);
-            }).catch(err => { listContainer.innerHTML = '<div style="text-align:center; opacity:0.6;">No friends found yet.</div>'; });
+            }).catch(err => {
+                console.error("Error loading referrals:", err);
+                listContainer.innerHTML = '<div style="text-align:center; opacity:0.6;">No friends found yet.</div>';
+            });
         }
 
         function renderReferrals(referrals) {
             const listContainer = document.getElementById('referralsList');
             listContainer.innerHTML = '';
+
             if (referrals.length === 0) {
-                listContainer.innerHTML = `<div style="text-align:center; padding: 5vw; background: rgba(255,255,255,0.05); border-radius: 3vw;"><p style="color:rgba(255,255,255,0.6); font-size: 3.5vw;">You haven't invited anyone yet.</p><p style="color:rgba(255,255,255,0.4); font-size: 3vw; margin-top: 1vw;">Share your link to earn!</p></div>`;
+                listContainer.innerHTML = `
+                    <div style="text-align:center; padding: 5vw; background: rgba(255,255,255,0.05); border-radius: 3vw;">
+                        <p style="color:rgba(255,255,255,0.6); font-size: 3.5vw;">You haven't invited anyone yet.</p>
+                        <p style="color:rgba(255,255,255,0.4); font-size: 3vw; margin-top: 1vw;">Share your link to earn!</p>
+                    </div>`;
                 return;
             }
+
             referrals.forEach(user => {
                 const name = user.username || "Unknown";
                 const bal = user.balance ? Math.floor(user.balance).toLocaleString() : "0";
                 const av = user.avatar || "https://alamin12071985-a11y.github.io/Snowman-Adventure/snowman.webp";
+
                 const item = document.createElement('div');
-                item.style.cssText = 'display:flex; align-items:center; justify-content:space-between; background-color:var(--glass-bg); border:1px solid rgba(0,229,255,0.1); border-radius:3vw; padding:2vw 4vw;';
-                item.innerHTML = `<div style="display:flex; align-items:center; gap:3vw;"><img src="${av}" style="width:10vw; height:10vw; border-radius:50%;"><div style="font-size:3.5vw; font-weight:600; color:white;">${name}</div></div><div style="font-size:3.5vw; color:#FFD700; font-weight:700;"><img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/coin.webp" style="width:4vw; vertical-align:middle;"> ${bal}</div>`;
+                item.style.display = 'flex';
+                item.style.alignItems = 'center';
+                item.style.justifyContent = 'space-between';
+                item.style.backgroundColor = 'var(--glass-bg)';
+                item.style.border = '1px solid rgba(0,229,255,0.1)';
+                item.style.borderRadius = '3vw';
+                item.style.padding = '2vw 4vw';
+                
+                item.innerHTML = `
+                    <div style="display:flex; align-items:center; gap:3vw;">
+                        <img src="${av}" style="width:10vw; height:10vw; border-radius:50%;">
+                        <div style="font-size:3.5vw; font-weight:600; color:white;">${name}</div>
+                    </div>
+                    <div style="font-size:3.5vw; color:#FFD700; font-weight:700;">
+                        <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/coin.webp" style="width:4vw; vertical-align:middle;">
+                        ${bal}
+                    </div>
+                `;
                 listContainer.appendChild(item);
             });
         }
@@ -1017,7 +1806,17 @@
             document.head.appendChild(styleSheet);
             setInterval(() => {
                 const flake = document.createElement('div');
-                flake.style.cssText = `position:absolute; background:white; border-radius:50%; opacity:0.8; pointer-events:none; animation:fall linear infinite; width:${Math.random()*4+2}px; height:${Math.random()*4+2}px; left:${Math.random()*90+5}%; animation-duration:${Math.random()*3+3}s;`;
+                flake.style.position = 'absolute';
+                flake.style.background = 'white';
+                flake.style.borderRadius = '50%';
+                flake.style.opacity = '0.8';
+                flake.style.pointerEvents = 'none';
+                flake.style.animation = 'fall linear infinite';
+                const size = Math.random() * 4 + 2 + 'px';
+                flake.style.width = size;
+                flake.style.height = size;
+                flake.style.left = Math.random() * 90 + 5 + '%';
+                flake.style.animationDuration = Math.random() * 3 + 3 + 's';
                 container.appendChild(flake);
                 setTimeout(() => { flake.remove(); }, 5000);
             }, 600); 
@@ -1029,20 +1828,45 @@
             headerTon.innerText = parseFloat(tonBalance).toFixed(4); 
             walletCoin.innerText = Math.floor(balance).toLocaleString();
             walletTon.innerText = parseFloat(tonBalance).toFixed(4);
+
             let nextLevelThreshold = 4000 + ((level - 1) * 8000);
             let currentProgress = balance; 
             let percentage = (currentProgress / nextLevelThreshold) * 100;
-            if (percentage >= 100 && level < 100) { level++; percentage = 0; showLevelUpPopup(level); }
+            
+            if (percentage >= 100 && level < 100) {
+                level++;
+                percentage = 0; 
+                showLevelUpPopup(level);
+            }
+
             levelNameHeader.innerText = "Lvl " + level;
             currentLevelHeader.innerText = Math.floor(balance);
             targetLevelHeader.innerText = nextLevelThreshold;
             headerLevelBar.style.width = `${Math.min(percentage, 100)}%`;
+            
             const now = Date.now();
-            let statusMessage = []; tapMultiplier = 1;
-            if (now < boosterEndTime) { tapMultiplier = 2; statusMessage.push(`⚡ Booster: ${formatTime(Math.ceil((boosterEndTime - now)/1000))}`); }
-            if (now < autotapEndTime) statusMessage.push(`🤖 Auto Tap: ${formatTime(Math.ceil((autotapEndTime - now)/1000))}`);
-            if (now < noadsEndTime) statusMessage.push(`🚫 No Ads: ${formatTime(Math.ceil((noadsEndTime - now)/1000))}`);
-            if (statusMessage.length > 0) showToast(`Active: ${statusMessage.join(' | ')}`, 60000); else hideToast();
+            let statusMessage = [];
+            tapMultiplier = 1;
+
+            if (now < boosterEndTime) {
+                tapMultiplier = 2; 
+                const remaining = Math.ceil((boosterEndTime - now) / 1000);
+                statusMessage.push(`⚡ Booster: ${formatTime(remaining)}`);
+            }
+            if (now < autotapEndTime) {
+                const remaining = Math.ceil((autotapEndTime - now) / 1000);
+                statusMessage.push(`🤖 Auto Tap: ${formatTime(remaining)}`);
+            }
+            if (now < noadsEndTime) {
+                const remaining = Math.ceil((noadsEndTime - now) / 1000);
+                statusMessage.push(`🚫 No Ads: ${formatTime(remaining)}`);
+            }
+
+            if (statusMessage.length > 0) {
+                showToast(`Active: ${statusMessage.join(' | ')}`, 60000); 
+            } else {
+                hideToast(); 
+            }
         }
         
         const starShopItems = [
@@ -1060,8 +1884,14 @@
         ];
 
         function openShop() {
-            const groups = { 'coin': { title: '🪙 Snow Coin Packs', items: [] }, 'booster': { title: '⚡ Boosters (Tap Multiplier)', items: [] }, 'autotap': { title: '🤖 Auto Tap', items: [] } };
-            starShopItems.forEach(item => { if (groups[item.type]) groups[item.type].items.push(item); });
+            const groups = {
+                'coin': { title: '🪙 Snow Coin Packs', items: [] },
+                'booster': { title: '⚡ Boosters (Tap Multiplier)', items: [] },
+                'autotap': { title: '🤖 Auto Tap', items: [] },
+            };
+            starShopItems.forEach(item => {
+                if (groups[item.type]) groups[item.type].items.push(item);
+            });
             let html = `<h2 style="font-size: 6vw; color: var(--accent-cyan); margin-bottom: 4vw; font-weight: 800; text-align: center;">Stars Shop</h2>`;
             for (const type in groups) {
                 if (groups[type].items.length > 0) {
@@ -1071,11 +1901,15 @@
                             <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/${item.icon}" style="width: 12vw; height: 12vw; object-fit: contain; background: rgba(0,0,0,0.3); padding: 2vw; border-radius: 3vw;">
                             <div class="task-info">
                                 <div class="task-title">${item.title}</div>
-                                <div class="task-reward" style="color: #FFD700; font-size: 3.5vw; font-weight: 800;"><img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/star.webp" style="width: 4vw; height: 4vw; margin-right: 1.5vw;">${item.stars.toLocaleString()} Stars</div>
+                                <div class="task-reward" style="color: #FFD700; font-size: 3.5vw; font-weight: 800;">
+                                    <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/star.webp" style="width: 4vw; height: 4vw; margin-right: 1.5vw;">
+                                    ${item.stars.toLocaleString()} Stars
+                                </div>
                                 <p style="font-size: 2.8vw; color: rgba(255,255,255,0.7); margin-top: 0.5vw;">${item.reward}</p>
                             </div>
                             <button class="task-btn" style="min-width: 25vw; background: linear-gradient(180deg, #FFD700 0%, #FFA000 100%); color: #3E2723;">BUY</button>
-                        </div>`).join('');
+                        </div>
+                    `).join('');
                 }
             }
             html += `<button class="popup-btn" onclick="closeGlassPopup()" style="background: linear-gradient(90deg, #60ccfd, #4a92ff); color: white; width: 100%; margin-top: 5vw;">Close Shop</button>`;
@@ -1087,109 +1921,325 @@
             closeGlassPopup();
             showToast(`Loading payment...`);
             fetch(`${BACKEND_URL}/create_invoice`, {
-                method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ item_id: itemId, user_id: userId })
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ item_id: itemId, user_id: userId })
             })
             .then(response => response.json())
             .then(data => {
                 if (data.result) {
                     window.Telegram.WebApp.openInvoice(data.result, (status) => {
-                        if (status === 'paid') { showToast("Purchase successful!"); loadUserData(); } else { showToast("Payment cancelled."); }
+                        if (status === 'paid') {
+                            showToast("Purchase successful!");
+                            loadUserData(); 
+                        } else {
+                            showToast("Payment cancelled.");
+                        }
                         openShop();
                     });
-                } else { showToast("Failed to create invoice."); openShop(); }
+                } else {
+                    showToast("Failed to create invoice.");
+                    openShop();
+                }
             })
-            .catch(error => { showToast("Server connection failed!"); openShop(); });
+            .catch(error => {
+                showToast("Server connection failed!");
+                openShop();
+            });
         }
         
-        const spinPrizes = [{ amount: 0.001, label: '0.001' }, { amount: 0.01,  label: '0.01' }, { amount: 0.05,  label: '0.05' }, { amount: 0.1,   label: '0.1' }, { amount: 0.2,   label: '0.2' }, { amount: 0.5,   label: '0.5' }, { amount: 0.002, label: '0.002' }, { amount: 0.008, label: '0.008' }];
+        const spinPrizes = [
+            { amount: 0.001, label: '0.001' }, { amount: 0.01,  label: '0.01' },
+            { amount: 0.05,  label: '0.05' }, { amount: 0.1,   label: '0.1' },
+            { amount: 0.2,   label: '0.2' }, { amount: 0.5,   label: '0.5' },
+            { amount: 0.002, label: '0.002' }, { amount: 0.008, label: '0.008' }
+        ];
 
         function openCasesGame() {
             let segmentsHTML = '';
             const sliceAngle = 360 / 8;
+            const tonImgUrl = "https://alamin12071985-a11y.github.io/Snowman-Adventure/ton.webp";
+
             for(let i=0; i<8; i++) {
-                segmentsHTML += `<div class="wheel-segment" style="transform: rotate(${i * sliceAngle}deg);"><div class="segment-content" style="position: absolute; top: 18%; left: 50%; transform-origin: 50% 125%; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; justify-content: center; width: 25vw; text-align: center;"><img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/ton.webp" style="width: 16vw; height: 16vw; object-fit: contain; filter: drop-shadow(0 0 5px rgba(0,0,0,0.8)); margin-bottom: -1vw;"><div style="color: white; font-weight: 800; font-size: 3.5vw; text-shadow: 0 0 3px #000; margin-top: -1.5vw; z-index: 10;">${spinPrizes[i].label}</div></div></div>`;
+                const rotation = i * sliceAngle;
+                segmentsHTML += `
+                    <div class="wheel-segment" style="transform: rotate(${rotation}deg);">
+                        <div class="segment-content">
+                            <img src="${tonImgUrl}" class="segment-ton-img" alt="TON">
+                            <div class="segment-text">${spinPrizes[i].label}</div>
+                        </div>
+                    </div>
+                `;
             }
-            const now = new Date(); const lastSpin = new Date(lastSpinTime);
+
+            const now = new Date();
+            const lastSpin = new Date(lastSpinTime);
             const isFreeSpinAvailable = (lastSpinTime === 0 || now.getDate() !== lastSpin.getDate() || now.getMonth() !== lastSpin.getMonth() || now.getFullYear() !== lastSpin.getFullYear());
-            let btnHtml = isFreeSpinAvailable ? `<button id="spinActionBtn" style="background: linear-gradient(90deg, #FFD700, #FFA000); color: #000; width: 70vw !important; height: 14vw !important; font-size: 4.5vw !important; border-radius: 8vw !important; box-shadow: 0 0 4vw rgba(255, 215, 0, 0.4); margin-top: 2vw; font-weight: 800; border: none; text-transform: uppercase;" onclick="spinTheWheel()">SPIN NOW (FREE)</button>` : `<button id="spinActionBtn" style="background: linear-gradient(90deg, #FFD700, #FFA000); color: #000; width: 70vw !important; height: 14vw !important; font-size: 4.5vw !important; border-radius: 8vw !important; box-shadow: 0 0 4vw rgba(255, 215, 0, 0.4); margin-top: 2vw; font-weight: 800; border: none; text-transform: uppercase;" onclick="watchAdForSpin()">Watch Ad (${adWatchCount}/5)</button>`;
-            const html = `<div style="font-size: 8vw; color: white; margin-bottom: 5vw; font-weight: 800; text-shadow: 0 0 2vw var(--accent-cyan); margin-top: -10vw;">Daily Spin</div><div class="wheel-container"><div class="wheel-marker"></div><div id="wheelRotator" class="wheel-rotator" style="background: transparent; box-shadow: 0 0 8vw rgba(0, 229, 255, 0.2);"><img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/spin%20wheel.webp" class="wheel-img"><div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 2;">${segmentsHTML}</div></div></div>${btnHtml}<button style="background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2); color: white; width: 40vw !important; height: 10vw !important; font-size: 3.5vw !important; border-radius: 8vw !important; margin-top: 4vw; cursor: pointer;" onclick="closeGlassPopup()">Close</button><div id="winPopup" class="reward-popup"><img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/ton.webp" style="width: 25vw; height: 25vw; margin-bottom: 2vw; filter: drop-shadow(0 0 2vw var(--accent-cyan));"><h2 style="color: white; font-size: 6vw; margin-bottom: 2vw;">YOU WON!</h2><div id="winAmount" style="color: #FFD700; font-size: 8vw; font-weight: 800; margin-bottom: 5vw;">0.1 TON</div><button class="popup-btn" style="background: linear-gradient(90deg, #00E5FF, #4a92ff); color: white; width:100%;" onclick="closeRewardPopup()">CLAIM</button></div>`;
+
+            let btnHtml = '';
+            if (isFreeSpinAvailable) {
+                btnHtml = `<button id="spinActionBtn" class="spin-action-btn" onclick="spinTheWheel()">SPIN NOW (FREE)</button>`;
+            } else {
+                btnHtml = `<button id="spinActionBtn" class="spin-action-btn" onclick="watchAdForSpin()">Watch Ad (${adWatchCount}/5)</button>`;
+            }
+
+            const html = `
+                <div class="wheel-title">Daily Spin</div>
+                <div class="wheel-container">
+                    <div class="wheel-marker"></div>
+                    <div id="wheelRotator" class="wheel-rotator">
+                        <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/spin%20wheel.webp" class="wheel-img">
+                        ${segmentsHTML}
+                    </div>
+                </div>
+                ${btnHtml}
+                <button class="close-spin-btn" onclick="closeGlassPopup()">Close</button>
+                <div id="winPopup" class="reward-popup">
+                    <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/ton.webp" class="reward-icon">
+                    <h2 style="color: white; font-size: 6vw; margin-bottom: 2vw;">YOU WON!</h2>
+                    <div id="winAmount" style="color: #FFD700; font-size: 8vw; font-weight: 800; margin-bottom: 5vw;">0.1 TON</div>
+                    <button class="popup-btn" style="background: linear-gradient(90deg, #00E5FF, #4a92ff); color: white; width:100%;" onclick="closeRewardPopup()">CLAIM</button>
+                </div>
+            `;
             const popup = document.getElementById('glassPopup');
             const content = document.getElementById('popupContent');
-            content.className = 'popup-content fullscreen-popup-content'; content.innerHTML = html; popup.classList.add('active');
+            content.className = 'popup-content fullscreen-popup-content'; 
+            content.innerHTML = html;
+            popup.classList.add('active');
         }
 
         function watchAdForSpin() {
-            if (typeof window.showAdexora !== 'function') { showToast("Ad script not loaded."); return; }
+            if (typeof window.showAdexora !== 'function') {
+                showToast("Ad script not loaded.");
+                return;
+            }
+
             const btn = document.getElementById('spinActionBtn');
-            btn.disabled = true; btn.innerText = "Loading...";
+
+            btn.disabled = true;
+            btn.innerText = "Loading...";
+
+            // NO 15sec TIMER, Just execute ad
             window.showAdexora().then(() => {
                 adWatchCount++;
-                if (adWatchCount >= 5) { adWatchCount = 0; isAdSpin = true; spinTheWheel(); } else { btn.disabled = false; btn.innerText = `Watch Ad (${adWatchCount}/5)`; }
-            }).catch(e => { console.error(e); showToast("Ad failed to load."); btn.disabled = false; btn.innerText = `Watch Ad (${adWatchCount}/5)`; });
+                
+                if (adWatchCount >= 5) {
+                    adWatchCount = 0;
+                    isAdSpin = true;
+                    spinTheWheel();
+                } else {
+                    btn.disabled = false;
+                    btn.innerText = `Watch Ad (${adWatchCount}/5)`;
+                }
+            }).catch(e => {
+                console.error(e);
+                showToast("Ad failed to load.");
+                btn.disabled = false;
+                btn.innerText = `Watch Ad (${adWatchCount}/5)`;
+            });
         }
 
         function spinTheWheel() {
-            const spinBtn = document.getElementById('spinActionBtn'), wheel = document.getElementById('wheelRotator'), winPopup = document.getElementById('winPopup'), winAmountEl = document.getElementById('winAmount');
-            const now = new Date(); const lastSpin = new Date(lastSpinTime);
+            const spinBtn = document.getElementById('spinActionBtn');
+            const wheel = document.getElementById('wheelRotator');
+            const winPopup = document.getElementById('winPopup');
+            const winAmountEl = document.getElementById('winAmount');
+
+            const now = new Date();
+            const lastSpin = new Date(lastSpinTime);
             const isFreeSpinAvailable = (lastSpinTime === 0 || now.getDate() !== lastSpin.getDate() || now.getMonth() !== lastSpin.getMonth() || now.getFullYear() !== lastSpin.getFullYear());
-            if (!isAdSpin && !isFreeSpinAvailable) { spinBtn.innerText = `Watch Ad (${adWatchCount}/5)`; spinBtn.setAttribute("onclick", "watchAdForSpin()"); return; }
-            spinBtn.disabled = true; spinBtn.innerText = "Spinning...";
-            const randomIndex = Math.floor(Math.random() * 8), prize = spinPrizes[randomIndex], totalRotation = 5 * 360 + (360 - (randomIndex * (360/8)) - ((360/8) / 2));
+
+            if (!isAdSpin && !isFreeSpinAvailable) {
+                 spinBtn.innerText = `Watch Ad (${adWatchCount}/5)`;
+                 spinBtn.setAttribute("onclick", "watchAdForSpin()");
+                 return;
+            }
+
+            spinBtn.disabled = true;
+            spinBtn.innerText = "Spinning...";
+
+            const randomIndex = Math.floor(Math.random() * 8);
+            const prize = spinPrizes[randomIndex];
+            const segmentArc = 360 / 8;
+            const fullSpins = 5 * 360; 
+            const stopAngle = 360 - (randomIndex * segmentArc) - (segmentArc / 2); 
+            const totalRotation = fullSpins + stopAngle;
+
             wheel.style.transform = `rotate(${totalRotation}deg)`;
+
             setTimeout(() => {
-                tonBalance += prize.amount; if (!isAdSpin) lastSpinTime = Date.now();
-                saveUserData(); updateUI();
-                winAmountEl.innerText = `${prize.label} TON`; winPopup.classList.add('active'); isAdSpin = false; spinBtn.disabled = false;
-                if (!isAdSpin) { spinBtn.innerText = `Watch Ad (0/5)`; spinBtn.setAttribute("onclick", "watchAdForSpin()"); }
+                tonBalance += prize.amount;
+                if (!isAdSpin) {
+                    lastSpinTime = Date.now(); 
+                }
+                saveUserData(); 
+                updateUI();
+
+                winAmountEl.innerText = `${prize.label} TON`;
+                winPopup.classList.add('active');
+
+                isAdSpin = false;
+                spinBtn.disabled = false;
+                
+                if (!isAdSpin) {
+                     spinBtn.innerText = `Watch Ad (0/5)`;
+                     spinBtn.setAttribute("onclick", "watchAdForSpin()");
+                }
+
             }, 4000);
         }
 
-        function closeRewardPopup() { document.getElementById('winPopup').classList.remove('active'); }
-        function showGlassPopup(contentHTML) { const popup = document.getElementById('glassPopup'), content = document.getElementById('popupContent'); content.innerHTML = contentHTML; popup.classList.add('active'); }
-        function closeGlassPopup() { const popup = document.getElementById('glassPopup'), content = document.getElementById('popupContent'); popup.classList.remove('active'); setTimeout(() => { content.className = 'popup-content'; content.innerHTML = ''; }, 300); }
-        function showLevelUpPopup(newLevel) { showGlassPopup(`<div class="level-up-card"><div class="level-up-inner"><img src="https://cdn-icons-png.flaticon.com/512/3112/3112946.png" class="lvl-img-anim" alt="Trophy"><div style="font-size:7vw; font-weight:800; color:#FFD700; margin-bottom:1vw; text-shadow:0 0 2vw rgba(255, 215, 0, 0.5);">LEVEL UP!</div><div style="color: white; font-weight: 600; font-size:4.5vw; margin-bottom: 6vw;">You reached Level ${newLevel}</div><button class="popup-btn" onclick="closeGlassPopup()" style="background: linear-gradient(90deg, #00E5FF, #4a92ff); color: white; width:80%; box-shadow:0 2vw 5vw rgba(0, 229, 255, 0.4);">Awesome!</button></div></div>`); }
+        function closeRewardPopup() {
+            document.getElementById('winPopup').classList.remove('active');
+        }
+
+        function showGlassPopup(contentHTML) {
+            const popup = document.getElementById('glassPopup');
+            const content = document.getElementById('popupContent');
+            content.innerHTML = contentHTML;
+            popup.classList.add('active');
+        }
+
+        function closeGlassPopup() {
+            const popup = document.getElementById('glassPopup');
+            const content = document.getElementById('popupContent');
+            popup.classList.remove('active');
+            setTimeout(() => {
+                content.className = 'popup-content'; 
+                content.innerHTML = '';
+            }, 300);
+        }
+
+        function showLevelUpPopup(newLevel) {
+            const html = `
+                <div class="level-up-card">
+                    <div class="level-up-inner">
+                        <img src="https://cdn-icons-png.flaticon.com/512/3112/3112946.png" class="lvl-img-anim" alt="Trophy">
+                        <div style="font-size:7vw; font-weight:800; color:#FFD700; margin-bottom:1vw; text-shadow:0 0 2vw rgba(255, 215, 0, 0.5);">LEVEL UP!</div>
+                        <div style="color: white; font-weight: 600; font-size:4.5vw; margin-bottom: 6vw;">You reached Level ${newLevel}</div>
+                        <button class="popup-btn" onclick="closeGlassPopup()" style="background: linear-gradient(90deg, #00E5FF, #4a92ff); color: white; width:80%; box-shadow:0 2vw 5vw rgba(0, 229, 255, 0.4);">Awesome!</button>
+                    </div>
+                </div>
+            `;
+            showGlassPopup(html);
+        }
 
         function showToast(message, duration = 3000, isError = false) {
-            const toast = document.getElementById('toastNotification'), msgEl = document.getElementById('toastMessage'), iconEl = document.querySelector('.toast-icon img'), iconContainer = document.querySelector('.toast-icon');
-            let iconSrc = 'https://cdn-icons-png.flaticon.com/512/3602/3602145.png', bgColor = 'rgba(0, 229, 255, 0.15)';
-            if (isError) { iconSrc = 'https://cdn-icons-png.flaticon.com/512/497/497738.png'; bgColor = 'rgba(255, 0, 0, 0.2)'; } else if (message.includes('successful') || message.includes('won')) { iconSrc = 'https://cdn-icons-png.flaticon.com/512/190/190411.png'; bgColor = 'rgba(76, 175, 80, 0.2)'; }
-            iconEl.src = iconSrc; iconContainer.style.background = bgColor; msgEl.innerText = message;
-            toast.classList.add('show'); if (toast.timeoutId) clearTimeout(toast.timeoutId); toast.timeoutId = setTimeout(() => { toast.classList.remove('show'); }, duration);
-        }
-        function hideToast() { document.getElementById('toastNotification').classList.remove('show'); }
-        function handleExchangeClick() { showToast("Exchange Tokens feature is coming soon!"); }
+            const toast = document.getElementById('toastNotification');
+            const msgEl = document.getElementById('toastMessage');
+            const iconEl = document.querySelector('.toast-icon img');
+            const iconContainer = document.querySelector('.toast-icon');
+            
+            let iconSrc = 'https://cdn-icons-png.flaticon.com/512/3602/3602145.png'; // Bell/Info
+            let bgColor = 'rgba(0, 229, 255, 0.15)'; // Blue
 
-        clickerBtn.addEventListener('touchstart', handleTap, {passive: false}); clickerBtn.addEventListener('click', handleTap);
+            if (isError) {
+                // Warning/Error Icon
+                iconSrc = 'https://cdn-icons-png.flaticon.com/512/497/497738.png'; 
+                bgColor = 'rgba(255, 0, 0, 0.2)'; // Red
+            } else if (message.includes('successful') || message.includes('won')) {
+                // Success Icon
+                iconSrc = 'https://cdn-icons-png.flaticon.com/512/190/190411.png'; 
+                bgColor = 'rgba(76, 175, 80, 0.2)'; // Green
+            }
+            
+            iconEl.src = iconSrc;
+            iconContainer.style.background = bgColor;
+            msgEl.innerText = message;
+            
+            toast.classList.add('show');
+            if (toast.timeoutId) clearTimeout(toast.timeoutId);
+            toast.timeoutId = setTimeout(() => { toast.classList.remove('show'); }, duration);
+        }
+
+        function hideToast() {
+            document.getElementById('toastNotification').classList.remove('show');
+        }
+
+        function handleExchangeClick() {
+            showToast("Exchange Tokens feature is coming soon!");
+        }
+
+        clickerBtn.addEventListener('touchstart', handleTap, {passive: false});
+        clickerBtn.addEventListener('click', handleTap);
+
         function handleTap(e) {
-            e.preventDefault(); const hint = document.getElementById('tapMeHint'); if(hint) hint.style.display = 'none';
-            const coinsPerTap = level * tapMultiplier; balance += coinsPerTap; tapCount++; updateUI(); if(tapCount % 10 === 0) saveUserData();
+            e.preventDefault();
+            const hint = document.getElementById('tapMeHint');
+            if(hint) hint.style.display = 'none';
+
+            const coinsPerTap = level * tapMultiplier; 
+            balance += coinsPerTap;
+            tapCount++; 
+            updateUI(); 
+            // Save on every 10th tap to reduce writes
+            if(tapCount % 10 === 0) saveUserData();
+
             if (navigator.vibrate) navigator.vibrate(50);
-            let clientX = e.clientX, clientY = e.clientY; if(e.touches && e.touches.length > 0) { clientX = e.touches[0].clientX; clientY = e.touches[0].clientY; }
-            if (!clientX) { const rect = e.target.getBoundingClientRect(); clientX = rect.left + rect.width / 2; clientY = rect.top + rect.height / 2; }
+            let clientX = e.clientX;
+            let clientY = e.clientY;
+            if(e.touches && e.touches.length > 0) {
+                clientX = e.touches[0].clientX;
+                clientY = e.touches[0].clientY;
+            }
+            if (!clientX) {
+                const rect = e.target.getBoundingClientRect();
+                clientX = rect.left + rect.width / 2;
+                clientY = rect.top + rect.height / 2;
+            }
             showFloatingText(clientX, clientY, `+${coinsPerTap}`);
         }
         
         function startAutoTapLoop() {
-            setInterval(() => { const now = Date.now(); if (now < autotapEndTime) { balance += level * tapMultiplier; updateUI(); } }, 1000); 
+            setInterval(() => {
+                const now = Date.now();
+                if (now < autotapEndTime) {
+                    const autoCoins = level * tapMultiplier; 
+                    balance += autoCoins;
+                    updateUI(); 
+                }
+            }, 1000); 
         }
 
         function showFloatingText(x, y, text) {
-            const floatEl = document.createElement('div'); floatEl.className = 'floating-score'; floatEl.innerText = text; floatEl.style.left = `${x}px`; floatEl.style.top = `${y}px`;
-            document.body.appendChild(floatEl); setTimeout(() => floatEl.remove(), 800);
+            const floatEl = document.createElement('div');
+            floatEl.className = 'floating-score';
+            floatEl.innerText = text;
+            floatEl.style.left = `${x}px`;
+            floatEl.style.top = `${y}px`;
+            document.body.appendChild(floatEl);
+            setTimeout(() => floatEl.remove(), 800);
         }
 
         function switchTab(tabId, navElement) {
-            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active')); document.getElementById(tabId).classList.add('active');
-            if(navElement) { document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active')); navElement.classList.add('active'); }
-            else { const targetNavIndex = (tabId === 'home' ? 1 : tabId === 'task' ? 2 : tabId === 'friends' ? 3 : 4); document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active')); document.querySelector(`.nav-item:nth-child(${targetNavIndex})`).classList.add('active'); }
-            if(tabId === 'home') { document.body.classList.add('home-active'); document.getElementById('mainHeader').style.display = 'flex'; } else { document.body.classList.remove('home-active'); document.getElementById('mainHeader').style.display = 'none'; }
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+            document.getElementById(tabId).classList.add('active');
+            if(navElement) {
+                document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+                navElement.classList.add('active');
+            } else {
+                const targetNavIndex = (tabId === 'home' ? 1 : tabId === 'task' ? 2 : tabId === 'friends' ? 3 : 4);
+                document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+                document.querySelector(`.nav-item:nth-child(${targetNavIndex})`).classList.add('active');
+            }
+            if(tabId === 'home') {
+                document.body.classList.add('home-active');
+                document.getElementById('mainHeader').style.display = 'flex';
+            } else {
+                document.body.classList.remove('home-active');
+                document.getElementById('mainHeader').style.display = 'none';
+            }
             if(tabId === 'friends') loadReferrals();
         }
 
         function handleTaskBannerClick() { window.open(bannerLinks.task, '_blank'); }
         function handleWalletBannerClick() { window.open(bannerLinks.wallet, '_blank'); }
         function handleFriendsBannerClick() { window.open(bannerLinks.friends, '_blank'); }
-        function activateAutoTap() { showToast("Auto Tap is purchased via the Shop!"); openShop(); }
+        
+        function activateAutoTap() {
+            showToast("Auto Tap is purchased via the Shop!");
+            openShop();
+        }
 
         function handleFloatingBtnClick(buttonName) {
             if (buttonName === 'Leaderboard') { openLeaderboard(); return; }
@@ -1198,80 +2248,264 @@
             if (buttonName === 'AutoTap') { activateAutoTap(); return; }
         }
 
-        function openLeaderboard() { document.getElementById('leaderboardOverlay').classList.add('active'); switchLeaderboardTab(currentLeaderboardTab); }
-        function closeLeaderboard() { document.getElementById('leaderboardOverlay').classList.remove('active'); }
+        function openLeaderboard() {
+            document.getElementById('leaderboardOverlay').classList.add('active');
+            switchLeaderboardTab(currentLeaderboardTab);
+        }
+
+        function closeLeaderboard() {
+            document.getElementById('leaderboardOverlay').classList.remove('active');
+        }
 
         function switchLeaderboardTab(type) {
-            currentLeaderboardTab = type; document.querySelectorAll('.lb-pill').forEach(el => el.classList.remove('active')); document.getElementById('tab-' + type).classList.add('active');
-            const podium = document.getElementById('podiumContainer'), list = document.getElementById('leaderboardList');
-            podium.style.opacity = '0'; list.style.opacity = '0'; setTimeout(() => { fetchLeaderboardData(); }, 300); 
+            currentLeaderboardTab = type;
+            document.querySelectorAll('.lb-pill').forEach(el => el.classList.remove('active'));
+            document.getElementById('tab-' + type).classList.add('active');
+            
+            const loader = document.getElementById('leaderboardLoader');
+            const podium = document.getElementById('podiumContainer');
+            const list = document.getElementById('leaderboardList');
+            const myStats = document.getElementById('myStatsCard');
+
+            loader.classList.add('active');
+            podium.style.opacity = '0';
+            list.style.opacity = '0';
+            myStats.style.display = 'none';
+
+            setTimeout(() => { fetchLeaderboardData(); }, 1000); 
         }
 
         function fetchLeaderboardData() {
-            const podiumContainer = document.getElementById('podiumContainer'), listContainer = document.getElementById('leaderboardList');
-            let sortField = 'balance'; if(currentLeaderboardTab === 'refer') sortField = 'referralCount'; 
+            const podiumContainer = document.getElementById('podiumContainer');
+            const listContainer = document.getElementById('leaderboardList');
+            const loader = document.getElementById('leaderboardLoader');
+            
+            let sortField = 'balance'; 
+            if(currentLeaderboardTab === 'star') sortField = 'level';
+            if(currentLeaderboardTab === 'refer') sortField = 'referralCount'; 
+            
             db.ref('users').orderByChild(sortField).limitToLast(100).once('value').then(snapshot => {
-                let users = []; snapshot.forEach(child => { let u = child.val(); u.key = child.key; if(!u.username) u.username = "Unknown"; if(!u.avatar) u.avatar = "https://alamin12071985-a11y.github.io/Snowman-Adventure/snowman.webp"; if(!u.balance) u.balance = 0; if(!u.referralCount) u.referralCount = 0; users.push(u); });
-                users.reverse(); renderLeaderboard(users);
-                podiumContainer.style.opacity = '1'; listContainer.style.opacity = '1';
-            }).catch(err => { console.error(err); showToast("Failed to load leaderboard"); });
+                let users = [];
+                snapshot.forEach(child => {
+                    let u = child.val();
+                    u.key = child.key;
+                    if(!u.username) u.username = "Unknown";
+                    if(!u.avatar) u.avatar = "https://alamin12071985-a11y.github.io/Snowman-Adventure/snowman.webp";
+                    if(!u.balance) u.balance = 0;
+                    if(!u.level) u.level = 1;
+                    if(!u.referralCount) u.referralCount = 0;
+                    users.push(u);
+                });
+
+                users.reverse();
+                renderLeaderboard(users);
+                loader.classList.remove('active');
+                podiumContainer.style.opacity = '1';
+                listContainer.style.opacity = '1';
+                podiumContainer.style.transition = 'opacity 0.3s';
+                listContainer.style.transition = 'opacity 0.3s';
+            }).catch(err => {
+                console.error(err);
+                loader.classList.remove('active');
+                showToast("Failed to load leaderboard");
+            });
         }
 
         function renderLeaderboard(users) {
-            const podiumContainer = document.getElementById('podiumContainer'), listContainer = document.getElementById('leaderboardList');
-            podiumContainer.innerHTML = ''; listContainer.innerHTML = '';
-            const top3 = [users[0] || {username: '-', balance: 0, avatar: 'https://alamin12071985-a11y.github.io/Snowman-Adventure/snowman.webp'}, users[1] || {username: '-', balance: 0, avatar: 'https://alamin12071985-a11y.github.io/Snowman-Adventure/snowman.webp'}, users[2] || {username: '-', balance: 0, avatar: 'https://alamin12071985-a11y.github.io/Snowman-Adventure/snowman.webp'}]; 
+            const podiumContainer = document.getElementById('podiumContainer');
+            const listContainer = document.getElementById('leaderboardList');
+            const myStatsCard = document.getElementById('myStatsCard');
+            
+            podiumContainer.innerHTML = '';
+            listContainer.innerHTML = '';
+
+            const top3 = [
+                users[0] || {username: '-', balance: 0, avatar: 'https://alamin12071985-a11y.github.io/Snowman-Adventure/snowman.webp'},
+                users[1] || {username: '-', balance: 0, avatar: 'https://alamin12071985-a11y.github.io/Snowman-Adventure/snowman.webp'},
+                users[2] || {username: '-', balance: 0, avatar: 'https://alamin12071985-a11y.github.io/Snowman-Adventure/snowman.webp'}
+            ]; 
+            
             const formatNum = (num) => num ? Math.floor(num).toLocaleString() : '0';
-            const getScoreText = (u) => { if(currentLeaderboardTab === 'refer') return `${u.referralCount || 0}`; return formatNum(u.balance); };
-            if (users.length > 0) {
-                podiumContainer.innerHTML = `<div style="display:flex; justify-content:center; align-items:flex-end; gap:2vw; height:100%;"><div style="display:flex; flex-direction:column; align-items:center; transform:scale(0.9);"><img src="${top3[1].avatar}" style="width:16vw; height:16vw; border-radius:50%; border:1vw solid var(--accent-cyan);"><div style="background:var(--accent-cyan); width:7vw; height:7vw; border-radius:50%; display:flex; justify-content:center; align-items:center; margin-top:-3vw; font-weight:800; color:black; z-index:2;">2</div><div style="text-align:center; margin-top:1vw;"><div style="font-weight:700; font-size:3.5vw;">${top3[1].username}</div><div style="color:var(--level-gold); font-size:3vw;">${getScoreText(top3[1])}</div></div></div><div style="display:flex; flex-direction:column; align-items:center; transform:translateY(-4vw);"><img src="https://cdn-icons-png.flaticon.com/512/2583/2583344.png" style="width:10vw; margin-bottom:-2vw; z-index:5;"><img src="${top3[0].avatar}" style="width:22vw; height:22vw; border-radius:50%; border:1vw solid #FFD700; box-shadow:0 0 5vw rgba(255,215,0,0.5);"><div style="background:#FFD700; width:8vw; height:8vw; border-radius:50%; display:flex; justify-content:center; align-items:center; margin-top:-4vw; font-weight:800; color:black; z-index:2; font-size:5vw;">1</div><div style="text-align:center; margin-top:1vw;"><div style="font-weight:700; font-size:4vw;">${top3[0].username}</div><div style="color:var(--level-gold); font-size:3.5vw;">${getScoreText(top3[0])}</div></div></div><div style="display:flex; flex-direction:column; align-items:center; transform:scale(0.9);"><img src="${top3[2].avatar}" style="width:16vw; height:16vw; border-radius:50%; border:1vw solid #00E5FF;"><div style="background:#26c6da; width:7vw; height:7vw; border-radius:50%; display:flex; justify-content:center; align-items:center; margin-top:-3vw; font-weight:800; color:black; z-index:2;">3</div><div style="text-align:center; margin-top:1vw;"><div style="font-weight:700; font-size:3.5vw;">${top3[2].username}</div><div style="color:var(--level-gold); font-size:3vw;">${getScoreText(top3[2])}</div></div></div></div>`;
+            const getScoreText = (u) => {
+                if(currentLeaderboardTab === 'star') return `Lvl ${u.level || 0}`;
+                if(currentLeaderboardTab === 'refer') return `${u.referralCount || 0}`;
+                return formatNum(u.balance);
+            };
+            
+            if (users.length > 1) {
+                podiumContainer.innerHTML += `
+                <div class="podium-block-wrapper rank-2-wrapper">
+                    <div class="podium-avatar-container">
+                        <img src="${top3[1].avatar}" class="podium-avatar">
+                        <div class="rank-badge-icon badge-2">2</div>
+                    </div>
+                    <div class="podium-info">
+                        <div class="podium-name">${top3[1].username}</div>
+                        <div class="podium-score">${getScoreText(top3[1])}</div>
+                    </div>
+                </div>`;
             }
+
+            if (users.length > 0) {
+                podiumContainer.innerHTML += `
+                <div class="podium-block-wrapper rank-1-wrapper">
+                     <div class="podium-avatar-container">
+                        <img src="https://cdn-icons-png.flaticon.com/512/2583/2583344.png" style="position:absolute; top:-14vw; left:50%; transform:translateX(-50%); width:10vw; z-index:20;">
+                        <img src="${top3[0].avatar}" class="podium-avatar">
+                        <div class="rank-badge-icon badge-1">1</div>
+                    </div>
+                    <div class="podium-info">
+                        <div class="podium-name">${top3[0].username}</div>
+                        <div class="podium-score">${getScoreText(top3[0])}</div>
+                    </div>
+                </div>`;
+            }
+
+            if (users.length > 2) {
+                podiumContainer.innerHTML += `
+                <div class="podium-block-wrapper rank-3-wrapper">
+                     <div class="podium-avatar-container">
+                        <img src="${top3[2].avatar}" class="podium-avatar">
+                        <div class="rank-badge-icon badge-3">3</div>
+                    </div>
+                    <div class="podium-info">
+                        <div class="podium-name">${top3[2].username}</div>
+                        <div class="podium-score">${getScoreText(top3[2])}</div>
+                    </div>
+                </div>`;
+            }
+
             for(let i = 3; i < users.length; i++) {
                 const u = users[i];
-                listContainer.innerHTML += `<div class="rank-row"><div class="rank-left"><div class="rank-num">${i+1}</div><img src="${u.avatar}" class="rank-avatar-small"><div class="rank-name-small">${u.username}</div></div><div class="rank-score-small">${getScoreText(u)}</div></div>`;
+                const item = document.createElement('div');
+                item.className = 'rank-row';
+                item.innerHTML = `
+                    <div class="rank-left">
+                        <div class="rank-num">${i+1}</div>
+                        <img src="${u.avatar}" class="rank-avatar-small">
+                        <div class="rank-name-small">${u.username}</div>
+                    </div>
+                    <div class="rank-score-small">${getScoreText(u)}</div>
+                `;
+                listContainer.appendChild(item);
+            }
+
+            const myIndex = users.findIndex(u => u.key === userId);
+            if(myIndex !== -1) {
+                const me = users[myIndex];
+                myStatsCard.style.display = 'flex';
+                document.getElementById('myRankNum').innerText = `#${myIndex+1}`;
+                document.getElementById('myRankName').innerText = me.username;
+                document.getElementById('myRankAvatar').src = me.avatar;
+                document.getElementById('myRankScore').innerText = getScoreText(me);
+            } else {
+                myStatsCard.style.display = 'none';
             }
         }
         
         function loadTasksFromDB() {
-            const list = document.getElementById('taskList'); list.innerHTML = ''; const dailyLink = "https://adexora.my.id/dl/DmkqNKQVbV59"; const todayStr = new Date().toDateString(); 
+            const list = document.getElementById('taskList');
+            list.innerHTML = ''; 
+            const dailyLink = "https://adexora.my.id/dl/DmkqNKQVbV59";
+            const todayStr = new Date().toDateString(); 
+
             for(let i=1; i<=5; i++) {
-                const taskId = `daily_visit_${i}`, lastDoneDate = completedTasks[taskId], isDoneToday = (lastDoneDate === todayStr);
-                list.innerHTML += `<div class="task-card"><img src="https://cdn-icons-png.flaticon.com/512/1006/1006771.png" class="task-icon web-icon"><div class="task-info"><div class="task-title">Visit Site ${i}</div><div class="task-reward"><img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/coin.webp">+1000</div></div><button class="task-btn ${isDoneToday ? 'claimed' : ''}" onclick="handleDailyTask('${taskId}', '${dailyLink}', 1000, this)">${isDoneToday ? 'Done' : 'Visit'}</button></div>`;
+                const taskId = `daily_visit_${i}`;
+                const lastDoneDate = completedTasks[taskId]; 
+                const isDoneToday = (lastDoneDate === todayStr);
+                const card = document.createElement('div');
+                card.className = 'task-card';
+                card.innerHTML = `
+                    <img src="https://cdn-icons-png.flaticon.com/512/1006/1006771.png" class="task-icon web-icon" alt="Web">
+                    <div class="task-info">
+                        <div class="task-title">Visit Site ${i}</div>
+                        <div class="task-reward"><img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/coin.webp">+1000</div>
+                    </div>
+                    <button class="task-btn ${isDoneToday ? 'claimed' : ''}" onclick="handleDailyTask('${taskId}', '${dailyLink}', 1000, this)">${isDoneToday ? 'Done' : 'Visit'}</button>
+                `;
+                list.appendChild(card);
             }
+
             db.ref('tasks').once('value').then(snapshot => {
                 const tasks = snapshot.val();
-                if (tasks) Object.keys(tasks).forEach(taskId => {
-                    const task = tasks[taskId], isCompleted = completedTasks[taskId] ? true : false;
-                    list.innerHTML += `<div class="task-card"><img src="${task.image || 'https://alamin12071985-a11y.github.io/Snowman-Adventure/check_icon.webp'}" class="task-icon"><div class="task-info"><div class="task-title">${task.title}</div><div class="task-reward"><img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/coin.webp">+${task.reward}</div></div><button class="task-btn ${isCompleted ? 'claimed' : ''}" onclick="handleTask('${taskId}', '${task.link}', ${task.reward}, this)">${isCompleted ? 'Done' : 'Start'}</button></div>`;
-                });
+                if (tasks) {
+                    Object.keys(tasks).forEach(taskId => {
+                        const task = tasks[taskId];
+                        const isCompleted = completedTasks[taskId] ? true : false;
+                        const card = document.createElement('div');
+                        card.className = 'task-card';
+                        card.innerHTML = `
+                            <img src="${task.image || 'https://alamin12071985-a11y.github.io/Snowman-Adventure/check_icon.webp'}" class="task-icon" alt="Icon">
+                            <div class="task-info">
+                                <div class="task-title">${task.title}</div>
+                                <div class="task-reward"><img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/coin.webp">+${task.reward}</div>
+                            </div>
+                            <button class="task-btn ${isCompleted ? 'claimed' : ''}" onclick="handleTask('${taskId}', '${task.link}', ${task.reward}, this)">${isCompleted ? 'Done' : 'Start'}</button>
+                        `;
+                        list.appendChild(card);
+                    });
+                }
             });
         }
 
         function handleDailyTask(taskId, link, reward, btn) {
-            const todayStr = new Date().toDateString(); if (completedTasks[taskId] === todayStr) return; 
-            window.open(link, '_blank'); btn.innerText = "Checking..."; btn.style.opacity = "0.7";
+            const todayStr = new Date().toDateString();
+            if (completedTasks[taskId] === todayStr) return; 
+            window.open(link, '_blank');
+            btn.innerText = "Checking...";
+            btn.style.opacity = "0.7";
             setTimeout(() => {
-                balance += reward; completedTasks[taskId] = todayStr; db.ref('users/' + userId + '/completedTasks').update({ [taskId]: todayStr });
-                saveUserData(); btn.innerText = "Done"; btn.classList.add('claimed'); updateUI(); showToast(`Task completed! +${reward} coins`);
+                balance += reward;
+                completedTasks[taskId] = todayStr;
+                db.ref('users/' + userId + '/completedTasks').update({ [taskId]: todayStr });
+                saveUserData();
+                btn.innerText = "Done";
+                btn.classList.add('claimed');
+                updateUI();
+                showToast(`Task completed! +${reward} coins`);
             }, 8000); 
         }
 
         function handleTask(taskId, link, reward, btn) {
             if (completedTasks[taskId]) return;
-            window.open(link, '_blank'); btn.innerText = "Checking..."; btn.style.opacity = "0.7";
+            window.open(link, '_blank');
+            btn.innerText = "Checking...";
+            btn.style.opacity = "0.7";
             setTimeout(() => {
-                balance += reward; completedTasks[taskId] = true; db.ref('users/' + userId + '/completedTasks').update({ [taskId]: true });
-                saveUserData(); btn.innerText = "Done"; btn.classList.add('claimed'); updateUI(); showToast(`Task completed! +${reward} coins`);
+                balance += reward;
+                completedTasks[taskId] = true;
+                db.ref('users/' + userId + '/completedTasks').update({ [taskId]: true });
+                saveUserData();
+                btn.innerText = "Done";
+                btn.classList.add('claimed');
+                updateUI();
+                showToast(`Task completed! +${reward} coins`);
             }, 5000); 
         }
 
         function getInviteLink() { return `${appInviteBaseUrl}${userId}`; }
+
         function inviteFriend() {
-            const link = getInviteLink(), text = `Join Snowman Adventure! Earn coins by tapping. Use my link to get a bonus: `;
-            try { if (window.Telegram.WebApp && window.Telegram.WebApp.shareUrl) window.Telegram.WebApp.shareUrl(link, text); else { window.open(`https://t.me/share/url?url=${encodeURIComponent(link)}&text=${encodeURIComponent(text)}`, '_blank'); showToast("Link shared via browser!"); } } catch(e) { showToast("Cannot invite. Please copy the link manually."); }
+            const link = getInviteLink();
+            const text = `Join Snowman Adventure! Earn coins by tapping. Use my link to get a bonus: `;
+            try {
+                if (window.Telegram.WebApp && window.Telegram.WebApp.shareUrl) {
+                    window.Telegram.WebApp.shareUrl(link, text);
+                } else {
+                    const telegramShareUrl = `https://t.me/share/url?url=${encodeURIComponent(link)}&text=${encodeURIComponent(text)}`;
+                    window.open(telegramShareUrl, '_blank');
+                    showToast("Link shared via browser!");
+                }
+            } catch(e) { showToast("Cannot invite. Please copy the link manually."); }
         }
+
         function handleCopyClick(btnElement) {
-            navigator.clipboard.writeText(getInviteLink()).then(() => { showToast("Invite link copied!"); btnElement.classList.add('copied'); setTimeout(() => { btnElement.classList.remove('copied'); }, 1500); }).catch(err => { showToast("Failed to copy link."); });
+            const link = getInviteLink();
+            navigator.clipboard.writeText(link).then(() => {
+                showToast("Invite link copied!");
+                btnElement.classList.add('copied');
+                setTimeout(() => { btnElement.classList.remove('copied'); }, 1500);
+            }).catch(err => { showToast("Failed to copy link."); });
         }
     </script>
 </body>
