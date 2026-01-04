@@ -72,6 +72,22 @@
             background-attachment: fixed;
         }
 
+        /* --- NON-TELEGRAM BLOCKER --- */
+        #telegram-only-blocker {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: #000;
+            z-index: 100000;
+            display: none; /* Shown via JS if check fails */
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 20px;
+        }
+        #telegram-only-blocker h2 { color: var(--accent-cyan); font-size: 24px; margin-bottom: 10px; }
+        #telegram-only-blocker p { color: #888; }
+
         /* --- LOADING SCREEN --- */
         #loading-screen {
             position: fixed;
@@ -127,19 +143,20 @@
             font-family: sans-serif;
         }
 
-        /* --- JOIN GATE OVERLAY --- */
+        /* --- JOIN GATE OVERLAY (STRICT) --- */
         .join-gate-overlay {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: #000;
-            z-index: 9990; 
+            background: rgba(0,0,0,0.95); /* Opaque background */
+            z-index: 9998; 
             display: none; 
             flex-direction: column;
             align-items: center;
             justify-content: center;
+            backdrop-filter: blur(10px);
         }
         
         .join-gate-card {
@@ -150,8 +167,9 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            border: 1px solid #333;
-            box-shadow: 0 0 10vw rgba(0,0,0,0.8);
+            border: 1px solid var(--accent-cyan);
+            box-shadow: 0 0 15vw rgba(0, 229, 255, 0.3);
+            animation: popIn 0.4s ease;
         }
 
         .join-icon-circle {
@@ -176,11 +194,12 @@
             font-weight: 700;
             margin-bottom: 2vw;
             color: white;
+            text-align: center;
         }
 
         .join-gate-card p {
             font-size: 3.5vw;
-            color: #888;
+            color: #ccc;
             margin-bottom: 6vw;
             text-align: center;
         }
@@ -195,6 +214,7 @@
             border-radius: 3vw;
             margin-bottom: 3vw;
             text-decoration: none;
+            border: 1px solid rgba(255,255,255,0.1);
         }
 
         .join-row-left {
@@ -229,7 +249,7 @@
         }
         .join-text small {
             font-size: 2.8vw;
-            color: #666;
+            color: #888;
         }
 
         .join-btn-small {
@@ -244,7 +264,7 @@
         .check-btn {
             width: 100%;
             padding: 4vw;
-            background: #205c75;
+            background: var(--btn-blue-grad);
             color: white;
             font-weight: 700;
             font-size: 4vw;
@@ -253,7 +273,9 @@
             margin-top: 2vw;
             cursor: pointer;
             transition: 0.3s;
+            box-shadow: 0 0 5vw rgba(0, 229, 255, 0.4);
         }
+        .check-btn:active { transform: scale(0.98); }
         .check-btn.loading {
             opacity: 0.7;
             pointer-events: none;
@@ -1013,14 +1035,21 @@
 </head>
 <body class="home-active">
 
+    <!-- TELEGRAM ONLY BLOCKER -->
+    <div id="telegram-only-blocker">
+        <h2>Telegram Only</h2>
+        <p>This app can only be used within Telegram.</p>
+        <p style="margin-top:20px; font-size:12px;">@snowmanadventurebot</p>
+    </div>
+
     <!-- JOIN GATE OVERLAY -->
     <div id="joinGateOverlay" class="join-gate-overlay">
         <div class="join-gate-card">
             <div class="join-icon-circle">
                 <img src="https://cdn-icons-png.flaticon.com/512/166/166258.png" alt="Group">
             </div>
-            <h2>Join Our Community</h2>
-            <p>Join our channel and group to continue</p>
+            <h2>Join Community</h2>
+            <p>You must join our channels to play.</p>
             
             <a href="https://t.me/snowmanadventureannouncement" target="_blank" class="join-row">
                 <div class="join-row-left">
@@ -1048,7 +1077,7 @@
                 <button class="join-btn-small">JOIN</button>
             </a>
 
-            <button id="checkJoinBtn" class="check-btn" onclick="verifyJoin()">Check</button>
+            <button id="checkJoinBtn" class="check-btn" onclick="verifyJoin()">Check & Play</button>
         </div>
     </div>
     
@@ -1338,7 +1367,7 @@
         let tonBalance = 0.0;
         let tapCount = 0; 
         let level = 1;
-        let userId = null; // Will be set by init()
+        let userId = null; 
         let completedTasks = {}; 
         let currentLeaderboardTab = 'coins'; 
         let referralCount = 0; 
@@ -1417,11 +1446,15 @@
             return `${m}m ${s}s`;
         }
 
-        /* --- LOADING & JOIN CHECK LOGIC (OPTIMIZED) --- */
+        /* --- INITIALIZATION & TELEGRAM CHECK --- */
 
         window.addEventListener('load', () => {
-            // Immediately init user ID to be ready for checks
-            initTelegramUser();
+            // STRICT TELEGRAM CHECK
+            if(!initTelegramUser()) {
+                document.getElementById('loading-screen').style.display = 'none';
+                document.getElementById('telegram-only-blocker').style.display = 'flex';
+                return; // Stop everything
+            }
 
             let loadPercent = 0;
             const bar = document.getElementById('loadingFill');
@@ -1437,86 +1470,86 @@
 
                 if(loadPercent >= 100) {
                     clearInterval(interval);
-                    
-                    // START: Check Join Status Logic
-                    decideScreenFlow(screen, joinGate);
+                    // Start logic after loading
+                    performInitialJoinCheck(screen, joinGate);
                 }
             }, 50);
         });
 
-        async function decideScreenFlow(loadingScreen, joinGate) {
-            // Check if user is already verified locally
-            const isVerifiedLocal = localStorage.getItem('snowman_join_verified') === 'true';
-
-            if (isVerifiedLocal) {
-                // User already verified before -> Go to Game
-                hideLoadingShowGame(loadingScreen);
-                checkAdBlocker();
-            } else {
-                // Not verified locally -> Check Backend silently
-                try {
-                    const status = await checkJoinStatusBackend();
-                    if (status === true) {
-                        // Backend says verified -> Save local & Go to Game
-                        localStorage.setItem('snowman_join_verified', 'true');
-                        hideLoadingShowGame(loadingScreen);
-                        checkAdBlocker();
-                    } else {
-                        // Backend says NOT verified -> Show Join Popup
-                        hideLoadingShowPopup(loadingScreen, joinGate);
-                    }
-                } catch (e) {
-                    // Error connecting -> Fallback to popup
-                    hideLoadingShowPopup(loadingScreen, joinGate);
+        // Attempt to get user. Returns false if not in Telegram.
+        function initTelegramUser() {
+            try {
+                const tg = window.Telegram.WebApp;
+                if (!tg.initDataUnsafe || !tg.initDataUnsafe.user) {
+                    return false; // Not in Telegram or no user data
                 }
+
+                tg.expand(); 
+                const user = tg.initDataUnsafe.user;
+                userId = user.id.toString(); 
+                
+                if (user.username) headerName.innerText = user.username;
+                else if (user.first_name) headerName.innerText = user.first_name;
+                if (user.photo_url) headerAvatar.src = user.photo_url;
+
+                const startParam = tg.initDataUnsafe.start_param;
+                if (startParam && startParam !== userId) {
+                    referrerIdFromUrl = startParam;
+                }
+                return true;
+            } catch (e) {
+                console.error("Telegram init error", e);
+                return false;
             }
         }
 
-        function hideLoadingShowGame(screen) {
-            screen.style.opacity = '0';
-            setTimeout(() => {
-                screen.style.display = 'none';
-                // Join gate remains hidden
-            }, 500);
-        }
-
-        function hideLoadingShowPopup(screen, popup) {
-            screen.style.opacity = '0';
-            setTimeout(() => {
-                screen.style.display = 'none';
-                popup.style.display = 'flex';
-            }, 500);
-        }
-
-        async function checkJoinStatusBackend() {
-            if (!userId) return false;
+        /* --- STRICT JOIN GATE LOGIC --- */
+        
+        // This runs after the loading bar fills
+        async function performInitialJoinCheck(loadingScreen, joinGate) {
+            // 1. Silent check to backend. 
+            // We do NOT trust localStorage blindly for the 'hide' decision anymore 
+            // because the user wants it to be persistent if they leave the channel.
+            
             try {
                 const response = await fetch(`${BACKEND_URL}/verify_join`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ user_id: userId })
                 });
-                if (!response.ok) return false;
-                const data = await response.json();
-                return data.joined === true;
-            } catch (err) {
-                console.error("Silent check failed", err);
-                return false;
+
+                if (response.ok) {
+                    const data = await response.json();
+                    if (data.joined === true) {
+                        // User is joined. Proceed to game.
+                        loadingScreen.style.opacity = '0';
+                        setTimeout(() => {
+                            loadingScreen.style.display = 'none';
+                            init(); // Start Game
+                        }, 500);
+                        return;
+                    }
+                }
+            } catch (e) {
+                console.log("Initial check failed, showing gate safely.");
             }
+
+            // If we are here, either the check failed or user is not joined.
+            // Show the gate.
+            loadingScreen.style.opacity = '0';
+            setTimeout(() => {
+                loadingScreen.style.display = 'none';
+                joinGate.style.display = 'flex'; // Show persistent gate
+            }, 500);
         }
 
-        /* --- JOIN GATE LOGIC (Button Click) --- */
         async function verifyJoin() {
             const checkBtn = document.getElementById('checkJoinBtn');
             const joinGate = document.getElementById('joinGateOverlay');
             
-            if (!userId) {
-                showToast("User ID not found. Reloading...", 2000, true);
-                initTelegramUser(); 
-                return;
-            }
+            if (!userId) return; // Should not happen due to initial check
 
-            // Visual Loading State
+            // UI Loading State
             checkBtn.innerText = "Checking...";
             checkBtn.innerHTML = "Checking... <span style='display:inline-block; width:10px; height:10px; border:2px solid white; border-top:2px solid transparent; border-radius:50%; animation:spin 1s linear infinite;'></span>";
             checkBtn.classList.add('loading');
@@ -1536,75 +1569,38 @@
                 const data = await response.json();
 
                 checkBtn.classList.remove('loading');
-                checkBtn.innerText = "Check";
+                checkBtn.innerText = "Check & Play";
 
                 if (data.joined === true) {
-                    // SUCCESS: Save to LocalStorage and Open Game
-                    localStorage.setItem('snowman_join_verified', 'true');
-                    
+                    // SUCCESS
                     joinGate.style.display = 'none';
                     checkAdBlocker();
                     showToast("Verified! Welcome to the game.");
+                    
+                    // If game wasn't init yet, do it
+                    if(!isDataLoaded) init(); 
                 } else {
-                    // FAILED
+                    // FAILED - GATE STAYS OPEN
                     showToast("Please join BOTH channels first!", 3000, true);
                 }
 
             } catch (err) {
                 console.error("Join check failed:", err);
                 checkBtn.classList.remove('loading');
-                checkBtn.innerText = "Check";
+                checkBtn.innerText = "Check & Play";
                 showToast("Server error. Cannot verify.", 3000, true);
             }
         }
 
         function init() {
-            // 1. Get User ID (Already called in load, but good for safety)
-            initTelegramUser(); 
-            
-            // 2. Start Game Logic
+            // Already initialized user ID
             startSnowfall();
-            loadUserData(); // Load data from Firebase using the ID
+            loadUserData(); 
             loadConfig(); 
             startAutoTapLoop(); 
             
-            // 3. Save Interval
             setInterval(saveUserData, 5000);
             startReferralTimer();
-        }
-        
-        function initTelegramUser() {
-            try {
-                const tg = window.Telegram.WebApp;
-                tg.expand(); 
-                const user = tg.initDataUnsafe.user;
-                if (user) {
-                    userId = user.id.toString(); 
-                    localStorage.setItem('snowman_userid', userId); 
-                    if (user.username) headerName.innerText = user.username;
-                    else if (user.first_name) headerName.innerText = user.first_name;
-                    if (user.photo_url) headerAvatar.src = user.photo_url;
-
-                    const startParam = tg.initDataUnsafe.start_param;
-                    if (startParam && startParam !== userId) {
-                        referrerIdFromUrl = startParam;
-                    }
-                } else {
-                    // Fallback for non-Telegram browsers (testing)
-                    let storedId = localStorage.getItem('snowman_userid');
-                    if (!storedId) {
-                        storedId = "test_user_" + Math.floor(Math.random() * 100000);
-                        localStorage.setItem('snowman_userid', storedId);
-                    }
-                    userId = storedId;
-                }
-            } catch (e) {
-                console.log("Not running in Telegram", e);
-                if(!userId) {
-                    userId = "test_user_" + Math.floor(Math.random() * 100000);
-                    localStorage.setItem('snowman_userid', userId);
-                }
-            }
         }
 
         function loadConfig() {
@@ -1640,7 +1636,7 @@
 
         function saveUserData() {
             if(!userId) return; 
-            if(!isDataLoaded) return; // Don't save empty data over existing data
+            if(!isDataLoaded) return; 
 
             const userUpdate = {
                 balance: balance,
@@ -1659,7 +1655,7 @@
 
             // Save to Firebase
             db.ref('users/' + userId).update(userUpdate).then(() => {
-                console.log("Data Saved:", balance);
+                // success
             }).catch(err => {
                 console.error("Save failed", err);
             });
@@ -1921,10 +1917,7 @@
         }
 
         function initiateStarPurchase(itemId, stars) {
-            if (!userId || userId.startsWith('test_user')) {
-                showToast("Open in Telegram to buy!");
-                return;
-            }
+            if (!userId) return;
             closeGlassPopup();
             showToast(`Loading payment...`);
             fetch(`${BACKEND_URL}/create_invoice`, {
@@ -2514,9 +2507,6 @@
                 setTimeout(() => { btnElement.classList.remove('copied'); }, 1500);
             }).catch(err => { showToast("Failed to copy link."); });
         }
-
-        // Initialize App
-        init();
     </script>
 </body>
 </html>
