@@ -726,18 +726,24 @@
             transform: scale(1.1);
         }
 
-        /* --- AFFILIATE PROGRAM STYLES (NEW) --- */
+        /* --- AFFILIATE PROGRAM STYLES (UPDATED) --- */
         .affiliate-card {
-            background: linear-gradient(180deg, #162432 0%, #0A1118 100%);
-            border: 1px solid rgba(0, 229, 255, 0.1);
-            border-radius: 4vw; padding: 4vw; margin-top: 5vw;
-            position: relative; overflow: hidden;
-            display: flex; flex-direction: column; gap: 3vw;
+            background: linear-gradient(180deg, #1f3b54 0%, #101922 100%); /* Lighter background for better visibility */
+            border: 1px solid var(--accent-cyan); /* Stronger border */
+            border-radius: 4vw; 
+            padding: 5vw; 
+            margin-top: 8vw; /* Increased margin to separate from invite button */
+            position: relative; 
+            overflow: hidden;
+            display: flex; 
+            flex-direction: column; 
+            gap: 3vw;
+            box-shadow: 0 0 5vw rgba(0, 229, 255, 0.15); /* Added glow */
         }
         .affiliate-header { display: flex; justify-content: space-between; align-items: center; }
         .affiliate-title { font-size: 5vw; font-weight: 800; color: white; line-height: 1.2; }
-        .affiliate-desc { font-size: 3.2vw; color: rgba(255,255,255,0.6); margin-top: 1vw; }
-        .affiliate-icon { width: 20vw; height: 20vw; filter: drop-shadow(0 0 4vw rgba(0,229,255,0.2)); }
+        .affiliate-desc { font-size: 3.2vw; color: rgba(255,255,255,0.8); margin-top: 1vw; }
+        .affiliate-icon { width: 20vw; height: 20vw; filter: drop-shadow(0 0 4vw rgba(0,229,255,0.2)); object-fit: contain; }
         
         .affiliate-btn-row { display: flex; gap: 3vw; margin-top: 2vw; }
         .affiliate-btn {
@@ -745,7 +751,7 @@
             font-size: 3.5vw; font-weight: 700; text-align: center; border: none; cursor: pointer;
             transition: transform 0.1s;
         }
-        .btn-detail { background: rgba(255,255,255,0.1); color: white; border: 1px solid rgba(255,255,255,0.2); }
+        .btn-detail { background: rgba(255,255,255,0.15); color: white; border: 1px solid rgba(255,255,255,0.3); }
         .btn-partner { 
             background: var(--btn-green-grad); 
             color: #050f1a; 
@@ -1384,14 +1390,15 @@
                     </button>
                 </div>
 
-                <!-- AFFILIATE PROGRAM CARD (REPLACES PRIZE POOL) -->
+                <!-- AFFILIATE PROGRAM CARD (UPDATED DESIGN) -->
                 <div class="affiliate-card">
                     <div class="affiliate-header">
                         <div>
                             <h3 class="affiliate-title">Affiliate Program</h3>
                             <p class="affiliate-desc">RevShare 45% + Bonuses</p>
                         </div>
-                        <img src="https://cdn-icons-png.flaticon.com/512/869/869636.png" class="affiliate-icon">
+                        <!-- Updated Affiliate Icon from GitHub -->
+                        <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/affiliate.webp" class="affiliate-icon">
                     </div>
                     <div style="font-size:3vw; color:rgba(255,255,255,0.7);">
                         Do you have a large audience? Become our partner and profit with RevShare 45%.
@@ -1402,7 +1409,7 @@
                     </div>
                 </div>
                 
-                <div class="referral-list-section" style="margin-top: 5vw; width: 100%; padding-bottom: 20vw;">
+                <div class="referral-list-section" style="margin-top: 5vw; width: 100%; padding-bottom: 25vw;">
                     <h3 style="font-size: 5vw; color: var(--accent-cyan); text-align: center; margin-bottom: 3vw; font-weight: 700;">Your Friends</h3>
                     <div id="referralsList" style="display: flex; flex-direction: column; gap: 2vw;">
                         <div style="text-align: center; color: rgba(255,255,255,0.5);">Loading friends...</div>
@@ -1450,9 +1457,10 @@
                     </div>
                 </div>
                 
-                <!-- NEW WITHDRAW BUTTON -->
+                <!-- NEW WITHDRAW BUTTON (UPDATED ICON) -->
                 <div class="exchange-btn" onclick="handleWithdrawClick()" style="margin-top: 2vw; border-color: rgba(255, 100, 100, 0.2);">
-                    <img src="https://cdn-icons-png.flaticon.com/512/5501/5501360.png" class="exchange-icon" style="filter: brightness(0) invert(1);" alt="Withdraw">
+                    <!-- Updated Withdraw Icon from GitHub -->
+                    <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/withdraw.webp" class="exchange-icon" style="filter: brightness(0) invert(1);" alt="Withdraw">
                     <div class="exchange-text">
                         <h3>Withdraw</h3>
                         <p>Transfer balance to wallet.</p>
@@ -2351,9 +2359,18 @@
             if(tabId === 'friends') loadReferrals();
         }
 
-        function handleTaskBannerClick() { window.open(bannerLinks.task, '_blank'); }
-        function handleWalletBannerClick() { window.open(bannerLinks.wallet, '_blank'); }
-        function handleFriendsBannerClick() { window.open(bannerLinks.friends, '_blank'); }
+        function handleTaskBannerClick() { 
+            // window.open(bannerLinks.task, '_blank'); // Disabled per request
+            showToast("Banner ads are coming soon!");
+        }
+        function handleWalletBannerClick() { 
+            // window.open(bannerLinks.wallet, '_blank'); // Disabled per request
+            showToast("Banner ads are coming soon!");
+        }
+        function handleFriendsBannerClick() { 
+            // window.open(bannerLinks.friends, '_blank'); // Disabled per request
+            showToast("Banner ads are coming soon!");
+        }
         
         function activateAutoTap() {
             showToast("Auto Tap is purchased via the Shop!");
