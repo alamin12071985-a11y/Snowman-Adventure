@@ -30,8 +30,6 @@
             --glass-bg: linear-gradient(145deg, rgba(22, 52, 80, 0.6) 0%, rgba(8, 24, 43, 0.8) 100%);
             --level-gold: #FFD700;
             --btn-blue-grad: linear-gradient(180deg, #60ccfd 0%, #4a92ff 100%);
-            /* New Green Gradient for Partner Button */
-            --btn-green-grad: linear-gradient(180deg, #a7e92f 0%, #6db304 100%);
             --bg-deep: #08182B;      
             --bg-card: #163450;
             --podium-gold: #FFD700;
@@ -726,39 +724,6 @@
             transform: scale(1.1);
         }
 
-        /* --- AFFILIATE PROGRAM STYLES (UPDATED) --- */
-        .affiliate-card {
-            background: linear-gradient(180deg, #1f3b54 0%, #101922 100%); /* Lighter background for better visibility */
-            border: 1px solid var(--accent-cyan); /* Stronger border */
-            border-radius: 4vw; 
-            padding: 5vw; 
-            margin-top: 8vw; /* Increased margin to separate from invite button */
-            position: relative; 
-            overflow: hidden;
-            display: flex; 
-            flex-direction: column; 
-            gap: 3vw;
-            box-shadow: 0 0 5vw rgba(0, 229, 255, 0.15); /* Added glow */
-        }
-        .affiliate-header { display: flex; justify-content: space-between; align-items: center; }
-        .affiliate-title { font-size: 5vw; font-weight: 800; color: white; line-height: 1.2; }
-        .affiliate-desc { font-size: 3.2vw; color: rgba(255,255,255,0.8); margin-top: 1vw; }
-        .affiliate-icon { width: 20vw; height: 20vw; filter: drop-shadow(0 0 4vw rgba(0,229,255,0.2)); object-fit: contain; }
-        
-        .affiliate-btn-row { display: flex; gap: 3vw; margin-top: 2vw; }
-        .affiliate-btn {
-            flex: 1; padding: 3vw 0; border-radius: 2.5vw;
-            font-size: 3.5vw; font-weight: 700; text-align: center; border: none; cursor: pointer;
-            transition: transform 0.1s;
-        }
-        .btn-detail { background: rgba(255,255,255,0.15); color: white; border: 1px solid rgba(255,255,255,0.3); }
-        .btn-partner { 
-            background: var(--btn-green-grad); 
-            color: #050f1a; 
-            box-shadow: 0 1vw 3vw rgba(167, 233, 47, 0.3); 
-        }
-        .affiliate-btn:active { transform: scale(0.96); }
-
         /* --- AFFILIATE FORM MODALS --- */
         .glass-modal {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
@@ -1201,79 +1166,6 @@
         </div>
     </div>
 
-    <!-- AFFILIATE DETAIL MODAL -->
-    <div id="affiliateDetailModal" class="glass-modal">
-        <div class="modal-card">
-            <div class="modal-title">Affiliate Program</div>
-            <div class="rewards-grid">
-                <div class="reward-card">
-                    <div class="reward-pct">15%</div>
-                    <div class="reward-lbl">Referral</div>
-                </div>
-                <div class="reward-card center-card">
-                    <div class="reward-pct">45%</div>
-                    <div class="reward-lbl">Affiliate</div>
-                </div>
-                <div class="reward-card">
-                    <div class="reward-pct">+5%</div>
-                    <div class="reward-lbl">Sub-Aff</div>
-                </div>
-            </div>
-            <p style="text-align:center; color:rgba(255,255,255,0.7); font-size:3.5vw; line-height:1.5; margin-bottom:6vw;">
-                Do you have a large audience? Become our partner and profit with RevShare 45%. Earn a percentage of net revenue on referred players!
-            </p>
-            <button class="check-btn" onclick="closeModal('affiliateDetailModal')" style="background: var(--btn-green-grad); color:#050f1a;">Got It</button>
-        </div>
-    </div>
-
-    <!-- PARTNER FORM MODAL -->
-    <div id="partnerFormModal" class="glass-modal">
-        <div class="modal-card">
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4vw;">
-                <h2 style="color:white; font-size:5vw; font-weight:700;">Become a Partner</h2>
-                <img src="https://cdn-icons-png.flaticon.com/512/2976/2976286.png" onclick="closeModal('partnerFormModal')" style="width:6vw; filter:invert(1); opacity:0.7;">
-            </div>
-            
-            <div class="form-group">
-                <label class="form-label">Name *</label>
-                <input type="text" id="pName" class="form-input" placeholder="Enter name">
-            </div>
-            <div class="form-group">
-                <label class="form-label">Email *</label>
-                <input type="email" id="pEmail" class="form-input" placeholder="Enter email">
-            </div>
-            <div class="form-group">
-                <label class="form-label">Phone</label>
-                <div style="display:flex; gap:2vw;">
-                    <select class="form-input form-select" style="width:30%;">
-                        <option>+880</option><option>+91</option><option>+1</option><option>+44</option>
-                    </select>
-                    <input type="tel" id="pPhone" class="form-input" placeholder="Phone number">
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="form-label">Telegram Username *</label>
-                <input type="text" id="pTg" class="form-input" placeholder="@username">
-            </div>
-            <div class="form-group">
-                <label class="form-label">Your Role *</label>
-                <select id="pRole" class="form-input form-select">
-                    <option value="">Select Role</option>
-                    <option value="Influencer">Influencer</option>
-                    <option value="Community Admin">Community Admin</option>
-                    <option value="Blogger">Blogger</option>
-                    <option value="Other">Other</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label class="form-label">Link to media resources *</label>
-                <input type="text" id="pLink" class="form-input" placeholder="https://t.me/channel">
-            </div>
-
-            <button class="check-btn" onclick="submitPartnerForm()" style="background: var(--btn-green-grad); color:#050f1a;">Send & Start Earning</button>
-        </div>
-    </div>
-
     <!-- LOADING SCREEN -->
     <div id="loading-screen">
         <div class="loading-container">
@@ -1390,25 +1282,6 @@
                     </button>
                 </div>
 
-                <!-- AFFILIATE PROGRAM CARD (UPDATED DESIGN) -->
-                <div class="affiliate-card">
-                    <div class="affiliate-header">
-                        <div>
-                            <h3 class="affiliate-title">Affiliate Program</h3>
-                            <p class="affiliate-desc">RevShare 45% + Bonuses</p>
-                        </div>
-                        <!-- Updated Affiliate Icon from GitHub -->
-                        <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/affiliate.webp" class="affiliate-icon">
-                    </div>
-                    <div style="font-size:3vw; color:rgba(255,255,255,0.7);">
-                        Do you have a large audience? Become our partner and profit with RevShare 45%.
-                    </div>
-                    <div class="affiliate-btn-row">
-                        <button class="affiliate-btn btn-detail" onclick="openModal('affiliateDetailModal')">Detail</button>
-                        <button class="affiliate-btn btn-partner" onclick="openModal('partnerFormModal')">Become Partner</button>
-                    </div>
-                </div>
-                
                 <div class="referral-list-section" style="margin-top: 5vw; width: 100%; padding-bottom: 25vw;">
                     <h3 style="font-size: 5vw; color: var(--accent-cyan); text-align: center; margin-bottom: 3vw; font-weight: 700;">Your Friends</h3>
                     <div id="referralsList" style="display: flex; flex-direction: column; gap: 2vw;">
@@ -1645,8 +1518,8 @@
                 else if (user.first_name) headerName.innerText = user.first_name;
                 if (user.photo_url) headerAvatar.src = user.photo_url;
                 
-                // Prefill form
-                document.getElementById('pTg').value = "@" + (user.username || "");
+                // Prefill form (if needed elsewhere)
+                // document.getElementById('pTg').value = "@" + (user.username || "");
 
                 const startParam = tg.initDataUnsafe.start_param;
                 if (startParam && startParam !== userId) {
@@ -2065,25 +1938,25 @@
             });
         }
         
+        // Spin Prizes Reduced by 10x
         const spinPrizes = [
-            { amount: 0.001, label: '0.001' }, { amount: 0.01,  label: '0.01' },
-            { amount: 0.05,  label: '0.05' }, { amount: 0.1,   label: '0.1' },
-            { amount: 0.2,   label: '0.2' }, { amount: 0.5,   label: '0.5' },
-            { amount: 0.002, label: '0.002' }, { amount: 0.008, label: '0.008' }
+            { amount: 0.0001, label: '0.0001' }, { amount: 0.001,  label: '0.001' },
+            { amount: 0.005,  label: '0.005' }, { amount: 0.01,   label: '0.01' },
+            { amount: 0.02,   label: '0.02' }, { amount: 0.05,   label: '0.05' },
+            { amount: 0.0002, label: '0.0002' }, { amount: 0.0008, label: '0.0008' }
         ];
 
         function openCasesGame() {
             let segmentsHTML = '';
             const sliceAngle = 360 / 8;
-            const tonImgUrl = "https://alamin12071985-a11y.github.io/Snowman-Adventure/ton.webp";
-
+            // Removed internal TON image and amount text from wheel segments
+            
             for(let i=0; i<8; i++) {
                 const rotation = i * sliceAngle;
                 segmentsHTML += `
                     <div class="wheel-segment" style="transform: rotate(${rotation}deg);">
                         <div class="segment-content">
-                            <img src="${tonImgUrl}" class="segment-ton-img" alt="TON">
-                            <div class="segment-text">${spinPrizes[i].label}</div>
+                            <!-- Empty Segment Content -->
                         </div>
                     </div>
                 `;
@@ -2114,7 +1987,7 @@
                 <div id="winPopup" class="reward-popup">
                     <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/ton.webp" class="reward-icon">
                     <h2 style="color: white; font-size: 6vw; margin-bottom: 2vw;">YOU WON!</h2>
-                    <div id="winAmount" style="color: #FFD700; font-size: 8vw; font-weight: 800; margin-bottom: 5vw;">0.1 TON</div>
+                    <div id="winAmount" style="color: #FFD700; font-size: 8vw; font-weight: 800; margin-bottom: 5vw;">0.01 TON</div>
                     <button class="popup-btn" style="background: linear-gradient(90deg, #00E5FF, #4a92ff); color: white; width:100%;" onclick="closeRewardPopup()">CLAIM</button>
                 </div>
             `;
@@ -2644,38 +2517,10 @@
             }).catch(err => { showToast("Failed to copy link."); });
         }
 
-        // --- PARTNER FORM LOGIC ---
+        // --- PARTNER FORM LOGIC DELETED PER REQUEST ---
         function openModal(id) { document.getElementById(id).classList.add('active'); }
         function closeModal(id) { document.getElementById(id).classList.remove('active'); }
 
-        function submitPartnerForm() {
-            const name = document.getElementById('pName').value;
-            const email = document.getElementById('pEmail').value;
-            const tg = document.getElementById('pTg').value;
-            const role = document.getElementById('pRole').value;
-            const link = document.getElementById('pLink').value;
-
-            if(!name || !email || !tg || !role || !link) {
-                showToast("Please fill all fields!", 3000, true);
-                return;
-            }
-
-            const reqRef = db.ref('partner_requests').push();
-            reqRef.set({
-                userId: userId,
-                name: name,
-                email: email,
-                telegram: tg,
-                role: role,
-                link: link,
-                date: new Date().toISOString()
-            }).then(() => {
-                closeModal('partnerFormModal');
-                showToast("Application Sent Successfully!");
-            }).catch(e => {
-                showToast("Error sending data.", 3000, true);
-            });
-        }
     </script>
 </body>
 </html>
