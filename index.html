@@ -30,6 +30,8 @@
             --glass-bg: linear-gradient(145deg, rgba(22, 52, 80, 0.6) 0%, rgba(8, 24, 43, 0.8) 100%);
             --level-gold: #FFD700;
             --btn-blue-grad: linear-gradient(180deg, #60ccfd 0%, #4a92ff 100%);
+            /* New Green Gradient for Partner Button */
+            --btn-green-grad: linear-gradient(180deg, #a7e92f 0%, #6db304 100%);
             --bg-deep: #08182B;      
             --bg-card: #163450;
             --podium-gold: #FFD700;
@@ -724,6 +726,66 @@
             transform: scale(1.1);
         }
 
+        /* --- AFFILIATE PROGRAM STYLES (NEW) --- */
+        .affiliate-card {
+            background: linear-gradient(180deg, #162432 0%, #0A1118 100%);
+            border: 1px solid rgba(0, 229, 255, 0.1);
+            border-radius: 4vw; padding: 4vw; margin-top: 5vw;
+            position: relative; overflow: hidden;
+            display: flex; flex-direction: column; gap: 3vw;
+        }
+        .affiliate-header { display: flex; justify-content: space-between; align-items: center; }
+        .affiliate-title { font-size: 5vw; font-weight: 800; color: white; line-height: 1.2; }
+        .affiliate-desc { font-size: 3.2vw; color: rgba(255,255,255,0.6); margin-top: 1vw; }
+        .affiliate-icon { width: 20vw; height: 20vw; filter: drop-shadow(0 0 4vw rgba(0,229,255,0.2)); }
+        
+        .affiliate-btn-row { display: flex; gap: 3vw; margin-top: 2vw; }
+        .affiliate-btn {
+            flex: 1; padding: 3vw 0; border-radius: 2.5vw;
+            font-size: 3.5vw; font-weight: 700; text-align: center; border: none; cursor: pointer;
+            transition: transform 0.1s;
+        }
+        .btn-detail { background: rgba(255,255,255,0.1); color: white; border: 1px solid rgba(255,255,255,0.2); }
+        .btn-partner { 
+            background: var(--btn-green-grad); 
+            color: #050f1a; 
+            box-shadow: 0 1vw 3vw rgba(167, 233, 47, 0.3); 
+        }
+        .affiliate-btn:active { transform: scale(0.96); }
+
+        /* --- AFFILIATE FORM MODALS --- */
+        .glass-modal {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.8); backdrop-filter: blur(10px);
+            z-index: 5000; display: none; align-items: center; justify-content: center;
+            opacity: 0; transition: opacity 0.3s;
+        }
+        .glass-modal.active { display: flex; opacity: 1; }
+        
+        .modal-card {
+            background: #111b27; width: 90vw; max-height: 90vh; overflow-y: auto;
+            border-radius: 5vw; border: 1px solid var(--accent-cyan);
+            padding: 5vw; position: relative;
+            box-shadow: 0 0 10vw rgba(0, 229, 255, 0.2);
+        }
+        .modal-title { font-size: 5vw; font-weight: 700; color: white; margin-bottom: 4vw; text-align: center; }
+        
+        .form-group { margin-bottom: 4vw; }
+        .form-label { display: block; font-size: 3.2vw; color: var(--accent-cyan); margin-bottom: 1.5vw; font-weight: 500; }
+        .form-input {
+            width: 100%; background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.2);
+            padding: 3.5vw; border-radius: 3vw; color: white; font-family: 'Poppins'; font-size: 3.5vw;
+            outline: none; transition: border 0.2s;
+        }
+        .form-input:focus { border-color: var(--accent-cyan); background: rgba(0, 229, 255, 0.05); }
+        .form-select { appearance: none; background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3e%3cpath d='M7 10l5 5 5-5z'/%3e%3c/svg%3e"); background-repeat: no-repeat; background-position: right 3vw center; background-size: 5vw; }
+
+        .rewards-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 2vw; margin-bottom: 5vw; }
+        .reward-card { background: rgba(255,255,255,0.05); padding: 3vw; border-radius: 3vw; text-align: center; border: 1px solid rgba(255,255,255,0.1); }
+        .reward-pct { font-size: 5vw; font-weight: 800; color: var(--level-gold); }
+        .reward-lbl { font-size: 2.8vw; color: rgba(255,255,255,0.6); }
+        .center-card { background: linear-gradient(180deg, rgba(0,229,255,0.2), rgba(0,0,0,0)); border-color: var(--accent-cyan); transform: scale(1.05); }
+
         /* --- LEADERBOARD REDESIGN --- */
         .leaderboard-overlay {
             position: fixed;
@@ -1133,6 +1195,79 @@
         </div>
     </div>
 
+    <!-- AFFILIATE DETAIL MODAL -->
+    <div id="affiliateDetailModal" class="glass-modal">
+        <div class="modal-card">
+            <div class="modal-title">Affiliate Program</div>
+            <div class="rewards-grid">
+                <div class="reward-card">
+                    <div class="reward-pct">15%</div>
+                    <div class="reward-lbl">Referral</div>
+                </div>
+                <div class="reward-card center-card">
+                    <div class="reward-pct">45%</div>
+                    <div class="reward-lbl">Affiliate</div>
+                </div>
+                <div class="reward-card">
+                    <div class="reward-pct">+5%</div>
+                    <div class="reward-lbl">Sub-Aff</div>
+                </div>
+            </div>
+            <p style="text-align:center; color:rgba(255,255,255,0.7); font-size:3.5vw; line-height:1.5; margin-bottom:6vw;">
+                Do you have a large audience? Become our partner and profit with RevShare 45%. Earn a percentage of net revenue on referred players!
+            </p>
+            <button class="check-btn" onclick="closeModal('affiliateDetailModal')" style="background: var(--btn-green-grad); color:#050f1a;">Got It</button>
+        </div>
+    </div>
+
+    <!-- PARTNER FORM MODAL -->
+    <div id="partnerFormModal" class="glass-modal">
+        <div class="modal-card">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4vw;">
+                <h2 style="color:white; font-size:5vw; font-weight:700;">Become a Partner</h2>
+                <img src="https://cdn-icons-png.flaticon.com/512/2976/2976286.png" onclick="closeModal('partnerFormModal')" style="width:6vw; filter:invert(1); opacity:0.7;">
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">Name *</label>
+                <input type="text" id="pName" class="form-input" placeholder="Enter name">
+            </div>
+            <div class="form-group">
+                <label class="form-label">Email *</label>
+                <input type="email" id="pEmail" class="form-input" placeholder="Enter email">
+            </div>
+            <div class="form-group">
+                <label class="form-label">Phone</label>
+                <div style="display:flex; gap:2vw;">
+                    <select class="form-input form-select" style="width:30%;">
+                        <option>+880</option><option>+91</option><option>+1</option><option>+44</option>
+                    </select>
+                    <input type="tel" id="pPhone" class="form-input" placeholder="Phone number">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Telegram Username *</label>
+                <input type="text" id="pTg" class="form-input" placeholder="@username">
+            </div>
+            <div class="form-group">
+                <label class="form-label">Your Role *</label>
+                <select id="pRole" class="form-input form-select">
+                    <option value="">Select Role</option>
+                    <option value="Influencer">Influencer</option>
+                    <option value="Community Admin">Community Admin</option>
+                    <option value="Blogger">Blogger</option>
+                    <option value="Other">Other</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Link to media resources *</label>
+                <input type="text" id="pLink" class="form-input" placeholder="https://t.me/channel">
+            </div>
+
+            <button class="check-btn" onclick="submitPartnerForm()" style="background: var(--btn-green-grad); color:#050f1a;">Send & Start Earning</button>
+        </div>
+    </div>
+
     <!-- LOADING SCREEN -->
     <div id="loading-screen">
         <div class="loading-container">
@@ -1248,26 +1383,25 @@
                         <img src="https://cdn-icons-png.flaticon.com/512/126/126498.png" alt="Copy">
                     </button>
                 </div>
-                <div style="background: var(--glass-bg); border: 1px solid var(--accent-cyan); border-radius: 4vw; padding: 4vw; margin: 5vw 0 0 0; width: 100%; text-align: center;">
-                    <h3 style="font-size: 4vw; color: var(--level-gold); border-bottom: 1px solid rgba(255,255,255,0.2); padding-bottom: 1.5vw; margin-bottom: 2vw; font-weight: 700;">Prize Pools (USDT)</h3>
-                    <div style="display: flex; justify-content: space-around; margin-bottom: 4vw;">
-                        <div style="text-align: center;">
-                            <div style="font-size: 4.5vw; font-weight: 800; color: #FFD700;">🥇 1st Place</div>
-                            <div style="font-size: 5.5vw; font-weight: 800; color: #FFD700;">💵 $100</div>
+
+                <!-- AFFILIATE PROGRAM CARD (REPLACES PRIZE POOL) -->
+                <div class="affiliate-card">
+                    <div class="affiliate-header">
+                        <div>
+                            <h3 class="affiliate-title">Affiliate Program</h3>
+                            <p class="affiliate-desc">RevShare 45% + Bonuses</p>
                         </div>
-                        <div style="text-align: center;">
-                            <div style="font-size: 4.5vw; font-weight: 800; color: #C0C0C0;">🥈 2nd Place</div>
-                            <div style="font-size: 5.5vw; font-weight: 800; color: #C0C0C0;">💵 $60</div>
-                        </div>
-                        <div style="text-align: center;">
-                            <div style="font-size: 4.5vw; font-weight: 800; color: #CD7F32;">🥉 3rd Place</div>
-                            <div style="font-size: 5.5vw; font-weight: 800; color: #CD7F32;">💵 $40</div>
-                        </div>
+                        <img src="https://cdn-icons-png.flaticon.com/512/869/869636.png" class="affiliate-icon">
                     </div>
-                    <a href="https://telegra.ph/Terms--Conditions-12-17-6" target="_blank" style="font-size: 3vw; color: rgba(255,255,255,0.5); margin-top: 4vw; text-decoration: underline;">Terms & Conditions</a>
-                    <p style="font-size: 3.5vw; color: var(--accent-cyan); margin-top: 3vw; font-weight: 600;">Ending On</p>
-                    <div id="referralTimer" style="font-size: 4vw; font-weight: 700; color: white; margin-top: 1vw;">Loading Timer...</div>
+                    <div style="font-size:3vw; color:rgba(255,255,255,0.7);">
+                        Do you have a large audience? Become our partner and profit with RevShare 45%.
+                    </div>
+                    <div class="affiliate-btn-row">
+                        <button class="affiliate-btn btn-detail" onclick="openModal('affiliateDetailModal')">Detail</button>
+                        <button class="affiliate-btn btn-partner" onclick="openModal('partnerFormModal')">Become Partner</button>
+                    </div>
                 </div>
+                
                 <div class="referral-list-section" style="margin-top: 5vw; width: 100%; padding-bottom: 20vw;">
                     <h3 style="font-size: 5vw; color: var(--accent-cyan); text-align: center; margin-bottom: 3vw; font-weight: 700;">Your Friends</h3>
                     <div id="referralsList" style="display: flex; flex-direction: column; gap: 2vw;">
@@ -1307,11 +1441,21 @@
                     <span style="width:10px; height:10px; background:#00C853; border-radius:50%; display:inline-block; margin-right:5px;"></span>
                     <span id="walletAddressDisplay"></span>
                 </div>
+                
                 <div class="exchange-btn" onclick="handleExchangeClick()">
                     <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/exchange.webp" class="exchange-icon" alt="Swap">
                     <div class="exchange-text">
                         <h3>Exchange Tokens!</h3>
                         <p>Convert your tokens into cryptocurrency.</p>
+                    </div>
+                </div>
+                
+                <!-- NEW WITHDRAW BUTTON -->
+                <div class="exchange-btn" onclick="handleWithdrawClick()" style="margin-top: 2vw; border-color: rgba(255, 100, 100, 0.2);">
+                    <img src="https://cdn-icons-png.flaticon.com/512/5501/5501360.png" class="exchange-icon" style="filter: brightness(0) invert(1);" alt="Withdraw">
+                    <div class="exchange-text">
+                        <h3>Withdraw</h3>
+                        <p>Transfer balance to wallet.</p>
                     </div>
                 </div>
             </div>
@@ -1382,6 +1526,8 @@
         let autotapEndTime = 0; 
         let noadsEndTime = 0;   
         let tapMultiplier = 1;
+        let lastTapTime = 0;
+        const TAP_LIMIT_MS = 40; 
 
         const BOT_USERNAME_PLACEHOLDER = 'snowmanadventurebot';
         let appInviteBaseUrl = `https://t.me/${BOT_USERNAME_PLACEHOLDER}?startapp=`;
@@ -1399,7 +1545,6 @@
         const headerTon = document.getElementById('headerTonBalance');
         const walletCoin = document.getElementById('walletCoin');
         const walletTon = document.getElementById('walletTon');
-        const referralTimer = document.getElementById('referralTimer');
         const referralPercentageDisplay = document.getElementById('referralPercentageDisplay');
 
         const tonConnectUI = new TON_CONNECT_UI.TonConnectUI({
@@ -1491,6 +1636,9 @@
                 if (user.username) headerName.innerText = user.username;
                 else if (user.first_name) headerName.innerText = user.first_name;
                 if (user.photo_url) headerAvatar.src = user.photo_url;
+                
+                // Prefill form
+                document.getElementById('pTg').value = "@" + (user.username || "");
 
                 const startParam = tg.initDataUnsafe.start_param;
                 if (startParam && startParam !== userId) {
@@ -1505,12 +1653,7 @@
 
         /* --- STRICT JOIN GATE LOGIC --- */
         
-        // This runs after the loading bar fills
         async function performInitialJoinCheck(loadingScreen, joinGate) {
-            // 1. Silent check to backend. 
-            // We do NOT trust localStorage blindly for the 'hide' decision anymore 
-            // because the user wants it to be persistent if they leave the channel.
-            
             try {
                 const response = await fetch(`${BACKEND_URL}/verify_join`, {
                     method: 'POST',
@@ -1521,7 +1664,6 @@
                 if (response.ok) {
                     const data = await response.json();
                     if (data.joined === true) {
-                        // User is joined. Proceed to game.
                         loadingScreen.style.opacity = '0';
                         setTimeout(() => {
                             loadingScreen.style.display = 'none';
@@ -1534,8 +1676,6 @@
                 console.log("Initial check failed, showing gate safely.");
             }
 
-            // If we are here, either the check failed or user is not joined.
-            // Show the gate.
             loadingScreen.style.opacity = '0';
             setTimeout(() => {
                 loadingScreen.style.display = 'none';
@@ -1547,9 +1687,8 @@
             const checkBtn = document.getElementById('checkJoinBtn');
             const joinGate = document.getElementById('joinGateOverlay');
             
-            if (!userId) return; // Should not happen due to initial check
+            if (!userId) return; 
 
-            // UI Loading State
             checkBtn.innerText = "Checking...";
             checkBtn.innerHTML = "Checking... <span style='display:inline-block; width:10px; height:10px; border:2px solid white; border-top:2px solid transparent; border-radius:50%; animation:spin 1s linear infinite;'></span>";
             checkBtn.classList.add('loading');
@@ -1559,7 +1698,6 @@
             document.head.appendChild(style);
 
             try {
-                // Call Backend API
                 const response = await fetch(`${BACKEND_URL}/verify_join`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
@@ -1572,15 +1710,11 @@
                 checkBtn.innerText = "Check & Play";
 
                 if (data.joined === true) {
-                    // SUCCESS
                     joinGate.style.display = 'none';
                     checkAdBlocker();
                     showToast("Verified! Welcome to the game.");
-                    
-                    // If game wasn't init yet, do it
                     if(!isDataLoaded) init(); 
                 } else {
-                    // FAILED - GATE STAYS OPEN
                     showToast("Please join BOTH channels first!", 3000, true);
                 }
 
@@ -1593,14 +1727,11 @@
         }
 
         function init() {
-            // Already initialized user ID
             startSnowfall();
             loadUserData(); 
             loadConfig(); 
             startAutoTapLoop(); 
-            
             setInterval(saveUserData, 5000);
-            startReferralTimer();
         }
 
         function loadConfig() {
@@ -1610,28 +1741,6 @@
                     referralPercentageDisplay.innerText = percentage + "%";
                 }
             });
-        }
-
-        function startReferralTimer() {
-            const countDownDate = new Date("Feb 14, 2026 23:59:59").getTime();
-            const x = setInterval(function() {
-                const now = new Date().getTime();
-                const distance = countDownDate - now;
-
-                const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-                if (referralTimer) {
-                    referralTimer.innerHTML = days + "d " + hours + "h " + minutes + "m " + seconds + "s ";
-                }
-
-                if (distance < 0) {
-                    clearInterval(x);
-                    if (referralTimer) referralTimer.innerHTML = "EXPIRED";
-                }
-            }, 1000);
         }
 
         function saveUserData() {
@@ -2160,11 +2269,21 @@
             showToast("Exchange Tokens feature is coming soon!");
         }
 
+        function handleWithdrawClick() {
+            showToast("Withdrawal is Coming Soon!");
+        }
+
         clickerBtn.addEventListener('touchstart', handleTap, {passive: false});
         clickerBtn.addEventListener('click', handleTap);
 
         function handleTap(e) {
             e.preventDefault();
+            
+            // SECURITY: Rate Limit
+            const now = Date.now();
+            if (now - lastTapTime < TAP_LIMIT_MS) return;
+            lastTapTime = now;
+            
             const hint = document.getElementById('tapMeHint');
             if(hint) hint.style.display = 'none';
 
@@ -2506,6 +2625,39 @@
                 btnElement.classList.add('copied');
                 setTimeout(() => { btnElement.classList.remove('copied'); }, 1500);
             }).catch(err => { showToast("Failed to copy link."); });
+        }
+
+        // --- PARTNER FORM LOGIC ---
+        function openModal(id) { document.getElementById(id).classList.add('active'); }
+        function closeModal(id) { document.getElementById(id).classList.remove('active'); }
+
+        function submitPartnerForm() {
+            const name = document.getElementById('pName').value;
+            const email = document.getElementById('pEmail').value;
+            const tg = document.getElementById('pTg').value;
+            const role = document.getElementById('pRole').value;
+            const link = document.getElementById('pLink').value;
+
+            if(!name || !email || !tg || !role || !link) {
+                showToast("Please fill all fields!", 3000, true);
+                return;
+            }
+
+            const reqRef = db.ref('partner_requests').push();
+            reqRef.set({
+                userId: userId,
+                name: name,
+                email: email,
+                telegram: tg,
+                role: role,
+                link: link,
+                date: new Date().toISOString()
+            }).then(() => {
+                closeModal('partnerFormModal');
+                showToast("Application Sent Successfully!");
+            }).catch(e => {
+                showToast("Error sending data.", 3000, true);
+            });
         }
     </script>
 </body>
