@@ -976,21 +976,34 @@
         .exchange-text h3 { color: white; font-size: 3.5vw; margin-bottom: 0.5vw; }
         .exchange-text p { color: rgba(255,255,255,0.6); font-size: 2.8vw; line-height: 1.2; }
         
-        .task-list { display: flex; flex-direction: column; gap: 3vw; width: 100%; padding-bottom: 5vw; }
-        .task-card { background: var(--glass-bg); border: 1px solid rgba(0, 229, 255, 0.2); border-radius: 4vw; padding: 3vw; display: flex; align-items: center; justify-content: space-between; gap: 3vw; transition: transform 0.2s; }
+        /* --- TASK CARD THINNER DESIGN --- */
+        .task-list { display: flex; flex-direction: column; gap: 2vw; width: 100%; padding-bottom: 5vw; }
+        .task-card { 
+            background: var(--glass-bg); 
+            border: 1px solid rgba(0, 229, 255, 0.2); 
+            border-radius: 3vw; 
+            padding: 2vw; /* Reduced padding for thinner look */
+            display: flex; 
+            align-items: center; 
+            justify-content: space-between; 
+            gap: 2.5vw; 
+            transition: transform 0.2s; 
+        }
         .task-card:active { transform: scale(0.98); }
         .task-icon { 
-            width: 12vw; height: 12vw; border-radius: 3vw; object-fit: contain; background: rgba(255,255,255,0.1); padding: 2vw; 
+            width: 10vw; height: 10vw; /* Smaller icon */
+            border-radius: 2.5vw; 
+            object-fit: contain; 
+            background: rgba(255,255,255,0.1); 
+            padding: 1.5vw; 
         }
-        .task-icon.web-icon {
-            filter: brightness(0) invert(1); /* Make it White */
-        }
+        .task-icon.web-icon { filter: brightness(0) invert(1); }
         
-        .task-info { flex: 1; display: flex; flex-direction: column; gap: 1vw; }
-        .task-title { color: white; font-size: 3.5vw; font-weight: 600; line-height: 1.2; }
-        .task-reward { display: flex; align-items: center; gap: 1.5vw; font-size: 3vw; color: var(--level-gold); font-weight: 700; }
-        .task-reward img { width: 4vw; height: 4vw; }
-        .task-btn { background: var(--btn-blue-grad); border: none; color: white; padding: 2vw 5vw; border-radius: 5vw; font-weight: 700; font-size: 3vw; min-width: 20vw; text-align: center; }
+        .task-info { flex: 1; display: flex; flex-direction: column; gap: 0.5vw; }
+        .task-title { color: white; font-size: 3.2vw; font-weight: 600; line-height: 1.1; }
+        .task-reward { display: flex; align-items: center; gap: 1vw; font-size: 2.8vw; color: var(--level-gold); font-weight: 700; }
+        .task-reward img { width: 3.5vw; height: 3.5vw; }
+        .task-btn { background: var(--btn-blue-grad); border: none; color: white; padding: 1.5vw 4vw; border-radius: 4vw; font-weight: 700; font-size: 3vw; min-width: 18vw; text-align: center; }
         .task-btn.claimed { background: rgba(255,255,255,0.2); color: rgba(255,255,255,0.5); pointer-events: none; }
         
         .button-group { display: flex; gap: 2.5vw; justify-content: center; width: 100%; margin-top: 4vw; }
@@ -1067,6 +1080,30 @@
         .reward-popup { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0.8); width: 80vw; background: linear-gradient(180deg, #163450 0%, #050f1a 100%); border: 2px solid var(--accent-cyan); border-radius: 5vw; padding: 6vw; z-index: 8000; text-align: center; box-shadow: 0 0 10vw rgba(0,229,255,0.5); display: none; opacity: 0; transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
         .reward-popup.active { display: block; opacity: 1; transform: translate(-50%, -50%) scale(1); }
         .reward-icon { width: 25vw; height: 25vw; margin-bottom: 2vw; filter: drop-shadow(0 0 2vw var(--accent-cyan)); }
+        
+        /* New Style for Friends Invite Text */
+        .invite-text-box {
+            background: var(--glass-bg);
+            border: 1px solid rgba(0,229,255,0.2);
+            border-radius: 3vw;
+            padding: 4vw;
+            margin: 2vw auto 4vw auto;
+            width: 90%;
+            text-align: center;
+        }
+        .invite-text {
+            font-size: 3.8vw;
+            font-weight: 500;
+            color: rgba(255,255,255,0.9);
+            line-height: 1.6;
+        }
+        .highlight-text {
+            color: var(--level-gold);
+            font-weight: 800;
+            text-transform: uppercase;
+            text-shadow: 0 0 1vw rgba(255, 215, 0, 0.3);
+        }
+
     </style>
 </head>
 <body class="home-active">
@@ -1203,7 +1240,7 @@
                 <div class="header-level-box">
                     <div class="lvl-text">
                         <span id="levelNameHeader">Lvl 1</span>
-                        <span><span id="currentLevelHeader">0</span> / <span id="targetLevelHeader">4000</span></span>
+                        <span><span id="currentLevelHeader">0</span> / <span id="targetLevelHeader">5000</span></span>
                     </div>
                     <div class="header-progress-bg">
                         <div class="header-progress-fill" id="headerLevelBar"></div>
@@ -1269,9 +1306,13 @@
                 <div class="banner-placeholder" onclick="handleFriendsBannerClick()" style="margin-top: 2vw; margin-bottom: 4vw;"> 
                     <img id="friendsBannerImage" src="https://i.ibb.co.com/RJMLvT1/20251227-144034.jpg" alt="Friends Banner" style="display: block;">
                 </div>
-                <div style="background: var(--glass-bg); border: 1px solid rgba(0,229,255,0.2); border-radius: 3vw; padding: 3vw; margin: 2vw auto 4vw auto; width: 90%; text-align: left;">
-                    <p style="font-size: 3.5vw; font-weight: 600; color: var(--accent-cyan);">
-                        • Invite friends and earn <span id="referralPercentageDisplay" style="color:var(--level-gold);">10%</span> all of their income for every user you refer!
+                
+                <!-- NEW FRIENDS UI -->
+                <div class="invite-text-box">
+                    <p class="invite-text">
+                        Invite friends and <br> 
+                        <span class="highlight-text">earn 10% all of their</span> <br>
+                        income for every user you refer!
                     </p>
                 </div>
                 
@@ -1396,6 +1437,7 @@
         let tonBalance = 0.0;
         let tapCount = 0; 
         let level = 1;
+        let levelProgressCoins = 0; // NEW: Tracks progress for current level only
         let userId = null; 
         let completedTasks = {}; 
         let currentLeaderboardTab = 'coins'; 
@@ -1413,6 +1455,10 @@
         let tapMultiplier = 1;
         let lastTapTime = 0;
         const TAP_LIMIT_MS = 40; 
+        
+        // --- FROZEN MECHANIC VARIABLES ---
+        let sessionTapCount = 0;
+        const TAP_FREEZE_LIMIT = 1000;
         
         // --- ADSGRAM CONFIGURATION ---
         const ADSGRAM_BLOCK_ID = "20721";
@@ -1434,7 +1480,7 @@
         const headerTon = document.getElementById('headerTonBalance');
         const walletCoin = document.getElementById('walletCoin');
         const walletTon = document.getElementById('walletTon');
-        const referralPercentageDisplay = document.getElementById('referralPercentageDisplay');
+        // Removed old referralPercentageDisplay logic as UI changed
 
         const tonConnectUI = new TON_CONNECT_UI.TonConnectUI({
             manifestUrl: 'https://alamin12071985-a11y.github.io/Snowman-Adventure/tonconnect-manifest.json',
@@ -1526,9 +1572,6 @@
                 else if (user.first_name) headerName.innerText = user.first_name;
                 if (user.photo_url) headerAvatar.src = user.photo_url;
                 
-                // Prefill form (if needed elsewhere)
-                // document.getElementById('pTg').value = "@" + (user.username || "");
-
                 const startParam = tg.initDataUnsafe.start_param;
                 if (startParam && startParam !== userId) {
                     referrerIdFromUrl = startParam;
@@ -1625,18 +1668,8 @@
             
             startSnowfall();
             loadUserData(); 
-            loadConfig(); 
             startAutoTapLoop(); 
             setInterval(saveUserData, 5000);
-        }
-
-        function loadConfig() {
-            db.ref('config/referralPercentage').once('value').then(snapshot => {
-                const percentage = snapshot.val();
-                if (percentage) {
-                    referralPercentageDisplay.innerText = percentage + "%";
-                }
-            });
         }
 
         function saveUserData() {
@@ -1648,6 +1681,7 @@
                 tonBalance: tonBalance,
                 tapCount: tapCount,
                 level: level,
+                levelProgressCoins: levelProgressCoins, // Save this
                 username: headerName.innerText, 
                 avatar: headerAvatar.src,
                 lastSpinTime: lastSpinTime,
@@ -1696,6 +1730,7 @@
                     tonBalance = data.tonBalance || 0.0;
                     tapCount = data.tapCount || 0;
                     level = data.level || 1;
+                    levelProgressCoins = data.levelProgressCoins || 0; // Load this
                     completedTasks = data.completedTasks || {};
                     referralCount = data.referralCount || 0;
                     lastSpinTime = data.lastSpinTime || 0;
@@ -1715,6 +1750,7 @@
                         tonBalance: 0.0,
                         tapCount: 0,
                         level: 1,
+                        levelProgressCoins: startBalance, // Sync initial progress
                         username: headerName.innerText, 
                         avatar: headerAvatar.src,
                         lastActive: Date.now()
@@ -1737,6 +1773,7 @@
                     userRef.set(newUserStats).then(() => {
                         isDataLoaded = true;
                         balance = startBalance;
+                        levelProgressCoins = startBalance;
                         lastSavedBalance = startBalance;
                         updateUI();
                         loadTasksFromDB();
@@ -1827,25 +1864,32 @@
             }, 600); 
         }
 
+        // --- UPDATED UI & LEVEL LOGIC ---
         function updateUI() {
             balanceDisplay.innerText = Math.floor(balance).toLocaleString();
             headerCoin.innerText = Math.floor(balance).toLocaleString();
-            headerTon.innerText = parseFloat(tonBalance).toFixed(8); // High precision for small amounts
+            headerTon.innerText = parseFloat(tonBalance).toFixed(8); 
             walletCoin.innerText = Math.floor(balance).toLocaleString();
             walletTon.innerText = parseFloat(tonBalance).toFixed(8);
 
-            let nextLevelThreshold = 4000 + ((level - 1) * 8000);
-            let currentProgress = balance; 
-            let percentage = (currentProgress / nextLevelThreshold) * 100;
+            // New Level Logic: 5000 base, doubles every level. 
+            // Formula: threshold = 5000 * (2 ^ (level - 1))
+            let nextLevelThreshold = 5000 * Math.pow(2, level - 1);
             
-            if (percentage >= 100 && level < 100) {
+            if (levelProgressCoins >= nextLevelThreshold) {
                 level++;
-                percentage = 0; 
+                levelProgressCoins = 0; // Reset progress bar
                 showLevelUpPopup(level);
+                saveUserData(); // Save the new level and reset progress
+                // Re-calculate threshold for next level immediately
+                nextLevelThreshold = 5000 * Math.pow(2, level - 1);
             }
+            
+            let percentage = (levelProgressCoins / nextLevelThreshold) * 100;
 
             levelNameHeader.innerText = "Lvl " + level;
-            currentLevelHeader.innerText = Math.floor(balance);
+            // Progress Bar Shows: Current Progress / Target
+            currentLevelHeader.innerText = Math.floor(levelProgressCoins);
             targetLevelHeader.innerText = nextLevelThreshold;
             headerLevelBar.style.width = `${Math.min(percentage, 100)}%`;
             
@@ -2028,8 +2072,7 @@
             if (adController) {
                 adController.show().then((result) => {
                     if (result.done) {
-                        // Backend verify for Adsgram
-                        verifyAdBackend('adsgram');
+                        verifyAdBackend('adsgram', 'spin');
                     } else {
                         btn.disabled = false;
                         btn.innerText = `Watch Ad (${adWatchCount}/5)`;
@@ -2038,36 +2081,38 @@
                 }).catch((e) => {
                     console.warn("Adsgram failed, trying GigaPub...", e);
                     // 2. Fallback to GigaPub
-                    showGigaPubAd();
+                    showGigaPubAd('spin');
                 });
             } else {
-                // If Adsgram not init, try GigaPub directly
-                showGigaPubAd();
+                showGigaPubAd('spin');
             }
         }
 
-        function showGigaPubAd() {
+        function showGigaPubAd(context) {
             const btn = document.getElementById('spinActionBtn');
             if (window.showGiga) {
                 window.showGiga().then(() => {
-                    // Backend verify for GigaPub (or treat as success if backend not set up for it)
-                    verifyAdBackend('gigapub');
+                    verifyAdBackend('gigapub', context);
                 }).catch(e => {
                     console.error("GigaPub Failed:", e);
                     showToast("No ads available.");
-                    btn.disabled = false;
-                    btn.innerText = `Watch Ad (${adWatchCount}/5)`;
+                    if(context === 'spin') {
+                        btn.disabled = false;
+                        btn.innerText = `Watch Ad (${adWatchCount}/5)`;
+                    }
                 });
             } else {
                 showToast("Ad system error.");
-                btn.disabled = false;
-                btn.innerText = `Watch Ad (${adWatchCount}/5)`;
+                if(context === 'spin') {
+                    btn.disabled = false;
+                    btn.innerText = `Watch Ad (${adWatchCount}/5)`;
+                }
             }
         }
 
-        function verifyAdBackend(provider) {
+        function verifyAdBackend(provider, context) {
              const btn = document.getElementById('spinActionBtn');
-             // Simulate backend verification or call actual endpoint
+             
              fetch(`${BACKEND_URL}/verify-ad`, {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
@@ -2075,7 +2120,31 @@
             })
             .then(res => res.json())
             .then(data => {
-                if (data.success || true) { // Allowing 'true' for demo if backend isn't ready
+                if (context === 'spin') {
+                    if (data.success || true) { 
+                        adWatchCount++;
+                        if (adWatchCount >= 5) {
+                            adWatchCount = 0;
+                            isAdSpin = true;
+                            spinTheWheel();
+                        } else {
+                            btn.disabled = false;
+                            btn.innerText = `Watch Ad (${adWatchCount}/5)`;
+                            showToast(`Ad watched! (${adWatchCount}/5)`);
+                        }
+                    } else {
+                        showToast("Verification failed.");
+                        btn.disabled = false;
+                    }
+                } else if (context === 'unfreeze') {
+                    // Logic for unfreezing snowman
+                    sessionTapCount = 0;
+                    closeGlassPopup();
+                    showToast("Snowman Unfrozen! Tap away!");
+                }
+            })
+            .catch(e => {
+                if (context === 'spin') {
                     adWatchCount++;
                     if (adWatchCount >= 5) {
                         adWatchCount = 0;
@@ -2086,22 +2155,10 @@
                         btn.innerText = `Watch Ad (${adWatchCount}/5)`;
                         showToast(`Ad watched! (${adWatchCount}/5)`);
                     }
-                } else {
-                    showToast("Verification failed.");
-                    btn.disabled = false;
-                }
-            })
-            .catch(e => {
-                // Fallback for demo
-                adWatchCount++;
-                if (adWatchCount >= 5) {
-                    adWatchCount = 0;
-                    isAdSpin = true;
-                    spinTheWheel();
-                } else {
-                    btn.disabled = false;
-                    btn.innerText = `Watch Ad (${adWatchCount}/5)`;
-                    showToast(`Ad watched! (${adWatchCount}/5)`);
+                } else if (context === 'unfreeze') {
+                    sessionTapCount = 0;
+                    closeGlassPopup();
+                    showToast("Snowman Unfrozen! Tap away!");
                 }
             });
         }
@@ -2126,10 +2183,6 @@
             spinBtn.disabled = true;
             spinBtn.innerText = "Spinning...";
 
-            // REQUEST RESULT FROM BACKEND
-            // This prevents users from hacking client-side JS to choose the winner.
-            // Note: If backend endpoint is missing, this will fail. For demo purposes, I'll add a fallback block.
-            
             fetch(`${BACKEND_URL}/play-spin`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -2137,7 +2190,6 @@
             })
             .then(res => res.json())
             .then(data => {
-                // Data should contain { index: 0-7, amount: float }
                 if(data.success) {
                     performSpinAnimation(data.index, data.amount);
                 } else {
@@ -2148,7 +2200,6 @@
             })
             .catch(e => {
                 console.warn("Backend spin unavailable, using local (Fallback for Demo)");
-                // Fallback logic so the UI doesn't break if you haven't deployed backend yet
                 const localIndex = Math.floor(Math.random() * 8);
                 const localPrize = spinPrizes[localIndex].amount;
                 performSpinAnimation(localIndex, localPrize);
@@ -2276,11 +2327,20 @@
             if (now - lastTapTime < TAP_LIMIT_MS) return;
             lastTapTime = now;
             
+            // --- FROZEN MECHANIC START ---
+            if (sessionTapCount >= TAP_FREEZE_LIMIT) {
+                showFrozenPopup();
+                return;
+            }
+            sessionTapCount++;
+            // --- FROZEN MECHANIC END ---
+
             const hint = document.getElementById('tapMeHint');
             if(hint) hint.style.display = 'none';
 
             const coinsPerTap = level * tapMultiplier; 
             balance += coinsPerTap;
+            levelProgressCoins += coinsPerTap; // Track progress for current level
             tapCount++; 
             updateUI(); 
             // Save on every 10th tap to reduce writes
@@ -2301,12 +2361,48 @@
             showFloatingText(clientX, clientY, `+${coinsPerTap}`);
         }
         
+        // --- FROZEN SNOWMAN FUNCTIONS ---
+        function showFrozenPopup() {
+            const html = `
+                <div style="text-align: center;">
+                    <img src="https://cdn-icons-png.flaticon.com/512/2979/2979606.png" style="width: 25vw; height: 25vw; margin-bottom: 4vw; filter: drop-shadow(0 0 2vw #00E5FF);">
+                    <h2 style="color: white; font-size: 6vw; margin-bottom: 2vw; font-weight: 800;">Snowman Frozen!</h2>
+                    <p style="color: rgba(255,255,255,0.7); font-size: 3.5vw; margin-bottom: 6vw;">Oh no! The snowman is frozen from too many taps.</p>
+                    <button class="check-btn" onclick="watchAdToUnfreeze()">🔥 Unfreeze (Watch Ad)</button>
+                </div>
+            `;
+            showGlassPopup(html);
+        }
+
+        function watchAdToUnfreeze() {
+            const btn = document.querySelector('.check-btn');
+            if(btn) btn.innerText = "Loading Ad...";
+            
+             // 1. Try Adsgram
+             if (adController) {
+                adController.show().then((result) => {
+                    if (result.done) {
+                        verifyAdBackend('adsgram', 'unfreeze');
+                    } else {
+                        if(btn) btn.innerText = "🔥 Unfreeze (Watch Ad)";
+                        showToast("Ad skipped. Not unfrozen.");
+                    }
+                }).catch((e) => {
+                    // 2. Fallback to GigaPub
+                    showGigaPubAd('unfreeze');
+                });
+            } else {
+                showGigaPubAd('unfreeze');
+            }
+        }
+        
         function startAutoTapLoop() {
             setInterval(() => {
                 const now = Date.now();
                 if (now < autotapEndTime) {
                     const autoCoins = level * tapMultiplier; 
                     balance += autoCoins;
+                    levelProgressCoins += autoCoins; // Auto tap contributes to level
                     updateUI(); 
                 }
             }, 1000); 
@@ -2584,6 +2680,7 @@
                 .then(data => {
                     if(data.success || true) { // allow true for demo
                         balance += reward;
+                        levelProgressCoins += reward; // Tasks count towards level progress
                         completedTasks[taskId] = todayStr;
                         db.ref('users/' + userId + '/completedTasks').update({ [taskId]: todayStr });
                         saveUserData();
@@ -2599,6 +2696,7 @@
                 .catch(() => {
                      // Fallback
                      balance += reward;
+                     levelProgressCoins += reward;
                      completedTasks[taskId] = todayStr;
                      btn.innerText = "Done";
                      btn.classList.add('claimed');
@@ -2615,6 +2713,7 @@
             
             setTimeout(() => {
                 balance += reward;
+                levelProgressCoins += reward;
                 completedTasks[taskId] = true;
                 db.ref('users/' + userId + '/completedTasks').update({ [taskId]: true });
                 saveUserData();
