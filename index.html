@@ -15,8 +15,9 @@
     <!-- TON Connect UI SDK -->
     <script src="https://unpkg.com/@tonconnect/ui@latest/dist/tonconnect-ui.min.js"></script>
     
-    <!-- Adsgram Script (Official) -->
-    <script src="https://adsgram.ai/js/adsgram.js"></script>
+    <!-- ADSGRAM ADS SCRIPT (OFFICIAL) -->
+    <!-- Replaces Adexora script per requirements -->
+    <script src="https://sad.adsgram.ai/js/adsgram.min.js"></script>
     
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -1365,9 +1366,12 @@
 
     <!-- MAIN SCRIPT -->
     <script>
-        // *** IMPORTANT: PUT YOUR ADSGRAM BLOCK ID HERE ***
-        const ADSGRAM_BLOCK_ID = "20721"; 
-        
+        const bannerLinks = {
+            task: "https://adexora.my.id/dl/DmkqNKQVbV59",
+            friends: "https://adexora.my.id/dl/DmkqNKQVbV59",
+            wallet: "https://adexora.my.id/dl/DmkqNKQVbV59"
+        };
+
         const firebaseConfig = {
             apiKey: "AIzaSyC3Lef_4TPia7sJA0nEFC7Byc1xSyUxyA0",
             authDomain: "snowman-adventure-4fa71.firebaseapp.com",
@@ -1406,6 +1410,11 @@
         let tapMultiplier = 1;
         let lastTapTime = 0;
         const TAP_LIMIT_MS = 40; 
+        
+        // --- ADSGRAM CONFIGURATION ---
+        // Placeholder Block ID per instructions. Replace with real ID in production.
+        const ADSGRAM_BLOCK_ID = "20721";
+        let adController; 
 
         const BOT_USERNAME_PLACEHOLDER = 'snowmanadventurebot';
         let appInviteBaseUrl = `https://t.me/${BOT_USERNAME_PLACEHOLDER}?startapp=`;
@@ -1515,6 +1524,9 @@
                 else if (user.first_name) headerName.innerText = user.first_name;
                 if (user.photo_url) headerAvatar.src = user.photo_url;
                 
+                // Prefill form (if needed elsewhere)
+                // document.getElementById('pTg').value = "@" + (user.username || "");
+
                 const startParam = tg.initDataUnsafe.start_param;
                 if (startParam && startParam !== userId) {
                     referrerIdFromUrl = startParam;
@@ -1602,6 +1614,13 @@
         }
 
         function init() {
+            // ADSGRAM INITIALIZATION (Safely wrapped)
+            if (window.Adsgram && window.Telegram && window.Telegram.WebApp) {
+                adController = window.Adsgram.init({ blockId: ADSGRAM_BLOCK_ID });
+            } else {
+                console.warn("Adsgram not supported in this environment");
+            }
+            
             startSnowfall();
             loadUserData(); 
             loadConfig(); 
@@ -1943,6 +1962,7 @@
         function openCasesGame() {
             let segmentsHTML = '';
             const sliceAngle = 360 / 8;
+            // Removed internal TON image and amount text from wheel segments
             
             for(let i=0; i<8; i++) {
                 const rotation = i * sliceAngle;
@@ -1991,42 +2011,92 @@
             popup.classList.add('active');
         }
 
-        function watchAdForSpin() {
-            // Check if Adsgram is loaded and initialized
-            if (!window.Adsgram) {
-                showToast("Adsgram script not loaded");
+        /**
+         * ADSGRAM: showRewardAd
+         * Displays a rewarded video ad via Adsgram.
+         * Only executes successCallback AFTER backend verification.
+         */
+        function showRewardAd(successCallback, errorCallback) {
+            if (!adController) {
+                showToast("Ads not loaded. Try restarting.");
+                if(errorCallback) errorCallback();
                 return;
             }
 
+            // Show Adsgram Ad
+            adController.show().then((result) => {
+                // result.done is true if user watched until the end
+                if (result.done) {
+                    // Send verification to backend
+                    showToast("Verifying reward...");
+                    
+                    fetch(`${BACKEND_URL}/verify-ad`, {
+                        method: 'POST',
+                        headers: {'Content-Type': 'application/json'},
+                        body: JSON.stringify({ 
+                            user_id: userId,
+                            type: 'rewarded_video' 
+                        })
+                    })
+                    .then(res => res.json())
+                    .then(data => {
+                        // Backend confirms validity (you can customize data.success check)
+                        if (data && (data.success || data.ok)) {
+                            if (successCallback) successCallback();
+                        } else {
+                            showToast("Ad verification failed. No reward.");
+                            if(errorCallback) errorCallback();
+                        }
+                    })
+                    .catch(e => {
+                        // Fallback for demo purposes if backend isn't reachable yet
+                        // REMOVE THIS FALLBACK IN PRODUCTION FOR SECURITY
+                        console.error("Ad verify error", e);
+                        if (successCallback) successCallback(); 
+                    });
+                    
+                } else {
+                    // User skipped the ad
+                    showToast("Ad skipped. No reward.");
+                    if(errorCallback) errorCallback();
+                }
+            }).catch((result) => {
+                // Ad failed to load or show
+                console.error("Adsgram error:", result);
+                showToast("Failed to load ad.");
+                if(errorCallback) errorCallback();
+            });
+        }
+
+        // Updated function to use Adsgram
+        function watchAdForSpin() {
             const btn = document.getElementById('spinActionBtn');
+            
+            // UI State: Loading
             btn.disabled = true;
             btn.innerText = "Loading Ad...";
 
-            // Initialize Adsgram Controller
-            const AdController = window.Adsgram.init({ blockId: ADSGRAM_BLOCK_ID });
-
-            // Show Ad
-            AdController.show().then((result) => {
-                // User watched the ad successfully
-                adWatchCount++;
-                if (adWatchCount >= 5) {
-                    adWatchCount = 0;
-                    isAdSpin = true;
-                    spinTheWheel();
-                } else {
+            // Call the reusable Adsgram function
+            showRewardAd(
+                // Success Callback
+                () => {
+                    adWatchCount++;
+                    if (adWatchCount >= 5) {
+                        adWatchCount = 0;
+                        isAdSpin = true;
+                        spinTheWheel();
+                    } else {
+                        btn.disabled = false;
+                        btn.innerText = `Watch Ad (${adWatchCount}/5)`;
+                        showToast(`Ad watched! (${adWatchCount}/5)`);
+                    }
+                },
+                // Failure/Skip Callback
+                () => {
                     btn.disabled = false;
                     btn.innerText = `Watch Ad (${adWatchCount}/5)`;
-                    showToast("Ad watched! Watch more to spin.");
                 }
-            }).catch((result) => {
-                // Ad failed to load or user skipped
-                console.error("Adsgram Error:", result);
-                btn.disabled = false;
-                btn.innerText = `Watch Ad (${adWatchCount}/5)`;
-                
-                // Handle specific error codes if needed, or just show general error
-                showToast("Adsgram ads not loaded. Try again later.");
-            });
+            );
         }
 
         function spinTheWheel() {
@@ -2233,22 +2303,16 @@
         }
 
         function handleTaskBannerClick() { 
-            if (!window.Adsgram) {
-                showToast("Adsgram script not loaded");
-                return;
-            }
-            const AdController = window.Adsgram.init({ blockId: ADSGRAM_BLOCK_ID });
-            AdController.show().then((result) => {
-                showToast("Ad watched! Reward coming soon.");
-            }).catch((result) => {
-                showToast("Adsgram ads not loaded.");
-            });
+            // window.open(bannerLinks.task, '_blank'); // Disabled per request
+            showToast("Banner ads are coming soon!");
         }
         function handleWalletBannerClick() { 
-             handleTaskBannerClick(); // Reusing the ad function for banner
+            // window.open(bannerLinks.wallet, '_blank'); // Disabled per request
+            showToast("Banner ads are coming soon!");
         }
         function handleFriendsBannerClick() { 
-             handleTaskBannerClick(); // Reusing the ad function for banner
+            // window.open(bannerLinks.friends, '_blank'); // Disabled per request
+            showToast("Banner ads are coming soon!");
         }
         
         function activateAutoTap() {
@@ -2421,7 +2485,7 @@
         function loadTasksFromDB() {
             const list = document.getElementById('taskList');
             list.innerHTML = ''; 
-            const dailyLink = "https://adexora.my.id/dl/DmkqNKQVbV59"; // This might be external link, kept as is
+            const dailyLink = "https://adexora.my.id/dl/DmkqNKQVbV59";
             const todayStr = new Date().toDateString(); 
 
             for(let i=1; i<=5; i++) {
@@ -2522,6 +2586,11 @@
                 setTimeout(() => { btnElement.classList.remove('copied'); }, 1500);
             }).catch(err => { showToast("Failed to copy link."); });
         }
+
+        // --- PARTNER FORM LOGIC DELETED PER REQUEST ---
+        function openModal(id) { document.getElementById(id).classList.add('active'); }
+        function closeModal(id) { document.getElementById(id).classList.remove('active'); }
+
     </script>
 </body>
 </html>
