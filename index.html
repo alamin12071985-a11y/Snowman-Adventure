@@ -15,8 +15,9 @@
     <!-- TON Connect UI SDK -->
     <script src="https://unpkg.com/@tonconnect/ui@latest/dist/tonconnect-ui.min.js"></script>
     
-    <!-- Adsgram Script (সঠিক লিংক) -->
-    <script src="https://api.adsgram.ai/js/adsgram.js"></script>
+    <!-- Adsgram Script (Official) -->
+    <script src="https://adsgram.ai/js/adsgram.js"></script>
+    
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
@@ -1364,12 +1365,9 @@
 
     <!-- MAIN SCRIPT -->
     <script>
-        const bannerLinks = {
-            task: "https://adexora.my.id/dl/DmkqNKQVbV59",
-            friends: "https://adexora.my.id/dl/DmkqNKQVbV59",
-            wallet: "https://adexora.my.id/dl/DmkqNKQVbV59"
-        };
-
+        // *** IMPORTANT: PUT YOUR ADSGRAM BLOCK ID HERE ***
+        const ADSGRAM_ = "20721"; 
+        
         const firebaseConfig = {
             apiKey: "AIzaSyC3Lef_4TPia7sJA0nEFC7Byc1xSyUxyA0",
             authDomain: "snowman-adventure-4fa71.firebaseapp.com",
@@ -1517,9 +1515,6 @@
                 else if (user.first_name) headerName.innerText = user.first_name;
                 if (user.photo_url) headerAvatar.src = user.photo_url;
                 
-                // Prefill form (if needed elsewhere)
-                // document.getElementById('pTg').value = "@" + (user.username || "");
-
                 const startParam = tg.initDataUnsafe.start_param;
                 if (startParam && startParam !== userId) {
                     referrerIdFromUrl = startParam;
@@ -1948,7 +1943,6 @@
         function openCasesGame() {
             let segmentsHTML = '';
             const sliceAngle = 360 / 8;
-            // Removed internal TON image and amount text from wheel segments
             
             for(let i=0; i<8; i++) {
                 const rotation = i * sliceAngle;
@@ -1997,10 +1991,10 @@
             popup.classList.add('active');
         }
 
-        // Updated Spin Logic using Adsgram (Reward ID: 20721)
         function watchAdForSpin() {
+            // Check if Adsgram is loaded and initialized
             if (!window.Adsgram) {
-                showToast("Adsgram script not loaded.");
+                showToast("Adsgram script not loaded");
                 return;
             }
 
@@ -2008,31 +2002,30 @@
             btn.disabled = true;
             btn.innerText = "Loading Ad...";
 
-            const AdController = window.Adsgram.init({ blockId: "20721" });
+            // Initialize Adsgram Controller
+            const AdController = window.Adsgram.init({ blockId: ADSGRAM_ });
 
+            // Show Ad
             AdController.show().then((result) => {
-                if (result.done) {
-                    // Success logic
-                    adWatchCount++;
-                    if (adWatchCount >= 5) {
-                        adWatchCount = 0;
-                        isAdSpin = true;
-                        spinTheWheel();
-                    } else {
-                        btn.disabled = false;
-                        btn.innerText = `Watch Ad (${adWatchCount}/5)`;
-                    }
+                // User watched the ad successfully
+                adWatchCount++;
+                if (adWatchCount >= 5) {
+                    adWatchCount = 0;
+                    isAdSpin = true;
+                    spinTheWheel();
                 } else {
-                    // Skipped or failed
                     btn.disabled = false;
                     btn.innerText = `Watch Ad (${adWatchCount}/5)`;
-                    showToast("Ad not completed.");
+                    showToast("Ad watched! Watch more to spin.");
                 }
-            }).catch((err) => {
-                console.error(err);
+            }).catch((result) => {
+                // Ad failed to load or user skipped
+                console.error("Adsgram Error:", result);
                 btn.disabled = false;
                 btn.innerText = `Watch Ad (${adWatchCount}/5)`;
-                showToast("No ads available.");
+                
+                // Handle specific error codes if needed, or just show general error
+                showToast("Adsgram ads not loaded. Try again later.");
             });
         }
 
@@ -2240,16 +2233,22 @@
         }
 
         function handleTaskBannerClick() { 
-            // Disabled old ad link
-            showToast("Banner ads are coming soon!");
+            if (!window.Adsgram) {
+                showToast("Adsgram script not loaded");
+                return;
+            }
+            const AdController = window.Adsgram.init({ blockId: ADSGRAM_ });
+            AdController.show().then((result) => {
+                showToast("Ad watched! Reward coming soon.");
+            }).catch((result) => {
+                showToast("Adsgram ads not loaded.");
+            });
         }
         function handleWalletBannerClick() { 
-            // Disabled old ad link
-            showToast("Banner ads are coming soon!");
+             handleTaskBannerClick(); // Reusing the ad function for banner
         }
         function handleFriendsBannerClick() { 
-            // Disabled old ad link
-            showToast("Banner ads are coming soon!");
+             handleTaskBannerClick(); // Reusing the ad function for banner
         }
         
         function activateAutoTap() {
@@ -2422,24 +2421,25 @@
         function loadTasksFromDB() {
             const list = document.getElementById('taskList');
             list.innerHTML = ''; 
-            
-            // --- NEW ADSGRAM TASK (Replaces old daily loops) ---
-            // Task ID: task-20722
-            const adTaskKey = `adsgram_task_${new Date().toDateString()}`;
-            const isAdTaskDone = completedTasks[adTaskKey];
+            const dailyLink = "https://adexora.my.id/dl/DmkqNKQVbV59"; // This might be external link, kept as is
+            const todayStr = new Date().toDateString(); 
 
-            const adCard = document.createElement('div');
-            adCard.className = 'task-card';
-            adCard.innerHTML = `
-                <img src="https://cdn-icons-png.flaticon.com/512/2621/2621038.png" class="task-icon web-icon" alt="Ad">
-                <div class="task-info">
-                    <div class="task-title">Watch Daily Ad</div>
-                    <div class="task-reward"><img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/coin.webp">+2500</div>
-                </div>
-                <button class="task-btn ${isAdTaskDone ? 'claimed' : ''}" onclick="handleAdsgramTask('${adTaskKey}', 2500, this)">${isAdTaskDone ? 'Done' : 'Watch'}</button>
-            `;
-            list.appendChild(adCard);
-            // ---------------------------------------------------
+            for(let i=1; i<=5; i++) {
+                const taskId = `daily_visit_${i}`;
+                const lastDoneDate = completedTasks[taskId]; 
+                const isDoneToday = (lastDoneDate === todayStr);
+                const card = document.createElement('div');
+                card.className = 'task-card';
+                card.innerHTML = `
+                    <img src="https://cdn-icons-png.flaticon.com/512/1006/1006771.png" class="task-icon web-icon" alt="Web">
+                    <div class="task-info">
+                        <div class="task-title">Visit Site ${i}</div>
+                        <div class="task-reward"><img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/coin.webp">+1000</div>
+                    </div>
+                    <button class="task-btn ${isDoneToday ? 'claimed' : ''}" onclick="handleDailyTask('${taskId}', '${dailyLink}', 1000, this)">${isDoneToday ? 'Done' : 'Visit'}</button>
+                `;
+                list.appendChild(card);
+            }
 
             db.ref('tasks').once('value').then(snapshot => {
                 const tasks = snapshot.val();
@@ -2463,31 +2463,22 @@
             });
         }
 
-        // Adsgram Task Handler (Block ID: task-20722)
-        function handleAdsgramTask(taskId, reward, btn) {
-            if(btn.classList.contains('claimed')) return;
-
-            if (!window.Adsgram) { showToast("Ad system loading..."); return; }
-
-            const AdController = window.Adsgram.init({ blockId: "task-20722" });
-
-            AdController.show().then((result) => {
-                if (result.done) {
-                     balance += reward;
-                     const todayStr = new Date().toDateString();
-                     completedTasks[taskId] = todayStr;
-                     db.ref('users/' + userId + '/completedTasks').update({ [taskId]: todayStr });
-                     saveUserData();
-                     updateUI();
-                     btn.innerText = "Done";
-                     btn.classList.add('claimed');
-                     showToast(`Task completed! +${reward} coins`);
-                } else {
-                    showToast("You must watch the ad to get rewards.");
-                }
-            }).catch(() => {
-                showToast("No ads available.");
-            });
+        function handleDailyTask(taskId, link, reward, btn) {
+            const todayStr = new Date().toDateString();
+            if (completedTasks[taskId] === todayStr) return; 
+            window.open(link, '_blank');
+            btn.innerText = "Checking...";
+            btn.style.opacity = "0.7";
+            setTimeout(() => {
+                balance += reward;
+                completedTasks[taskId] = todayStr;
+                db.ref('users/' + userId + '/completedTasks').update({ [taskId]: todayStr });
+                saveUserData();
+                btn.innerText = "Done";
+                btn.classList.add('claimed');
+                updateUI();
+                showToast(`Task completed! +${reward} coins`);
+            }, 8000); 
         }
 
         function handleTask(taskId, link, reward, btn) {
@@ -2531,11 +2522,6 @@
                 setTimeout(() => { btnElement.classList.remove('copied'); }, 1500);
             }).catch(err => { showToast("Failed to copy link."); });
         }
-
-        // --- PARTNER FORM LOGIC DELETED PER REQUEST ---
-        function openModal(id) { document.getElementById(id).classList.add('active'); }
-        function closeModal(id) { document.getElementById(id).classList.remove('active'); }
-
     </script>
 </body>
 </html>
