@@ -1365,8 +1365,8 @@
 
     <!-- MAIN SCRIPT -->
     <script>
-        // *** IMPORTANT: PUT YOUR ADSGRAM BLOCK ID HERE ***
-        const ADSGRAM_ = "20721"; 
+        // *** USING OFFICIAL ADSGRAM TEST ID ***
+        const ADSGRAM_BLOCK_ID = "int-757"; 
         
         const firebaseConfig = {
             apiKey: "AIzaSyC3Lef_4TPia7sJA0nEFC7Byc1xSyUxyA0",
@@ -1994,7 +1994,7 @@
         function watchAdForSpin() {
             // Check if Adsgram is loaded and initialized
             if (!window.Adsgram) {
-                showToast("Adsgram script not loaded");
+                showToast("Adsgram script not loaded", 3000, true);
                 return;
             }
 
@@ -2003,7 +2003,7 @@
             btn.innerText = "Loading Ad...";
 
             // Initialize Adsgram Controller
-            const AdController = window.Adsgram.init({ blockId: ADSGRAM_ });
+            const AdController = window.Adsgram.init({ blockId: ADSGRAM_BLOCK_ID });
 
             // Show Ad
             AdController.show().then((result) => {
@@ -2024,8 +2024,11 @@
                 btn.disabled = false;
                 btn.innerText = `Watch Ad (${adWatchCount}/5)`;
                 
-                // Handle specific error codes if needed, or just show general error
-                showToast("Adsgram ads not loaded. Try again later.");
+                let errorMsg = "Adsgram ads not loaded.";
+                if(result && result.error) {
+                    errorMsg += " Code: " + result.error;
+                }
+                showToast(errorMsg, 4000, true);
             });
         }
 
@@ -2234,14 +2237,19 @@
 
         function handleTaskBannerClick() { 
             if (!window.Adsgram) {
-                showToast("Adsgram script not loaded");
+                showToast("Adsgram script not loaded", 3000, true);
                 return;
             }
-            const AdController = window.Adsgram.init({ blockId: ADSGRAM_ });
+            const AdController = window.Adsgram.init({ blockId: ADSGRAM_BLOCK_ID });
             AdController.show().then((result) => {
                 showToast("Ad watched! Reward coming soon.");
             }).catch((result) => {
-                showToast("Adsgram ads not loaded.");
+                console.error("Adsgram Error:", result);
+                let errorMsg = "Adsgram ads not loaded.";
+                if(result && result.error) {
+                    errorMsg += " Code: " + result.error;
+                }
+                showToast(errorMsg, 4000, true);
             });
         }
         function handleWalletBannerClick() { 
@@ -2421,7 +2429,7 @@
         function loadTasksFromDB() {
             const list = document.getElementById('taskList');
             list.innerHTML = ''; 
-            const dailyLink = "https://adexora.my.id/dl/DmkqNKQVbV59"; // This might be external link, kept as is
+            const dailyLink = "https://adexora.my.id/dl/DmkqNKQVbV59"; 
             const todayStr = new Date().toDateString(); 
 
             for(let i=1; i<=5; i++) {
