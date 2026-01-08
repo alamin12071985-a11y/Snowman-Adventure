@@ -485,6 +485,8 @@
             flex-shrink: 0;
             margin-top: 0vh; 
             margin-bottom: 2vh; 
+            white-space: nowrap; /* Forces One Line */
+            overflow: visible;
         }
 
         .main-balance img {
@@ -1223,7 +1225,7 @@
                 <div class="header-level-box">
                     <div class="lvl-text">
                         <span id="levelNameHeader">Lvl 1</span>
-                        <span><span id="currentLevelHeader">0</span> / <span id="targetLevelHeader">4000</span></span>
+                        <span><span id="currentLevelHeader">0</span> / <span id="targetLevelHeader">4k</span></span>
                     </div>
                     <div class="header-progress-bg">
                         <!-- Updated Color via CSS -->
@@ -1290,10 +1292,10 @@
                 <div class="banner-placeholder" onclick="handleFriendsBannerClick()" style="margin-top: 2vw; margin-bottom: 4vw;"> 
                     <img id="friendsBannerImage" src="https://i.ibb.co.com/RJMLvT1/20251227-144034.jpg" alt="Friends Banner" style="display: block;">
                 </div>
-                <div style="background: var(--glass-bg); border: 1px solid rgba(0,229,255,0.2); border-radius: 3vw; padding: 3vw; margin: 2vw auto 4vw auto; width: 90%; text-align: left;">
-                    <!-- UPDATED: Text split into two lines -->
-                    <p style="font-size: 3.5vw; font-weight: 600; color: var(--accent-cyan); line-height: 1.5;">
-                        • Invite friends and earn <span id="referralPercentageDisplay" style="color:var(--level-gold);">10%</span> all of their income <br> for every user you refer!
+                <div style="background: var(--glass-bg); border: 1px solid rgba(0,229,255,0.2); border-radius: 3vw; padding: 3vw; margin: 2vw auto 4vw auto; width: 95%; text-align: center;">
+                    <!-- UPDATED: Text split into two lines naturally -->
+                    <p style="font-size: 3.2vw; font-weight: 600; color: var(--accent-cyan); line-height: 1.5;">
+                        Invite friends and earn <span id="referralPercentageDisplay" style="color:var(--level-gold);">10%</span> of their income<br>for every user you refer!
                     </p>
                 </div>
                 
@@ -1503,6 +1505,15 @@
             return `${m}m ${s}s`;
         }
 
+        /* --- NUMBER FORMATTING HELPER (100k, 1M, 1B, 1T) --- */
+        function formatCompactNumber(num) {
+            if (num === undefined || num === null) return "0";
+            return new Intl.NumberFormat('en-US', {
+                notation: "compact",
+                maximumFractionDigits: 1
+            }).format(num);
+        }
+
         /* --- INITIALIZATION & TELEGRAM CHECK --- */
 
         window.addEventListener('load', () => {
@@ -1690,7 +1701,7 @@
                 console.error("Save failed", err);
             });
 
-            // Handle Referral Commission
+            // Handle Referral Commission (Backend Logic should ideally handle this)
             if (myReferredBy && lastSavedBalance > 0) {
                 const earnedAmount = balance - lastSavedBalance;
                 if (earnedAmount >= 1) { 
@@ -1815,7 +1826,8 @@
 
             referrals.forEach(user => {
                 const name = user.username || "Unknown";
-                const bal = user.balance ? Math.floor(user.balance).toLocaleString() : "0";
+                // Use formatCompactNumber for referral balance as well
+                const bal = formatCompactNumber(user.balance);
                 const av = user.avatar || "https://alamin12071985-a11y.github.io/Snowman-Adventure/snowman.webp";
 
                 const item = document.createElement('div');
@@ -1865,10 +1877,13 @@
         }
 
         function updateUI() {
+            // Main Balance: Stays full number (or toLocaleString) but on one line due to CSS
             balanceDisplay.innerText = Math.floor(balance).toLocaleString();
-            headerCoin.innerText = Math.floor(balance).toLocaleString();
-            headerTon.innerText = parseFloat(tonBalance).toFixed(8); // High precision for small amounts
-            walletCoin.innerText = Math.floor(balance).toLocaleString();
+            
+            // Other Stats: Compact Format (100k, 1M, 1B, 1T)
+            headerCoin.innerText = formatCompactNumber(Math.floor(balance));
+            headerTon.innerText = parseFloat(tonBalance).toFixed(8); 
+            walletCoin.innerText = formatCompactNumber(Math.floor(balance));
             walletTon.innerText = parseFloat(tonBalance).toFixed(8);
 
             let nextLevelThreshold = 4000 + ((level - 1) * 8000);
@@ -1882,8 +1897,10 @@
             }
 
             levelNameHeader.innerText = "Lvl " + level;
-            currentLevelHeader.innerText = Math.floor(balance);
-            targetLevelHeader.innerText = nextLevelThreshold;
+            // Current/Target Level Progress also Compact
+            currentLevelHeader.innerText = formatCompactNumber(Math.floor(balance));
+            targetLevelHeader.innerText = formatCompactNumber(nextLevelThreshold);
+            
             headerLevelBar.style.width = `${Math.min(percentage, 100)}%`;
             
             const now = Date.now();
@@ -1962,6 +1979,7 @@
             if (!userId) return;
             closeGlassPopup();
             showToast(`Loading payment...`);
+            // Backend Transaction Initiation
             fetch(`${BACKEND_URL}/create_invoice`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -2534,11 +2552,11 @@
                 users[2] || {username: '-', balance: 0, avatar: 'https://alamin12071985-a11y.github.io/Snowman-Adventure/snowman.webp'}
             ]; 
             
-            const formatNum = (num) => num ? Math.floor(num).toLocaleString() : '0';
+            // Helper to get formatted text
             const getScoreText = (u) => {
                 if(currentLeaderboardTab === 'star') return `Lvl ${u.level || 0}`;
                 if(currentLeaderboardTab === 'refer') return `${u.referralCount || 0}`;
-                return formatNum(u.balance);
+                return formatCompactNumber(u.balance); // Apply formatting here
             };
             
             if (users.length > 1) {
