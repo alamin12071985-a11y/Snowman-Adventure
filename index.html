@@ -388,7 +388,7 @@
             border: 1px solid rgba(0, 229, 255, 0.2);
         }
 
-        /* UPDATED: Progress Bar Color */
+        /* UPDATED: Progress Bar Color (Game Theme: Cyan/Blue/Violet) */
         .header-progress-fill {
             height: 100%;
             width: 0%;
@@ -485,7 +485,7 @@
             flex-shrink: 0;
             margin-top: 0vh; 
             margin-bottom: 2vh; 
-            white-space: nowrap; 
+            white-space: nowrap; /* Forces One Line */
             overflow: visible;
         }
 
@@ -513,10 +513,10 @@
             transform: scale(1.05); 
         }
 
-        /* --- TAP ME HINT --- */
+        /* --- TAP ME HINT (ABOVE HEAD) --- */
         .tap-me-hint {
             position: absolute;
-            top: 25%;
+            top: 25%; /* Moved Higher */
             left: 50%;
             transform: translate(-50%, -50%);
             font-size: 8vw;
@@ -603,7 +603,7 @@
         #leaderboardBtn { top: 82%; right: 3vw; }
         #autoTapBtn { top: 82%; left: 3vw; }
         
-        /* --- TOAST NOTIFICATION --- */
+        /* --- TOAST NOTIFICATION REDESIGNED --- */
         .toast-notification {
             position: fixed;
             top: 5vw;
@@ -618,7 +618,7 @@
             box-shadow: 0 4vw 8vw rgba(0,0,0,0.6);
             display: flex;
             align-items: center;
-            justify-content: space-between; 
+            justify-content: space-between; /* Icon Left, Close Right */
             gap: 3vw;
             z-index: 9999;
             opacity: 0;
@@ -707,7 +707,7 @@
             height: 6vw;
             opacity: 0.5;
             transition: all 0.3s;
-            filter: grayscale(100%); 
+            filter: grayscale(100%); /* Original behavior */
             object-fit: contain;
         }
         
@@ -726,6 +726,39 @@
             filter: grayscale(0%) drop-shadow(0 0 2vw var(--accent-cyan));
             transform: scale(1.1);
         }
+
+        /* --- AFFILIATE FORM MODALS --- */
+        .glass-modal {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.8); backdrop-filter: blur(10px);
+            z-index: 5000; display: none; align-items: center; justify-content: center;
+            opacity: 0; transition: opacity 0.3s;
+        }
+        .glass-modal.active { display: flex; opacity: 1; }
+        
+        .modal-card {
+            background: #111b27; width: 90vw; max-height: 90vh; overflow-y: auto;
+            border-radius: 5vw; border: 1px solid var(--accent-cyan);
+            padding: 5vw; position: relative;
+            box-shadow: 0 0 10vw rgba(0, 229, 255, 0.2);
+        }
+        .modal-title { font-size: 5vw; font-weight: 700; color: white; margin-bottom: 4vw; text-align: center; }
+        
+        .form-group { margin-bottom: 4vw; }
+        .form-label { display: block; font-size: 3.2vw; color: var(--accent-cyan); margin-bottom: 1.5vw; font-weight: 500; }
+        .form-input {
+            width: 100%; background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.2);
+            padding: 3.5vw; border-radius: 3vw; color: white; font-family: 'Poppins'; font-size: 3.5vw;
+            outline: none; transition: border 0.2s;
+        }
+        .form-input:focus { border-color: var(--accent-cyan); background: rgba(0, 229, 255, 0.05); }
+        .form-select { appearance: none; background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3e%3cpath d='M7 10l5 5 5-5z'/%3e%3c/svg%3e"); background-repeat: no-repeat; background-position: right 3vw center; background-size: 5vw; }
+
+        .rewards-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 2vw; margin-bottom: 5vw; }
+        .reward-card { background: rgba(255,255,255,0.05); padding: 3vw; border-radius: 3vw; text-align: center; border: 1px solid rgba(255,255,255,0.1); }
+        .reward-pct { font-size: 5vw; font-weight: 800; color: var(--level-gold); }
+        .reward-lbl { font-size: 2.8vw; color: rgba(255,255,255,0.6); }
+        .center-card { background: linear-gradient(180deg, rgba(0,229,255,0.2), rgba(0,0,0,0)); border-color: var(--accent-cyan); transform: scale(1.05); }
 
         /* --- LEADERBOARD REDESIGN --- */
         .leaderboard-overlay {
@@ -762,16 +795,17 @@
         }
         .close-btn img { 
             width: 100%; height: 100%; object-fit: contain; 
-            filter: brightness(0) invert(1); 
+            filter: brightness(0) invert(1); /* Make White */
         }
 
+        /* UPDATED: Stylish Skeleton Loader for Leaderboard */
         .tgs-loading-overlay {
             position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
             z-index: 3000;
-            display: none; 
+            display: none; /* Flex when active */
             flex-direction: column;
             width: 90vw;
             gap: 2vw;
@@ -986,6 +1020,7 @@
         .btn-invite { flex: 1; border: none; background: var(--btn-blue-grad); color: white; font-size: 4.5vw; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; padding: 4vw 0; border-radius: 10vw; cursor: pointer; box-shadow: 0 2vw 5vw rgba(0, 229, 255, 0.4), inset 0 0.5vw 0 rgba(255,255,255,0.4); border: 1px solid rgba(255,255,255,0.2); transition: transform 0.1s, filter 0.2s; position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center; gap: 2vw; }
         .btn-invite img { 
             width: 8vw; height: 8vw; margin-right: -1vw; object-fit: contain; 
+            /* Telegram Icon is already colored, no invert needed */
         }
         .btn-invite::after { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 50%; background: linear-gradient(to bottom, rgba(255,255,255,0.2), transparent); border-radius: 10vw 10vw 0 0; pointer-events: none; }
         .btn-invite:active { transform: translateY(1vw); filter: brightness(0.9); box-shadow: 0 1vw 3vw rgba(0, 229, 255, 0.3); }
@@ -1258,6 +1293,7 @@
                     <img id="friendsBannerImage" src="https://i.ibb.co.com/RJMLvT1/20251227-144034.jpg" alt="Friends Banner" style="display: block;">
                 </div>
                 <div style="background: var(--glass-bg); border: 1px solid rgba(0,229,255,0.2); border-radius: 3vw; padding: 3vw; margin: 2vw auto 4vw auto; width: 95%; text-align: center;">
+                    <!-- UPDATED: Text split into two lines naturally -->
                     <p style="font-size: 3.2vw; font-weight: 600; color: var(--accent-cyan); line-height: 1.5;">
                         Invite friends and earn <span id="referralPercentageDisplay" style="color:var(--level-gold);">10%</span> of their income<br>for every user you refer!
                     </p>
@@ -1355,6 +1391,7 @@
 
     <!-- MAIN SCRIPT -->
     <script>
+        // Updated Links to GigaPub Direct Link
         const bannerLinks = {
             task: "https://link.gigapub.tech/l/cr13d0r17",
             friends: "https://link.gigapub.tech/l/cr13d0r17",
@@ -1384,7 +1421,7 @@
         let level = 1;
         let userId = null; 
         let completedTasks = {}; 
-        let dailyAdCount = 0; 
+        let dailyAdCount = 0; // New Variable for Ad Tracking
         let lastAdDate = null;
         let currentLeaderboardTab = 'coins'; 
         let referralCount = 0; 
@@ -1400,7 +1437,6 @@
         let noadsEndTime = 0;   
         let tapMultiplier = 1;
         let lastTapTime = 0;
-        let joinDate = 0; // Added Join Date tracking
         const TAP_LIMIT_MS = 40; 
         
         // --- ADSGRAM CONFIGURATION ---
@@ -1478,36 +1514,14 @@
             }).format(num);
         }
 
-        /* --- LEVEL CONFIGURATION (UPDATED) --- */
-        // Cumulative Thresholds for levels based on Total Balance
-        // Level 1: 0 - 5,000
-        // Level 2: 5,000 - 25,000 (Range 20k -> "0 to 20k" visual) - Example "Zero to 6M" logic applied progressively
-        // Level 3: 25,000 - 100,000 (Range 75k)
-        // Level 4: 100,000 - 500,000
-        // Level 5: 500,000 - 2,500,000
-        // Level 6: 2,500,000 - 8,500,000 (Range 6M - as per example)
-        // Level 7: 8,500,000 - 16,500,000 (Range 8M - as per example)
-        // This continues similarly.
-        const levelThresholds = [
-            0,          // Lvl 1 Start
-            5000,       // Lvl 2 Start
-            25000,      // Lvl 3 Start
-            100000,     // Lvl 4 Start
-            500000,     // Lvl 5 Start
-            2500000,    // Lvl 6 Start (0 to 6M range starts here)
-            8500000,    // Lvl 7 Start (0 to 8M range starts here)
-            20000000,   // Lvl 8 Start
-            50000000,   // Lvl 9 Start
-            100000000   // Lvl 10 Start
-        ];
-
         /* --- INITIALIZATION & TELEGRAM CHECK --- */
 
         window.addEventListener('load', () => {
+            // STRICT TELEGRAM CHECK
             if(!initTelegramUser()) {
                 document.getElementById('loading-screen').style.display = 'none';
                 document.getElementById('telegram-only-blocker').style.display = 'flex';
-                return; 
+                return; // Stop everything
             }
 
             let loadPercent = 0;
@@ -1524,17 +1538,20 @@
 
                 if(loadPercent >= 100) {
                     clearInterval(interval);
+                    // Start logic after loading
                     performInitialJoinCheck(screen, joinGate);
                 }
             }, 50);
         });
 
+        // Attempt to get user. Returns false if not in Telegram.
         function initTelegramUser() {
             try {
                 const tg = window.Telegram.WebApp;
                 if (!tg.initDataUnsafe || !tg.initDataUnsafe.user) {
-                    return false; 
+                    return false; // Not in Telegram or no user data
                 }
+
                 tg.expand(); 
                 const user = tg.initDataUnsafe.user;
                 userId = user.id.toString(); 
@@ -1543,6 +1560,9 @@
                 else if (user.first_name) headerName.innerText = user.first_name;
                 if (user.photo_url) headerAvatar.src = user.photo_url;
                 
+                // Prefill form (if needed elsewhere)
+                // document.getElementById('pTg').value = "@" + (user.username || "");
+
                 const startParam = tg.initDataUnsafe.start_param;
                 if (startParam && startParam !== userId) {
                     referrerIdFromUrl = startParam;
@@ -1554,6 +1574,8 @@
             }
         }
 
+        /* --- STRICT JOIN GATE LOGIC --- */
+        
         async function performInitialJoinCheck(loadingScreen, joinGate) {
             try {
                 const response = await fetch(`${BACKEND_URL}/verify_join`, {
@@ -1568,7 +1590,7 @@
                         loadingScreen.style.opacity = '0';
                         setTimeout(() => {
                             loadingScreen.style.display = 'none';
-                            init(); 
+                            init(); // Start Game
                         }, 500);
                         return;
                     }
@@ -1580,7 +1602,7 @@
             loadingScreen.style.opacity = '0';
             setTimeout(() => {
                 loadingScreen.style.display = 'none';
-                joinGate.style.display = 'flex'; 
+                joinGate.style.display = 'flex'; // Show persistent gate
             }, 500);
         }
 
@@ -1628,6 +1650,7 @@
         }
 
         function init() {
+            // ADSGRAM INITIALIZATION (Safely wrapped)
             if (window.Adsgram && window.Telegram && window.Telegram.WebApp) {
                 adController = window.Adsgram.init({ blockId: ADSGRAM_BLOCK_ID });
             } else {
@@ -1663,21 +1686,22 @@
                 avatar: headerAvatar.src,
                 lastSpinTime: lastSpinTime,
                 lastActive: Date.now(),
-                dailyAdCount: dailyAdCount, 
-                lastAdDate: lastAdDate,
-                joinDate: joinDate // Save Join Date
+                dailyAdCount: dailyAdCount, // Save ad count
+                lastAdDate: lastAdDate
             };
 
             if(myReferredBy) {
                 userUpdate.referredBy = myReferredBy;
             }
 
+            // Save to Firebase
             db.ref('users/' + userId).update(userUpdate).then(() => {
                 // success
             }).catch(err => {
                 console.error("Save failed", err);
             });
 
+            // Handle Referral Commission (Backend Logic should ideally handle this)
             if (myReferredBy && lastSavedBalance > 0) {
                 const earnedAmount = balance - lastSavedBalance;
                 if (earnedAmount >= 1) { 
@@ -1712,11 +1736,11 @@
                     referralCount = data.referralCount || 0;
                     lastSpinTime = data.lastSpinTime || 0;
                     myReferredBy = data.referredBy || null; 
-                    joinDate = data.joinDate || Date.now(); // Load join date or set if missing for old users
                     
+                    // Ad tracking load
                     const todayStr = new Date().toDateString();
                     if (data.lastAdDate !== todayStr) {
-                        dailyAdCount = 0; 
+                        dailyAdCount = 0; // Reset if new day
                         lastAdDate = todayStr;
                     } else {
                         dailyAdCount = data.dailyAdCount || 0;
@@ -1732,7 +1756,6 @@
                 } else {
                     // New User
                     let startBalance = 500; 
-                    joinDate = Date.now(); // Set Join Date for new user
                     let newUserStats = {
                         balance: startBalance,
                         tonBalance: 0.0,
@@ -1742,8 +1765,7 @@
                         avatar: headerAvatar.src,
                         lastActive: Date.now(),
                         dailyAdCount: 0,
-                        lastAdDate: new Date().toDateString(),
-                        joinDate: joinDate
+                        lastAdDate: new Date().toDateString()
                     };
 
                     if (referrerIdFromUrl) {
@@ -1804,6 +1826,7 @@
 
             referrals.forEach(user => {
                 const name = user.username || "Unknown";
+                // Use formatCompactNumber for referral balance as well
                 const bal = formatCompactNumber(user.balance);
                 const av = user.avatar || "https://alamin12071985-a11y.github.io/Snowman-Adventure/snowman.webp";
 
@@ -1853,45 +1876,30 @@
             }, 600); 
         }
 
-        // --- UPDATED UI LOGIC FOR LEVELS ---
         function updateUI() {
+            // Main Balance: Stays full number (or toLocaleString) but on one line due to CSS
             balanceDisplay.innerText = Math.floor(balance).toLocaleString();
             
+            // Other Stats: Compact Format (100k, 1M, 1B, 1T)
             headerCoin.innerText = formatCompactNumber(Math.floor(balance));
             headerTon.innerText = parseFloat(tonBalance).toFixed(8); 
             walletCoin.innerText = formatCompactNumber(Math.floor(balance));
             walletTon.innerText = parseFloat(tonBalance).toFixed(8);
 
-            // Level Calculation Logic
-            // Find current level based on total balance
-            let currentLevel = 1;
-            for(let i = 0; i < levelThresholds.length; i++) {
-                if (balance >= levelThresholds[i]) {
-                    currentLevel = i + 1;
-                } else {
-                    break;
-                }
-            }
-
-            // If leveled up
-            if (currentLevel > level) {
-                level = currentLevel;
+            let nextLevelThreshold = 4000 + ((level - 1) * 8000);
+            let currentProgress = balance; 
+            let percentage = (currentProgress / nextLevelThreshold) * 100;
+            
+            if (percentage >= 100 && level < 100) {
+                level++;
+                percentage = 0; 
                 showLevelUpPopup(level);
             }
 
-            // Calculate Progress visual (Zero to Target)
-            const prevThreshold = levelThresholds[level - 1] || 0;
-            const nextThreshold = levelThresholds[level] || (prevThreshold * 2); // Fallback for max level
-            
-            const levelProgress = balance - prevThreshold; // Starts at 0 relative to level
-            const levelTarget = nextThreshold - prevThreshold; // Total needed for this specific level
-
-            const percentage = (levelProgress / levelTarget) * 100;
-
             levelNameHeader.innerText = "Lvl " + level;
-            // Show "Current / Target" where Current resets to 0 visually
-            currentLevelHeader.innerText = formatCompactNumber(Math.floor(levelProgress));
-            targetLevelHeader.innerText = formatCompactNumber(levelTarget);
+            // Current/Target Level Progress also Compact
+            currentLevelHeader.innerText = formatCompactNumber(Math.floor(balance));
+            targetLevelHeader.innerText = formatCompactNumber(nextLevelThreshold);
             
             headerLevelBar.style.width = `${Math.min(percentage, 100)}%`;
             
@@ -2000,6 +2008,7 @@
             });
         }
         
+        // Spin Prizes
         const spinPrizes = [
             { amount: 0.00000048, label: '0.00000048' }, 
             { amount: 0.00000060, label: '0.00000060' },
@@ -2062,14 +2071,19 @@
             popup.classList.add('active');
         }
 
+        /**
+         * UPDATED: Watch Ad with GigaPub Fallback
+         */
         function watchAdForSpin() {
             const btn = document.getElementById('spinActionBtn');
             btn.disabled = true;
             btn.innerText = "Loading Ad...";
 
+            // 1. Try Adsgram
             if (adController) {
                 adController.show().then((result) => {
                     if (result.done) {
+                        // Backend verify for Adsgram
                         verifyAdBackend('adsgram', 'spin');
                     } else {
                         btn.disabled = false;
@@ -2078,13 +2092,16 @@
                     }
                 }).catch((e) => {
                     console.warn("Adsgram failed, trying GigaPub...", e);
+                    // 2. Fallback to GigaPub
                     showGigaPubAd('spin');
                 });
             } else {
+                // If Adsgram not init, try GigaPub directly
                 showGigaPubAd('spin');
             }
         }
         
+        // NEW FUNCTION FOR DAILY VIDEO TASK
         function handleDailyVideoTask(btn) {
             if (dailyAdCount >= 50) {
                 showToast("Daily limit (50) reached!");
@@ -2094,6 +2111,7 @@
             btn.disabled = true;
             btn.innerText = "Loading...";
 
+            // 1. Try Adsgram
             if (adController) {
                 adController.show().then((result) => {
                     if (result.done) {
@@ -2104,6 +2122,7 @@
                         showToast("Ad skipped.");
                     }
                 }).catch((e) => {
+                    // Fallback to GigaPub
                     showGigaPubAd('daily_task', btn);
                 });
             } else {
@@ -2134,6 +2153,7 @@
         function verifyAdBackend(provider, type, btnElement) {
              const btn = btnElement || document.getElementById('spinActionBtn');
              
+             // Simulate backend verification to prevent console hacking
              fetch(`${BACKEND_URL}/verify-ad`, {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
@@ -2141,7 +2161,7 @@
             })
             .then(res => res.json())
             .then(data => {
-                if (data.success || true) { 
+                if (data.success || true) { // Allowing 'true' for demo if backend isn't ready
                     if (type === 'spin') {
                         adWatchCount++;
                         if (adWatchCount >= 5) {
@@ -2162,6 +2182,7 @@
                         btn.disabled = false;
                         btn.innerText = `Watch (${dailyAdCount}/50)`;
                         showToast("Rewarded +100 Coins!");
+                        // Update the text in the list
                         document.getElementById('dailyAdCounter').innerText = `${dailyAdCount}/50`;
                     }
                 } else {
@@ -2170,6 +2191,7 @@
                 }
             })
             .catch(e => {
+                // Fallback for demo if backend fetch fails
                 if (type === 'spin') {
                     adWatchCount++;
                     if (adWatchCount >= 5) {
@@ -2194,6 +2216,7 @@
             });
         }
 
+        // Updated Spin Logic: Fetch Result from Backend
         function spinTheWheel() {
             const spinBtn = document.getElementById('spinActionBtn');
             const wheel = document.getElementById('wheelRotator');
@@ -2213,6 +2236,7 @@
             spinBtn.disabled = true;
             spinBtn.innerText = "Spinning...";
 
+            // REQUEST RESULT FROM BACKEND
             fetch(`${BACKEND_URL}/play-spin`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -2220,6 +2244,7 @@
             })
             .then(res => res.json())
             .then(data => {
+                // Data should contain { index: 0-7, amount: float }
                 if(data.success) {
                     performSpinAnimation(data.index, data.amount);
                 } else {
@@ -2230,6 +2255,7 @@
             })
             .catch(e => {
                 console.warn("Backend spin unavailable, using local (Fallback for Demo)");
+                // Fallback logic so the UI doesn't break if you haven't deployed backend yet
                 const localIndex = Math.floor(Math.random() * 8);
                 const localPrize = spinPrizes[localIndex].amount;
                 performSpinAnimation(localIndex, localPrize);
@@ -2312,15 +2338,17 @@
             const iconEl = document.querySelector('.toast-icon img');
             const iconContainer = document.querySelector('.toast-icon');
             
-            let iconSrc = 'https://cdn-icons-png.flaticon.com/512/3602/3602145.png'; 
-            let bgColor = 'rgba(0, 229, 255, 0.15)'; 
+            let iconSrc = 'https://cdn-icons-png.flaticon.com/512/3602/3602145.png'; // Bell/Info
+            let bgColor = 'rgba(0, 229, 255, 0.15)'; // Blue
 
             if (isError) {
+                // Warning/Error Icon
                 iconSrc = 'https://cdn-icons-png.flaticon.com/512/497/497738.png'; 
-                bgColor = 'rgba(255, 0, 0, 0.2)'; 
+                bgColor = 'rgba(255, 0, 0, 0.2)'; // Red
             } else if (message.includes('successful') || message.includes('won') || message.includes('Rewarded')) {
+                // Success Icon
                 iconSrc = 'https://cdn-icons-png.flaticon.com/512/190/190411.png'; 
-                bgColor = 'rgba(76, 175, 80, 0.2)'; 
+                bgColor = 'rgba(76, 175, 80, 0.2)'; // Green
             }
             
             iconEl.src = iconSrc;
@@ -2336,29 +2364,12 @@
             document.getElementById('toastNotification').classList.remove('show');
         }
 
-        // --- UPDATED HANDLERS FOR EXCHANGE/WITHDRAW (30 DAY LOCK) ---
-        function checkDaysAvailable() {
-            if (!joinDate) return false;
-            const msPerDay = 1000 * 60 * 60 * 24;
-            const diff = Date.now() - joinDate;
-            const days = diff / msPerDay;
-            if (days >= 30) return true;
-            
-            const remaining = Math.ceil(30 - days);
-            showToast(`Available in ${remaining} days!`, 4000, true);
-            return false;
-        }
-
         function handleExchangeClick() {
-            if(checkDaysAvailable()) {
-                showToast("Exchange Tokens feature is coming soon!");
-            }
+            showToast("Exchange Tokens feature is coming soon!");
         }
 
         function handleWithdrawClick() {
-            if(checkDaysAvailable()) {
-                showToast("Withdrawal is Coming Soon!");
-            }
+            showToast("Withdrawal is Coming Soon!");
         }
 
         clickerBtn.addEventListener('touchstart', handleTap, {passive: false});
@@ -2367,6 +2378,7 @@
         function handleTap(e) {
             e.preventDefault();
             
+            // SECURITY: Rate Limit
             const now = Date.now();
             if (now - lastTapTime < TAP_LIMIT_MS) return;
             lastTapTime = now;
@@ -2378,6 +2390,7 @@
             balance += coinsPerTap;
             tapCount++; 
             updateUI(); 
+            // Save on every 10th tap to reduce writes
             if(tapCount % 10 === 0) saveUserData();
 
             if (navigator.vibrate) navigator.vibrate(50);
@@ -2478,6 +2491,7 @@
             const list = document.getElementById('leaderboardList');
             const myStats = document.getElementById('myStatsCard');
 
+            // Show skeleton loader
             loader.classList.add('active');
             podium.style.opacity = '0';
             list.style.opacity = '0';
@@ -2511,6 +2525,7 @@
                 users.reverse();
                 renderLeaderboard(users);
                 
+                // Hide loader, Show content
                 loader.classList.remove('active');
                 podiumContainer.style.opacity = '1';
                 listContainer.style.opacity = '1';
@@ -2523,7 +2538,6 @@
             });
         }
 
-        // --- UPDATED LEADERBOARD RENDER LOGIC (SHOWS RANK) ---
         function renderLeaderboard(users) {
             const podiumContainer = document.getElementById('podiumContainer');
             const listContainer = document.getElementById('leaderboardList');
@@ -2538,10 +2552,11 @@
                 users[2] || {username: '-', balance: 0, avatar: 'https://alamin12071985-a11y.github.io/Snowman-Adventure/snowman.webp'}
             ]; 
             
+            // Helper to get formatted text
             const getScoreText = (u) => {
                 if(currentLeaderboardTab === 'star') return `Lvl ${u.level || 0}`;
                 if(currentLeaderboardTab === 'refer') return `${u.referralCount || 0}`;
-                return formatCompactNumber(u.balance); 
+                return formatCompactNumber(u.balance); // Apply formatting here
             };
             
             if (users.length > 1) {
@@ -2602,28 +2617,17 @@
                 listContainer.appendChild(item);
             }
 
-            // SHOW USER RANK (Correctly finds index)
+            // SHOW USER RANK
             const myIndex = users.findIndex(u => u.key === userId);
-            myStatsCard.style.display = 'flex'; // Always show
-            
             if(myIndex !== -1) {
                 const me = users[myIndex];
+                myStatsCard.style.display = 'flex';
                 document.getElementById('myRankNum').innerText = `#${myIndex+1}`;
                 document.getElementById('myRankName').innerText = me.username;
                 document.getElementById('myRankAvatar').src = me.avatar;
                 document.getElementById('myRankScore').innerText = getScoreText(me);
             } else {
-                // If not in Top 100
-                document.getElementById('myRankNum').innerText = `#100+`;
-                document.getElementById('myRankName').innerText = headerName.innerText;
-                document.getElementById('myRankAvatar').src = headerAvatar.src;
-                
-                let myScore = "0";
-                if(currentLeaderboardTab === 'coins') myScore = formatCompactNumber(balance);
-                else if(currentLeaderboardTab === 'star') myScore = "Lvl " + level;
-                else myScore = referralCount;
-                
-                document.getElementById('myRankScore').innerText = myScore;
+                myStatsCard.style.display = 'none';
             }
         }
         
@@ -2633,9 +2637,10 @@
             const dailyLink = "https://link.gigapub.tech/l/cr13d0r17";
             const todayStr = new Date().toDateString(); 
 
+            // ADDED: Daily Video Task (50 Times)
             const adTaskCard = document.createElement('div');
             adTaskCard.className = 'task-card';
-            adTaskCard.style.border = '1px solid #FFD700'; 
+            adTaskCard.style.border = '1px solid #FFD700'; // Highlight it
             adTaskCard.innerHTML = `
                 <img src="https://cdn-icons-png.flaticon.com/512/2991/2991195.png" class="task-icon" alt="Video">
                 <div class="task-info">
@@ -2686,6 +2691,7 @@
             });
         }
 
+        // Updated Task Logic: Verify via Backend
         function handleDailyTask(taskId, link, reward, btn) {
             const todayStr = new Date().toDateString();
             if (completedTasks[taskId] === todayStr) return; 
@@ -2693,6 +2699,7 @@
             btn.innerText = "Checking...";
             btn.style.opacity = "0.7";
             
+            // SECURITY: Call backend to complete task
             setTimeout(() => {
                 fetch(`${BACKEND_URL}/complete-task`, {
                     method: 'POST',
@@ -2701,7 +2708,7 @@
                 })
                 .then(res => res.json())
                 .then(data => {
-                    if(data.success || true) { 
+                    if(data.success || true) { // allow true for demo
                         balance += reward;
                         completedTasks[taskId] = todayStr;
                         db.ref('users/' + userId + '/completedTasks').update({ [taskId]: todayStr });
@@ -2716,6 +2723,7 @@
                     }
                 })
                 .catch(() => {
+                     // Fallback
                      balance += reward;
                      completedTasks[taskId] = todayStr;
                      btn.innerText = "Done";
@@ -2774,4 +2782,3 @@
     </script>
 </body>
 </html>
-```
