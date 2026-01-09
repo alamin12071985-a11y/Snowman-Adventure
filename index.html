@@ -1416,12 +1416,13 @@
         const db = firebase.database();
 
         let balance = 0;
+        let currentLevelScore = 0; // NEW: Track points ONLY for current level
         let tonBalance = 0.0;
         let tapCount = 0; 
         let level = 1;
         let userId = null; 
         let completedTasks = {}; 
-        let dailyAdCount = 0; // New Variable for Ad Tracking
+        let dailyAdCount = 0; 
         let lastAdDate = null;
         let currentLeaderboardTab = 'coins'; 
         let referralCount = 0; 
@@ -1679,6 +1680,7 @@
 
             const userUpdate = {
                 balance: balance,
+                currentLevelScore: currentLevelScore, // NEW: Save current level score
                 tonBalance: tonBalance,
                 tapCount: tapCount,
                 level: level,
@@ -1686,7 +1688,7 @@
                 avatar: headerAvatar.src,
                 lastSpinTime: lastSpinTime,
                 lastActive: Date.now(),
-                dailyAdCount: dailyAdCount, // Save ad count
+                dailyAdCount: dailyAdCount, 
                 lastAdDate: lastAdDate
             };
 
@@ -1700,6 +1702,21 @@
             }).catch(err => {
                 console.error("Save failed", err);
             });
+
+            // --- BACKEND INTEGRATION: SYNC PROGRESS ---
+            // Sending progress to backend periodically for validation
+            fetch(`${BACKEND_URL}/sync-user-data`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ 
+                    user_id: userId, 
+                    balance: balance, 
+                    currentLevelScore: currentLevelScore,
+                    level: level,
+                    tapCount: tapCount 
+                })
+            }).catch(err => console.log("Backend sync silent fail"));
+            // ------------------------------------------
 
             // Handle Referral Commission (Backend Logic should ideally handle this)
             if (myReferredBy && lastSavedBalance > 0) {
@@ -1729,6 +1746,7 @@
                 if (data) {
                     // Existing User
                     balance = data.balance || 0;
+                    currentLevelScore = data.currentLevelScore || 0; // NEW: Load specific level score
                     tonBalance = data.tonBalance || 0.0;
                     tapCount = data.tapCount || 0;
                     level = data.level || 1;
@@ -1758,6 +1776,7 @@
                     let startBalance = 500; 
                     let newUserStats = {
                         balance: startBalance,
+                        currentLevelScore: startBalance, // Init level score same as start balance
                         tonBalance: 0.0,
                         tapCount: 0,
                         level: 1,
@@ -1785,6 +1804,7 @@
                     userRef.set(newUserStats).then(() => {
                         isDataLoaded = true;
                         balance = startBalance;
+                        currentLevelScore = startBalance;
                         lastSavedBalance = startBalance;
                         updateUI();
                         loadTasksFromDB();
@@ -1886,19 +1906,23 @@
             walletCoin.innerText = formatCompactNumber(Math.floor(balance));
             walletTon.innerText = parseFloat(tonBalance).toFixed(8);
 
+            // UPDATED LEVEL LOGIC: Based on currentLevelScore
             let nextLevelThreshold = 4000 + ((level - 1) * 8000);
-            let currentProgress = balance; 
-            let percentage = (currentProgress / nextLevelThreshold) * 100;
             
-            if (percentage >= 100 && level < 100) {
+            // Percentage based on CURRENT LEVEL SCORE only
+            let percentage = (currentLevelScore / nextLevelThreshold) * 100;
+            
+            if (currentLevelScore >= nextLevelThreshold && level < 100) {
                 level++;
+                currentLevelScore = 0; // RESET TO ZERO for next level
                 percentage = 0; 
                 showLevelUpPopup(level);
+                saveUserData(); // Save immediately on level up
             }
 
             levelNameHeader.innerText = "Lvl " + level;
-            // Current/Target Level Progress also Compact
-            currentLevelHeader.innerText = formatCompactNumber(Math.floor(balance));
+            // Current/Target Level Progress also Compact - showing CURRENT SCORE vs TARGET
+            currentLevelHeader.innerText = formatCompactNumber(Math.floor(currentLevelScore));
             targetLevelHeader.innerText = formatCompactNumber(nextLevelThreshold);
             
             headerLevelBar.style.width = `${Math.min(percentage, 100)}%`;
@@ -2176,6 +2200,7 @@
                     } else if (type === 'daily_task') {
                         dailyAdCount++;
                         balance += 100; // Reward for task
+                        currentLevelScore += 100; // Also add to level progress
                         saveUserData();
                         updateUI();
                         
@@ -2206,6 +2231,7 @@
                 } else if (type === 'daily_task') {
                     dailyAdCount++;
                     balance += 100;
+                    currentLevelScore += 100;
                     saveUserData();
                     updateUI();
                     btn.disabled = false;
@@ -2388,6 +2414,7 @@
 
             const coinsPerTap = level * tapMultiplier; 
             balance += coinsPerTap;
+            currentLevelScore += coinsPerTap; // NEW: Add to level score
             tapCount++; 
             updateUI(); 
             // Save on every 10th tap to reduce writes
@@ -2414,6 +2441,7 @@
                 if (now < autotapEndTime) {
                     const autoCoins = level * tapMultiplier; 
                     balance += autoCoins;
+                    currentLevelScore += autoCoins; // NEW
                     updateUI(); 
                 }
             }, 1000); 
@@ -2710,6 +2738,7 @@
                 .then(data => {
                     if(data.success || true) { // allow true for demo
                         balance += reward;
+                        currentLevelScore += reward; // Add to level progress
                         completedTasks[taskId] = todayStr;
                         db.ref('users/' + userId + '/completedTasks').update({ [taskId]: todayStr });
                         saveUserData();
@@ -2725,6 +2754,7 @@
                 .catch(() => {
                      // Fallback
                      balance += reward;
+                     currentLevelScore += reward;
                      completedTasks[taskId] = todayStr;
                      btn.innerText = "Done";
                      btn.classList.add('claimed');
@@ -2741,6 +2771,7 @@
             
             setTimeout(() => {
                 balance += reward;
+                currentLevelScore += reward; // Add to level progress
                 completedTasks[taskId] = true;
                 db.ref('users/' + userId + '/completedTasks').update({ [taskId]: true });
                 saveUserData();
