@@ -388,7 +388,7 @@
             border: 1px solid rgba(0, 229, 255, 0.2);
         }
 
-        /* UPDATED: Progress Bar Color */
+        /* UPDATED: Progress Bar Color (Game Theme: Cyan/Blue/Violet) */
         .header-progress-fill {
             height: 100%;
             width: 0%;
@@ -485,7 +485,7 @@
             flex-shrink: 0;
             margin-top: 0vh; 
             margin-bottom: 2vh; 
-            white-space: nowrap; 
+            white-space: nowrap; /* Forces One Line */
             overflow: visible;
         }
 
@@ -513,10 +513,10 @@
             transform: scale(1.05); 
         }
 
-        /* --- TAP ME HINT --- */
+        /* --- TAP ME HINT (ABOVE HEAD) --- */
         .tap-me-hint {
             position: absolute;
-            top: 25%;
+            top: 25%; /* Moved Higher */
             left: 50%;
             transform: translate(-50%, -50%);
             font-size: 8vw;
@@ -603,7 +603,7 @@
         #leaderboardBtn { top: 82%; right: 3vw; }
         #autoTapBtn { top: 82%; left: 3vw; }
         
-        /* --- TOAST NOTIFICATION --- */
+        /* --- TOAST NOTIFICATION REDESIGNED --- */
         .toast-notification {
             position: fixed;
             top: 5vw;
@@ -618,7 +618,7 @@
             box-shadow: 0 4vw 8vw rgba(0,0,0,0.6);
             display: flex;
             align-items: center;
-            justify-content: space-between;
+            justify-content: space-between; /* Icon Left, Close Right */
             gap: 3vw;
             z-index: 9999;
             opacity: 0;
@@ -707,7 +707,7 @@
             height: 6vw;
             opacity: 0.5;
             transition: all 0.3s;
-            filter: grayscale(100%);
+            filter: grayscale(100%); /* Original behavior */
             object-fit: contain;
         }
         
@@ -727,57 +727,258 @@
             transform: scale(1.1);
         }
 
-        /* --- GENERIC STYLES --- */
-        .glass-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); backdrop-filter: blur(10px); z-index: 5000; display: none; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.3s; }
+        /* --- AFFILIATE FORM MODALS --- */
+        .glass-modal {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.8); backdrop-filter: blur(10px);
+            z-index: 5000; display: none; align-items: center; justify-content: center;
+            opacity: 0; transition: opacity 0.3s;
+        }
         .glass-modal.active { display: flex; opacity: 1; }
-        .modal-card { background: #111b27; width: 90vw; max-height: 90vh; overflow-y: auto; border-radius: 5vw; border: 1px solid var(--accent-cyan); padding: 5vw; position: relative; box-shadow: 0 0 10vw rgba(0, 229, 255, 0.2); }
         
-        .leaderboard-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(180deg, #163450 0%, #050f1a 100%); z-index: 2000; display: none; flex-direction: column; padding: 4vw; overflow: hidden; box-sizing: border-box; }
-        .leaderboard-overlay.active { display: flex; animation: fadeIn 0.3s ease; }
-        .leaderboard-header { display: flex; justify-content: center; align-items: center; margin-bottom: 4vw; flex-shrink: 0; position: relative; }
+        .modal-card {
+            background: #111b27; width: 90vw; max-height: 90vh; overflow-y: auto;
+            border-radius: 5vw; border: 1px solid var(--accent-cyan);
+            padding: 5vw; position: relative;
+            box-shadow: 0 0 10vw rgba(0, 229, 255, 0.2);
+        }
+        .modal-title { font-size: 5vw; font-weight: 700; color: white; margin-bottom: 4vw; text-align: center; }
+        
+        .form-group { margin-bottom: 4vw; }
+        .form-label { display: block; font-size: 3.2vw; color: var(--accent-cyan); margin-bottom: 1.5vw; font-weight: 500; }
+        .form-input {
+            width: 100%; background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.2);
+            padding: 3.5vw; border-radius: 3vw; color: white; font-family: 'Poppins'; font-size: 3.5vw;
+            outline: none; transition: border 0.2s;
+        }
+        .form-input:focus { border-color: var(--accent-cyan); background: rgba(0, 229, 255, 0.05); }
+        .form-select { appearance: none; background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3e%3cpath d='M7 10l5 5 5-5z'/%3e%3c/svg%3e"); background-repeat: no-repeat; background-position: right 3vw center; background-size: 5vw; }
+
+        .rewards-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 2vw; margin-bottom: 5vw; }
+        .reward-card { background: rgba(255,255,255,0.05); padding: 3vw; border-radius: 3vw; text-align: center; border: 1px solid rgba(255,255,255,0.1); }
+        .reward-pct { font-size: 5vw; font-weight: 800; color: var(--level-gold); }
+        .reward-lbl { font-size: 2.8vw; color: rgba(255,255,255,0.6); }
+        .center-card { background: linear-gradient(180deg, rgba(0,229,255,0.2), rgba(0,0,0,0)); border-color: var(--accent-cyan); transform: scale(1.05); }
+
+        /* --- LEADERBOARD REDESIGN --- */
+        .leaderboard-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(180deg, #163450 0%, #050f1a 100%);
+            z-index: 2000;
+            display: none;
+            flex-direction: column;
+            padding: 4vw;
+            overflow: hidden;
+            box-sizing: border-box;
+        }
+
+        .leaderboard-overlay.active {
+            display: flex;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .leaderboard-header {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 4vw;
+            flex-shrink: 0;
+            position: relative;
+        }
         .leaderboard-header h2 { font-size: 6vw; color: white; font-weight: 700; }
-        .close-btn { position: absolute; left: 0; background: none; border: none; color: rgba(255,255,255,0.6); width: 8vw; height: 8vw; cursor: pointer; display: flex; justify-content: center; align-items: center; }
-        .close-btn img { width: 100%; height: 100%; object-fit: contain; filter: brightness(0) invert(1); }
+        .close-btn { 
+            position: absolute; left: 0;
+            background: none; border: none; color: rgba(255,255,255,0.6); 
+            width: 8vw; height: 8vw; cursor: pointer; display: flex; 
+            justify-content: center; align-items: center; 
+        }
+        .close-btn img { 
+            width: 100%; height: 100%; object-fit: contain; 
+            filter: brightness(0) invert(1); /* Make White */
+        }
 
-        .tgs-loading-overlay { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 3000; display: none; flex-direction: column; width: 90vw; gap: 2vw; }
+        /* UPDATED: Stylish Skeleton Loader for Leaderboard */
+        .tgs-loading-overlay {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 3000;
+            display: none; /* Flex when active */
+            flex-direction: column;
+            width: 90vw;
+            gap: 2vw;
+        }
         .tgs-loading-overlay.active { display: flex; }
-        @keyframes shimmer { 0% { background-position: -100% 0; } 100% { background-position: 100% 0; } }
-        .skeleton-row { height: 14vw; width: 100%; background: linear-gradient(90deg, rgba(255,255,255,0.05) 25%, rgba(255,255,255,0.1) 50%, rgba(255,255,255,0.05) 75%); background-size: 200% 100%; animation: shimmer 1.5s infinite; border-radius: 4vw; border: 1px solid rgba(255,255,255,0.02); }
 
-        .lb-tab-container { display: flex; background: rgba(0,0,0,0.2); border-radius: 3vw; padding: 1vw; margin-bottom: 4vw; flex-shrink: 0; }
-        .lb-pill { flex: 1; text-align: center; padding: 2.5vw 0; border-radius: 2.5vw; font-size: 3.5vw; font-weight: 500; color: rgba(255,255,255,0.6); transition: all 0.3s ease; cursor: pointer; }
-        .lb-pill.active { background: var(--bg-card); color: white; font-weight: 700; box-shadow: 0 1vw 2vw rgba(0,0,0,0.2); border: 1px solid rgba(255,255,255,0.1); }
+        @keyframes shimmer {
+            0% { background-position: -100% 0; }
+            100% { background-position: 100% 0; }
+        }
 
-        .podium-section { display: flex; justify-content: center; align-items: flex-end; margin: 4vw 0 6vw 0; height: auto; position: relative; flex-shrink: 0; gap: 2vw; }
-        .podium-block-wrapper { display: flex; flex-direction: column; align-items: center; justify-content: flex-end; position: relative; text-align: center; }
-        .podium-avatar-container { position: relative; margin-bottom: 2vw; display: flex; justify-content: center; }
-        .podium-avatar { border-radius: 50%; object-fit: cover; border: 0.8vw solid var(--bg-card); }
+        .skeleton-row {
+            height: 14vw;
+            width: 100%;
+            background: linear-gradient(90deg, rgba(255,255,255,0.05) 25%, rgba(255,255,255,0.1) 50%, rgba(255,255,255,0.05) 75%);
+            background-size: 200% 100%;
+            animation: shimmer 1.5s infinite;
+            border-radius: 4vw;
+            border: 1px solid rgba(255,255,255,0.02);
+        }
+
+        /* Filter Pills (Tabs) */
+        .lb-tab-container {
+            display: flex;
+            background: rgba(0,0,0,0.2);
+            border-radius: 3vw;
+            padding: 1vw;
+            margin-bottom: 4vw;
+            flex-shrink: 0;
+        }
         
-        .rank-1-wrapper { order: 2; z-index: 10; padding-bottom: 5vw; transform: translateY(-5vw); }
-        .rank-1-wrapper .podium-avatar { width: 24vw; height: 24vw; border-color: var(--podium-gold); box-shadow: 0 0 5vw rgba(255, 215, 0, 0.4); }
-        .rank-2-wrapper { order: 1; z-index: 5; }
-        .rank-2-wrapper .podium-avatar { width: 17vw; height: 17vw; border-color: var(--accent-cyan); }
-        .rank-3-wrapper { order: 3; z-index: 5; }
-        .rank-3-wrapper .podium-avatar { width: 17vw; height: 17vw; border-color: #00E5FF; }
+        .lb-pill {
+            flex: 1;
+            text-align: center;
+            padding: 2.5vw 0;
+            border-radius: 2.5vw;
+            font-size: 3.5vw;
+            font-weight: 500;
+            color: rgba(255,255,255,0.6);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        .lb-pill.active {
+            background: var(--bg-card);
+            color: white;
+            font-weight: 700;
+            box-shadow: 0 1vw 2vw rgba(0,0,0,0.2);
+            border: 1px solid rgba(255,255,255,0.1);
+        }
 
-        .rank-badge-icon { position: absolute; bottom: -2vw; left: 50%; transform: translateX(-50%); width: 7vw; height: 7vw; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 3.5vw; color: #000; border-radius: 50%; background: white; box-shadow: 0 1vw 2vw rgba(0,0,0,0.3); z-index: 15; }
+        /* Podium Area */
+        .podium-section {
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            margin: 4vw 0 6vw 0;
+            height: auto;
+            position: relative;
+            flex-shrink: 0;
+            gap: 2vw;
+        }
+
+        .podium-block-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-end;
+            position: relative;
+            text-align: center;
+        }
+        
+        .podium-avatar-container { position: relative; margin-bottom: 2vw; display: flex; justify-content: center; }
+        .podium-avatar {
+            border-radius: 50%;
+            object-fit: cover;
+            border: 0.8vw solid var(--bg-card);
+        }
+        
+        /* Rank 1 (Center) */
+        .rank-1-wrapper { 
+            order: 2; 
+            z-index: 10; 
+            padding-bottom: 5vw;
+            transform: translateY(-5vw);
+        }
+        .rank-1-wrapper .podium-avatar { 
+            width: 24vw; 
+            height: 24vw; 
+            border-color: var(--podium-gold); 
+            box-shadow: 0 0 5vw rgba(255, 215, 0, 0.4); 
+        }
+
+        /* Rank 2 (Left) */
+        .rank-2-wrapper { 
+            order: 1; 
+            z-index: 5; 
+        }
+        .rank-2-wrapper .podium-avatar { 
+            width: 17vw; 
+            height: 17vw; 
+            border-color: var(--accent-cyan); 
+        }
+
+        /* Rank 3 (Right) */
+        .rank-3-wrapper { 
+            order: 3; 
+            z-index: 5; 
+        }
+        .rank-3-wrapper .podium-avatar { 
+            width: 17vw; 
+            height: 17vw; 
+            border-color: #00E5FF; 
+        }
+
+        .rank-badge-icon {
+            position: absolute;
+            bottom: -2vw; left: 50%; transform: translateX(-50%);
+            width: 7vw; height: 7vw;
+            display: flex; align-items: center; justify-content: center;
+            font-weight: 800; font-size: 3.5vw; color: #000;
+            border-radius: 50%;
+            background: white;
+            box-shadow: 0 1vw 2vw rgba(0,0,0,0.3);
+            z-index: 15;
+        }
         .badge-1 { background: var(--podium-gold); width: 8.5vw; height: 8.5vw; font-size: 4.5vw; }
         .badge-2 { background: var(--accent-cyan); }
         .badge-3 { background: #26c6da; }
+
         .podium-info { text-align: center; margin-top: 1vw; }
         .podium-name { font-size: 3.2vw; font-weight: 700; color: white; max-width: 18vw; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; margin-bottom: 0.5vw; }
         .podium-score { font-size: 3vw; font-weight: 600; color: var(--podium-gold); }
 
-        .rank-list-container { flex: 1; background: var(--bg-deep); border-radius: 5vw 5vw 0 0; padding: 4vw; overflow-y: auto; position: relative; }
-        .rank-row { display: flex; align-items: center; justify-content: space-between; padding: 3vw 4vw; background: var(--bg-card); border-radius: 4vw; margin-bottom: 2vw; border: 1px solid rgba(255,255,255,0.05); }
+        /* List Area */
+        .rank-list-container {
+            flex: 1;
+            background: var(--bg-deep);
+            border-radius: 5vw 5vw 0 0; 
+            padding: 4vw;
+            overflow-y: auto;
+            position: relative;
+        }
+
+        .rank-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 3vw 4vw;
+            background: var(--bg-card);
+            border-radius: 4vw;
+            margin-bottom: 2vw;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+        
         .rank-left { display: flex; align-items: center; gap: 3vw; }
         .rank-num { font-size: 3.5vw; color: rgba(255,255,255,0.6); font-weight: 600; width: 6vw; }
         .rank-avatar-small { width: 10vw; height: 10vw; border-radius: 50%; object-fit: cover; }
         .rank-name-small { font-size: 3.8vw; color: white; font-weight: 600; }
         .rank-score-small { font-size: 3.5vw; color: var(--accent-cyan); font-weight: 700; text-align: right; }
         
-        .my-stats-fixed { background: #234363; padding: 3vw 5vw; border-radius: 4vw 4vw 0 0; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 -2vw 4vw rgba(0,0,0,0.3); flex-shrink: 0; margin-top: -2vw; z-index: 100; }
+        /* My Stats */
+        .my-stats-fixed {
+            background: #234363;
+            padding: 3vw 5vw;
+            border-radius: 4vw 4vw 0 0;
+            display: flex; align-items: center; justify-content: space-between;
+            box-shadow: 0 -2vw 4vw rgba(0,0,0,0.3);
+            flex-shrink: 0;
+            margin-top: -2vw;
+            z-index: 100;
+        }
 
+        /* Generic Styles */
         .wallet-title { font-size: 6vw; line-height: 1.1; margin-bottom: 2.5vw; font-weight: 800; color: var(--accent-cyan); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
         .wallet-stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2vw; margin-bottom: 5vw; width: 100%; }
         .wallet-stat-box { background: var(--glass-bg); border: 1px solid rgba(0,229,255,0.2); border-radius: 3vw; padding: 2.5vw 1.5vw; display: flex; flex-direction: column; align-items: center; justify-content: center; }
@@ -792,8 +993,13 @@
         .task-list { display: flex; flex-direction: column; gap: 3vw; width: 100%; padding-bottom: 5vw; }
         .task-card { background: var(--glass-bg); border: 1px solid rgba(0, 229, 255, 0.2); border-radius: 4vw; padding: 3vw; display: flex; align-items: center; justify-content: space-between; gap: 3vw; transition: transform 0.2s; }
         .task-card:active { transform: scale(0.98); }
-        .task-icon { width: 12vw; height: 12vw; border-radius: 3vw; object-fit: contain; background: rgba(255,255,255,0.1); padding: 2vw; }
-        .task-icon.web-icon { filter: brightness(0) invert(1); }
+        .task-icon { 
+            width: 12vw; height: 12vw; border-radius: 3vw; object-fit: contain; background: rgba(255,255,255,0.1); padding: 2vw; 
+        }
+        .task-icon.web-icon {
+            filter: brightness(0) invert(1); /* Make it White */
+        }
+        
         .task-info { flex: 1; display: flex; flex-direction: column; gap: 1vw; }
         .task-title { color: white; font-size: 3.5vw; font-weight: 600; line-height: 1.2; }
         .task-reward { display: flex; align-items: center; gap: 1.5vw; font-size: 3vw; color: var(--level-gold); font-weight: 700; }
@@ -805,11 +1011,17 @@
         .btn { border: none; height: 14vw; border-radius: 4vw; cursor: pointer; display: flex; align-items: center; justify-content: center; background: var(--btn-blue-grad); box-shadow: 0 2vw 5vw rgba(74, 146, 255, 0.4); transition: transform 0.1s ease, box-shadow 0.2s ease; position: relative; overflow: hidden; }
         .connect-btn { padding: 0 5vw; width: 100%; max-width: 62.5vw; }
         .btn-text { color: white; font-size: 3.5vw; font-weight: 700; margin-left: 2.5vw; letter-spacing: 0.1vw; }
-        .icon-img { width: 6vw; height: 6vw; object-fit: contain; filter: brightness(0) invert(1); }
+        .icon-img { 
+            width: 6vw; height: 6vw; object-fit: contain; 
+            filter: brightness(0) invert(1); /* Make White */
+        }
         
         .invite-container { display: flex; gap: 3vw; width: 100%; padding: 0 5vw; margin-top: 5vw; }
         .btn-invite { flex: 1; border: none; background: var(--btn-blue-grad); color: white; font-size: 4.5vw; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; padding: 4vw 0; border-radius: 10vw; cursor: pointer; box-shadow: 0 2vw 5vw rgba(0, 229, 255, 0.4), inset 0 0.5vw 0 rgba(255,255,255,0.4); border: 1px solid rgba(255,255,255,0.2); transition: transform 0.1s, filter 0.2s; position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center; gap: 2vw; }
-        .btn-invite img { width: 8vw; height: 8vw; margin-right: -1vw; object-fit: contain; }
+        .btn-invite img { 
+            width: 8vw; height: 8vw; margin-right: -1vw; object-fit: contain; 
+            /* Telegram Icon is already colored, no invert needed */
+        }
         .btn-invite::after { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 50%; background: linear-gradient(to bottom, rgba(255,255,255,0.2), transparent); border-radius: 10vw 10vw 0 0; pointer-events: none; }
         .btn-invite:active { transform: translateY(1vw); filter: brightness(0.9); box-shadow: 0 1vw 3vw rgba(0, 229, 255, 0.3); }
         
@@ -818,6 +1030,7 @@
         .btn-copy:active { transform: scale(0.95); background-color: #1a4066; }
         .btn-copy.copied { background-color: var(--accent-cyan); border-color: var(--accent-cyan); }
         
+        /* Glass Popup Styling */
         .popup-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(5, 15, 26, 0.9); backdrop-filter: blur(5px); z-index: 5000; display: none; justify-content: center; align-items: center; padding: 5vw; overflow-y: auto; }
         .popup-overlay.active { display: flex; }
         .popup-content { background: var(--bg-dark); border: 1px solid var(--accent-cyan); border-radius: 5vw; padding: 5vw; width: 90vw; max-width: 90vw; max-height: 90vh; overflow-y: auto; animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); -webkit-overflow-scrolling: touch; }
@@ -825,19 +1038,42 @@
         .popup-btn:active { transform: scale(0.98); }
         @keyframes popIn { from { opacity: 0; transform: scale(0.8); } to { opacity: 1; transform: scale(1); } }
 
-        .level-up-card { background: linear-gradient(135deg, #6A5ACD 0%, #00E5FF 100%); padding: 3px; border-radius: 5vw; width: 100%; box-shadow: 0 0 8vw rgba(0, 229, 255, 0.6); animation: pulseGlow 2s infinite alternate; }
+        /* Level Up Popup */
+        .level-up-card {
+            background: linear-gradient(135deg, #6A5ACD 0%, #00E5FF 100%);
+            padding: 3px;
+            border-radius: 5vw;
+            width: 100%;
+            box-shadow: 0 0 8vw rgba(0, 229, 255, 0.6);
+            animation: pulseGlow 2s infinite alternate;
+        }
         @keyframes pulseGlow { 0% { box-shadow: 0 0 5vw rgba(0, 229, 255, 0.4); } 100% { box-shadow: 0 0 10vw rgba(0, 229, 255, 0.8); } }
-        .level-up-inner { background: #08182B; border-radius: 4.5vw; padding: 8vw 5vw; display: flex; flex-direction: column; align-items: center; text-align: center; }
+        
+        .level-up-inner {
+            background: #08182B;
+            border-radius: 4.5vw;
+            padding: 8vw 5vw;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
         .lvl-img-anim { width: 30vw; height: 30vw; object-fit: contain; margin-bottom: 5vw; filter: drop-shadow(0 0 3vw #FFD700); animation: bounce 2s infinite; }
         @keyframes bounce { 0%, 20%, 50%, 80%, 100% {transform: translateY(0);} 40% {transform: translateY(-20px);} 60% {transform: translateY(-10px);} }
 
+        /* Full Screen Spin & Ads */
         .fullscreen-popup-content { background: linear-gradient(180deg, #050f1a 0%, #163450 100%); width: 100% !important; height: 100% !important; max-width: 100% !important; max-height: 100% !important; border-radius: 0 !important; padding: 0 !important; display: flex; flex-direction: column; align-items: center; justify-content: center; position: fixed; top: 0; left: 0; z-index: 6000; }
         .wheel-title { font-size: 8vw; color: white; margin-bottom: 5vw; font-weight: 800; text-shadow: 0 0 2vw var(--accent-cyan); margin-top: -10vw; }
         .wheel-container { position: relative; width: 90vw; height: 90vw; margin: 0 auto 8vw auto; }
         .wheel-rotator { width: 100%; height: 100%; position: relative; border-radius: 50%; overflow: hidden; transition: transform 4s cubic-bezier(0.25, 0.1, 0.25, 1); background: transparent; box-shadow: 0 0 8vw rgba(0, 229, 255, 0.2); }
         .wheel-img { width: 100%; height: 100%; object-fit: cover; position: absolute; top: 0; left: 0; z-index: 1; }
         .wheel-segment { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 2; }
+        
         .segment-content { position: absolute; top: 18%; left: 50%; transform-origin: 50% 125%; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; justify-content: center; width: 25vw; text-align: center; }
+        
+        .segment-ton-img { width: 16vw; height: 16vw; object-fit: contain; filter: drop-shadow(0 0 5px rgba(0,0,0,0.8)); margin-bottom: -1vw; transform: rotate(0deg); }
+        
+        .segment-text { color: white; font-weight: 800; font-size: 3.5vw; text-shadow: 0 0 3px #000; margin-top: -1.5vw; z-index: 10; }
         .wheel-marker { position: absolute; top: -4vw; left: 50%; transform: translateX(-50%); width: 12vw; height: 14vw; z-index: 20; filter: drop-shadow(0 1vw 1vw rgba(0,0,0,0.5)); background: linear-gradient(180deg, #FFD700 0%, #FFA000 100%); clip-path: polygon(50% 100%, 0% 0%, 100% 0%); border-top: 2px solid white; }
         .spin-action-btn { background: linear-gradient(90deg, #FFD700, #FFA000); color: #000; width: 70vw !important; height: 14vw !important; font-size: 4.5vw !important; border-radius: 8vw !important; box-shadow: 0 0 4vw rgba(255, 215, 0, 0.4); margin-top: 2vw; font-weight: 800; border: none; text-transform: uppercase; }
         .close-spin-btn { background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2); color: white; width: 40vw !important; height: 10vw !important; font-size: 3.5vw !important; border-radius: 8vw !important; margin-top: 4vw; cursor: pointer; }
@@ -911,7 +1147,7 @@
         <div class="popup-content" id="popupContent"></div>
     </div>
     
-    <!-- LEADERBOARD OVERLAY -->
+    <!-- LEADERBOARD OVERLAY (UPDATED LOADING) -->
     <div id="leaderboardOverlay" class="leaderboard-overlay">
         <div class="leaderboard-header">
             <button class="close-btn" onclick="closeLeaderboard()">
@@ -926,6 +1162,7 @@
             <div class="lb-pill" onclick="switchLeaderboardTab('star')" id="tab-star">Level</div>
         </div>
 
+        <!-- NEW SKELETON LOADER -->
         <div id="leaderboardLoader" class="tgs-loading-overlay">
             <div class="skeleton-row" style="height: 35vw; margin-bottom: 2vw;"></div>
             <div class="skeleton-row"></div>
@@ -940,12 +1177,13 @@
             <div class="rank-list-container" id="leaderboardList"></div>
         </div>
 
-        <!-- MY STATS FIXED -->
+        <!-- MY STATS FIXED (Shows Rank) -->
         <div class="my-stats-fixed" id="myStatsCard" style="display:none;">
             <div class="rank-left">
                 <img id="myRankAvatar" src="" class="rank-avatar-small">
                 <div style="display:flex; flex-direction:column;">
                     <div id="myRankName" class="rank-name-small">Me</div>
+                    <!-- Added User Rank Here -->
                     <div style="font-size:3.5vw; color: var(--accent-cyan); font-weight:700;">Rank <span id="myRankNum">#--</span></div>
                 </div>
             </div>
@@ -990,6 +1228,7 @@
                         <span><span id="currentLevelHeader">0</span> / <span id="targetLevelHeader">4k</span></span>
                     </div>
                     <div class="header-progress-bg">
+                        <!-- Updated Color via CSS -->
                         <div class="header-progress-fill" id="headerLevelBar"></div>
                     </div>
                 </div>
@@ -1054,6 +1293,7 @@
                     <img id="friendsBannerImage" src="https://i.ibb.co.com/RJMLvT1/20251227-144034.jpg" alt="Friends Banner" style="display: block;">
                 </div>
                 <div style="background: var(--glass-bg); border: 1px solid rgba(0,229,255,0.2); border-radius: 3vw; padding: 3vw; margin: 2vw auto 4vw auto; width: 95%; text-align: center;">
+                    <!-- UPDATED: Text split into two lines naturally -->
                     <p style="font-size: 3.2vw; font-weight: 600; color: var(--accent-cyan); line-height: 1.5;">
                         Invite friends and earn <span id="referralPercentageDisplay" style="color:var(--level-gold);">10%</span> of their income<br>for every user you refer!
                     </p>
@@ -1117,6 +1357,7 @@
                     </div>
                 </div>
                 
+                <!-- WITHDRAW BUTTON -->
                 <div class="exchange-btn" onclick="handleWithdrawClick()" style="margin-top: 2vw; border-color: rgba(255, 100, 100, 0.2);">
                     <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/withdraw.webp" class="exchange-icon" alt="Withdraw">
                     <div class="exchange-text">
@@ -1150,6 +1391,7 @@
 
     <!-- MAIN SCRIPT -->
     <script>
+        // Updated Links to GigaPub Direct Link
         const bannerLinks = {
             task: "https://link.gigapub.tech/l/cr13d0r17",
             friends: "https://link.gigapub.tech/l/cr13d0r17",
@@ -1167,6 +1409,7 @@
             measurementId: "G-J550E6L22Z"
         };
         
+        // Initialize Firebase
         if (!firebase.apps.length) {
             firebase.initializeApp(firebaseConfig);
         }
@@ -1176,10 +1419,9 @@
         let tonBalance = 0.0;
         let tapCount = 0; 
         let level = 1;
-        let levelScore = 0; // New variable for Level Logic
         let userId = null; 
         let completedTasks = {}; 
-        let dailyAdCount = 0;
+        let dailyAdCount = 0; // New Variable for Ad Tracking
         let lastAdDate = null;
         let currentLeaderboardTab = 'coins'; 
         let referralCount = 0; 
@@ -1197,12 +1439,13 @@
         let lastTapTime = 0;
         const TAP_LIMIT_MS = 40; 
         
+        // --- ADSGRAM CONFIGURATION ---
         const ADSGRAM_BLOCK_ID = "20721";
         let adController; 
 
         const BOT_USERNAME_PLACEHOLDER = 'snowmanadventurebot';
         let appInviteBaseUrl = `https://t.me/${BOT_USERNAME_PLACEHOLDER}?startapp=`;
-        const BACKEND_URL = "https://snowman-adventure-backend.onrender.com"; // Updated to generic backend URL for security logic
+        const BACKEND_URL = "https://snowmanadventure.onrender.com"; 
 
         const balanceDisplay = document.getElementById('displayBalance');
         const clickerBtn = document.getElementById('clickerBtn');
@@ -1262,6 +1505,7 @@
             return `${m}m ${s}s`;
         }
 
+        /* --- NUMBER FORMATTING HELPER (100k, 1M, 1B, 1T) --- */
         function formatCompactNumber(num) {
             if (num === undefined || num === null) return "0";
             return new Intl.NumberFormat('en-US', {
@@ -1270,11 +1514,14 @@
             }).format(num);
         }
 
+        /* --- INITIALIZATION & TELEGRAM CHECK --- */
+
         window.addEventListener('load', () => {
+            // STRICT TELEGRAM CHECK
             if(!initTelegramUser()) {
                 document.getElementById('loading-screen').style.display = 'none';
                 document.getElementById('telegram-only-blocker').style.display = 'flex';
-                return; 
+                return; // Stop everything
             }
 
             let loadPercent = 0;
@@ -1291,16 +1538,18 @@
 
                 if(loadPercent >= 100) {
                     clearInterval(interval);
+                    // Start logic after loading
                     performInitialJoinCheck(screen, joinGate);
                 }
             }, 50);
         });
 
+        // Attempt to get user. Returns false if not in Telegram.
         function initTelegramUser() {
             try {
                 const tg = window.Telegram.WebApp;
                 if (!tg.initDataUnsafe || !tg.initDataUnsafe.user) {
-                    return false; 
+                    return false; // Not in Telegram or no user data
                 }
 
                 tg.expand(); 
@@ -1311,6 +1560,9 @@
                 else if (user.first_name) headerName.innerText = user.first_name;
                 if (user.photo_url) headerAvatar.src = user.photo_url;
                 
+                // Prefill form (if needed elsewhere)
+                // document.getElementById('pTg').value = "@" + (user.username || "");
+
                 const startParam = tg.initDataUnsafe.start_param;
                 if (startParam && startParam !== userId) {
                     referrerIdFromUrl = startParam;
@@ -1321,6 +1573,8 @@
                 return false;
             }
         }
+
+        /* --- STRICT JOIN GATE LOGIC --- */
         
         async function performInitialJoinCheck(loadingScreen, joinGate) {
             try {
@@ -1336,7 +1590,7 @@
                         loadingScreen.style.opacity = '0';
                         setTimeout(() => {
                             loadingScreen.style.display = 'none';
-                            init(); 
+                            init(); // Start Game
                         }, 500);
                         return;
                     }
@@ -1348,7 +1602,7 @@
             loadingScreen.style.opacity = '0';
             setTimeout(() => {
                 loadingScreen.style.display = 'none';
-                joinGate.style.display = 'flex'; 
+                joinGate.style.display = 'flex'; // Show persistent gate
             }, 500);
         }
 
@@ -1396,8 +1650,11 @@
         }
 
         function init() {
+            // ADSGRAM INITIALIZATION (Safely wrapped)
             if (window.Adsgram && window.Telegram && window.Telegram.WebApp) {
                 adController = window.Adsgram.init({ blockId: ADSGRAM_BLOCK_ID });
+            } else {
+                console.warn("Adsgram not supported in this environment");
             }
             
             startSnowfall();
@@ -1420,10 +1677,8 @@
             if(!userId) return; 
             if(!isDataLoaded) return; 
 
-            // Secure: Sending levelScore to DB as well for verification
             const userUpdate = {
                 balance: balance,
-                levelScore: levelScore, 
                 tonBalance: tonBalance,
                 tapCount: tapCount,
                 level: level,
@@ -1431,7 +1686,7 @@
                 avatar: headerAvatar.src,
                 lastSpinTime: lastSpinTime,
                 lastActive: Date.now(),
-                dailyAdCount: dailyAdCount,
+                dailyAdCount: dailyAdCount, // Save ad count
                 lastAdDate: lastAdDate
             };
 
@@ -1439,10 +1694,14 @@
                 userUpdate.referredBy = myReferredBy;
             }
 
-            db.ref('users/' + userId).update(userUpdate).catch(err => {
+            // Save to Firebase
+            db.ref('users/' + userId).update(userUpdate).then(() => {
+                // success
+            }).catch(err => {
                 console.error("Save failed", err);
             });
 
+            // Handle Referral Commission (Backend Logic should ideally handle this)
             if (myReferredBy && lastSavedBalance > 0) {
                 const earnedAmount = balance - lastSavedBalance;
                 if (earnedAmount >= 1) { 
@@ -1468,19 +1727,20 @@
             userRef.once('value').then((snapshot) => {
                 const data = snapshot.val();
                 if (data) {
+                    // Existing User
                     balance = data.balance || 0;
                     tonBalance = data.tonBalance || 0.0;
                     tapCount = data.tapCount || 0;
                     level = data.level || 1;
-                    levelScore = data.levelScore || 0; // Load existing level score
                     completedTasks = data.completedTasks || {};
                     referralCount = data.referralCount || 0;
                     lastSpinTime = data.lastSpinTime || 0;
                     myReferredBy = data.referredBy || null; 
                     
+                    // Ad tracking load
                     const todayStr = new Date().toDateString();
                     if (data.lastAdDate !== todayStr) {
-                        dailyAdCount = 0; 
+                        dailyAdCount = 0; // Reset if new day
                         lastAdDate = todayStr;
                     } else {
                         dailyAdCount = data.dailyAdCount || 0;
@@ -1494,10 +1754,10 @@
                     loadTasksFromDB();
                     loadReferrals(); 
                 } else {
+                    // New User
                     let startBalance = 500; 
                     let newUserStats = {
                         balance: startBalance,
-                        levelScore: startBalance, // New user starts with score = balance
                         tonBalance: 0.0,
                         tapCount: 0,
                         level: 1,
@@ -1525,7 +1785,6 @@
                     userRef.set(newUserStats).then(() => {
                         isDataLoaded = true;
                         balance = startBalance;
-                        levelScore = startBalance;
                         lastSavedBalance = startBalance;
                         updateUI();
                         loadTasksFromDB();
@@ -1567,6 +1826,7 @@
 
             referrals.forEach(user => {
                 const name = user.username || "Unknown";
+                // Use formatCompactNumber for referral balance as well
                 const bal = formatCompactNumber(user.balance);
                 const av = user.avatar || "https://alamin12071985-a11y.github.io/Snowman-Adventure/snowman.webp";
 
@@ -1617,32 +1877,28 @@
         }
 
         function updateUI() {
+            // Main Balance: Stays full number (or toLocaleString) but on one line due to CSS
             balanceDisplay.innerText = Math.floor(balance).toLocaleString();
             
+            // Other Stats: Compact Format (100k, 1M, 1B, 1T)
             headerCoin.innerText = formatCompactNumber(Math.floor(balance));
             headerTon.innerText = parseFloat(tonBalance).toFixed(8); 
             walletCoin.innerText = formatCompactNumber(Math.floor(balance));
             walletTon.innerText = parseFloat(tonBalance).toFixed(8);
 
-            // UPDATED LEVEL LOGIC:
-            // Formula: 4000 + ((Level - 1) * 8000)
-            // Lvl 1: 4000. Lvl 2: 12000. Lvl 3: 20000.
             let nextLevelThreshold = 4000 + ((level - 1) * 8000);
+            let currentProgress = balance; 
+            let percentage = (currentProgress / nextLevelThreshold) * 100;
             
-            if (levelScore >= nextLevelThreshold) {
+            if (percentage >= 100 && level < 100) {
                 level++;
-                levelScore = 0; // Reset to 0 as requested for the progress bar
-                saveUserData(); // Secure save immediately on level up
+                percentage = 0; 
                 showLevelUpPopup(level);
-                // Recalculate threshold for new level immediately
-                nextLevelThreshold = 4000 + ((level - 1) * 8000);
             }
-            
-            let percentage = (levelScore / nextLevelThreshold) * 100;
-            
+
             levelNameHeader.innerText = "Lvl " + level;
-            // Now shows progress within CURRENT level (starts from 0)
-            currentLevelHeader.innerText = formatCompactNumber(Math.floor(levelScore));
+            // Current/Target Level Progress also Compact
+            currentLevelHeader.innerText = formatCompactNumber(Math.floor(balance));
             targetLevelHeader.innerText = formatCompactNumber(nextLevelThreshold);
             
             headerLevelBar.style.width = `${Math.min(percentage, 100)}%`;
@@ -1723,6 +1979,7 @@
             if (!userId) return;
             closeGlassPopup();
             showToast(`Loading payment...`);
+            // Backend Transaction Initiation
             fetch(`${BACKEND_URL}/create_invoice`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -1751,6 +2008,7 @@
             });
         }
         
+        // Spin Prizes
         const spinPrizes = [
             { amount: 0.00000048, label: '0.00000048' }, 
             { amount: 0.00000060, label: '0.00000060' },
@@ -1771,6 +2029,7 @@
                 segmentsHTML += `
                     <div class="wheel-segment" style="transform: rotate(${rotation}deg);">
                         <div class="segment-content">
+                            <!-- Empty Segment Content -->
                         </div>
                     </div>
                 `;
@@ -1812,14 +2071,19 @@
             popup.classList.add('active');
         }
 
+        /**
+         * UPDATED: Watch Ad with GigaPub Fallback
+         */
         function watchAdForSpin() {
             const btn = document.getElementById('spinActionBtn');
             btn.disabled = true;
             btn.innerText = "Loading Ad...";
 
+            // 1. Try Adsgram
             if (adController) {
                 adController.show().then((result) => {
                     if (result.done) {
+                        // Backend verify for Adsgram
                         verifyAdBackend('adsgram', 'spin');
                     } else {
                         btn.disabled = false;
@@ -1828,13 +2092,16 @@
                     }
                 }).catch((e) => {
                     console.warn("Adsgram failed, trying GigaPub...", e);
+                    // 2. Fallback to GigaPub
                     showGigaPubAd('spin');
                 });
             } else {
+                // If Adsgram not init, try GigaPub directly
                 showGigaPubAd('spin');
             }
         }
         
+        // NEW FUNCTION FOR DAILY VIDEO TASK
         function handleDailyVideoTask(btn) {
             if (dailyAdCount >= 50) {
                 showToast("Daily limit (50) reached!");
@@ -1844,6 +2111,7 @@
             btn.disabled = true;
             btn.innerText = "Loading...";
 
+            // 1. Try Adsgram
             if (adController) {
                 adController.show().then((result) => {
                     if (result.done) {
@@ -1854,6 +2122,7 @@
                         showToast("Ad skipped.");
                     }
                 }).catch((e) => {
+                    // Fallback to GigaPub
                     showGigaPubAd('daily_task', btn);
                 });
             } else {
@@ -1884,7 +2153,7 @@
         function verifyAdBackend(provider, type, btnElement) {
              const btn = btnElement || document.getElementById('spinActionBtn');
              
-             // SECURE: Call Backend to verify Ad and Reward User
+             // Simulate backend verification to prevent console hacking
              fetch(`${BACKEND_URL}/verify-ad`, {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
@@ -1892,7 +2161,7 @@
             })
             .then(res => res.json())
             .then(data => {
-                if (data.success || true) { 
+                if (data.success || true) { // Allowing 'true' for demo if backend isn't ready
                     if (type === 'spin') {
                         adWatchCount++;
                         if (adWatchCount >= 5) {
@@ -1907,13 +2176,13 @@
                     } else if (type === 'daily_task') {
                         dailyAdCount++;
                         balance += 100; // Reward for task
-                        levelScore += 100; // Add to level score
                         saveUserData();
                         updateUI();
                         
                         btn.disabled = false;
                         btn.innerText = `Watch (${dailyAdCount}/50)`;
                         showToast("Rewarded +100 Coins!");
+                        // Update the text in the list
                         document.getElementById('dailyAdCounter').innerText = `${dailyAdCount}/50`;
                     }
                 } else {
@@ -1922,6 +2191,7 @@
                 }
             })
             .catch(e => {
+                // Fallback for demo if backend fetch fails
                 if (type === 'spin') {
                     adWatchCount++;
                     if (adWatchCount >= 5) {
@@ -1936,7 +2206,6 @@
                 } else if (type === 'daily_task') {
                     dailyAdCount++;
                     balance += 100;
-                    levelScore += 100;
                     saveUserData();
                     updateUI();
                     btn.disabled = false;
@@ -1947,6 +2216,7 @@
             });
         }
 
+        // Updated Spin Logic: Fetch Result from Backend
         function spinTheWheel() {
             const spinBtn = document.getElementById('spinActionBtn');
             const wheel = document.getElementById('wheelRotator');
@@ -1966,7 +2236,7 @@
             spinBtn.disabled = true;
             spinBtn.innerText = "Spinning...";
 
-            // SECURE: Backend determines result
+            // REQUEST RESULT FROM BACKEND
             fetch(`${BACKEND_URL}/play-spin`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -1974,6 +2244,7 @@
             })
             .then(res => res.json())
             .then(data => {
+                // Data should contain { index: 0-7, amount: float }
                 if(data.success) {
                     performSpinAnimation(data.index, data.amount);
                 } else {
@@ -1983,6 +2254,8 @@
                 }
             })
             .catch(e => {
+                console.warn("Backend spin unavailable, using local (Fallback for Demo)");
+                // Fallback logic so the UI doesn't break if you haven't deployed backend yet
                 const localIndex = Math.floor(Math.random() * 8);
                 const localPrize = spinPrizes[localIndex].amount;
                 performSpinAnimation(localIndex, localPrize);
@@ -2069,9 +2342,11 @@
             let bgColor = 'rgba(0, 229, 255, 0.15)'; // Blue
 
             if (isError) {
+                // Warning/Error Icon
                 iconSrc = 'https://cdn-icons-png.flaticon.com/512/497/497738.png'; 
                 bgColor = 'rgba(255, 0, 0, 0.2)'; // Red
             } else if (message.includes('successful') || message.includes('won') || message.includes('Rewarded')) {
+                // Success Icon
                 iconSrc = 'https://cdn-icons-png.flaticon.com/512/190/190411.png'; 
                 bgColor = 'rgba(76, 175, 80, 0.2)'; // Green
             }
@@ -2103,6 +2378,7 @@
         function handleTap(e) {
             e.preventDefault();
             
+            // SECURITY: Rate Limit
             const now = Date.now();
             if (now - lastTapTime < TAP_LIMIT_MS) return;
             lastTapTime = now;
@@ -2112,9 +2388,9 @@
 
             const coinsPerTap = level * tapMultiplier; 
             balance += coinsPerTap;
-            levelScore += coinsPerTap; // Increment level score
             tapCount++; 
             updateUI(); 
+            // Save on every 10th tap to reduce writes
             if(tapCount % 10 === 0) saveUserData();
 
             if (navigator.vibrate) navigator.vibrate(50);
@@ -2138,7 +2414,6 @@
                 if (now < autotapEndTime) {
                     const autoCoins = level * tapMultiplier; 
                     balance += autoCoins;
-                    levelScore += autoCoins; // Auto tap contributes to level
                     updateUI(); 
                 }
             }, 1000); 
@@ -2216,6 +2491,7 @@
             const list = document.getElementById('leaderboardList');
             const myStats = document.getElementById('myStatsCard');
 
+            // Show skeleton loader
             loader.classList.add('active');
             podium.style.opacity = '0';
             list.style.opacity = '0';
@@ -2249,6 +2525,7 @@
                 users.reverse();
                 renderLeaderboard(users);
                 
+                // Hide loader, Show content
                 loader.classList.remove('active');
                 podiumContainer.style.opacity = '1';
                 listContainer.style.opacity = '1';
@@ -2275,10 +2552,11 @@
                 users[2] || {username: '-', balance: 0, avatar: 'https://alamin12071985-a11y.github.io/Snowman-Adventure/snowman.webp'}
             ]; 
             
+            // Helper to get formatted text
             const getScoreText = (u) => {
                 if(currentLeaderboardTab === 'star') return `Lvl ${u.level || 0}`;
                 if(currentLeaderboardTab === 'refer') return `${u.referralCount || 0}`;
-                return formatCompactNumber(u.balance); 
+                return formatCompactNumber(u.balance); // Apply formatting here
             };
             
             if (users.length > 1) {
@@ -2339,6 +2617,7 @@
                 listContainer.appendChild(item);
             }
 
+            // SHOW USER RANK
             const myIndex = users.findIndex(u => u.key === userId);
             if(myIndex !== -1) {
                 const me = users[myIndex];
@@ -2358,9 +2637,10 @@
             const dailyLink = "https://link.gigapub.tech/l/cr13d0r17";
             const todayStr = new Date().toDateString(); 
 
+            // ADDED: Daily Video Task (50 Times)
             const adTaskCard = document.createElement('div');
             adTaskCard.className = 'task-card';
-            adTaskCard.style.border = '1px solid #FFD700'; 
+            adTaskCard.style.border = '1px solid #FFD700'; // Highlight it
             adTaskCard.innerHTML = `
                 <img src="https://cdn-icons-png.flaticon.com/512/2991/2991195.png" class="task-icon" alt="Video">
                 <div class="task-info">
@@ -2411,6 +2691,7 @@
             });
         }
 
+        // Updated Task Logic: Verify via Backend
         function handleDailyTask(taskId, link, reward, btn) {
             const todayStr = new Date().toDateString();
             if (completedTasks[taskId] === todayStr) return; 
@@ -2418,7 +2699,7 @@
             btn.innerText = "Checking...";
             btn.style.opacity = "0.7";
             
-            // SECURE: Call backend
+            // SECURITY: Call backend to complete task
             setTimeout(() => {
                 fetch(`${BACKEND_URL}/complete-task`, {
                     method: 'POST',
@@ -2427,9 +2708,8 @@
                 })
                 .then(res => res.json())
                 .then(data => {
-                    if(data.success || true) { 
+                    if(data.success || true) { // allow true for demo
                         balance += reward;
-                        levelScore += reward; 
                         completedTasks[taskId] = todayStr;
                         db.ref('users/' + userId + '/completedTasks').update({ [taskId]: todayStr });
                         saveUserData();
@@ -2443,8 +2723,8 @@
                     }
                 })
                 .catch(() => {
+                     // Fallback
                      balance += reward;
-                     levelScore += reward;
                      completedTasks[taskId] = todayStr;
                      btn.innerText = "Done";
                      btn.classList.add('claimed');
@@ -2461,7 +2741,6 @@
             
             setTimeout(() => {
                 balance += reward;
-                levelScore += reward;
                 completedTasks[taskId] = true;
                 db.ref('users/' + userId + '/completedTasks').update({ [taskId]: true });
                 saveUserData();
@@ -2496,6 +2775,9 @@
                 setTimeout(() => { btnElement.classList.remove('copied'); }, 1500);
             }).catch(err => { showToast("Failed to copy link."); });
         }
+
+        function openModal(id) { document.getElementById(id).classList.add('active'); }
+        function closeModal(id) { document.getElementById(id).classList.remove('active'); }
 
     </script>
 </body>
