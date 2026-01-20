@@ -152,7 +152,6 @@
             top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0,0,0,0.95);
             z-index: 9998; 
-            /* MODIFIED: Hidden by default as requested */
             display: none; 
             flex-direction: column;
             align-items: center;
@@ -597,12 +596,11 @@
         .left-btn { left: 3vw; }
         .right-btn { right: 3vw; }
         
-        /* MODIFIED: Hiding Shop and Auto Tap as requested */
-        #shopBtn { display: none; }
+        #shopBtn { top: 58%; right: 3vw; }
         #casesBtn { top: 58%; left: 3vw; }
         
-        #leaderboardBtn { top: 58%; right: 3vw; } /* Moved up to replace Shop position */
-        #autoTapBtn { display: none; }
+        #leaderboardBtn { top: 82%; right: 3vw; }
+        #autoTapBtn { top: 82%; left: 3vw; }
         
         /* --- TOAST NOTIFICATION REDESIGNED --- */
         .toast-notification {
@@ -673,101 +671,6 @@
             flex-shrink: 0;
             padding: 1vw;
         }
-        
-        /* --- NEW SWAP UI CSS --- */
-        .swap-container {
-            width: 100%;
-            background: #E3F4F9; /* Light background from reference */
-            border-radius: 6vw;
-            padding: 5vw;
-            color: #000;
-            display: flex;
-            flex-direction: column;
-            gap: 4vw;
-            box-shadow: 0 4vw 10vw rgba(0,0,0,0.5);
-            margin-top: 5vw;
-        }
-
-        .swap-header {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin-bottom: 2vw;
-        }
-        .swap-title { font-size: 5vw; font-weight: 700; color: #333; }
-
-        .swap-card-inner {
-            background: #fff;
-            border-radius: 5vw;
-            padding: 4vw;
-            display: flex;
-            flex-direction: column;
-            gap: 2vw;
-            box-shadow: 0 2vw 5vw rgba(0,0,0,0.05);
-            position: relative;
-        }
-
-        .swap-row-top { display: flex; justify-content: space-between; align-items: center; }
-        .swap-label { font-size: 3.5vw; color: #888; font-weight: 500; }
-        .swap-bal { font-size: 3.2vw; color: #555; }
-        .max-badge { background: #000; color: #fff; padding: 0.5vw 2vw; border-radius: 3vw; font-size: 2.8vw; font-weight: 700; margin-left: 1vw; cursor: pointer; }
-
-        .swap-row-input { display: flex; justify-content: space-between; align-items: center; margin-top: 2vw; }
-        .token-pill { display: flex; align-items: center; gap: 2vw; background: #f0f0f0; padding: 1.5vw 3vw; border-radius: 4vw; font-weight: 700; font-size: 4vw; color: #333; }
-        .token-pill img { width: 6vw; height: 6vw; }
-        .swap-input { width: 50%; border: none; background: transparent; text-align: right; font-size: 6vw; font-weight: 700; color: #000; outline: none; }
-        .swap-approx { text-align: right; font-size: 3vw; color: #999; margin-top: 0.5vw; }
-
-        .swap-divider {
-            position: relative;
-            height: 2vw;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 2;
-            margin: -2vw 0;
-        }
-        .swap-icon-circle {
-            background: #fff;
-            width: 10vw; height: 10vw;
-            border-radius: 50%;
-            display: flex; justify-content: center; align-items: center;
-            box-shadow: 0 1vw 3vw rgba(0,0,0,0.1);
-            cursor: pointer;
-        }
-        .swap-icon-circle img { width: 5vw; height: 5vw; }
-
-        .slide-btn {
-            background: #000;
-            color: #fff;
-            width: 100%;
-            padding: 4vw;
-            border-radius: 8vw;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-top: 4vw;
-            cursor: pointer;
-            position: relative;
-            overflow: hidden;
-        }
-        .slide-text { flex: 1; text-align: center; font-size: 4.5vw; font-weight: 600; }
-        .slide-icon { width: 10vw; height: 10vw; background: linear-gradient(135deg, #fff, #ddd); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #000; }
-        
-        .fee-info { display: flex; justify-content: center; align-items: center; gap: 1vw; font-size: 3vw; color: #777; margin-top: 2vw; }
-
-        /* --- WITHDRAW MODAL --- */
-        .withdraw-modal {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.8); backdrop-filter: blur(5px); z-index: 6000;
-            display: none; justify-content: center; align-items: center;
-        }
-        .withdraw-card {
-            background: #163450; width: 85vw; border-radius: 5vw; padding: 6vw;
-            border: 1px solid var(--accent-cyan); display: flex; flex-direction: column; gap: 4vw;
-        }
-        .w-input { width: 100%; padding: 3vw; border-radius: 3vw; border: 1px solid rgba(255,255,255,0.3); background: rgba(0,0,0,0.3); color: white; font-size: 4vw; outline: none; }
-        .w-btn { background: var(--btn-blue-grad); border: none; padding: 3vw; border-radius: 3vw; color: white; font-weight: 700; font-size: 4vw; }
         
         /* --- NAV BAR --- */
         .nav-bar {
@@ -1189,7 +1092,6 @@
     </div>
 
     <!-- JOIN GATE OVERLAY -->
-    <!-- DO NOT DELETE: Keeping structure but setting display:none in logic to bypass as requested -->
     <div id="joinGateOverlay" class="join-gate-overlay">
         <div class="join-gate-card">
             <div class="join-icon-circle">
@@ -1242,17 +1144,6 @@
     <!-- GENERIC GLASS POPUP -->
     <div id="glassPopup" class="popup-overlay">
         <div class="popup-content" id="popupContent"></div>
-    </div>
-
-    <!-- WITHDRAW MODAL (NEW) -->
-    <div id="withdrawModal" class="withdraw-modal">
-        <div class="withdraw-card">
-            <h2 style="color:white; text-align:center;">Withdraw TON</h2>
-            <p style="color:rgba(255,255,255,0.7); text-align:center; font-size:3.2vw;">Minimum: 2 TON</p>
-            <input type="number" id="withdrawAmount" class="w-input" placeholder="Enter Amount (TON)">
-            <button class="w-btn" onclick="executeWithdraw()">Withdraw</button>
-            <button class="w-btn" style="background:rgba(255,255,255,0.1); margin-top:1vw;" onclick="closeWithdrawModal()">Cancel</button>
-        </div>
     </div>
     
     <!-- LEADERBOARD OVERLAY (UPDATED LOADING) -->
@@ -1359,20 +1250,14 @@
                         <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/spin_icon.webp" alt="Spin">
                         <span class="btn-text">Spin</span>
                     </div>
-                    
-                    <!-- HIDDEN: Auto Tap -->
-                    <div id="autoTapBtn" class="floating-action-btn left-btn" onclick="handleFloatingBtnClick('AutoTap')" style="display:none;">
+                    <div id="autoTapBtn" class="floating-action-btn left-btn" onclick="handleFloatingBtnClick('AutoTap')">
                         <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/autotap_icon.webp" alt="Auto">
                         <span class="btn-text">Auto Tap</span>
                     </div>
-                    
-                    <!-- HIDDEN: Shop -->
-                    <div id="shopBtn" class="floating-action-btn right-btn" onclick="handleFloatingBtnClick('Shop')" style="display:none;">
+                    <div id="shopBtn" class="floating-action-btn right-btn" onclick="handleFloatingBtnClick('Shop')">
                         <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/shop_icon.webp" alt="Shop">
                         <span class="btn-text">Shop</span>
                     </div>
-                    
-                    <!-- MOVED: Leaderboard Button replaces Shop location -->
                     <div id="leaderboardBtn" class="floating-action-btn right-btn" onclick="handleFloatingBtnClick('Leaderboard')">
                         <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/leaderboard_icon.webp" alt="Rank">
                         <span class="btn-text">Leaderboard</span>
@@ -1431,75 +1316,53 @@
                 </div>
             </div>
 
-            <!-- WALLET TAB (UPDATED: SWAP UI) -->
+            <!-- WALLET TAB -->
             <div id="wallet" class="tab-content">
-                <div class="swap-container">
-                    <div class="swap-header">
-                        <div class="swap-title">Swap</div>
+                <div style="text-align:center; padding-top: 5px;"> 
+                    <h1 class="wallet-title">Get Real Crypto.</h1>
+                    <p style="color:rgba(227, 244, 249, 0.7); font-size: 1rem; margin-bottom: 0;">Earn and buy tokens.</p>
+                </div>
+                <div class="banner-placeholder" onclick="handleWalletBannerClick()" style="margin-top: 2vw; margin-bottom: 4vw;"> 
+                    <img id="walletBannerImage" src="https://i.ibb.co.com/Z1fPKcKx/20251227-143016.jpg" alt="Wallet Banner" style="display: block;">
+                </div>
+                <div class="wallet-stats-grid">
+                    <div class="wallet-stat-box">
+                        <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/coin.webp" alt="Coin">
+                        <span class="wallet-stat-val" id="walletCoin">0</span>
+                        <span class="wallet-stat-label">Coins</span>
                     </div>
-
-                    <!-- Input Card (You Pay) -->
-                    <div class="swap-card-inner">
-                        <div class="swap-row-top">
-                            <span class="swap-label">You Pay</span>
-                            <div style="display:flex; align-items:center;">
-                                <span class="swap-bal">Bal: <span id="swapCoinBalance">0</span></span>
-                                <span class="max-badge" onclick="setMaxSwap()">Max</span>
-                            </div>
-                        </div>
-                        <div class="swap-row-input">
-                            <div class="token-pill">
-                                <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/coin.webp" alt="Coin">
-                                <span>SNOW</span>
-                            </div>
-                            <input type="number" id="swapInput" class="swap-input" placeholder="0" oninput="calculateSwap()">
-                        </div>
-                        <div class="swap-approx">≈ $0.00 USD</div>
-                    </div>
-
-                    <!-- Swap Divider -->
-                    <div class="swap-divider">
-                        <div class="swap-icon-circle">
-                             <img src="https://cdn-icons-png.flaticon.com/512/10015/10015419.png" style="opacity:0.6;">
-                        </div>
-                    </div>
-
-                    <!-- Output Card (You Receive) -->
-                    <div class="swap-card-inner">
-                        <div class="swap-row-top">
-                            <span class="swap-label">You Receive</span>
-                            <span class="swap-bal">Bal: <span id="swapTonBalance">0.00</span></span>
-                        </div>
-                        <div class="swap-row-input">
-                            <div class="token-pill">
-                                <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/ton.webp" alt="TON">
-                                <span>TON</span>
-                            </div>
-                            <input type="text" id="swapOutput" class="swap-input" placeholder="0" readonly>
-                        </div>
-                        <div class="swap-approx">1T Coins = 1 TON</div>
-                    </div>
-
-                    <div class="fee-info">
-                         <span style="width:10px; height:10px; border:2px solid #777; border-top:2px solid transparent; border-radius:50%;"></span>
-                         1 Trillion Coins = 1 TON (Fee: 0%)
-                    </div>
-
-                    <!-- Slide Button -->
-                    <div class="slide-btn" onclick="executeSwap()">
-                        <div class="slide-icon">
-                            <img src="https://cdn-icons-png.flaticon.com/512/271/271220.png" style="width:5vw;">
-                        </div>
-                        <span class="slide-text">Swap to TON</span>
-                        <div style="width:10vw;"></div> <!-- Spacer -->
+                    <div class="wallet-stat-box">
+                        <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/ton.webp" alt="TON">
+                        <span class="wallet-stat-val" id="walletTon">0.0</span>
+                        <span class="wallet-stat-label">TON</span>
                     </div>
                 </div>
-
-                <!-- Withdraw Button Section -->
-                <div style="margin-top: 5vw; display:flex; justify-content:center;">
-                    <button class="w-btn" style="width:90%; box-shadow:0 0 5vw rgba(0,229,255,0.3);" onclick="openWithdrawModal()">
-                        Withdraw Funds
+                <div class="button-group" style="margin-top: 10px;" id="connectBtnContainer">
+                    <button class="btn connect-btn" id="connectWalletBtn" onclick="connectWallet()">
+                         <img src="https://cdn-icons-png.flaticon.com/512/1041/1041888.png" class="icon-img" alt="Wallet">
+                        <span class="btn-text">Connect Wallet</span>
                     </button>
+                </div>
+                <div id="walletStatusBadge" style="display:none; margin-top:5px; background:rgba(255,255,255,0.1); padding:8px 15px; border-radius:20px; font-size:0.8rem; border:1px solid rgba(0,229,255,0.3);">
+                    <span style="width:10px; height:10px; background:#00C853; border-radius:50%; display:inline-block; margin-right:5px;"></span>
+                    <span id="walletAddressDisplay"></span>
+                </div>
+                
+                <div class="exchange-btn" onclick="handleExchangeClick()">
+                    <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/exchange.webp" class="exchange-icon" alt="Swap">
+                    <div class="exchange-text">
+                        <h3>Exchange Tokens!</h3>
+                        <p>Convert your tokens into cryptocurrency.</p>
+                    </div>
+                </div>
+                
+                <!-- WITHDRAW BUTTON -->
+                <div class="exchange-btn" onclick="handleWithdrawClick()" style="margin-top: 2vw; border-color: rgba(255, 100, 100, 0.2);">
+                    <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/withdraw.webp" class="exchange-icon" alt="Withdraw">
+                    <div class="exchange-text">
+                        <h3>Withdraw</h3>
+                        <p>Transfer balance to wallet.</p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -1518,10 +1381,9 @@
                 <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/friends.webp" alt="Friends">
                 <span>Friends</span>
             </div>
-            <!-- Changed Label to SWAP -->
             <div class="nav-item" onclick="switchTab('wallet', this)">
-                <img src="https://cdn-icons-png.flaticon.com/512/8176/8176424.png" alt="Swap" style="filter:grayscale(100%);">
-                <span>Swap</span>
+                <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/wallet.webp" alt="Wallet">
+                <span>Wallet</span>
             </div>
         </div>
     </div>
@@ -1575,8 +1437,6 @@
         let noadsEndTime = 0;   
         let tapMultiplier = 1;
         let lastTapTime = 0;
-        let joinDate = 0; // NEW: To track account age for withdrawal
-
         const TAP_LIMIT_MS = 40; 
         
         // --- ADSGRAM CONFIGURATION ---
@@ -1587,7 +1447,6 @@
         let appInviteBaseUrl = `https://t.me/${BOT_USERNAME_PLACEHOLDER}?startapp=`;
         const BACKEND_URL = "https://snowmanadventure.onrender.com"; 
 
-        // DOM Elements for Easy Access
         const balanceDisplay = document.getElementById('displayBalance');
         const clickerBtn = document.getElementById('clickerBtn');
         const headerName = document.getElementById('headerName');
@@ -1598,21 +1457,30 @@
         const levelNameHeader = document.getElementById('levelNameHeader');
         const headerCoin = document.getElementById('headerCoinBalance');
         const headerTon = document.getElementById('headerTonBalance');
-        
-        // SWAP UI Elements
-        const swapCoinBalance = document.getElementById('swapCoinBalance');
-        const swapTonBalance = document.getElementById('swapTonBalance');
-        const swapInput = document.getElementById('swapInput');
-        const swapOutput = document.getElementById('swapOutput');
+        const walletCoin = document.getElementById('walletCoin');
+        const walletTon = document.getElementById('walletTon');
+        const referralPercentageDisplay = document.getElementById('referralPercentageDisplay');
 
         const tonConnectUI = new TON_CONNECT_UI.TonConnectUI({
             manifestUrl: 'https://alamin12071985-a11y.github.io/Snowman-Adventure/tonconnect-manifest.json',
             buttonRootId: null 
         });
 
-        // TON Connect Status Check (Currently used for internal state)
         tonConnectUI.onStatusChange(wallet => {
-             // Logic can be added here if needed
+            const btnContainer = document.getElementById('connectBtnContainer');
+            const statusBadge = document.getElementById('walletStatusBadge');
+            const addressDisplay = document.getElementById('walletAddressDisplay');
+
+            if(wallet) {
+                btnContainer.style.display = "none";
+                statusBadge.style.display = "block";
+                const rawAddress = wallet.account.address;
+                const shortAddress = rawAddress.slice(0,4) + "..." + rawAddress.slice(-4);
+                addressDisplay.innerText = shortAddress;
+            } else {
+                btnContainer.style.display = "flex";
+                statusBadge.style.display = "none";
+            }
         });
 
         async function connectWallet() {
@@ -1671,7 +1539,6 @@
                 if(loadPercent >= 100) {
                     clearInterval(interval);
                     // Start logic after loading
-                    // MODIFIED: Bypassing Join Check for now as requested (hidden logic)
                     performInitialJoinCheck(screen, joinGate);
                 }
             }, 50);
@@ -1693,6 +1560,9 @@
                 else if (user.first_name) headerName.innerText = user.first_name;
                 if (user.photo_url) headerAvatar.src = user.photo_url;
                 
+                // Prefill form (if needed elsewhere)
+                // document.getElementById('pTg').value = "@" + (user.username || "");
+
                 const startParam = tg.initDataUnsafe.start_param;
                 if (startParam && startParam !== userId) {
                     referrerIdFromUrl = startParam;
@@ -1704,26 +1574,79 @@
             }
         }
 
-        /* --- STRICT JOIN GATE LOGIC (DISABLED/HIDDEN) --- */
+        /* --- STRICT JOIN GATE LOGIC --- */
         
         async function performInitialJoinCheck(loadingScreen, joinGate) {
-            // MODIFIED: Logic to skip check immediately
+            try {
+                const response = await fetch(`${BACKEND_URL}/verify_join`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ user_id: userId })
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    if (data.joined === true) {
+                        loadingScreen.style.opacity = '0';
+                        setTimeout(() => {
+                            loadingScreen.style.display = 'none';
+                            init(); // Start Game
+                        }, 500);
+                        return;
+                    }
+                }
+            } catch (e) {
+                console.log("Initial check failed, showing gate safely.");
+            }
+
             loadingScreen.style.opacity = '0';
             setTimeout(() => {
                 loadingScreen.style.display = 'none';
-                init(); // Start Game Directly
+                joinGate.style.display = 'flex'; // Show persistent gate
             }, 500);
         }
 
-        // Keeping function structure but unused in new flow
         async function verifyJoin() {
             const checkBtn = document.getElementById('checkJoinBtn');
             const joinGate = document.getElementById('joinGateOverlay');
+            
             if (!userId) return; 
+
             checkBtn.innerText = "Checking...";
-            // ... (rest of old logic hidden) ...
-            joinGate.style.display = 'none';
-            init();
+            checkBtn.innerHTML = "Checking... <span style='display:inline-block; width:10px; height:10px; border:2px solid white; border-top:2px solid transparent; border-radius:50%; animation:spin 1s linear infinite;'></span>";
+            checkBtn.classList.add('loading');
+            
+            const style = document.createElement('style');
+            style.innerHTML = `@keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }`;
+            document.head.appendChild(style);
+
+            try {
+                const response = await fetch(`${BACKEND_URL}/verify_join`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ user_id: userId })
+                });
+
+                const data = await response.json();
+
+                checkBtn.classList.remove('loading');
+                checkBtn.innerText = "Check & Play";
+
+                if (data.joined === true) {
+                    joinGate.style.display = 'none';
+                    checkAdBlocker();
+                    showToast("Verified! Welcome to the game.");
+                    if(!isDataLoaded) init(); 
+                } else {
+                    showToast("Please join BOTH channels first!", 3000, true);
+                }
+
+            } catch (err) {
+                console.error("Join check failed:", err);
+                checkBtn.classList.remove('loading');
+                checkBtn.innerText = "Check & Play";
+                showToast("Server error. Cannot verify.", 3000, true);
+            }
         }
 
         function init() {
@@ -1737,8 +1660,7 @@
             startSnowfall();
             loadUserData(); 
             loadConfig(); 
-            // MODIFIED: AutoTap disabled/hidden
-            // startAutoTapLoop(); 
+            startAutoTapLoop(); 
             setInterval(saveUserData, 5000);
         }
 
@@ -1746,7 +1668,7 @@
             db.ref('config/referralPercentage').once('value').then(snapshot => {
                 const percentage = snapshot.val();
                 if (percentage) {
-                    document.getElementById('referralPercentageDisplay').innerText = percentage + "%";
+                    referralPercentageDisplay.innerText = percentage + "%";
                 }
             });
         }
@@ -1766,8 +1688,7 @@
                 lastSpinTime: lastSpinTime,
                 lastActive: Date.now(),
                 dailyAdCount: dailyAdCount, 
-                lastAdDate: lastAdDate,
-                joinDate: joinDate // Ensure join date is saved
+                lastAdDate: lastAdDate
             };
 
             if(myReferredBy) {
@@ -1832,7 +1753,6 @@
                     referralCount = data.referralCount || 0;
                     lastSpinTime = data.lastSpinTime || 0;
                     myReferredBy = data.referredBy || null; 
-                    joinDate = data.joinDate || Date.now(); // If old user, assume joined now for safety or fetch timestamp
                     
                     // Ad tracking load
                     const todayStr = new Date().toDateString();
@@ -1863,8 +1783,7 @@
                         avatar: headerAvatar.src,
                         lastActive: Date.now(),
                         dailyAdCount: 0,
-                        lastAdDate: new Date().toDateString(),
-                        joinDate: Date.now() // Track when they joined
+                        lastAdDate: new Date().toDateString()
                     };
 
                     if (referrerIdFromUrl) {
@@ -1886,7 +1805,6 @@
                         balance = startBalance;
                         currentLevelScore = startBalance;
                         lastSavedBalance = startBalance;
-                        joinDate = newUserStats.joinDate;
                         updateUI();
                         loadTasksFromDB();
                     });
@@ -1984,10 +1902,8 @@
             // Other Stats: Compact Format (100k, 1M, 1B, 1T)
             headerCoin.innerText = formatCompactNumber(Math.floor(balance));
             headerTon.innerText = parseFloat(tonBalance).toFixed(8); 
-            
-            // Swap UI Updates
-            if(swapCoinBalance) swapCoinBalance.innerText = formatCompactNumber(Math.floor(balance));
-            if(swapTonBalance) swapTonBalance.innerText = parseFloat(tonBalance).toFixed(8);
+            walletCoin.innerText = formatCompactNumber(Math.floor(balance));
+            walletTon.innerText = parseFloat(tonBalance).toFixed(8);
 
             // UPDATED LEVEL LOGIC: Based on currentLevelScore
             let nextLevelThreshold = 4000 + ((level - 1) * 8000);
@@ -2009,147 +1925,566 @@
             targetLevelHeader.innerText = formatCompactNumber(nextLevelThreshold);
             
             headerLevelBar.style.width = `${Math.min(percentage, 100)}%`;
+            
+            const now = Date.now();
+            let statusMessage = [];
+            tapMultiplier = 1;
+
+            if (now < boosterEndTime) {
+                tapMultiplier = 2; 
+                const remaining = Math.ceil((boosterEndTime - now) / 1000);
+                statusMessage.push(`⚡ Booster: ${formatTime(remaining)}`);
+            }
+            if (now < autotapEndTime) {
+                const remaining = Math.ceil((autotapEndTime - now) / 1000);
+                statusMessage.push(`🤖 Auto Tap: ${formatTime(remaining)}`);
+            }
+            if (now < noadsEndTime) {
+                const remaining = Math.ceil((noadsEndTime - now) / 1000);
+                statusMessage.push(`🚫 No Ads: ${formatTime(remaining)}`);
+            }
+
+            if (statusMessage.length > 0) {
+                showToast(`Active: ${statusMessage.join(' | ')}`, 60000); 
+            } else {
+                hideToast(); 
+            }
         }
         
-        /* --- SWAP LOGIC --- */
-        const RATE = 1000000000000; // 1 Trillion Coins = 1 TON
-
-        function setMaxSwap() {
-            // Set input to full balance
-            swapInput.value = Math.floor(balance);
-            calculateSwap();
-        }
-
-        function calculateSwap() {
-            const val = parseFloat(swapInput.value);
-            if(isNaN(val) || val <= 0) {
-                swapOutput.value = 0;
-                return;
-            }
-            const tonVal = val / RATE;
-            // Show up to 10 decimal places to capture small fractions if needed
-            swapOutput.value = tonVal.toFixed(10);
-        }
-
-        function executeSwap() {
-            const inputVal = parseFloat(swapInput.value);
-            if(isNaN(inputVal) || inputVal <= 0) {
-                showToast("Enter an amount first", 3000, true);
-                return;
-            }
-            if(inputVal > balance) {
-                showToast("Insufficient balance", 3000, true);
-                return;
-            }
-
-            // 1. Simulate Backend Call for Swap
-            showToast("Processing Swap...");
-            
-            // In production, this call must handle the transaction on server
-            fetch(`${BACKEND_URL}/swap-tokens`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ user_id: userId, amount: inputVal, rate: RATE })
-            })
-            .then(res => res.json())
-            .then(data => {
-                if(data.success || true) { // Allow true for demo purposes
-                    balance -= inputVal;
-                    const receivedTon = inputVal / RATE;
-                    tonBalance += receivedTon;
-                    swapInput.value = "";
-                    swapOutput.value = "";
-                    saveUserData();
-                    updateUI();
-                    showToast(`Swapped for ${receivedTon.toFixed(8)} TON!`);
-                } else {
-                    showToast("Swap failed server-side.", 3000, true);
-                }
-            })
-            .catch(() => {
-                // Fallback for visual demo if backend is not live yet
-                balance -= inputVal;
-                const receivedTon = inputVal / RATE;
-                tonBalance += receivedTon;
-                swapInput.value = "";
-                swapOutput.value = "";
-                saveUserData();
-                updateUI();
-                showToast(`Swapped for ${receivedTon.toFixed(8)} TON!`);
-            });
-        }
-
-        /* --- WITHDRAW LOGIC --- */
-
-        function openWithdrawModal() {
-            // Check Age
-            const now = Date.now();
-            const joinTime = joinDate || now;
-            const diffTime = Math.abs(now - joinTime);
-            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); 
-
-            if (diffDays < 30) {
-                const remaining = 30 - diffDays;
-                showToast(`Available in ${remaining} days.`, 4000, true);
-                return;
-            }
-            
-            document.getElementById('withdrawModal').style.display = 'flex';
-        }
-
-        function closeWithdrawModal() {
-            document.getElementById('withdrawModal').style.display = 'none';
-        }
-
-        function executeWithdraw() {
-            const amount = parseFloat(document.getElementById('withdrawAmount').value);
-            
-            if(isNaN(amount) || amount < 2) {
-                showToast("Minimum withdraw is 2 TON", 3000, true);
-                return;
-            }
-            
-            if(amount > tonBalance) {
-                showToast("Insufficient TON balance", 3000, true);
-                return;
-            }
-
-            // 2. Send Withdrawal Request to Backend (Admin)
-            fetch(`${BACKEND_URL}/withdraw-request`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ user_id: userId, amount: amount })
-            })
-            .then(() => {
-                closeWithdrawModal();
-                showToast("Request sent to Admin!");
-                // Optionally deduct balance pending approval, keeping simplistic here
-            })
-            .catch(() => {
-                // Fallback
-                closeWithdrawModal();
-                showToast("Request sent to Admin (Simulated)!");
-            });
-        }
-
-        // --- SHOP & AUTOTAP (Keeping Code but Hidden UI) ---
         const starShopItems = [
             { id: 'coin_starter', title: 'Starter Pack', stars: 10, reward: '5,000 Snow Coins', description: 'Instantly add coins to your balance.', icon: 'snowflake.webp', type: 'coin' },
-            // ... (Rest of items kept)
+            { id: 'coin_small', title: 'Small Pack', stars: 20, reward: '10,000 Snow Coins', description: 'Instantly add coins to your balance.', icon: 'snowflake.webp', type: 'coin' },
+            { id: 'coin_medium', title: 'Medium Pack', stars: 60, reward: '40,000 Snow Coins', description: 'Instantly add coins to your balance.', icon: 'snowflake.webp', type: 'coin' },
+            { id: 'coin_large', title: 'Large Pack', stars: 120, reward: '100,000 Snow Coins', description: 'Instantly add coins to your balance.', icon: 'snowflake.webp', type: 'coin' },
+            { id: 'coin_mega', title: 'Mega Pack', stars: 220, reward: '220,000 Snow Coins', description: 'Instantly add coins to your balance.', icon: 'snowflake.webp', type: 'coin' },
+            { id: 'booster_3d', title: '3 Days Booster', stars: 20, reward: '⚡ x2 Tap Power', description: 'Doubles your tap power for 3 days.', icon: 'bolt.webp', type: 'booster' },
+            { id: 'booster_15d', title: '15 Days Booster', stars: 70, reward: '⚡ x2 Tap Power', description: 'Doubles your tap power for 15 days.', icon: 'bolt.webp', type: 'booster' },
+            { id: 'booster_30d', title: '30 Days Booster', stars: 120, reward: '⚡ x2 Tap Power', description: 'Doubles your tap power for 30 days.', icon: 'bolt.webp', type: 'booster' },
+            { id: 'autotap_1d', title: 'Auto Tap (1 Day)', stars: 20, reward: '🤖 Automatic Tapping', description: 'Enable background tapping for 1 day.', icon: 'robot.webp', type: 'autotap' },
+            { id: 'autotap_7d', title: 'Auto Tap (7 Days)', stars: 80, reward: '🤖 Automatic Tapping', description: 'Enable background tapping for 7 days.', icon: 'robot.webp', type: 'autotap' },
+            { id: 'autotap_30d', title: 'Auto Tap (30 Days)', stars: 200, reward: '🤖 Automatic Tapping', description: 'Enable background tapping for 30 days.', icon: 'robot.webp', type: 'autotap' },
         ];
 
         function openShop() {
-            // Keeping logic in case you re-enable it later
             const groups = {
                 'coin': { title: '🪙 Snow Coin Packs', items: [] },
                 'booster': { title: '⚡ Boosters (Tap Multiplier)', items: [] },
                 'autotap': { title: '🤖 Auto Tap', items: [] },
             };
-            // ... (Shop rendering logic kept intact)
+            starShopItems.forEach(item => {
+                if (groups[item.type]) groups[item.type].items.push(item);
+            });
+            let html = `<h2 style="font-size: 6vw; color: var(--accent-cyan); margin-bottom: 4vw; font-weight: 800; text-align: center;">Stars Shop</h2>`;
+            for (const type in groups) {
+                if (groups[type].items.length > 0) {
+                    html += `<h3 style="font-size: 4.5vw; color: var(--level-gold); margin: 5vw 0 2vw 0; font-weight: 700; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 1vw;">${groups[type].title}</h3>`;
+                    html += groups[type].items.map(item => `
+                        <div class="task-card shop-item" onclick="initiateStarPurchase('${item.id}', ${item.stars})">
+                            <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/${item.icon}" style="width: 12vw; height: 12vw; object-fit: contain; background: rgba(0,0,0,0.3); padding: 2vw; border-radius: 3vw;">
+                            <div class="task-info">
+                                <div class="task-title">${item.title}</div>
+                                <div class="task-reward" style="color: #FFD700; font-size: 3.5vw; font-weight: 800;">
+                                    <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/star.webp" style="width: 4vw; height: 4vw; margin-right: 1.5vw;">
+                                    ${item.stars.toLocaleString()} Stars
+                                </div>
+                                <p style="font-size: 2.8vw; color: rgba(255,255,255,0.7); margin-top: 0.5vw;">${item.reward}</p>
+                            </div>
+                            <button class="task-btn" style="min-width: 25vw; background: linear-gradient(180deg, #FFD700 0%, #FFA000 100%); color: #3E2723;">BUY</button>
+                        </div>
+                    `).join('');
+                }
+            }
+            html += `<button class="popup-btn" onclick="closeGlassPopup()" style="background: linear-gradient(90deg, #60ccfd, #4a92ff); color: white; width: 100%; margin-top: 5vw;">Close Shop</button>`;
+            showGlassPopup(html);
         }
 
         function initiateStarPurchase(itemId, stars) {
-             // ... (Payment logic kept intact)
+            if (!userId) return;
+            closeGlassPopup();
+            showToast(`Loading payment...`);
+            // Backend Transaction Initiation
+            fetch(`${BACKEND_URL}/create_invoice`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ item_id: itemId, user_id: userId })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.result) {
+                    window.Telegram.WebApp.openInvoice(data.result, (status) => {
+                        if (status === 'paid') {
+                            showToast("Purchase successful!");
+                            loadUserData(); 
+                        } else {
+                            showToast("Payment cancelled.");
+                        }
+                        openShop();
+                    });
+                } else {
+                    showToast("Failed to create invoice.");
+                    openShop();
+                }
+            })
+            .catch(error => {
+                showToast("Server connection failed!");
+                openShop();
+            });
+        }
+        
+        // Spin Prizes
+        const spinPrizes = [
+            { amount: 0.00000048, label: '0.00000048' }, 
+            { amount: 0.00000060, label: '0.00000060' },
+            { amount: 0.00000080, label: '0.00000080' }, 
+            { amount: 0.00000100, label: '0.00000100' },
+            { amount: 0.00000050, label: '0.00000050' }, 
+            { amount: 0.00000030, label: '0.00000030' },
+            { amount: 0.00000020, label: '0.00000020' }, 
+            { amount: 0.00000150, label: '0.00000150' }
+        ];
+
+        function openCasesGame() {
+            let segmentsHTML = '';
+            const sliceAngle = 360 / 8;
+            
+            for(let i=0; i<8; i++) {
+                const rotation = i * sliceAngle;
+                segmentsHTML += `
+                    <div class="wheel-segment" style="transform: rotate(${rotation}deg);">
+                        <div class="segment-content">
+                            <!-- Empty Segment Content -->
+                        </div>
+                    </div>
+                `;
+            }
+
+            const now = new Date();
+            const lastSpin = new Date(lastSpinTime);
+            const isFreeSpinAvailable = (lastSpinTime === 0 || now.getDate() !== lastSpin.getDate() || now.getMonth() !== lastSpin.getMonth() || now.getFullYear() !== lastSpin.getFullYear());
+
+            let btnHtml = '';
+            if (isFreeSpinAvailable) {
+                btnHtml = `<button id="spinActionBtn" class="spin-action-btn" onclick="spinTheWheel()">SPIN NOW (FREE)</button>`;
+            } else {
+                btnHtml = `<button id="spinActionBtn" class="spin-action-btn" onclick="watchAdForSpin()">Watch Ad (${adWatchCount}/5)</button>`;
+            }
+
+            const html = `
+                <div class="wheel-title">Daily Spin</div>
+                <div class="wheel-container">
+                    <div class="wheel-marker"></div>
+                    <div id="wheelRotator" class="wheel-rotator">
+                        <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/spin%20wheel.webp" class="wheel-img">
+                        ${segmentsHTML}
+                    </div>
+                </div>
+                ${btnHtml}
+                <button class="close-spin-btn" onclick="closeGlassPopup()">Close</button>
+                <div id="winPopup" class="reward-popup">
+                    <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/ton.webp" class="reward-icon">
+                    <h2 style="color: white; font-size: 6vw; margin-bottom: 2vw;">YOU WON!</h2>
+                    <div id="winAmount" style="color: #FFD700; font-size: 8vw; font-weight: 800; margin-bottom: 5vw;">0.01 TON</div>
+                    <button class="popup-btn" style="background: linear-gradient(90deg, #00E5FF, #4a92ff); color: white; width:100%;" onclick="closeRewardPopup()">CLAIM</button>
+                </div>
+            `;
+            const popup = document.getElementById('glassPopup');
+            const content = document.getElementById('popupContent');
+            content.className = 'popup-content fullscreen-popup-content'; 
+            content.innerHTML = html;
+            popup.classList.add('active');
+        }
+
+        /**
+         * UPDATED: Watch Ad with GigaPub Fallback
+         */
+        function watchAdForSpin() {
+            const btn = document.getElementById('spinActionBtn');
+            btn.disabled = true;
+            btn.innerText = "Loading Ad...";
+
+            // 1. Try Adsgram
+            if (adController) {
+                adController.show().then((result) => {
+                    if (result.done) {
+                        // Backend verify for Adsgram
+                        verifyAdBackend('adsgram', 'spin');
+                    } else {
+                        btn.disabled = false;
+                        btn.innerText = `Watch Ad (${adWatchCount}/5)`;
+                        showToast("Ad skipped. No reward.");
+                    }
+                }).catch((e) => {
+                    console.warn("Adsgram failed, trying GigaPub...", e);
+                    // 2. Fallback to GigaPub
+                    showGigaPubAd('spin');
+                });
+            } else {
+                // If Adsgram not init, try GigaPub directly
+                showGigaPubAd('spin');
+            }
+        }
+        
+        // NEW FUNCTION FOR DAILY VIDEO TASK
+        function handleDailyVideoTask(btn) {
+            if (dailyAdCount >= 50) {
+                showToast("Daily limit (50) reached!");
+                return;
+            }
+            
+            btn.disabled = true;
+            btn.innerText = "Loading...";
+
+            // 1. Try Adsgram
+            if (adController) {
+                adController.show().then((result) => {
+                    if (result.done) {
+                        verifyAdBackend('adsgram', 'daily_task', btn);
+                    } else {
+                        btn.disabled = false;
+                        btn.innerText = `Watch (${dailyAdCount}/50)`;
+                        showToast("Ad skipped.");
+                    }
+                }).catch((e) => {
+                    // Fallback to GigaPub
+                    showGigaPubAd('daily_task', btn);
+                });
+            } else {
+                showGigaPubAd('daily_task', btn);
+            }
+        }
+
+        function showGigaPubAd(type, btnElement) {
+            const btn = btnElement || document.getElementById('spinActionBtn');
+            if (window.showGiga) {
+                window.showGiga().then(() => {
+                    verifyAdBackend('gigapub', type, btn);
+                }).catch(e => {
+                    console.error("GigaPub Failed:", e);
+                    showToast("No ads available.");
+                    if(btn) {
+                        btn.disabled = false;
+                        if(type === 'spin') btn.innerText = `Watch Ad (${adWatchCount}/5)`;
+                        else btn.innerText = `Watch (${dailyAdCount}/50)`;
+                    }
+                });
+            } else {
+                showToast("Ad system error.");
+                if(btn) btn.disabled = false;
+            }
+        }
+
+        function verifyAdBackend(provider, type, btnElement) {
+             const btn = btnElement || document.getElementById('spinActionBtn');
+             
+             // Simulate backend verification to prevent console hacking
+             fetch(`${BACKEND_URL}/verify-ad`, {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({ user_id: userId, provider: provider, type: type })
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success || true) { // Allowing 'true' for demo if backend isn't ready
+                    if (type === 'spin') {
+                        adWatchCount++;
+                        if (adWatchCount >= 5) {
+                            adWatchCount = 0;
+                            isAdSpin = true;
+                            spinTheWheel();
+                        } else {
+                            btn.disabled = false;
+                            btn.innerText = `Watch Ad (${adWatchCount}/5)`;
+                            showToast(`Ad watched! (${adWatchCount}/5)`);
+                        }
+                    } else if (type === 'daily_task') {
+                        dailyAdCount++;
+                        balance += 100; // Reward for task
+                        currentLevelScore += 100; // Also add to level progress
+                        saveUserData();
+                        updateUI();
+                        
+                        btn.disabled = false;
+                        btn.innerText = `Watch (${dailyAdCount}/50)`;
+                        showToast("Rewarded +100 Coins!");
+                        // Update the text in the list
+                        document.getElementById('dailyAdCounter').innerText = `${dailyAdCount}/50`;
+                    }
+                } else {
+                    showToast("Verification failed.");
+                    btn.disabled = false;
+                }
+            })
+            .catch(e => {
+                // Fallback for demo if backend fetch fails
+                if (type === 'spin') {
+                    adWatchCount++;
+                    if (adWatchCount >= 5) {
+                        adWatchCount = 0;
+                        isAdSpin = true;
+                        spinTheWheel();
+                    } else {
+                        btn.disabled = false;
+                        btn.innerText = `Watch Ad (${adWatchCount}/5)`;
+                        showToast(`Ad watched! (${adWatchCount}/5)`);
+                    }
+                } else if (type === 'daily_task') {
+                    dailyAdCount++;
+                    balance += 100;
+                    currentLevelScore += 100;
+                    saveUserData();
+                    updateUI();
+                    btn.disabled = false;
+                    btn.innerText = `Watch (${dailyAdCount}/50)`;
+                    showToast("Rewarded +100 Coins!");
+                    document.getElementById('dailyAdCounter').innerText = `${dailyAdCount}/50`;
+                }
+            });
+        }
+
+        // Updated Spin Logic: Fetch Result from Backend
+        function spinTheWheel() {
+            const spinBtn = document.getElementById('spinActionBtn');
+            const wheel = document.getElementById('wheelRotator');
+            const winPopup = document.getElementById('winPopup');
+            const winAmountEl = document.getElementById('winAmount');
+
+            const now = new Date();
+            const lastSpin = new Date(lastSpinTime);
+            const isFreeSpinAvailable = (lastSpinTime === 0 || now.getDate() !== lastSpin.getDate() || now.getMonth() !== lastSpin.getMonth() || now.getFullYear() !== lastSpin.getFullYear());
+
+            if (!isAdSpin && !isFreeSpinAvailable) {
+                 spinBtn.innerText = `Watch Ad (${adWatchCount}/5)`;
+                 spinBtn.setAttribute("onclick", "watchAdForSpin()");
+                 return;
+            }
+
+            spinBtn.disabled = true;
+            spinBtn.innerText = "Spinning...";
+
+            // REQUEST RESULT FROM BACKEND
+            fetch(`${BACKEND_URL}/play-spin`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ user_id: userId })
+            })
+            .then(res => res.json())
+            .then(data => {
+                // Data should contain { index: 0-7, amount: float }
+                if(data.success) {
+                    performSpinAnimation(data.index, data.amount);
+                } else {
+                    showToast("Spin failed (Server Error)");
+                    spinBtn.disabled = false;
+                    spinBtn.innerText = "Try Again";
+                }
+            })
+            .catch(e => {
+                console.warn("Backend spin unavailable, using local (Fallback for Demo)");
+                // Fallback logic so the UI doesn't break if you haven't deployed backend yet
+                const localIndex = Math.floor(Math.random() * 8);
+                const localPrize = spinPrizes[localIndex].amount;
+                performSpinAnimation(localIndex, localPrize);
+            });
+        }
+
+        function performSpinAnimation(index, amount) {
+            const spinBtn = document.getElementById('spinActionBtn');
+            const wheel = document.getElementById('wheelRotator');
+            const winPopup = document.getElementById('winPopup');
+            const winAmountEl = document.getElementById('winAmount');
+
+            const segmentArc = 360 / 8;
+            const fullSpins = 5 * 360; 
+            const stopAngle = 360 - (index * segmentArc) - (segmentArc / 2); 
+            const totalRotation = fullSpins + stopAngle;
+
+            wheel.style.transform = `rotate(${totalRotation}deg)`;
+
+            setTimeout(() => {
+                tonBalance += amount;
+                if (!isAdSpin) {
+                    lastSpinTime = Date.now(); 
+                }
+                saveUserData(); 
+                updateUI();
+
+                winAmountEl.innerText = `${amount.toFixed(8)} TON`;
+                winPopup.classList.add('active');
+
+                isAdSpin = false;
+                spinBtn.disabled = false;
+                
+                if (!isAdSpin) {
+                     spinBtn.innerText = `Watch Ad (0/5)`;
+                     spinBtn.setAttribute("onclick", "watchAdForSpin()");
+                }
+
+            }, 4000);
+        }
+
+        function closeRewardPopup() {
+            document.getElementById('winPopup').classList.remove('active');
+        }
+
+        function showGlassPopup(contentHTML) {
+            const popup = document.getElementById('glassPopup');
+            const content = document.getElementById('popupContent');
+            content.innerHTML = contentHTML;
+            popup.classList.add('active');
+        }
+
+        function closeGlassPopup() {
+            const popup = document.getElementById('glassPopup');
+            const content = document.getElementById('popupContent');
+            popup.classList.remove('active');
+            setTimeout(() => {
+                content.className = 'popup-content'; 
+                content.innerHTML = '';
+            }, 300);
+        }
+
+        function showLevelUpPopup(newLevel) {
+            const html = `
+                <div class="level-up-card">
+                    <div class="level-up-inner">
+                        <img src="https://cdn-icons-png.flaticon.com/512/3112/3112946.png" class="lvl-img-anim" alt="Trophy">
+                        <div style="font-size:7vw; font-weight:800; color:#FFD700; margin-bottom:1vw; text-shadow:0 0 2vw rgba(255, 215, 0, 0.5);">LEVEL UP!</div>
+                        <div style="color: white; font-weight: 600; font-size:4.5vw; margin-bottom: 6vw;">You reached Level ${newLevel}</div>
+                        <button class="popup-btn" onclick="closeGlassPopup()" style="background: linear-gradient(90deg, #00E5FF, #4a92ff); color: white; width:80%; box-shadow:0 2vw 5vw rgba(0, 229, 255, 0.4);">Awesome!</button>
+                    </div>
+                </div>
+            `;
+            showGlassPopup(html);
+        }
+
+        function showToast(message, duration = 3000, isError = false) {
+            const toast = document.getElementById('toastNotification');
+            const msgEl = document.getElementById('toastMessage');
+            const iconEl = document.querySelector('.toast-icon img');
+            const iconContainer = document.querySelector('.toast-icon');
+            
+            let iconSrc = 'https://cdn-icons-png.flaticon.com/512/3602/3602145.png'; // Bell/Info
+            let bgColor = 'rgba(0, 229, 255, 0.15)'; // Blue
+
+            if (isError) {
+                // Warning/Error Icon
+                iconSrc = 'https://cdn-icons-png.flaticon.com/512/497/497738.png'; 
+                bgColor = 'rgba(255, 0, 0, 0.2)'; // Red
+            } else if (message.includes('successful') || message.includes('won') || message.includes('Rewarded')) {
+                // Success Icon
+                iconSrc = 'https://cdn-icons-png.flaticon.com/512/190/190411.png'; 
+                bgColor = 'rgba(76, 175, 80, 0.2)'; // Green
+            }
+            
+            iconEl.src = iconSrc;
+            iconContainer.style.background = bgColor;
+            msgEl.innerText = message;
+            
+            toast.classList.add('show');
+            if (toast.timeoutId) clearTimeout(toast.timeoutId);
+            toast.timeoutId = setTimeout(() => { toast.classList.remove('show'); }, duration);
+        }
+
+        function hideToast() {
+            document.getElementById('toastNotification').classList.remove('show');
+        }
+
+        function handleExchangeClick() {
+            showToast("Exchange Tokens feature is coming soon!");
+        }
+
+        function handleWithdrawClick() {
+            showToast("Withdrawal is Coming Soon!");
+        }
+
+        clickerBtn.addEventListener('touchstart', handleTap, {passive: false});
+        clickerBtn.addEventListener('click', handleTap);
+
+        function handleTap(e) {
+            e.preventDefault();
+            
+            // SECURITY: Rate Limit
+            const now = Date.now();
+            if (now - lastTapTime < TAP_LIMIT_MS) return;
+            lastTapTime = now;
+            
+            const hint = document.getElementById('tapMeHint');
+            if(hint) hint.style.display = 'none';
+
+            const coinsPerTap = level * tapMultiplier; 
+            balance += coinsPerTap;
+            currentLevelScore += coinsPerTap; // NEW: Add to level score
+            tapCount++; 
+            updateUI(); 
+            // Save on every 10th tap to reduce writes
+            if(tapCount % 10 === 0) saveUserData();
+
+            if (navigator.vibrate) navigator.vibrate(50);
+            let clientX = e.clientX;
+            let clientY = e.clientY;
+            if(e.touches && e.touches.length > 0) {
+                clientX = e.touches[0].clientX;
+                clientY = e.touches[0].clientY;
+            }
+            if (!clientX) {
+                const rect = e.target.getBoundingClientRect();
+                clientX = rect.left + rect.width / 2;
+                clientY = rect.top + rect.height / 2;
+            }
+            showFloatingText(clientX, clientY, `+${coinsPerTap}`);
+        }
+        
+        function startAutoTapLoop() {
+            setInterval(() => {
+                const now = Date.now();
+                if (now < autotapEndTime) {
+                    const autoCoins = level * tapMultiplier; 
+                    balance += autoCoins;
+                    currentLevelScore += autoCoins; // NEW
+                    updateUI(); 
+                }
+            }, 1000); 
+        }
+
+        function showFloatingText(x, y, text) {
+            const floatEl = document.createElement('div');
+            floatEl.className = 'floating-score';
+            floatEl.innerText = text;
+            floatEl.style.left = `${x}px`;
+            floatEl.style.top = `${y}px`;
+            document.body.appendChild(floatEl);
+            setTimeout(() => floatEl.remove(), 800);
+        }
+
+        function switchTab(tabId, navElement) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+            document.getElementById(tabId).classList.add('active');
+            if(navElement) {
+                document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+                navElement.classList.add('active');
+            } else {
+                const targetNavIndex = (tabId === 'home' ? 1 : tabId === 'task' ? 2 : tabId === 'friends' ? 3 : 4);
+                document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+                document.querySelector(`.nav-item:nth-child(${targetNavIndex})`).classList.add('active');
+            }
+            if(tabId === 'home') {
+                document.body.classList.add('home-active');
+                document.getElementById('mainHeader').style.display = 'flex';
+            } else {
+                document.body.classList.remove('home-active');
+                document.getElementById('mainHeader').style.display = 'none';
+            }
+            if(tabId === 'friends') loadReferrals();
+        }
+
+        function handleTaskBannerClick() { 
+            window.open(bannerLinks.task, '_blank');
+        }
+        function handleWalletBannerClick() { 
+            window.open(bannerLinks.wallet, '_blank'); 
+        }
+        function handleFriendsBannerClick() { 
+            window.open(bannerLinks.friends, '_blank'); 
         }
         
         function activateAutoTap() {
@@ -2473,433 +2808,6 @@
 
         function openModal(id) { document.getElementById(id).classList.add('active'); }
         function closeModal(id) { document.getElementById(id).classList.remove('active'); }
-
-        // --- SPIN LOGIC (Copied from original, kept intact) ---
-        // Spin Prizes
-        const spinPrizes = [
-            { amount: 0.00000048, label: '0.00000048' }, 
-            { amount: 0.00000060, label: '0.00000060' },
-            { amount: 0.00000080, label: '0.00000080' }, 
-            { amount: 0.00000100, label: '0.00000100' },
-            { amount: 0.00000050, label: '0.00000050' }, 
-            { amount: 0.00000030, label: '0.00000030' },
-            { amount: 0.00000020, label: '0.00000020' }, 
-            { amount: 0.00000150, label: '0.00000150' }
-        ];
-
-        function openCasesGame() {
-            let segmentsHTML = '';
-            const sliceAngle = 360 / 8;
-            
-            for(let i=0; i<8; i++) {
-                const rotation = i * sliceAngle;
-                segmentsHTML += `
-                    <div class="wheel-segment" style="transform: rotate(${rotation}deg);">
-                        <div class="segment-content">
-                            <!-- Empty Segment Content -->
-                        </div>
-                    </div>
-                `;
-            }
-
-            const now = new Date();
-            const lastSpin = new Date(lastSpinTime);
-            const isFreeSpinAvailable = (lastSpinTime === 0 || now.getDate() !== lastSpin.getDate() || now.getMonth() !== lastSpin.getMonth() || now.getFullYear() !== lastSpin.getFullYear());
-
-            let btnHtml = '';
-            if (isFreeSpinAvailable) {
-                btnHtml = `<button id="spinActionBtn" class="spin-action-btn" onclick="spinTheWheel()">SPIN NOW (FREE)</button>`;
-            } else {
-                btnHtml = `<button id="spinActionBtn" class="spin-action-btn" onclick="watchAdForSpin()">Watch Ad (${adWatchCount}/5)</button>`;
-            }
-
-            const html = `
-                <div class="wheel-title">Daily Spin</div>
-                <div class="wheel-container">
-                    <div class="wheel-marker"></div>
-                    <div id="wheelRotator" class="wheel-rotator">
-                        <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/spin%20wheel.webp" class="wheel-img">
-                        ${segmentsHTML}
-                    </div>
-                </div>
-                ${btnHtml}
-                <button class="close-spin-btn" onclick="closeGlassPopup()">Close</button>
-                <div id="winPopup" class="reward-popup">
-                    <img src="https://alamin12071985-a11y.github.io/Snowman-Adventure/ton.webp" class="reward-icon">
-                    <h2 style="color: white; font-size: 6vw; margin-bottom: 2vw;">YOU WON!</h2>
-                    <div id="winAmount" style="color: #FFD700; font-size: 8vw; font-weight: 800; margin-bottom: 5vw;">0.01 TON</div>
-                    <button class="popup-btn" style="background: linear-gradient(90deg, #00E5FF, #4a92ff); color: white; width:100%;" onclick="closeRewardPopup()">CLAIM</button>
-                </div>
-            `;
-            const popup = document.getElementById('glassPopup');
-            const content = document.getElementById('popupContent');
-            content.className = 'popup-content fullscreen-popup-content'; 
-            content.innerHTML = html;
-            popup.classList.add('active');
-        }
-
-        function watchAdForSpin() {
-            const btn = document.getElementById('spinActionBtn');
-            btn.disabled = true;
-            btn.innerText = "Loading Ad...";
-
-            // 1. Try Adsgram
-            if (adController) {
-                adController.show().then((result) => {
-                    if (result.done) {
-                        verifyAdBackend('adsgram', 'spin');
-                    } else {
-                        btn.disabled = false;
-                        btn.innerText = `Watch Ad (${adWatchCount}/5)`;
-                        showToast("Ad skipped. No reward.");
-                    }
-                }).catch((e) => {
-                    console.warn("Adsgram failed, trying GigaPub...", e);
-                    showGigaPubAd('spin');
-                });
-            } else {
-                showGigaPubAd('spin');
-            }
-        }
-        
-        // NEW FUNCTION FOR DAILY VIDEO TASK
-        function handleDailyVideoTask(btn) {
-            if (dailyAdCount >= 50) {
-                showToast("Daily limit (50) reached!");
-                return;
-            }
-            
-            btn.disabled = true;
-            btn.innerText = "Loading...";
-
-            // 1. Try Adsgram
-            if (adController) {
-                adController.show().then((result) => {
-                    if (result.done) {
-                        verifyAdBackend('adsgram', 'daily_task', btn);
-                    } else {
-                        btn.disabled = false;
-                        btn.innerText = `Watch (${dailyAdCount}/50)`;
-                        showToast("Ad skipped.");
-                    }
-                }).catch((e) => {
-                    showGigaPubAd('daily_task', btn);
-                });
-            } else {
-                showGigaPubAd('daily_task', btn);
-            }
-        }
-
-        function showGigaPubAd(type, btnElement) {
-            const btn = btnElement || document.getElementById('spinActionBtn');
-            if (window.showGiga) {
-                window.showGiga().then(() => {
-                    verifyAdBackend('gigapub', type, btn);
-                }).catch(e => {
-                    console.error("GigaPub Failed:", e);
-                    showToast("No ads available.");
-                    if(btn) {
-                        btn.disabled = false;
-                        if(type === 'spin') btn.innerText = `Watch Ad (${adWatchCount}/5)`;
-                        else btn.innerText = `Watch (${dailyAdCount}/50)`;
-                    }
-                });
-            } else {
-                showToast("Ad system error.");
-                if(btn) btn.disabled = false;
-            }
-        }
-
-        function verifyAdBackend(provider, type, btnElement) {
-             const btn = btnElement || document.getElementById('spinActionBtn');
-             
-             // Simulate backend verification to prevent console hacking
-             fetch(`${BACKEND_URL}/verify-ad`, {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({ user_id: userId, provider: provider, type: type })
-            })
-            .then(res => res.json())
-            .then(data => {
-                if (data.success || true) { // Allowing 'true' for demo if backend isn't ready
-                    if (type === 'spin') {
-                        adWatchCount++;
-                        if (adWatchCount >= 5) {
-                            adWatchCount = 0;
-                            isAdSpin = true;
-                            spinTheWheel();
-                        } else {
-                            btn.disabled = false;
-                            btn.innerText = `Watch Ad (${adWatchCount}/5)`;
-                            showToast(`Ad watched! (${adWatchCount}/5)`);
-                        }
-                    } else if (type === 'daily_task') {
-                        dailyAdCount++;
-                        balance += 100; // Reward for task
-                        currentLevelScore += 100; // Also add to level progress
-                        saveUserData();
-                        updateUI();
-                        
-                        btn.disabled = false;
-                        btn.innerText = `Watch (${dailyAdCount}/50)`;
-                        showToast("Rewarded +100 Coins!");
-                        // Update the text in the list
-                        document.getElementById('dailyAdCounter').innerText = `${dailyAdCount}/50`;
-                    }
-                } else {
-                    showToast("Verification failed.");
-                    btn.disabled = false;
-                }
-            })
-            .catch(e => {
-                // Fallback for demo if backend fetch fails
-                if (type === 'spin') {
-                    adWatchCount++;
-                    if (adWatchCount >= 5) {
-                        adWatchCount = 0;
-                        isAdSpin = true;
-                        spinTheWheel();
-                    } else {
-                        btn.disabled = false;
-                        btn.innerText = `Watch Ad (${adWatchCount}/5)`;
-                        showToast(`Ad watched! (${adWatchCount}/5)`);
-                    }
-                } else if (type === 'daily_task') {
-                    dailyAdCount++;
-                    balance += 100;
-                    currentLevelScore += 100;
-                    saveUserData();
-                    updateUI();
-                    btn.disabled = false;
-                    btn.innerText = `Watch (${dailyAdCount}/50)`;
-                    showToast("Rewarded +100 Coins!");
-                    document.getElementById('dailyAdCounter').innerText = `${dailyAdCount}/50`;
-                }
-            });
-        }
-
-        // Updated Spin Logic: Fetch Result from Backend
-        function spinTheWheel() {
-            const spinBtn = document.getElementById('spinActionBtn');
-            const wheel = document.getElementById('wheelRotator');
-            const winPopup = document.getElementById('winPopup');
-            const winAmountEl = document.getElementById('winAmount');
-
-            const now = new Date();
-            const lastSpin = new Date(lastSpinTime);
-            const isFreeSpinAvailable = (lastSpinTime === 0 || now.getDate() !== lastSpin.getDate() || now.getMonth() !== lastSpin.getMonth() || now.getFullYear() !== lastSpin.getFullYear());
-
-            if (!isAdSpin && !isFreeSpinAvailable) {
-                 spinBtn.innerText = `Watch Ad (${adWatchCount}/5)`;
-                 spinBtn.setAttribute("onclick", "watchAdForSpin()");
-                 return;
-            }
-
-            spinBtn.disabled = true;
-            spinBtn.innerText = "Spinning...";
-
-            // REQUEST RESULT FROM BACKEND
-            fetch(`${BACKEND_URL}/play-spin`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ user_id: userId })
-            })
-            .then(res => res.json())
-            .then(data => {
-                // Data should contain { index: 0-7, amount: float }
-                if(data.success) {
-                    performSpinAnimation(data.index, data.amount);
-                } else {
-                    showToast("Spin failed (Server Error)");
-                    spinBtn.disabled = false;
-                    spinBtn.innerText = "Try Again";
-                }
-            })
-            .catch(e => {
-                console.warn("Backend spin unavailable, using local (Fallback for Demo)");
-                // Fallback logic so the UI doesn't break if you haven't deployed backend yet
-                const localIndex = Math.floor(Math.random() * 8);
-                const localPrize = spinPrizes[localIndex].amount;
-                performSpinAnimation(localIndex, localPrize);
-            });
-        }
-
-        function performSpinAnimation(index, amount) {
-            const spinBtn = document.getElementById('spinActionBtn');
-            const wheel = document.getElementById('wheelRotator');
-            const winPopup = document.getElementById('winPopup');
-            const winAmountEl = document.getElementById('winAmount');
-
-            const segmentArc = 360 / 8;
-            const fullSpins = 5 * 360; 
-            const stopAngle = 360 - (index * segmentArc) - (segmentArc / 2); 
-            const totalRotation = fullSpins + stopAngle;
-
-            wheel.style.transform = `rotate(${totalRotation}deg)`;
-
-            setTimeout(() => {
-                tonBalance += amount;
-                if (!isAdSpin) {
-                    lastSpinTime = Date.now(); 
-                }
-                saveUserData(); 
-                updateUI();
-
-                winAmountEl.innerText = `${amount.toFixed(8)} TON`;
-                winPopup.classList.add('active');
-
-                isAdSpin = false;
-                spinBtn.disabled = false;
-                
-                if (!isAdSpin) {
-                     spinBtn.innerText = `Watch Ad (0/5)`;
-                     spinBtn.setAttribute("onclick", "watchAdForSpin()");
-                }
-
-            }, 4000);
-        }
-
-        function closeRewardPopup() {
-            document.getElementById('winPopup').classList.remove('active');
-        }
-
-        function showGlassPopup(contentHTML) {
-            const popup = document.getElementById('glassPopup');
-            const content = document.getElementById('popupContent');
-            content.innerHTML = contentHTML;
-            popup.classList.add('active');
-        }
-
-        function closeGlassPopup() {
-            const popup = document.getElementById('glassPopup');
-            const content = document.getElementById('popupContent');
-            popup.classList.remove('active');
-            setTimeout(() => {
-                content.className = 'popup-content'; 
-                content.innerHTML = '';
-            }, 300);
-        }
-
-        function showLevelUpPopup(newLevel) {
-            const html = `
-                <div class="level-up-card">
-                    <div class="level-up-inner">
-                        <img src="https://cdn-icons-png.flaticon.com/512/3112/3112946.png" class="lvl-img-anim" alt="Trophy">
-                        <div style="font-size:7vw; font-weight:800; color:#FFD700; margin-bottom:1vw; text-shadow:0 0 2vw rgba(255, 215, 0, 0.5);">LEVEL UP!</div>
-                        <div style="color: white; font-weight: 600; font-size:4.5vw; margin-bottom: 6vw;">You reached Level ${newLevel}</div>
-                        <button class="popup-btn" onclick="closeGlassPopup()" style="background: linear-gradient(90deg, #00E5FF, #4a92ff); color: white; width:80%; box-shadow:0 2vw 5vw rgba(0, 229, 255, 0.4);">Awesome!</button>
-                    </div>
-                </div>
-            `;
-            showGlassPopup(html);
-        }
-
-        function showToast(message, duration = 3000, isError = false) {
-            const toast = document.getElementById('toastNotification');
-            const msgEl = document.getElementById('toastMessage');
-            const iconEl = document.querySelector('.toast-icon img');
-            const iconContainer = document.querySelector('.toast-icon');
-            
-            let iconSrc = 'https://cdn-icons-png.flaticon.com/512/3602/3602145.png'; // Bell/Info
-            let bgColor = 'rgba(0, 229, 255, 0.15)'; // Blue
-
-            if (isError) {
-                // Warning/Error Icon
-                iconSrc = 'https://cdn-icons-png.flaticon.com/512/497/497738.png'; 
-                bgColor = 'rgba(255, 0, 0, 0.2)'; // Red
-            } else if (message.includes('successful') || message.includes('won') || message.includes('Rewarded')) {
-                // Success Icon
-                iconSrc = 'https://cdn-icons-png.flaticon.com/512/190/190411.png'; 
-                bgColor = 'rgba(76, 175, 80, 0.2)'; // Green
-            }
-            
-            iconEl.src = iconSrc;
-            iconContainer.style.background = bgColor;
-            msgEl.innerText = message;
-            
-            toast.classList.add('show');
-            if (toast.timeoutId) clearTimeout(toast.timeoutId);
-            toast.timeoutId = setTimeout(() => { toast.classList.remove('show'); }, duration);
-        }
-
-        function hideToast() {
-            document.getElementById('toastNotification').classList.remove('show');
-        }
-
-        clickerBtn.addEventListener('touchstart', handleTap, {passive: false});
-        clickerBtn.addEventListener('click', handleTap);
-
-        function handleTap(e) {
-            e.preventDefault();
-            
-            // SECURITY: Rate Limit
-            const now = Date.now();
-            if (now - lastTapTime < TAP_LIMIT_MS) return;
-            lastTapTime = now;
-            
-            const hint = document.getElementById('tapMeHint');
-            if(hint) hint.style.display = 'none';
-
-            const coinsPerTap = level * tapMultiplier; 
-            balance += coinsPerTap;
-            currentLevelScore += coinsPerTap; // NEW: Add to level score
-            tapCount++; 
-            updateUI(); 
-            // Save on every 10th tap to reduce writes
-            if(tapCount % 10 === 0) saveUserData();
-
-            if (navigator.vibrate) navigator.vibrate(50);
-            let clientX = e.clientX;
-            let clientY = e.clientY;
-            if(e.touches && e.touches.length > 0) {
-                clientX = e.touches[0].clientX;
-                clientY = e.touches[0].clientY;
-            }
-            if (!clientX) {
-                const rect = e.target.getBoundingClientRect();
-                clientX = rect.left + rect.width / 2;
-                clientY = rect.top + rect.height / 2;
-            }
-            showFloatingText(clientX, clientY, `+${coinsPerTap}`);
-        }
-
-        function showFloatingText(x, y, text) {
-            const floatEl = document.createElement('div');
-            floatEl.className = 'floating-score';
-            floatEl.innerText = text;
-            floatEl.style.left = `${x}px`;
-            floatEl.style.top = `${y}px`;
-            document.body.appendChild(floatEl);
-            setTimeout(() => floatEl.remove(), 800);
-        }
-
-        function switchTab(tabId, navElement) {
-            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
-            document.getElementById(tabId).classList.add('active');
-            if(navElement) {
-                document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
-                navElement.classList.add('active');
-            } else {
-                const targetNavIndex = (tabId === 'home' ? 1 : tabId === 'task' ? 2 : tabId === 'friends' ? 3 : 4);
-                document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
-                document.querySelector(`.nav-item:nth-child(${targetNavIndex})`).classList.add('active');
-            }
-            if(tabId === 'home') {
-                document.body.classList.add('home-active');
-                document.getElementById('mainHeader').style.display = 'flex';
-            } else {
-                document.body.classList.remove('home-active');
-                document.getElementById('mainHeader').style.display = 'none';
-            }
-            if(tabId === 'friends') loadReferrals();
-        }
-
-        function handleTaskBannerClick() { 
-            window.open(bannerLinks.task, '_blank');
-        }
-        function handleFriendsBannerClick() { 
-            window.open(bannerLinks.friends, '_blank'); 
-        }
 
     </script>
 </body>
